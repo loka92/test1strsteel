@@ -55,7 +55,7 @@ def draw(msp):
     n_raft_ends = 2*sum(1 for r in rows if r[1] in ('rafter', 'trimmer', 'truss post')) + 1
     pl = [('Fin plates 100x150x10 (D1)', n_raft_ends - 8, 0.1*0.15*0.01), ('Fin plates 100x220x10 (D1, 9.2 m rafters)', 8, 0.1*0.22*0.01),
           ('Cap plates 200x280x20 (D2)', 27, 0.2*0.28*0.02), ('Tie plates 140x400x10 (D3, rows F and B)', 8, 0.14*0.40*0.01),
-          ('Base plates 300x400x25 (B1 interior 8 + K21)', 9, 0.3*0.4*0.025), ('Base plates 350x400x25 (B1 edge heads)', 7, 0.35*0.4*0.025), ('Base plates 700x550x30 + 2 stiffeners 120x10 (B2)', 11, 0.7*0.55*0.03 + 2*0.12*0.45*0.01), ('Under-slab plates 400x200x20 (B2)', 11, 0.4*0.2*0.02), ('Key A SHS 90x90x8 x 205 S355 (B1 15 + B2 pairs 22)', 37, 0.00258*0.205), ('Key B dia 60 x 205 S355 (K3, K4 x2, K6, K8, K14) + WP1 key', 7, math.pi*0.03**2*0.205), ('K21 saddle plates 400x150x15', 2, 0.4*0.15*0.015),
+          ('Base plates 300x400x25 (B1 x10 + K21)', 11, 0.3*0.4*0.025), ('Base plates 350x400x25 (B1 with Key B)', 5, 0.35*0.4*0.025), ('Base plates 800x550x30 + 2 stiffeners 120x10 (B2 standard)', 8, 0.8*0.55*0.03 + 2*0.12*0.45*0.01), ('Base plates K23 1000x550x30, K25 550x900x30, K27 600x900x30 + stiffeners', 3, 0.53*0.03 + 2*0.12*0.45*0.01), ('Under-slab plates 400x200x25 (B2)', 11, 0.4*0.2*0.025), ('Key A SHS 90x90x8 x 205 S355 (B1 15 + B2 pairs 22)', 37, 0.00258*0.205), ('Key B dia 60 x 205 S355 (K3, K4 x2, K6, K8, K14) + WP1 key', 7, math.pi*0.03**2*0.205), ('K21 saddle plates 400x150x15', 2, 0.4*0.15*0.015),
           ('Bracing gussets 10 mm ~350x420 (D4)', 40, 0.35*0.42*0.01*0.6), ('Rod gussets 8 mm ~250x250 (D5)', 96, 0.25*0.25*0.008*0.6),
           ('Purlin cleats 120x160x8 (D8)', pur_n*2, 0.12*0.16*0.008), ('Girt cleats L100x100x8 x150 (D9)', girt_n*2, 0.0015*0.15*1.0),
           ('WP1 base plate 250x250x15 + head cleat', 1, 0.25*0.25*0.015 + 0.12*0.2*0.01)]
@@ -71,5 +71,5 @@ def draw(msp):
     sh.note_block(0.5, y2 - 0.8, 'TOTALS', ['Hot-rolled members %.1f t + plates %.1f t = %.1f t' % (hot/1e3, pl_kg/1e3, (hot+pl_kg)/1e3),
         'Wall bracing %.2f t, roof rods %.2f t' % (tot['L 70x7'][1]/1e3, tot['M24 rod 8.8'][1]/1e3), 'Cold-formed Z/C %.1f t' % ((pur*zk*1.05 + girt*zk*1.08 + 27.8*6.9 + 360)/1e3),
         'GRAND TOTAL approx. %.1f t (%.0f kg/m2 of 486 m2 footprint)' % (grand/1e3, grand/486), 'Design report Rev 2 total 23.4 t (purlins 372 m, girts 359 m).',
-        'Galvanising: hot-dip all members and plates; Z/C S350GD Z275.', 'Bases per bases_C.md Rev 4 (B1 15, B2 11, P 1).'], 0.16, 0.3)
+        'Galvanising: hot-dip all members and plates; Z/C S350GD Z275.', 'Bases per bases_C.md Rev 4a (B1 15, B2 11, P 1).'], 0.16, 0.3)
     return sh

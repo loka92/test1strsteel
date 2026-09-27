@@ -19,9 +19,9 @@ def index_sheet(msp):
     sh.note_block(1.0, 18.5, 'DESIGN BASIS (see design_report_C.md Rev 2, load_basis.md Rev 2)', ['EN 1990/1991/1993/1998, EN 1992-4 anchors. Site Tripoli, q_p 1.30 kN/m2 (binding), no snow, a_g 0.10 g check only.',
         'Roof: one plane at 6 % falling north; TOS(y) = 3.30 + 0.06 (35.87 - y); clear height 3.03 m under the north eave beam. Openings: stair and elevator wells not roofed.',
         'Steel S275 J0; bolts 8.8 (M20 fin/cap/gussets, M12 cleats, M24 rods); purlins / girts Z200x2.0 S350GD; PIR panel 50 mm; BoardX walls 0.30 kN/m2 (to be confirmed).',
-        'BASES (bases_C.md Rev 4, S05): B1 at 15 bases - plate 300x400x25 (350 across at edge heads), 4 M20 resin anchors 80 x 280 h_ef 200 in the slab, Key A SHS 90x90x8 centred, Key B dia 60 at K3, K4, K6, K8, K14;',
-        'B2 at 11 bases - plate 700x550x30 + 2 stiffeners, 2 M24 through-bolts 250 inboard @ 280 on a 400x200x20 under-slab plate, tip bearing strip, pair of SHS 90 keys 200 inboard; P at K21 (4 M16 h_ef 400 in the pier + saddle); WP1 280 mm inboard with one centred key.'], TH_SMALL, 0.32)
-    sh.note_block(1.0, 14.5, 'STATUS', ['Superstructure: Rev 2 - for fabrication drawings review. Bases: Rev 4 (final). No anchor / bolt installation before cores (one-sided criterion), rebar scans and pull-out tests (S05).', 'Date 2026-09-27. Generated with ezdxf from the Rev 2 calculation model (calc/model.py).'], TH_SMALL, 0.32)
+        'BASES (bases_C.md Rev 4a, S05): B1 at 15 bases - plate 300x400x25 (350x400x25 with Key B dia 60 at K3, K4, K6, K8, K14), 4 M20 resin anchors 80 x 280 h_ef 200 in the slab, Key A SHS 90x90x8 centred;',
+        'B2 at 11 bases - plate 800x550x30 + 2 stiffeners (K23 1000x550 skewed, K25 550x900, K27 600x900), 2 M24 through-bolts 250 inboard @ 280 on a 400x200x25 under-slab plate, tip bearing strip, SHS 90 key pair 200 inboard; P at K21 (4 M16 h_ef 400 + saddle); WP1 280 inboard, one centred key. Grout bed 40 (checks valid 25-40).'], TH_SMALL, 0.32)
+    sh.note_block(1.0, 14.5, 'STATUS', ['Superstructure: Rev 2 - for fabrication drawings review. Bases: Rev 4a (final). No anchor / bolt installation before cores (one-sided criterion), rebar scans and pull-out tests (S05).', 'Date 2026-09-27. Generated with ezdxf from the Rev 2 calculation model (calc/model.py).'], TH_SMALL, 0.32)
     return sh
 def main():
     doc = new_doc(); msp = doc.modelspace()
