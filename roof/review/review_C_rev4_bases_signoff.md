@@ -5,9 +5,8 @@ Scripts re-run: report, reactions and `bases_C.md` regenerate byte-identical; S1
 ## Hand checks that agree
 
 - **K7 (B1)**: extents (300, 60, 260, 260) -> A/A0 0.978, psi_s 0.76, N_Rd,c 50.4; ULS3E N_t 26.4, V (-39.1, 14.3), psi_ec 0.867 x 0.704 = 0.61 -> **0.86**; Key A parallel to the +x edge 15.8 / 18.5 = **0.85**. Reproduced, but see T3.
-- **K19 (B2)**: T = 73.1 x 430/180 = 174.6; per M24 87.3 + 3.4/0.56 = **93 kN** (0.46); C 101.5 / 210 (**0.48**); plate 21.7 kNm (0.45; stiffened section plastic 70 kNm, 48 is conservative). Key pair: 35.1 x 0.2 m torque over 0.6 m -> 21 kN outward at c1 255 (41.5) -> **0.52**.
-- **K23 (B2)**: c 347, lever 2.93, bolt 96 kN (0.47), C 114 (0.54), plate 26 kNm; torque -16.7 kNm -> 33.1 kN towards the notch edge, **0.80**; resultant 45.6 / 83.8 = 0.54.
-- **K25**: torque of the 42.4 kN along-wall shear -> key 1 outward 9.2 + 23.3 = 32.5 kN at c1 255 -> 0.78-0.83.
+- **K19 (B2)**: T = 73.1 x 430/180 = 174.6; per M24 87.3 + 3.4/0.56 = **93 kN** (0.46); C 101.5 / 210 (**0.48**); plate 21.7 kNm (0.45; plastic section 70 kNm, 48 conservative). Key pair: torque 35.1 x 0.2 m over 0.6 m -> 21 kN outward at c1 255 -> **0.52**.
+- **K23 (B2)**: c 347, lever 2.93, bolt 96 kN, C 114, plate 26 kNm; torque -16.7 kNm -> 33.1 kN towards the notch edge, **0.80**. **K25**: key 1 outward 9.2 + 23.3 = 32.5 kN -> 0.78-0.83. Both agree.
 - **K21 (P)**: 6.5 kN per M16 needs ~50 mm bond of 400; links 49 vs 26 -> 0.53. Acceptable; scan-adjusted pattern (12 mm to the corner bars).
 - **Adjacency**: K20, K7, K10, K11, K21 adjacent; K16, K3, K17 not - agreed (T4).
 
@@ -21,9 +20,9 @@ Scripts re-run: report, reactions and `bases_C.md` regenerate byte-identical; S1
 
 **T4 - MINOR** - Diagonal opening corners at K3, K16, K17 cut ~8 % of the cone area (K16 0.76 -> ~0.82); slab openings remain an assumption.
 
-**T5 - MINOR** - B2: under-slab plate 400 x 200 x 20 at 0.8 (use 25); stiffeners class 3 (elastic ~50 >= 48); skewed bolt centroids at K23 / K25 / K27 (plate 14 vs 34 kNm, state it); give the slab designer the 175 / 114 kN couple 180 mm apart.
+**T5 - MINOR** - B2: under-slab plate 400 x 200 x 20 at 0.8 (use 25); stiffeners class 3 (elastic ~50 >= 48); skewed bolt centroids at K23 / K25 / K27 (14 vs 34 kNm); slab designer to get the 175 / 114 kN couple.
 
-**T6 - MINOR** - B1 bond still quoted with the 800 zone; not governing.
+**T6 - MINOR** - B1 bond quoted with the 800 zone; not governing.
 
 | ID | Severity | Item | Fix |
 |---|---|---|---|
