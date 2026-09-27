@@ -1,4 +1,4 @@
-# Alternative C - post-and-beam braced frame: design report, Rev 2 (bases Rev 3)
+# Alternative C - post-and-beam braced frame: design report, Rev 2 (bases Rev 4)
 
 System C: E-W IPE 330 primaries on the column rows, N-S IPE 270 rafters, pinned HEA 160 columns, vertical X bracing for all lateral load, roof-plane X bracing as the diaphragm. All numbers come from `calc/` (`python3 run_all.py; python3 write_report.py`); ULS design values unless stated. Companion note: `bases_C.md` (bases and anchors, self-contained).
 
@@ -20,7 +20,8 @@ System C: E-W IPE 330 primaries on the column rows, N-S IPE 270 rafters, pinned 
 | F13 | reactions_C.csv now one row per column and load case (594 rows: ULS-1, ULS-2/3 x 4 wind directions, ULS-4 x 4, SLS) with concurrent N, V_x, V_y, near-edge flags and the base utilisation; WP1 included; envelope in section 9. |
 | F14 | Angle bearing with e2 = 30 mm (124 kN per bolt): B8 gusset 0.57. |
 | F15 | Base struts and wall-rail anchorage deleted; the lateral system is 10 wall bays + 24 rod panels + 2 posts. |
-| **Bases Rev 3 / R1-R7** | Section 6 and `bases_C.md` re-issued after the base re-review: R1 column-cage resistance withdrawn, outward shear at the 14 near-edge bases through a second key 180 mm inboard (c1 = 250, plain-concrete edge breakout 38.2 kN) and a saddle at the K21 pier, WP1 moved 280 mm inboard; R2 key moments V x 85 mm carried into the anchor group (psi_ec,N) and the max anchor; R3 minimum solid zone per base, coring acceptance criterion (>= 750 x 750 x 250, C25, edge beams) and a through-bolt fallback pre-designed at 9 bases; R4 anchors h_ef 200 and pockets 200 deep in the slab only, no drilling into the column heads (permitted by the client, shown unnecessary and risky); R5 f_y 335 for the bar, Key A edge check to 0.6 m; R6/R7 tables with spacing orientation, key moment, max anchor, minimum zone. Worst base K19 0.91. |
+| **Bases Rev 3 / R1-R7** | Section 6 and `bases_C.md` re-issued after the base re-review: R1 column-cage resistance withdrawn, outward shear at the 14 near-edge bases (Rev 3 count) through a second key 180 mm inboard (c1 = 250, plain-concrete edge breakout 38.2 kN) and a saddle at the K21 pier, WP1 moved 280 mm inboard; R2 key moments V x 85 mm carried into the anchor group (psi_ec,N) and the max anchor; R3 minimum solid zone per base, coring acceptance criterion (>= 750 x 750 x 250, C25, edge beams) and a through-bolt fallback pre-designed at 9 bases; R4 anchors h_ef 200 and pockets 200 deep in the slab only, no drilling into the column heads (permitted by the client, shown unnecessary and risky); R5 f_y 335 for the bar, Key A edge check to 0.6 m; R6/R7 tables with spacing orientation, key moment, max anchor, minimum zone. Worst base at Rev 3: K19 0.91 (superseded by Rev 4). |
+| **Bases Rev 4 / S1-S4** | Real slab edges modelled (column flush with the face: outboard anchor row 60 mm from the edge; shaft and stair openings as free edges): concentric cone 50 / 38 kN at edge / corner heads, Key A parallel-to-edge 18-24 kN. Base type chosen per column: **B1** concentric anchors at 15 bases (K3, K4, K5, K6, K7, K8, K9, K11, K12, K13, K14, K16, K17, K24, K26), **B2** through-bolts + inboard key pair (corrected lever statics T = N_t b/(b-c), stiffened 30 mm plate) at 11 bases (K1, K2, K10, K15, K18, K19, K20, K22, K23, K25, K27), **P** pier anchors + saddle at K21. One-sided coring criterion at edge heads. Worst base K7 0.86. |
 
 ## 1. Basis and assumptions
 
@@ -149,14 +150,16 @@ Max column utilisation 0.72 (K25, SW corner). Wind post WP1 HEA 160, L 4.21 m: M
 - **Roof bracing** M24 rods 8.8 (F_t,Rd 203 kN) with turnbuckles to 8 mm gussets on the rafter and primary webs at the bottom flange level; on the east and west edge trusses the rods span two rafter bays and pass the intermediate rafter (R92 / R70) through a slotted web clip; sag ties to the purlins at the crossing and at 3 m centres.
 - Trimmers T1 (y 35.44) and T2 (y 24.09) IPE 270 between the rafters x 77.8 / 81.85 carry only the 150 mm upstand (0.3 kN/m, M_Ed 1.8 kNm); upstand framing 100 x 50 x 3 cold-formed C on the trimmers and along the rafters beside the openings, cricket on the south side of the stair well.
 
-## 6. Bases and anchors, Rev 3 (EN 1993-1-8 6.2.5, EN 1992-4 with the Rev 2 basis) - full note in `bases_C.md`
+## 6. Bases and anchors, Rev 4 (EN 1993-1-8 6.2.5, EN 1992-4 with the Rev 2 basis) - full note in `bases_C.md`
 
-One base type for 26 columns: plate **300 x 400 x 25** (350 across, 100 outboard / 250 inboard, at near-edge bases) on 25 mm grout; **4 M20 resin anchors at 80 x 280 (280 along the concrete column's long axis), h_ef 200 in the slab solid zone only**, 26 mm clearance holes (tension only); **Key A** SHS 90x90x8 stub 180 deep under the column centre in a 140 mm pocket 200 deep (along-axis and inward shear; compressible strip on its outboard face at near-edge bases); **Key B** 60 mm bar (f_y 335) 180 deep in a 110 mm pocket, 180 mm inboard on the outward axis (c1 = 250) at the 14 bases with outward shear towards a free edge closer than 0.25 m (two at the corners K4, K6, K23, K25). K21 (200 mm pier): saddle plates on the pier faces instead of keys. WP1 moved 280 mm inboard with one centred key. **Nothing is drilled into the column heads** (the client had allowed it; the review showed h_ef 200 in the slab gives the same resistance and that the column bars would be hit).
+The slab edge is 100 mm from the centre of every perimeter column and the stair / shaft openings are free edges, so the base type is chosen per column from the real-edge checks:
 
-- Tension: steel 4 x 140 kN; cone (h_ef 200, k 7.2 cracked, N0 = 101.8 kN, group 80 x 280 in the 800 x 800 zone: A_c,N/A0 = 1.51, psi_s 0.96) **N_Rd,c = 98.5 kN** x psi_ec,N (key moments V x 85 mm as group eccentricity, 0.68-1.00); bond (125.7 kN single, group ratio 1.88) N_Rd,p = 157.9 kN. Max uplift 73.1 kN at K19: psi_ec 0.82 -> **0.91**; K23 0.83, K22 0.78, K16 0.76, interior K12 0.68. Max anchor tension 46 kN (K23) vs 140.
-- Compression: A_eff 934 cm2 at 10 MPa = 934 kN; max 91 kN -> 0.10. Plate T-stub under uplift with the key couple <= 0.06; plate strip at the key moment <= 0.5.
-- Shear: Key A rigid-stub bearing (p_max = V z0/(b (z0 D - D^2/2)), sigma_Rd 1.5 f_cd = 25 MPa) **V_Rd,A = 83.8 kN**, bending 313, weld 673 kN; max 63.7 kN at K23 (ULS-2E, B3 bay shear + wall wL/2, along the column's long axis) -> 0.76. Key B: bearing 37 kN, **edge breakout at c1 250 (cracked) 38.2 kN**; outward demands <= 26.8 kN (K19) -> <= 0.72; K21 saddle 29 kN vs 83. Key A outward towards edges 0.25-0.6 m away (K24, K27, K17) checked with c1 = distance - 45: <= 0.31.
-- Worst base **K19: 0.91 (anchor group cone (psi_ec 0.82), ULS3S)**; all 27 bases and WP1 <= 1.0 with the 800 x 800 solid zone (M24 and h_ef 400 not needed). Minimum solid zone per base: 750 at K19, K23; 700 at K16, K20, K22; 650 or less elsewhere; coring acceptance >= 750 x 750 x 250 C25 with an edge beam under the wall lines, otherwise the pre-designed through-bolt fallback (4 M20 through the slab on a 300 x 400 x 15 under-slab plate around the column) at K9, K10, K12, K13, K16, K19, K20, K22, K23.
+- **B1, concentric resin anchors (15 bases: K3, K4, K5, K6, K7, K8, K9, K11, K12, K13, K14, K16, K17, K24, K26)**: plate 300 x 400 x 25, 4 M20 at 80 x 280 (280 along the concrete column's long axis), h_ef 200 in the slab, clearance holes; Key A SHS 90x90x8 under the column (along-axis and inward shear, 25 MPa confined bearing, V_Rd 83.8 kN; parallel-to-edge breakout 2 V_Rk,c = 18.5 kN at c1 55 where an edge is 100 mm from the column, checked at K3, K4, K6, K7, K8, K11, K14); Key B 60 mm bar 180 mm inboard (c1 250, 38.2 kN) for outward shear at K3, K4, K6, K8, K14. Cone with the concrete actually there: interior 98.5 kN, one edge 50.4 kN, corner 37.8 kN, times psi_ec,N from the key moments. Worst B1: K7 0.86 (cone 50 x 0.61, N_t 26.4; Key A parallel 0.85), K16 0.76, K12 0.68.
+- **B2, through-bolts and inboard key pair (11 bases: K1, K2, K10, K15, K18, K19, K20, K22, K23, K25, K27)**: plate 700 x 550 x 30 with two 120 x 10 stiffeners; 2 M24 8.8 through-bolts 250 mm inboard of the column, 280 apart, all >= 300 mm from every slab edge (rows shifted along the wall at K23, K25, K27), on a 400 x 200 x 20 under-slab plate; uplift by lever action about the inboard plate tip, T = N_t b/(b - c) = 2.39-2.93 N_t (K19: 175 kN, 87 kN per M24 = 0.46; tip bearing C = 1.39-1.93 N_t on a 350 x 60 strip <= 0.57; stiffened plate M = N_t c + M_key <= 27 kNm vs 48); shear by two SHS 90x90x8 keys 200 mm inboard, +/- 300 along the wall, each taking half the shear plus the torque of the eccentric shear (arm 0.6 m), outward components checked as edge breakout at c1 >= 255 (41.5 kN): K25 0.83, K23 0.80, K27 0.76, K22 0.74. No cone, no anchor shear.
+- **P, K21** (200 mm pier): 4 M16 h_ef 400 into the pier lapped with its bars (splitting restrained by the dia6 links, 49 kN -> 0.53), saddle plates for the N-S shear (0.36). The only base where the client's permission to drill a column head is used.
+- WP1: post 280 mm inboard, one centred key, 0.31. Compression bearing <= 0.10 everywhere.
+
+Worst base **K7: 0.86 (anchor group cone, real edges (N_Rd,c 50, psi_ec 0.61), ULS3E)**; all 27 bases and WP1 <= 1.0 with the real edges. Coring acceptance is one-sided at edge heads (outboard to the face, inboard >= 300-550 mm, +/- 300-400 along; interior B1 heads >= 400-700 centred); a B1 head that fails is built as B2; B2 needs soffit access at 11 locations.
 
 ## 7. Deflections and sway
 
@@ -182,36 +185,36 @@ Roof-plane bracing: M24 rods in 24 rafter cells (full rafter depth, primaries as
 
 ## 9. Reactions at the column bases (kN, ULS envelope with concurrent values; reactions_C.csv gives every column and case: ULS-1, ULS-2/3 for N, S, E, W wind, ULS-4 +/-x, +/-y, SLS, with N, V_x, V_y, near-edge flags and base utilisation)
 
-| Col | Bays | Near edges | Keys | N_c max kN (case) | N_t max kN (case) | V max kN (case) | N_c SLS | N_t SLS | Base governs | Util. | Min. zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| K1 | B1 | +y | A,B+y | 54.7 (ULS2E) | 34.0 (ULS3N) | 33.5 (ULS2W) | 30.4 | 13.7 | anchor group cone (psi_ec 0.69) | **0.45** | 550 |
-| K2 | B1 | +y | A,B+y | 46.9 (ULS2W) | 36.1 (ULS3N) | 34.4 (ULS2E) | 24.0 | 17.0 | anchor group cone (psi_ec 0.71) | **0.51** | 600 |
-| K3 | - | +y | A,B+y | 31.1 (ULS1) | 15.1 (ULS3N) | 15.0 (ULS2N) | 22.4 | 3.3 | Key B outward +y (c1 250) | **0.37** | 400 |
-| K4 | - | +x,+y | A,B+x,+y | 19.8 (ULS1) | 14.6 (ULS3E) | 14.8 (ULS2N) | 14.3 | 5.3 | Key B outward +x (c1 250) | **0.37** | 400 |
-| K5 | B2 | - | A | 57.6 (ULS2E) | 42.1 (ULS3W) | 41.6 (ULS2W) | 29.5 | 19.4 | anchor group cone (psi_ec 0.72) | **0.59** | 600 |
-| K6 | - | -x | A,B-x | 25.2 (ULS1) | 18.0 (ULS3W) | 16.3 (ULS2N) | 18.1 | 6.5 | Key B outward -x (c1 250) | **0.40** | 450 |
-| K7 | B2 | +x | A | 52.0 (ULS2W) | 26.4 (ULS3E) | 41.6 (ULS2E) | 24.4 | 10.3 | Key A SHS bearing | **0.50** | 550 |
-| K8 | - | -x | A,B-x | 30.1 (ULS1) | 26.4 (ULS3W) | 15.8 (ULS2W) | 21.5 | 11.2 | Key B outward -x (c1 250) | **0.39** | 500 |
-| K9 | - | - | A | 57.2 (ULS1) | 52.2 (ULS3N) | 0.0 (ULS1) | 40.1 | 23.6 | anchor group cone (psi_ec 1.00) | **0.53** | 600 |
-| K10 | B8 | +x,+y | A | 78.8 (ULS2S) | 58.1 (ULS3N) | 33.2 (ULS2N) | 29.7 | 30.3 | anchor group cone (psi_ec 0.86) | **0.69** | 650 |
-| K11 | - | +y | A | 43.6 (ULS1) | 33.9 (ULS3N) | 0.0 (ULS1) | 30.8 | 13.9 | anchor group cone (psi_ec 1.00) | **0.34** | 500 |
-| K12 | - | - | A | 70.5 (ULS1) | 66.7 (ULS3N) | 0.0 (ULS1) | 49.5 | 30.7 | anchor group cone (psi_ec 1.00) | **0.68** | 650 |
-| K13 | - | - | A | 55.7 (ULS1) | 54.0 (ULS3N) | 0.0 (ULS1) | 39.0 | 25.1 | anchor group cone (psi_ec 1.00) | **0.55** | 600 |
-| K14 | B6 | +x | A,B+x | 56.7 (ULS2S) | 26.4 (ULS3N) | 30.8 (ULS2N) | 19.6 | 11.7 | Key B outward +x (c1 250) | **0.49** | 550 |
-| K15 | B5 | -x | A,B-x | 43.6 (ULS2S) | 16.7 (ULS3N) | 23.5 (ULS2N) | 11.3 | 7.7 | Key B outward -x (c1 250) | **0.35** | 450 |
-| K16 | B8 | +x | A | 43.8 (ULS2N) | 58.4 (ULS3S) | 57.3 (ULS2S) | 15.5 | 34.5 | anchor group cone (psi_ec 0.78) | **0.76** | 700 |
-| K17 | - | - | A | 23.2 (ULS1) | 15.7 (ULS3S) | 0.0 (ULS1) | 16.5 | 5.7 | anchor group cone (psi_ec 1.00) | **0.16** | 400 |
-| K18 | B6,B9 | +x | A,B+x | 54.2 (ULS2S) | 39.5 (ULS3S) | 45.5 (ULS2S) | 16.1 | 21.5 | anchor group cone (psi_ec 0.69) | **0.58** | 600 |
-| K19 | B5,B10 | -x | A,B-x | 79.9 (ULS2S) | 73.1 (ULS3S) | 40.2 (ULS2S) | 47.2 | 35.1 | anchor group cone (psi_ec 0.82) | **0.91** | 750 |
-| K20 | B7 | +x | A | 82.3 (ULS2S) | 64.0 (ULS3N) | 29.5 (ULS2N) | 39.4 | 31.5 | anchor group cone (psi_ec 0.88) | **0.73** | 700 |
-| K21 | - | +y,-y | saddle | 39.8 (ULS1) | 19.8 (ULS3S) | 29.3 (ULS2W) | 28.6 | 4.6 | saddle plates (N-S) | **0.36** | 450 |
-| K22 | B3 | -y | A,B-y | 90.6 (ULS2E) | 56.3 (ULS3S) | 59.0 (ULS2W) | 48.0 | 23.6 | anchor group cone (psi_ec 0.68) | **0.78** | 700 |
-| K23 | B3,B9 | +x,-y | A,B+x,-y | 63.7 (ULS2W) | 62.1 (ULS3S) | 63.7 (ULS2E) | 25.2 | 33.8 | anchor group cone (psi_ec 0.76) | **0.83** | 750 |
-| K24 | - | - | A | 23.9 (ULS1) | 23.6 (ULS3S) | 16.4 (ULS2E) | 17.1 | 10.7 | Key A towards edge -y (c1 355) | **0.31** | 450 |
-| K25 | B4,B10 | -x | A,B-x | 47.8 (ULS2E) | 42.6 (ULS3W) | 47.0 (ULS2S) | 18.3 | 22.8 | anchor group cone (psi_ec 0.65) | **0.57** | 600 |
-| K26 | B4 | - | A | 50.1 (ULS2W) | 30.5 (ULS3E) | 26.7 (ULS2E) | 20.6 | 14.2 | anchor group cone (psi_ec 0.73) | **0.42** | 550 |
-| K27 | B7 | +x | A,B+x | 38.8 (ULS2N) | 44.1 (ULS3S) | 59.3 (ULS2S) | 14.2 | 25.0 | Key A SHS bearing | **0.69** | 650 |
-| WP1 (offset 280 inboard) | - | +x,-y | B centred | 1.7 (self weight) | 0 | 11.8 (ULS2 E / S) | - | - | key edge breakout c1 250 | 0.31 | - |
+| Col | Type | Bays | Near edges | Keys | N_c max kN (case) | N_t max kN (case) | V max kN (case) | N_c SLS | N_t SLS | Base governs | Util. | Min. zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| K1 | B2 | B1 | +y | A-pair | 54.7 (ULS2E) | 34.0 (ULS3N) | 33.5 (ULS2W) | 30.4 | 13.7 | B2 key pair outward | **0.42** | B2: 550 from face |
+| K2 | B2 | B1 | +y | A-pair | 46.9 (ULS2W) | 36.1 (ULS3N) | 34.4 (ULS2E) | 24.0 | 17.0 | B2 key pair outward | **0.45** | B2: 550 from face |
+| K3 | B1 | - | +y | A,B+y | 31.1 (ULS1) | 15.1 (ULS3N) | 15.0 (ULS2N) | 22.4 | 3.3 | Key B outward +y | **0.37** | 400 |
+| K4 | B1 | - | +x,+y | A,B+x,+y | 19.8 (ULS1) | 14.6 (ULS3E) | 14.8 (ULS2N) | 14.3 | 5.3 | anchor group cone, real edges | **0.53** | 400 |
+| K5 | B1 | B2 | - | A | 57.6 (ULS2E) | 42.1 (ULS3W) | 41.6 (ULS2W) | 29.5 | 19.4 | anchor group cone, real edges | **0.59** | 600 |
+| K6 | B1 | - | -x | A,B-x | 25.2 (ULS1) | 18.0 (ULS3W) | 16.3 (ULS2N) | 18.1 | 6.5 | anchor group cone, real edges | **0.48** | 450 |
+| K7 | B1 | B2 | +x | A | 52.0 (ULS2W) | 26.4 (ULS3E) | 41.6 (ULS2E) | 24.4 | 10.3 | anchor group cone, real edges | **0.86** | 550 |
+| K8 | B1 | - | -x | A,B-x | 30.1 (ULS1) | 26.4 (ULS3W) | 15.8 (ULS2W) | 21.5 | 11.2 | anchor group cone, real edges | **0.61** | 500 |
+| K9 | B1 | - | - | A | 57.2 (ULS1) | 52.2 (ULS3N) | 0.0 (ULS1) | 40.1 | 23.6 | anchor group cone, real edges | **0.53** | 600 |
+| K10 | B2 | B8 | +y | A-pair | 78.8 (ULS2S) | 58.1 (ULS3N) | 33.2 (ULS2N) | 29.7 | 30.3 | B2 tip bearing | **0.38** | B2: 550 from face |
+| K11 | B1 | - | +y | A | 43.6 (ULS1) | 33.9 (ULS3N) | 0.0 (ULS1) | 30.8 | 13.9 | anchor group cone, real edges | **0.67** | 500 |
+| K12 | B1 | - | - | A | 70.5 (ULS1) | 66.7 (ULS3N) | 0.0 (ULS1) | 49.5 | 30.7 | anchor group cone, real edges | **0.68** | 650 |
+| K13 | B1 | - | - | A | 55.7 (ULS1) | 54.0 (ULS3N) | 0.0 (ULS1) | 39.0 | 25.1 | anchor group cone, real edges | **0.55** | 600 |
+| K14 | B1 | B6 | +x | A,B+x | 56.7 (ULS2S) | 26.4 (ULS3N) | 30.8 (ULS2N) | 19.6 | 11.7 | anchor group cone, real edges | **0.66** | 550 |
+| K15 | B2 | B5 | -x | A-pair | 43.6 (ULS2S) | 16.7 (ULS3N) | 23.5 (ULS2N) | 11.3 | 7.7 | B2 key pair outward | **0.31** | B2: 550 from face |
+| K16 | B1 | B8 | - | A | 43.8 (ULS2N) | 58.4 (ULS3S) | 57.3 (ULS2S) | 15.5 | 34.5 | anchor group cone, real edges | **0.76** | 700 |
+| K17 | B1 | - | - | A | 23.2 (ULS1) | 15.7 (ULS3S) | 0.0 (ULS1) | 16.5 | 5.7 | anchor group cone, real edges | **0.20** | 400 |
+| K18 | B2 | B6,B9 | +x | A-pair | 54.2 (ULS2S) | 39.5 (ULS3S) | 45.5 (ULS2S) | 16.1 | 21.5 | B2 key pair outward | **0.54** | B2: 550 from face |
+| K19 | B2 | B5,B10 | -x | A-pair | 79.9 (ULS2S) | 73.1 (ULS3S) | 40.2 (ULS2S) | 47.2 | 35.1 | B2 key pair outward | **0.52** | B2: 550 from face |
+| K20 | B2 | B7 | +x | A-pair | 82.3 (ULS2S) | 64.0 (ULS3N) | 29.5 (ULS2N) | 39.4 | 31.5 | B2 tip bearing | **0.42** | B2: 550 from face |
+| K21 | P | - | +y,-y | saddle | 39.8 (ULS1) | 19.8 (ULS3S) | 29.3 (ULS2W) | 28.6 | 4.6 | P pier anchors: splitting of the 200 pier restrained by the dia6/200 links | **0.53** | B2: 550 from face |
+| K22 | B2 | B3 | -y | A-pair | 90.6 (ULS2E) | 56.3 (ULS3S) | 59.0 (ULS2W) | 48.0 | 23.6 | B2 key pair outward | **0.74** | B2: 550 from face |
+| K23 | B2 | B3,B9 | +x,-y | A-pair | 63.7 (ULS2W) | 62.1 (ULS3S) | 63.7 (ULS2E) | 25.2 | 33.8 | B2 key pair outward | **0.80** | B2: 550 from face |
+| K24 | B1 | - | - | A | 23.9 (ULS1) | 23.6 (ULS3S) | 16.4 (ULS2E) | 17.1 | 10.7 | Key A towards edge -y | **0.31** | 450 |
+| K25 | B2 | B4,B10 | -x | A-pair | 47.8 (ULS2E) | 42.6 (ULS3W) | 47.0 (ULS2S) | 18.3 | 22.8 | B2 key pair outward | **0.83** | B2: 550 from face |
+| K26 | B1 | B4 | - | A | 50.1 (ULS2W) | 30.5 (ULS3E) | 26.7 (ULS2E) | 20.6 | 14.2 | anchor group cone, real edges | **0.54** | 550 |
+| K27 | B2 | B7 | +x | A-pair | 38.8 (ULS2N) | 44.1 (ULS3S) | 59.3 (ULS2S) | 14.2 | 25.0 | B2 key pair outward | **0.76** | B2: 550 from face |
+| WP1 (offset 280 inboard) | post | - | +x,-y | B centred | 1.7 (self weight) | 0 | 11.8 (ULS2 E / S) | - | - | key edge breakout c1 250 | 0.31 | - |
 
 ## 10. Weight and section list
 
@@ -231,8 +234,8 @@ Sections: **IPE 330** (all E-W primaries and eave beams on the column rows, 92.5
 
 ## 11. Open items / risks
 
-1. **Slab verification** (bases_C.md sections 5-6): cores at 3 heads then every head against the acceptance criterion (solid >= minimum zone, >= 750 x 750 x 250, C25, edge beam under the wall lines); rebar scan of the slab top bars for the pocket positions; pull-out tests on 3 anchors to 60 kN; supplier ETA group verification. Where the criterion fails: through-bolt fallback (pre-designed at 9 bases), never drilling into a column head.
-2. Wind: q_p 1.30 to be confirmed with the Libyan National Meteorological Centre; a 10 % increase raises the anchor cone utilisation at K19 to about 1.0 (then the fallback or a 850 zone at K19).
+1. **Slab verification** (bases_C.md sections 5-6): cores at 3 heads then every head against its own one-sided criterion; rebar scan of the slab top bars for the pockets and through-bolt holes; pull-out tests on 3 anchors to 45 kN; supplier ETA group verification; soffit access for the 11 B2 under-slab plates (ceiling openings) and the K21 pier faces. A B1 head that fails its criterion becomes B2; if a B2 soffit is inaccessible, the basis Rev 2 column-head anchorage is the agreed alternative at that head.
+2. Wind: q_p 1.30 to be confirmed with the Libyan National Meteorological Centre; a 10 % increase raises the worst B1 base (K7) to about 0.95 and the B2 key pair at K25 to 0.91.
 3. Purlin uplift capacity (>= 9 kNm single span with one anti-sag row) and the sleeved girt capacities to be confirmed with the supplier before order.
 4. BoardX product data (0.30 kN/m2, girt rows per section 4) and its drift limit (h/150 assumed; diaphragm drift 10 mm, bay sway 4 mm).
 5. Seismic: F_b 77 kN on the roof mass alone is below the wind bay forces; floor amplification through the existing building (S_a up to ~0.6 g / q) could bring the E-W seismic bay forces to the wind level - two-mass check once the building period is known; the bracing has 2.5 x reserve.
@@ -240,4 +243,4 @@ Sections: **IPE 330** (all E-W primaries and eave beams on the column rows, 92.5
 7. Client confirmations: door-free bays B1-B10 (section 8), B8 visible inside the hall along the core line, rafter R82 over the shaft east wall line (x 81.85 vs shaft face 81.99).
 8. Temperature: slotted holes in the fin plates on the y 29.3 line (27.8 m).
 
-Files: `design_report_C.md` (this), `bases_C.md` (Rev 3), `members_C.csv` (99 rows), `reactions_C.csv` (595 rows, now with keys, psi_ec, max anchor and minimum zone per case), `framing_C.png`, `calc/` (sections.py, model.py, loads.py, statics.py, takedown.py, bracing.py, members.py, connections.py, bases_note.py, run_all.py, write_report.py, report_text.md, summary_C.json).
+Files: `design_report_C.md` (this), `bases_C.md` (Rev 4), `members_C.csv` (99 rows), `reactions_C.csv` (595 rows, with base type, keys, psi_ec, max anchor/bolt and minimum zone per case), `framing_C.png`, `calc/` (sections.py, model.py, loads.py, statics.py, takedown.py, bracing.py, members.py, connections.py, bases_note.py, run_all.py, write_report.py, report_text.md, summary_C.json).

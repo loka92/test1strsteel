@@ -98,9 +98,9 @@ for c in COLS:
                               Vcross_x=round(cs['Vc'][0], 1), Vcross_y=round(cs['Vc'][1], 1), V_total=round(bc['Vt'], 1) if bc else round(math.hypot(*cs['V']), 1),
                               base_util=round(bc['umax'], 2) if bc else '', base_gov=bc['gov'] if bc else '',
                               near_edges=','.join(k for k, v in ed.items() if v < NEAR_EDGE) or '-',
-                      keys=('saddle' if c in SADDLE else 'A' + (',B' + ','.join(base_env[c]['keyB']) if base_env[c]['keyB'] else '')),
+                      base_type=base_env[c]['btype'], keys=('saddle' if c in SADDLE else ('A-pair' if base_env[c]['btype'] == 'B2' else 'A' + (',B' + ','.join(base_env[c]['keyB']) if base_env[c]['keyB'] else ''))),
                       psi_ec=round(bc['psi_ec'], 2) if bc else '', max_anchor_kN=round(bc['Nmax'], 1) if bc else '', min_zone_mm=bc['zreq'] if bc else ''))
-rrows.append(dict(column='WP1', x=POSTS['WP1'][0] - 0.28, y=POSTS['WP1'][1] + 0.28, braced_bays='-', case='ULS2 (wind post, shear only, no uplift)', N_kN=round(SC['w']*Lwp*1.35, 1), keys='B (centred)', psi_ec='', max_anchor_kN=0, min_zone_mm='',
+rrows.append(dict(column='WP1', x=POSTS['WP1'][0] - 0.28, y=POSTS['WP1'][1] + 0.28, braced_bays='-', case='ULS2 (wind post, shear only, no uplift)', N_kN=round(SC['w']*Lwp*1.35, 1), base_type='post', keys='B (centred)', psi_ec='', max_anchor_kN=0, min_zone_mm='',
                   Vx_kN=round(V_wp[1], 1), Vy_kN=round(V_wp[0], 1), Vcross_x=0, Vcross_y=0, V_total=round(max(V_wp), 1), base_util=round(max(V_wp)/R['VRd_B_edge250'], 2), base_gov='centred 60 mm key, c1 250 (post offset 280 inboard)', near_edges='+x,-y'))
 with open(os.path.join(OUT, 'reactions_C.csv'), 'w', newline='') as f:
     w = csv.DictWriter(f, fieldnames=list(rrows[0].keys())); w.writeheader(); w.writerows(rrows)
@@ -171,7 +171,7 @@ write_bases_note(OUT, R, base_env, cases, cols, V_wp, Lwp)
 summary = dict(sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], brace=DIAG['name'], rod=ROD['name']),
                roof_area=res['roof_area'], wind_roof=wind_roof, seismic=seis, H4=H4, bays=bay_env, trusses=trusses, drift=drift,
                fin2=fin2, fin3=fin3, Vfin=Vfin, Vfin_long=Vfin_long, cap=cap, Nt_cap=Nt_cap_roof, Vh_cap=Vh_cap, R=R,
-               base_env={c: dict(Nc=e['Nc'], Nt=e['Nt'], Vt=e['Vt'], umax=e['umax'], keyB=e['keyB'], zreq=e['zreq'], u_zone=e['u_zone'], Nmax=e['Nmax'], Mkey=e['Mkey']) for c, e in base_env.items()},
+               base_env={c: dict(Nc=e['Nc'], Nt=e['Nt'], Vt=e['Vt'], umax=e['umax'], keyB=e['keyB'], zreq=e['zreq'], u_zone=e['u_zone'], Nmax=e['Nmax'], Mkey=e['Mkey'], btype=e['btype'], uten=e['uten'], ukey=e['ukey'], uplate=e['uplate']) for c, e in base_env.items()},
                purlins=dict(Mg=pur['worst']['gravity'][0], Mg_where=pur['worst']['gravity'][1], Mu=pur['worst']['uplift'][0], Mu_where=pur['worst']['uplift'][1], Lmax=pur['Lmax'], d=pur['d'], dlim=pur['dlim']),
                post=dict(N=post_N, NbRd=NbR_raft), st=dict(N1=N_st1, Nb1=Nb_st1, N2=N_st2, Nb2=Nb_st2), wp1=dict(L=Lwp, My=My_wp, Mz=Mz_wp, u=u_wp, V=V_wp),
                weight=W, lengths=lengths, n_roof_panels=n_panels, roof_comp=bracing.roof_suction_component()['S'][:3],
