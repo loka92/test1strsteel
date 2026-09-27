@@ -66,7 +66,7 @@ for r in beams:
 for r in cols:
     e = reac[r['id']]
     rows.append(dict(id=r['id'], type='column', section=r['section'], length=round(r['L'], 2), frm='base', to='cap', N_Ed=round(e['Nc_ULS'], 1),
-                     M_Ed=round(max(r['My'], r['Mz']), 1), V_Ed=round(max(e['Vx_ULS'], e['Vy_ULS']), 1), u_M='', u_V='',
+                     M_Ed='%.1f / %.1f' % (r['My'], r['Mz']), V_Ed=round(max(e['Vx_ULS'], e['Vy_ULS']), 1), u_M='', u_V='',
                      u_LTB_g=round(r['util']['N'], 2), u_LTB_up=round(r['util']['NM'], 2), u_defl='', utilisation=round(r['umax'], 2),
                      governing=r['gov'], verdict='OK' if r['umax'] <= 1.0 else 'NO'))
 rows.append(dict(id='WP1', type='wind post', section=SC['name'], length=round(Lwp, 2), frm='slab', to='eave', N_Ed=0, M_Ed=round(max(My_wp, Mz_wp), 1), V_Ed='',

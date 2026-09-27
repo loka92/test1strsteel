@@ -99,19 +99,19 @@ Rafters as roof-truss posts: N_Ed = 53.1 kN with N_b,Rd = 624 kN (L_y 9.2, L_z 3
 
 **Columns** (6.3.1 pinned-pinned, L_cr = L both axes, HEA 160 curve b/c; 6.3.3 Annex B method 2 with C_m = 0.95 for the wall-wind UDL, orientation web perpendicular to the wall it supports, corners biaxial). N_b,Rd = 465 kN (L 4.13 m) to 673 kN (L 2.94 m).
 
-| Column | Section | L m | N_Ed,c kN (case) | N_Ed,t kN (case) | M_y,Ed kNm | M_z,Ed kNm | 6.3.1 N/N_b,Rd | 6.3.3 interaction | Util. | Verdict |
-|---|---|---|---|---|---|---|---|---|---|---|
-| K25 | HEA 160 | 4.13 | 50.1 (ULS2W) | 34.4 (ULS3W) | 14.8 | - | 0.11 | 0.68 | **0.68** | OK |
-| K23 | HEA 160 | 3.88 | 63.6 (ULS2E) | 45.6 (ULS3E) | 18.0 | - | 0.13 | 0.64 | **0.64** | OK |
-| K22 | HEA 160 | 3.88 | 90.2 (ULS2E) | 55.2 (ULS3E) | 25.1 | - | 0.18 | 0.56 | **0.56** | OK |
-| K21 | HEA 160 | 3.88 | 80.8 (ULS2S) | 60.3 (ULS3S) | 22.2 | - | 0.16 | 0.49 | **0.49** | OK |
-| K27 | HEA 160 | 4.13 | 47.3 (ULS2S) | 34.7 (ULS3S) | 13.7 | - | 0.1 | 0.49 | **0.49** | OK |
-| K19 | HEA 160 | 3.78 | 89.2 (ULS2S) | 73.8 (ULS3S) | 18.3 | - | 0.17 | 0.43 | **0.43** | OK |
-| K6 | HEA 160 | 2.97 | 24.4 (ULS1) | 11.2 (ULS3W) | 8.5 | - | 0.04 | 0.35 | **0.35** | OK |
-| K14 | HEA 160 | 3.33 | 58.8 (ULS2S) | 40.9 (ULS3S) | 15.1 | - | 0.1 | 0.32 | **0.32** | OK |
-| K26 | HEA 160 | 4.13 | 52.2 (ULS2W) | 34.3 (ULS3W) | 14.3 | - | 0.11 | 0.32 | **0.32** | OK |
-| K18 | HEA 160 | 3.61 | 54.6 (ULS2S) | 40.4 (ULS3S) | 14.6 | - | 0.1 | 0.31 | **0.31** | OK |
-| other 17 columns | HEA 160 | 2.94-4.13 | <= 57 | <= 52 | <= 15 | | <= 0.10 | <= 0.35 | <= 0.35 | OK |
+| Column | Section | L m | N_Ed,c kN (case) | N_Ed,t kN (case) | M_y,Ed / M_z,Ed kNm | 6.3.1 N/N_b,Rd | 6.3.3 interaction | Util. | Verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| K25 | HEA 160 | 4.13 | 50.1 (ULS2W) | 34.4 (ULS3W) | 14.8 / 12.2 | 0.11 | 0.68 | **0.68** | OK |
+| K23 | HEA 160 | 3.88 | 63.6 (ULS2E) | 45.6 (ULS3E) | 18.0 / 9.3 | 0.13 | 0.64 | **0.64** | OK |
+| K22 | HEA 160 | 3.88 | 90.2 (ULS2E) | 55.2 (ULS3E) | 25.1 / 0.0 | 0.18 | 0.56 | **0.56** | OK |
+| K21 | HEA 160 | 3.88 | 80.8 (ULS2S) | 60.3 (ULS3S) | 22.2 / 0.0 | 0.16 | 0.49 | **0.49** | OK |
+| K27 | HEA 160 | 4.13 | 47.3 (ULS2S) | 34.7 (ULS3S) | 13.7 / 7.1 | 0.1 | 0.49 | **0.49** | OK |
+| K19 | HEA 160 | 3.78 | 89.2 (ULS2S) | 73.8 (ULS3S) | 18.3 / 0.0 | 0.17 | 0.43 | **0.43** | OK |
+| K6 | HEA 160 | 2.97 | 24.4 (ULS1) | 11.2 (ULS3W) | 8.5 / 6.5 | 0.04 | 0.35 | **0.35** | OK |
+| K14 | HEA 160 | 3.33 | 58.8 (ULS2S) | 40.9 (ULS3S) | 15.1 / 0.0 | 0.1 | 0.32 | **0.32** | OK |
+| K26 | HEA 160 | 4.13 | 52.2 (ULS2W) | 34.3 (ULS3W) | 14.3 / 0.0 | 0.11 | 0.32 | **0.32** | OK |
+| K18 | HEA 160 | 3.61 | 54.6 (ULS2S) | 40.4 (ULS3S) | 14.6 / 0.0 | 0.1 | 0.31 | **0.31** | OK |
+| other 17 columns | HEA 160 | 2.94-4.13 | <= 57 | <= 52 | <= 15 | <= 0.10 | <= 0.35 | <= 0.35 | OK |
 
 Max column utilisation 0.68 (K25, SW corner: N 50 kN, M_y 14.8 + M_z 12.2 kNm). Wind post WP1 HEA 160, L 4.18 m: M_y 9.2, M_z 9.6 kNm -> 0.47. HEA 140 was run and reaches 1.00 at K25: **HEA 160 confirmed**.
 
@@ -119,8 +119,8 @@ Max column utilisation 0.68 (K25, SW corner: N 50 kN, M_y 14.8 + M_z 12.2 kNm). 
 
 ## 5. Connections (EN 1993-1-8)
 
-- **Rafter to primary fin plate**, one type: plate 100 x 150 x 10 S275, 2 M20 8.8 in one row (pitch 70, e1 = e2 = 40), bolt line 50 mm from the primary web, 2 x 6 mm fillets. Max rafter end reaction 26.9 kN (envelope of ULS-1 and the reversed ULS-3 reaction): bolt shear incl. eccentricity 0.25, bearing on the 6.6 mm rafter web **0.34** (governs), bearing on the plate 0.23, plate shear gross/net 0.13, plate bending 0.13, weld 0.14, web block tearing 0.24. The 9.2 m rafters get 3 bolts (plate 220 long) for robustness: utilisation 0.14 at 20.4 kN. No copes (see section 1). Trimmers T1/T2 and the notch eave beam use the same detail into the rafter webs.
-- **Primary to column cap plate**: cap plate 200 x 240 x 20 welded to the HEA 160 (a = 6 all round), 4 M20 through the primary bottom flange at gauge 90 / pitch 140. Tension = roof uplift at the column 65.5 kN (K12, ULS-3N; the bracing vertical component enters the column through the gusset below the cap): bolt tension 0.12, bolt shear + tension interaction with the chord/strut force 53.1 kN 0.22, IPE 330 flange T-stub mode 1 0.17, cap-plate T-stub 0.06, weld 0.07. Primary-to-primary continuity of the roof-truss chord force (<= 46 kN) across a column: 4 M20 in shear = 376 kN; add a 10 mm tie plate between the two primary bottom flanges on the chord lines y 29.3 and y 20.1 to avoid loading the cap plate in shear through the column.
+- **Rafter to primary fin plate**, one type: 100 x 150 x 10 S275, 2 M20 8.8 (pitch 70, e1 = e2 = 40), bolt line 50 mm from the primary web, 2 x 6 mm fillets. Max rafter end reaction 26.9 kN (envelope ULS-1 / reversed ULS-3): bolt shear incl. eccentricity 0.25, bearing on the 6.6 mm rafter web **0.34** (governs), plate bearing 0.23, plate shear 0.13, plate bending 0.13, weld 0.14, web block tearing 0.24. 9.2 m rafters: 3 bolts, plate 220 (0.14 at 20.4 kN). No copes. T1/T2 and the notch eave beam use the same detail.
+- **Primary to column cap plate** 200 x 240 x 20, a = 6 all round, 4 M20 through the primary bottom flange (gauge 90, pitch 140). Tension = roof uplift 65.5 kN (K12, ULS-3N; the bracing vertical component enters below the cap through the gusset): bolt tension 0.12, shear + tension interaction with the chord/strut force 53.1 kN 0.22, IPE 330 flange T-stub 0.17, cap plate 0.06, weld 0.07. Chord continuity across a column (<= 46 kN): 10 mm tie plate between the primary bottom flanges on the lines y 29.3 and y 20.1.
 - **Bracing gussets**: 10 mm plates welded to the column web and base plate; each L70x7 with 2 M20 (e1 40, p1 110): angle net section 0.7 A_net f_u/gamma_M2 = 189 kN, bolt shear 188 kN, gusset bearing 2 x 98 kN; max T_Ed 68 kN (B8) -> 0.36 / 0.36 / 0.35.
 - **Roof bracing** M20 rods 8.8 with turnbuckles, F_t,Rd 141 kN, to 8 mm gussets on the rafter and primary webs at the bottom flange level; sag ties to the purlins at the crossing and at 3 m centres on the 9.6 m diagonals.
 - Trimmers T1 (y 35.37) and T2 (y 24.16) IPE 270 between the rafters x 77.8 / 81.85 carry only the 150 mm upstand (0.3 kN/m, M_Ed 1.8 kNm); upstand framing 100 x 50 x 3 cold-formed C on the trimmers and along the rafters beside the openings, cricket on the south side of the stair well.
@@ -141,7 +141,7 @@ Base plate 300 x 400 x 20 S275 on 40 mm non-shrink grout, 4 M20 resin anchors at
 
 ## 8. Bracing
 
-Vertical bays (X, single L70x7 per diagonal, tension-only, 8 bays): E-W B1 K1-K2, B2 K5-K7, B3 K22-K23, B4 K25-K26; N-S B5 K15-K19, B6 K14-K18, B7 K20-K27, **B8 K17-K21 (new)**. Max diagonal utilisation 0.36 (B8); the angle is chosen for stiffness and robustness, L60x6 would also pass. Bays must stay door-free (alternates: B1 -> K3-K1, B3 -> K21-K22, B5 -> K19-K25, B6 -> K18-K23; B8 has no alternate on that line except K11-K17).
+Vertical bays (X, single L70x7 per diagonal, tension-only, 8 bays): E-W B1 K1-K2, B2 K5-K7, B3 K22-K23, B4 K25-K26; N-S B5 K15-K19, B6 K14-K18, B7 K20-K27, **B8 K17-K21 (new)**. Max diagonal utilisation 0.36 (B8); L60x6 would also pass, L70x7 kept for stiffness. Bays must stay door-free (alternates: B1 -> K3-K1, B3 -> K21-K22, B5 -> K19-K25, B6 -> K18-K23, B8 -> K11-K17).
 
 Roof-plane bracing: X of M20 rods in 20 rafter bays (full rafter depth, primaries as chords, rafters as posts) forming the horizontal trusses below; the north band shear passes the stair well through the jog panel x 77.8-81.85 / y 24.5-29.3 with the y 29.3 primary as continuous chord (tie plates at K10, K11).
 

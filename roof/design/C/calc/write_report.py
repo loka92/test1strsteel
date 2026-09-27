@@ -19,12 +19,12 @@ def member_table():
     return '\n'.join(rows)
 
 def column_table():
-    rows = ['| Column | Section | L m | N_Ed,c kN (case) | N_Ed,t kN (case) | M_y,Ed kNm | M_z,Ed kNm | 6.3.1 N/N_b,Rd | 6.3.3 interaction | Util. | Verdict |', '|---|---|---|---|---|---|---|---|---|---|---|']
+    rows = ['| Column | Section | L m | N_Ed,c kN (case) | N_Ed,t kN (case) | M_y,Ed / M_z,Ed kNm | 6.3.1 N/N_b,Rd | 6.3.3 interaction | Util. | Verdict |', '|---|---|---|---|---|---|---|---|---|---|']
     cols = [m for m in mem if m['type'] == 'column']
     for m in sorted(cols, key=lambda m: -float(m['utilisation']))[:10]:
         r = next(x for x in rea if x['column'] == m['id'])
-        rows.append('| %s | %s | %s | %s (%s) | %s (%s) | %s | - | %s | %s | **%s** | %s |' % (m['id'], m['section'], f(m['length'], 2), r['N_comp_ULS'], r['case_comp'], r['N_uplift_ULS'], r['case_uplift'], m['M_Ed'], m['u_LTB_g'], m['u_LTB_up'], m['utilisation'], m['verdict']))
-    rows.append('| other 17 columns | HEA 160 | 2.94-4.13 | <= 57 | <= 52 | <= 15 | | <= 0.10 | <= 0.35 | <= 0.35 | OK |')
+        rows.append('| %s | %s | %s | %s (%s) | %s (%s) | %s | %s | %s | **%s** | %s |' % (m['id'], m['section'], f(m['length'], 2), r['N_comp_ULS'], r['case_comp'], r['N_uplift_ULS'], r['case_uplift'], m['M_Ed'], m['u_LTB_g'], m['u_LTB_up'], m['utilisation'], m['verdict']))
+    rows.append('| other 17 columns | HEA 160 | 2.94-4.13 | <= 57 | <= 52 | <= 15 | <= 0.10 | <= 0.35 | <= 0.35 | OK |')
     return '\n'.join(rows)
 
 def reaction_table():
