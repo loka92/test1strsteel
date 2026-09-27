@@ -28,14 +28,14 @@ def column_table():
     return '\n'.join(rows)
 
 def reaction_table():
-    rows = ['| Col | Bays | Near edges | N_c max kN (case) | N_t max kN (case) | V max kN (case) | N_c SLS | N_t SLS | Base governs | Util. |', '|---|---|---|---|---|---|---|---|---|---|']
+    rows = ['| Col | Bays | Near edges | Keys | N_c max kN (case) | N_t max kN (case) | V max kN (case) | N_c SLS | N_t SLS | Base governs | Util. | Min. zone |', '|---|---|---|---|---|---|---|---|---|---|---|---|']
     for c, e in be.items():
         rc = [r for r in rea if r['column'] == c]
         sls_c = max(float(r['N_kN']) for r in rc if r['case'].startswith('SLS')); sls_t = max(-float(r['N_kN']) for r in rc if r['case'].startswith('SLS'))
-        rows.append('| %s | %s | %s | %s (%s) | %s (%s) | %s (%s) | %s | %s | %s | **%s** |' % (
-            c, rc[0]['braced_bays'], rc[0]['near_edges'], f(e['Nc'][0]), e['Nc'][1], f(max(e['Nt'][0], 0)), e['Nt'][1], f(e['Vt'][0]), e['Vt'][1], f(sls_c), f(max(sls_t, 0)), e['umax'][2], f(e['umax'][0], 2)))
+        rows.append('| %s | %s | %s | %s | %s (%s) | %s (%s) | %s (%s) | %s | %s | %s | **%s** | %s |' % (
+            c, rc[0]['braced_bays'], rc[0]['near_edges'], rc[0]['keys'], f(e['Nc'][0]), e['Nc'][1], f(max(e['Nt'][0], 0)), e['Nt'][1], f(e['Vt'][0]), e['Vt'][1], f(sls_c), f(max(sls_t, 0)), e['umax'][2], f(e['umax'][0], 2), e['zreq'] or '-'))
     w = s['wp1']
-    rows.append('| WP1 | - | +x,-y | %s (self weight) | 0 | %s (ULS2 E / S) | - | - | 2 M16 in the notch edge beam | - |' % (f(0.3*w['L']*1.35), f(max(w['V']))))
+    rows.append('| WP1 (offset 280 inboard) | - | +x,-y | B centred | %s (self weight) | 0 | %s (ULS2 E / S) | - | - | key edge breakout c1 250 | %s | - |' % (f(0.3*w['L']*1.35), f(max(w['V'])), f(max(w['V'])/R['VRd_B_edge250'], 2)))
     return '\n'.join(rows)
 
 def bay_table():
@@ -69,7 +69,9 @@ kw = dict(member_table=member_table(), column_table=column_table(), reaction_tab
           Vfin=f(s['Vfin']), Vfin_long=f(s['Vfin_long']), fin2=f(fin2['umax'], 2), fin3=f(fin3['umax'], 2),
           fin2_bs=f(fin2['util']['bolt shear'], 2), fin2_bp=f(fin2['util']['bearing plate'], 2), fin2_ps=f(fin2['util']['plate shear'], 2), fin2_pb=f(fin2['util']['plate bending'], 2), fin2_w=f(fin2['util']['weld'], 2), fin2_bt=f(fin2['util']['web block tearing'], 2),
           Nt_cap=f(s['Nt_cap']), Vh_cap=f(s['Vh_cap']), cap_bt=f(cap['util']['bolt tension'], 2), cap_bi=f(cap['util']['bolt interaction'], 2), cap_ts=f(cap['util']['beam flange T-stub'], 2), cap_w=f(cap['util']['weld'], 2),
-          NRd_c=f(R['NRd_c']), NRd_p=f(R['NRd_p']), NRd_g=f(R['NRd_g']), VRd_key=f(R['VRd_key']), VRd_edge=f(R['VRd_edge'], 0), Aeff=f(R['Aeff']/100, 0), ratio_c=f(R['ratio_c'], 2), N0c=f(R['N0c']), N0p=f(R['N0p']),
+          NRd_c=f(R['NRd_c']), NRd_p=f(R['NRd_p']), NRd_g=f(R['NRd_g']), VRd_A=f(R['VRd_A']), VRd_B=f(R['VRd_B_edge250']), Aeff=f(R['Aeff']/100, 0), ratio_c=f(R['ratio_c'], 2), N0c=f(R['N0c']), N0p=f(R['N0p']),
+          nkeyB=sum(1 for e in be.values() if e['keyB']), z750=', '.join(c for c, e in be.items() if e['zreq'] == 750), z700=', '.join(c for c, e in be.items() if e['zreq'] == 700),
+          K19u=f(be['K19']['umax'][0], 2), K23u=f(be['K23']['umax'][0], 2), K22u=f(be['K22']['umax'][0], 2), K16u=f(be['K16']['umax'][0], 2), K12u=f(be['K12']['umax'][0], 2),
           worst=worst, wb_u=f(wb['umax'][0], 2), wb_gov=wb['umax'][2], wb_case=wb['umax'][1], Ntmax=f(max(e['Nt'][0] for e in be.values())), Ntmax_col=max(be, key=lambda c: be[c]['Nt'][0]),
           Vmax=f(max(e['Vt'][0] for e in be.values())), Vmax_col=max(be, key=lambda c: be[c]['Vt'][0]),
           Mg=f(pu['Mg']), Mu=f(pu['Mu']), Lp=f(pu['Lmax'], 2), dp=f(pu['d']), dplim=f(pu['dlim']), Mu_where='x %.1f-%.1f, y %.1f' % tuple(pu['Mu_where'][:3]),
@@ -80,7 +82,7 @@ kw = dict(member_table=member_table(), column_table=column_table(), reaction_tab
           st1=f(s['st']['N1']), st1b=f(s['st']['Nb1'], 0), st2=f(s['st']['N2']), st2b=f(s['st']['Nb2'], 0),
           wpL=f(s['wp1']['L'], 2), wpMy=f(s['wp1']['My']), wpMz=f(s['wp1']['Mz']), wpu=f(s['wp1']['u'], 2), wpV=f(max(s['wp1']['V'])),
           driftE=f(s['drift']['RT-E']), driftW=f(s['drift']['RT-W']), K12=s['colloads']['K12'], K19=s['colloads']['K19'],
-          B8H=f(b['B8']['H']), B8T=f(b['B8']['T']), B8N=f(b['B8']['N']), B3H=f(b['B3']['H']), K25u=f(s['cols']['K25']['umax'], 2), K23u=f(s['cols']['K23']['umax'], 2), K22u=f(s['cols']['K22']['umax'], 2))
+          B8H=f(b['B8']['H']), B8T=f(b['B8']['T']), B8N=f(b['B8']['N']), B3H=f(b['B3']['H']), K25c=f(s['cols']['K25']['umax'], 2), K23c=f(s['cols']['K23']['umax'], 2), K22c=f(s['cols']['K22']['umax'], 2))
 report = open(os.path.join(HERE, 'report_text.md')).read().format(**kw)
 open(os.path.join(OUT, 'design_report_C.md'), 'w').write(report)
 body = [l for l in report.splitlines() if not l.startswith('|')]

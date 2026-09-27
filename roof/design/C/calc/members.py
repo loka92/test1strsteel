@@ -2,7 +2,7 @@
 purlins vs basis capacities, plus the column/base reaction envelope.  kN, m, kNm."""
 import numpy as np, math
 from model import *
-from model import edge_distances
+from model import edge_distances, COL_LONG, SADDLE, NEAR_EDGE
 from loads import *
 from sections import sec, Mb_Rd, Nb_Rd, chi, FY, E as ES
 from takedown import build, TYPES, COMBOS, combine
@@ -102,14 +102,17 @@ def column_checks(res, Hchar, H4):
         L = L_col(cy); v = res['colloads'][cid]; edges = edge_distances(cx, cy)
         NbR, xy, xz, ly, lz = Nb_Rd(SC, L, L); MbR, xlt, llt = Mb_Rd(SC, L)
         mybays = [b for b in BAYS if cid in b['c']]
-        def brace(Hd, ud):
-            """bracing at this column for bay forces Hd (magnitudes) and wind unit vector ud: returns
+        def brace(Hd, ud, ud2=None):
+            """bracing at this column for bay forces Hd (magnitudes) and wind unit vector ud; ud2 = direction of the
+            N-S roof-suction component (northward) that loads the y-bays under E/W wind. Returns
             (V aligned signed, Vcross unsigned, N_windward(-uplift), N_leeward(+))."""
             Vx = Vy = 0.0; cxs = [0.0, 0.0]; Nt = Nc = 0.0
             for b in mybays:
                 H = Hd[b['id']]; other = b['c'][1] if b['c'][0] == cid else b['c'][0]
                 bd = (1, 0) if b['dir'] == 'x' else (0, 1)
                 proj = ud[0]*bd[0] + ud[1]*bd[1]
+                if abs(proj) < 0.5 and ud2 is not None and abs(ud2[0]*bd[0] + ud2[1]*bd[1]) > 0.5:
+                    proj = ud2[0]*bd[0] + ud2[1]*bd[1]
                 w, h, Ld, xm, ym = bay_geom(b)
                 if abs(proj) > 0.5:      # bay aligned with the wind
                     me = COLS[cid][0]*bd[0] + COLS[cid][1]*bd[1]; ot = COLS[other][0]*bd[0] + COLS[other][1]*bd[1]
@@ -124,7 +127,7 @@ def column_checks(res, Hchar, H4):
         cases.append(dict(case='SLS', N=v['G'] + v['Q'], V=(0.0, 0.0), Vc=(0.0, 0.0), My=0.0, Mz=0.0))
         for d in 'NSEW':
             (Vwx, Vwy), My, Mz = wall_loads(cid, d, ft, L)
-            (Vbx, Vby), Vc, Nt, Nc = brace(Hchar[d], UDIR[d])
+            (Vbx, Vby), Vc, Nt, Nc = brace(Hchar[d], UDIR[d], (0.0, 1.0) if d in 'EW' else None)   # roof-suction component acts northward
             V15 = (1.5*(Vwx + Vbx), 1.5*(Vwy + Vby)); Vc15 = (1.5*Vc[0], 1.5*Vc[1])
             cases.append(dict(case='ULS2' + d, N=1.35*v['G'] + 1.5*v['W_D'] + 1.5*Nc, V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))
             cases.append(dict(case='ULS3' + d, N=1.0*v['Gmin'] + 1.5*v['W_' + d] - 1.5*Nt, V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))
@@ -132,18 +135,39 @@ def column_checks(res, Hchar, H4):
         for ax, ud in (('+x', (1, 0)), ('-x', (-1, 0)), ('+y', (0, 1)), ('-y', (0, -1))):
             (Vbx, Vby), Vc, Nt, Nc = brace(H4[ax[1]], ud)
             cases.append(dict(case='ULS4' + ax, N=1.0*v['G'] + Nc, V=(Vbx, Vby), Vc=Vc, My=0.0, Mz=0.0, Nt=1.0*v['G'] - Nt))
-        # base checks per case (ULS only)
-        env = dict(Nc=(-1e9, ''), Nt=(-1e9, ''), Vt=(-1e9, ''), umax=(0, '', ''))
+        # base checks per case (ULS only). Key B directions = near-edge directions with an outward demand in any case
+        keyB = []
+        for k in ('+x', '-x', '+y', '-y'):
+            if edges[k] < NEAR_EDGE and cid not in SADDLE:
+                dem = 0.0
+                for c in cases:
+                    if c['case'].startswith('SLS'): continue
+                    comp = {'+x': c['V'][0] + c['Vc'][0], '-x': -c['V'][0] + c['Vc'][0], '+y': c['V'][1] + c['Vc'][1], '-y': -c['V'][1] + c['Vc'][1]}[k]
+                    dem = max(dem, comp)
+                if dem > 3.0: keyB.append(k)   # > 3 kN: cross-bay torsion shares (<= 1.5 kN) do not call for a Key B
+        env = dict(Nc=(-1e9, ''), Nt=(-1e9, ''), Vt=(-1e9, ''), umax=(0, '', ''), keyB=keyB, orient=COL_LONG[cid], saddle=cid in SADDLE, zreq=0, Nmax=0.0, Mkey=0.0)
         for c in cases:
             if c['case'].startswith('SLS'): continue
             Ns = [c['N']] + ([c['Nt']] if 'Nt' in c else [])
             for N in Ns:
-                bc = connections.base_check(N, c['V'], c['Vc'], edges, R)
+                bc = connections.base_check(N, c['V'], c['Vc'], edges, R, COL_LONG[cid], tuple(keyB), cid in SADDLE)
                 c.setdefault('base', []).append((N, bc))
                 if N > env['Nc'][0]: env['Nc'] = (N, c['case'])
                 if -N > env['Nt'][0]: env['Nt'] = (-N, c['case'])
                 if bc['Vt'] > env['Vt'][0]: env['Vt'] = (bc['Vt'], c['case'])
                 if bc['umax'] > env['umax'][0]: env['umax'] = (bc['umax'], c['case'], bc['gov'])
+                env['zreq'] = max(env['zreq'], bc['zreq']); env['Nmax'] = max(env['Nmax'], bc['Nmax']); env['Mkey'] = max(env['Mkey'], bc['M_along'] + bc['M_across'])
+        # utilisation of the governing tension case at smaller solid zones (R3)
+        env['u_zone'] = {}
+        for z in (800, 750, 700, 600):
+            uz = 0.0
+            for c in cases:
+                if c['case'].startswith('SLS'): continue
+                for N in [c['N']] + ([c['Nt']] if 'Nt' in c else []):
+                    if N < 0:
+                        bz = connections.base_check(N, c['V'], c['Vc'], edges, None, COL_LONG[cid], tuple(keyB), cid in SADDLE, zone=z)
+                        uz = max(uz, max(v for k, v in bz['util'].items() if 'cone' in k))
+            env['u_zone'][z] = uz
         cases_all[cid] = cases; base_env[cid] = env
         # member check 6.3.3 (Annex B, Table B.2 for LTB-susceptible members: k_zy per B.2, review F7)
         best = None
@@ -215,8 +239,8 @@ if __name__ == '__main__':
     print('COLUMNS')
     for r in out['cols']:
         e = out['base_env'][r['id']]
-        print('%-4s L=%.2f N=%6.1f My=%5.1f Mz=%5.1f %-6s kzy=%.2f u=%.2f | Nc=%6.1f(%s) Nt=%6.1f(%s) Vt=%5.1f(%s) base %.2f %s %s' % (
-            r['id'], r['L'], r['N_Ed'], r['My'], r['Mz'], r['case'], r['kzy'], r['umax'], e['Nc'][0], e['Nc'][1], e['Nt'][0], e['Nt'][1], e['Vt'][0], e['Vt'][1], e['umax'][0], e['umax'][1], e['umax'][2]))
+        print('%-4s %s keyB=%-12s Nc=%6.1f(%s) Nt=%6.1f(%s) Vt=%5.1f(%s) base %.2f %s %s | zreq %d u800/700/600 %.2f/%.2f/%.2f Nmax %.0f' % (
+            r['id'], e['orient'], ','.join(e['keyB']) or '-', e['Nc'][0], e['Nc'][1], e['Nt'][0], e['Nt'][1], e['Vt'][0], e['Vt'][1], e['umax'][0], e['umax'][1], e['umax'][2], e['zreq'], e['u_zone'][800], e['u_zone'][700], e['u_zone'][600], e['Nmax']))
     print('seismic', out['seis'], out['H4'])
     print('PURLINS', out['purlins'])
     for d in 'NSEW':

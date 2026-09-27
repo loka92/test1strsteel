@@ -6,6 +6,8 @@ import json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 GEO = json.load(open(os.path.join(HERE, '..', '..', '..', 'geometry.json')))
 COLS = {c['id']: (c['cx'], c['cy']) for c in GEO['columns']}
+COL_LONG = {c['id']: ('x' if c['bx'] > c['by'] else 'y') for c in GEO['columns']}   # concrete column long-axis direction
+SADDLE = {'K21'}   # 200 mm pier between the notch edge and the shaft opening: saddle base (bases_C.md)
 ENV = dict(x0=67.89, x1=95.69, y0=15.57, y1=35.87)
 NOTCH = dict(x0=77.89, x1=95.69, y0=15.57, y1=19.97)
 OPEN = {'STAIR': dict(x0=77.89, x1=81.79, y0=29.37, y1=35.37),
