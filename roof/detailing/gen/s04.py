@@ -146,7 +146,7 @@ def d4(sh, fx, fy):
     d.dimv(0, 40, -220, -60); d.dimv(40, 65, -220, -60); d.dimv(65, 420, -220, -100); d.dimh(80, 460, 65, -160)
     d.notes(-150, -220, ['Gusset 10 mm S275 in the wall plane, welded a6 to the outer column flange and to the base plate (or cap plate underside).',
         'Angle net section 189 kN, 2 M20 shear 188 kN, gusset bearing 2 x 124 kN; max T_Ed 72.1 kN (B8) -> 0.38 / 0.57.',
-        'Diagonal centrelines meet at the column CL at base-plate top and at the primary centre (h = cap + 170).', 'Base gusset centreline offset 76 mm from the column axis: base plate and keys per bases_C.md Rev 3 (S05).',
+        'Diagonal centrelines meet at the column CL at base-plate top and at the primary centre (h = cap + 170).', 'Base gusset centreline offset 76 mm from the column axis: base plate and keys per bases_C.md Rev 4 (S05).',
         'X in every bay: both diagonals, crossing clipped with a 10 mm plate and 1 M16 at mid-length.'])
 def d5(sh, fx, fy):
     d = D(sh, fx, fy, 'D5', 'ROOF ROD CONNECTION', 'M24 8.8 threaded rods with turnbuckles; 8 mm gussets at the rafter / primary corners, bottom flange level')
@@ -259,7 +259,7 @@ def d10(sh, fx, fy):
     for y in (140, 220): d.rect(-11, y-30, 11, y+30, 'S-DETAIL'); d.bolt_side(0, y, 20, 40, False)
     d.text(70, 130, '2 M20 in 22x60 vertical slots, snug (no vertical load transfer)', 0.14)
     d.dimv(250, 300, -150, -60); d.dimv(100, 300, -150, -100)
-    d.title(0, -280, 'BASE - plan at the slab corner (notch), Rev 3 position')
+    d.title(0, -280, 'BASE - plan at the slab corner (notch), Rev 4 position')
     y0 = -700
     d.line(-450, y0, 350, y0, 'S-EXIST', lineweight=35); d.line(-450, y0, -450, y0+450, 'S-EXIST', lineweight=35); d.text(-440, y0+460, 'slab edges (notch corner)', 0.14)
     d.rect(-450, y0-60, 350, y0, 'S-EXIST', linetype='DASHED'); d.text(-100, y0-50, 'edge beam assumed - core to confirm', 0.12)
@@ -267,7 +267,7 @@ def d10(sh, fx, fy):
     d.rect(-246, y0+204, -94, y0+356, 'S-COL', linetype='DASHED'); d.sh.circle(*d.P(-170, y0+280), 30*K, 'S-DETAIL', lineweight=35)
     for x in (-270, -70): d.hole(x, y0+180, 14)
     d.dimh(-450, -170, y0+155, -60); d.dimv(y0, y0+280, -20, 60); d.dimh(-270, -70, y0+180, 260)
-    d.notes(-450, y0-140, ['Post centre 280 mm inboard of both slab edges (Rev 3, R6): single dia 60 key with c1 = 250 both ways; 2 M12 for location only; corner girts cantilever 280 to the wall line.',
+    d.notes(-450, y0-140, ['Post centre 280 mm inboard of both slab edges (Rev 4): single dia 60 key with c1 = 250 both ways; 2 M12 for location only; corner girts cantilever 280 to the wall line.',
         'Shear 11.8 / 8.8 kN (E-W / N-S) vs 38.2 kN edge breakout (0.31); no uplift (slotted head). Notch edge beam to be confirmed by core (else type S plate with two Key B).', 'Wall panel and girts on both faces (S2 and notch face EN) fix to the post flanges (D9).'])
 def draw(msp):
     sh = Sheet(msp, OX, OY, 'S04', 'CONNECTION DETAILS D1 - D10', 'Details drawn 5x in model space (1 m = 200 mm); DIMENSION text = true mm (dimlfac 200)')

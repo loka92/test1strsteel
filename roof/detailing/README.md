@@ -1,6 +1,6 @@
 # Alternative C - fabrication drawing package (detailing)
 
-`C_detail_drawings.dxf` (DXF R2013, `$INSUNITS = 6` metres) generated with ezdxf from the Rev 2 calculation model (`design/C/calc/model.py`, `bracing.py`, `members_C.csv`) and `bases_C.md` Rev 3. Audit: 0 errors. One model space; each sheet is a 42 x 30 m frame with a title strip (project, sheet title, sheet no., revision "Rev 2 superstructure / Rev 3 bases (perimeter Rev 4 pending)", date 2026-09-27, scale note). PNG renders `S00.png` ... `S06.png` (3360 x 2400 px) are for checking only.
+`C_detail_drawings.dxf` (DXF R2013, `$INSUNITS = 6` metres) generated with ezdxf from the Rev 2 calculation model (`design/C/calc/model.py`, `bracing.py`, `members_C.csv`) and `bases_C.md` Rev 4. Audit: 0 errors. One model space; each sheet is a 42 x 30 m frame with a title strip (project, sheet title, sheet no., revision "Rev 2 superstructure / Rev 4 bases", date 2026-09-27, scale note). PNG renders `S00.png` ... `S06.png` (3360 x 2400 px) are for checking only.
 
 ## Sheets (model-space frame x range, y 8-38)
 
@@ -11,7 +11,7 @@
 | S02 | Column schedule and wall elevations | 110-152 | schedule (mark, K, section, x/y, L, cap top, base plate top, concrete orientation, HEA web, braced bays, face) + elevations W, E, N, S1 (y 15.57), S2 (y 19.97), notch face; girts, eave beams, bracing X, dimensions, clear heights |
 | S03 | Typical sections A-A, B-B, C-C | 160-202 | A-A N-S at x 87.19 (rafter line 8), B-B E-W along row F (y 29.3) with the stair-well upstand, C-C braced line 5 (x 77.78, B7 + B8); true scale, levels in mm |
 | S04 | Connection details D1-D10 | 210-252 | drawn **5x** (1 m model = 200 mm real), dimstyle S-MM (dimlfac 200) so DIMENSION text reads true mm; each detail in an 8.2 x 12.8 m frame with bubble and title |
-| S05 | Base details and notes | 260-302 | B1 (S) interior bases plan (both concrete orientations) and section; Key B (near edge) plan; B2 perimeter through-bolt sections 2-2 / 3-3; K21 saddle (type P) and WP1 base; base schedule; coring acceptance criterion; site verification; materials; erection sequence; tolerances |
+| S05 | Base details and notes | 260-302 | B1 plan (interior + edge head with Key B) and section 1-1; B2 plan, section 2-2 across the wall (lever, tip strip, under-slab plate) and 3-3 along it; K21 pier base (P) and WP1; base schedule per column; one-sided coring criterion; pre-installation checks; materials; erection sequence; tolerances / grout note |
 | S06 | Bill of materials | 310-352 | all 116 member pieces (mark, section, L, n, kg, between) from members_C.csv + rod panels, cold-formed totals, plates, bolts and anchors, totals |
 
 ## Layers
@@ -20,24 +20,26 @@ S-COL (columns, blue), S-PRIM (primaries / eave beams / trimmers, red), S-RAFT (
 
 ## Marks
 
-- `Cn` steel column HEA 160 over existing concrete column `Kn` (n = 1-27); `WP1` wind post at (77.61, 20.25) (Rev 3: 280 mm inboard of the notch corner).
+- `Cn` steel column HEA 160 over existing concrete column `Kn` (n = 1-27); `WP1` wind post at (77.61, 20.25) (Rev 4: 280 mm inboard of the notch corner).
 - `P1-P19` primaries / eave beams IPE 330 (level, on cap plates), in the order of `model.py` PRIMARIES; `T1` (y 35.44) / `T2` (y 24.09) trimmers IPE 270.
 - `R1-R11` rafter lines IPE 270 west to east (R1 x 67.99 ... R11 x 95.55); pieces `Rn.1, Rn.2 ...` south to north in the BOM (one piece per span between primaries, fin plates D1).
 - `ST1` (y 24.46, R9-R11) / `ST2` (y 26.37, R1-R3) roof-truss posts IPE 270.
 - `B1-B10` wall X-bracing bays (2 x L70x7 tension-only); `RT-N-W, RT-N-E, RT-S-E, RT-S-W, RT-W, RT-E, RT-JOG` roof rod panels (M24 8.8), pieces `RT-x.i`.
-- `D1-D10` connection details (S04); `B1`, `B1-E/Key B`, `B1-P`, `B2` base details (S05); sections `A`, `B`, `C` (S03).
+- `D1-D10` connection details (S04); `B1`, `B2`, `P` base details (S05); sections `A`, `B`, `C` (S03).
 - Grids: 1-11 on the rafter lines (+8a at x 88.88, K22), A-H on the primary rows (A 15.87, B 20.07, C 21.76, D 24.46, E 26.37, F 29.27, G 35.22, H 35.72).
 
 ## Levels
 
 TOS(y) = 3.30 + 0.06 (35.87 - y); primary top = TOS + 0.05; cap-plate top = TOS - 0.28; column length = TOS - 0.34; base plate top +0.065 (40 grout + 25 plate). Clear height under the north eave beam 3.03 m.
 
-## Bases - what is pending
+## Bases (bases_C.md Rev 4 - final)
 
-- Interior bases K9, K11, K12, K13, K17 (type B1: plate 300x400x25, 4 M20 resin anchors 80 x 280 h_ef 200 in the slab solid zone, Key A SHS 90x90x8 stub 180 embedded), Key B (dia 60 at 180 inboard, c1 250), the K21 saddle (type P) and WP1 are drawn per `bases_C.md` Rev 3 (accepted at sign-off).
-- **Perimeter bases (21 columns) are drawn as type B2 (4 M20 through-bolts at 500 x 300, under-slab plate 300x400x15 or four 100x100x15 washers, base plate 400x450x30, Key A moved inboard) with the note "perimeter base layout per bases_C.md Rev 4 - pending".** The Rev 4 table (Key A position, utilisations, bolt rows at 150/350 inboard) is to be inserted in the S05 schedule when it lands.
-- Grout: `bases_C.md` Rev 3 text says 25 mm; the drawings keep 40 mm (column lengths TOS - 0.34, brief) - to be confirmed at sign-off.
-- No coring or drilling before cores (3 heads, then every head), rebar scans, pull-out tests (60 kN on 3 sacrificial anchors) and the coring acceptance criterion on S05.
+- Title strip: "Rev 2 superstructure / Rev 4 bases". Base type per column from `reactions_C.csv` (`base_type`) and `bases_C.md` section 3; the S05 schedule lists type, long axis, keys, bolts / anchors (mm from the column centre), plate, utilisation and the solid zone required for every column.
+- **B1** (15 bases K3, K4, K5, K6, K7, K8, K9, K11, K12, K13, K14, K16, K17, K24, K26): plate 300x400x25 (350 across at the edge heads K3, K4, K6, K7, K8, K11, K14), 4 M20 8.8 resin anchors 80 x 280 h_ef 200 in the slab (280 along the concrete long axis), Key A SHS 90x90x8 stub 180 embedded in a 140 pocket under the column, Key B dia 60 bar 180 inboard (c1 250) at K3, K4 (two), K6, K8, K14. Worst K7 0.86.
+- **B2** (11 bases K1, K2, K10, K15, K18, K19, K20, K22, K23, K25, K27): plate 700 (along the wall) x 550 (100 out / 450 in) x 30 with two 120x10 stiffeners, 2 M24 8.8 through-bolts in one row 250 inboard, 280 apart, on a 400x200x20 under-slab plate (ceiling opening ~600x600), tip bearing strip 350x60 at b = 430 (lever T = 2.39 N_t; 2.59 at K25/K27, 2.93 at K23), pair of SHS 90x90x8 keys 200 inboard and +/-300 along the wall; rows / pairs shifted at K23, K25, K27 (offsets in the schedule). Worst K25 0.83.
+- **P** (K21 pier): plate 300x400x25, 4 M16 resin anchors 70 x 280 h_ef 400 into the pier (lap with the pier bars, rebar scan) + saddle 2 x 400x150x15 on the pier faces. **WP1**: (77.61, 20.25), plate 250x250x15, one centred dia 60 key (c1 250), 2 M12.
+- Coring acceptance criterion (one-sided at edge heads), pre-installation checks (scan, 3 pull-out tests to 45 kN, B2 torque after cure), materials, erection sequence and tolerances are on S05. Grout: Rev 4 text says 25 mm; the column schedule assumes a 65 mm base (40 grout + 25 plate) - fabricate to the schedule and make up in the grout bed, or confirm with the fabricator (note on S05).
+- BOM (S06): base plates 9 x 300x400x25, 7 x 350x400x25, 11 x 700x550x30 + stiffeners, 11 under-slab plates 400x200x20, 37 SHS keys, 7 dia 60 keys, 60 M20 resin anchors, 22 M24 through-bolts, 4 M16 anchors, K21 saddle, 11 ceiling openings.
 
 ## Other open items carried on the drawings
 

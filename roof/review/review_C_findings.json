@@ -7,7 +7,9 @@
   "rev2_status": "closed",
   "rev2_note": "wall shear wL/2 at every base in members.py; struts deleted",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F2",
@@ -17,7 +19,9 @@
   "rev2_status": "closed",
   "rev2_note": "anchors carry no shear; cone cracked k 7.2",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F3",
@@ -27,7 +31,9 @@
   "rev2_status": "closed",
   "rev2_note": "base struts and wall-rail anchorage deleted, full H per base",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F4",
@@ -37,7 +43,9 @@
   "rev2_status": "closed",
   "rev2_note": "roof-suction component 39.1 kN in bracing.py; basis Rev 2",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F5",
@@ -47,7 +55,9 @@
   "rev2_status": "closed",
   "rev2_note": "basis Rev 2 labels corrected",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F6",
@@ -57,7 +67,9 @@
   "rev2_status": "closed",
   "rev2_note": "gutter loads in take-down; west-block north edge left as open item 6",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F7",
@@ -67,7 +79,9 @@
   "rev2_status": "closed",
   "rev2_note": "Table B.2 k_zy; K25 0.73",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F8",
@@ -77,7 +91,9 @@
   "rev2_status": "closed",
   "rev2_note": "anti-sag row all spans; supplier uplift capacity remains open item 3",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F9",
@@ -87,7 +103,9 @@
   "rev2_status": "open",
   "rev2_note": "ULS-4 rows added but floor amplification through the existing building still unchecked (open item 5)",
   "rev3_status": "open",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "open",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F10",
@@ -97,7 +115,9 @@
   "rev2_status": "closed",
   "rev2_note": "trusses re-modelled, M24 rods, drift 10.4 mm east",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F11",
@@ -107,7 +127,9 @@
   "rev2_status": "closed",
   "rev2_note": "TOS 3.30, primary top TOS+0.05, trimmers moved; R82 client confirmation open item 7",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F12",
@@ -117,7 +139,9 @@
   "rev2_status": "closed",
   "rev2_note": "cap plate pitch 200, erection sequence",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F13",
@@ -127,7 +151,9 @@
   "rev2_status": "closed",
   "rev2_note": "reactions_C.csv one row per column and case, WP1 included",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F14",
@@ -137,7 +163,9 @@
   "rev2_status": "closed",
   "rev2_note": "e2 = 30",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "F15",
@@ -147,7 +175,9 @@
   "rev2_status": "closed",
   "rev2_note": "struts and rail anchorage deleted",
   "rev3_status": "closed",
-  "rev3_note": "unchanged from Rev 2"
+  "rev3_note": "unchanged from Rev 2",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "R1",
@@ -157,7 +187,9 @@
   "rev2_status": "new",
   "rev2_note": "raised on Rev 2 bases",
   "rev3_status": "closed",
-  "rev3_note": "cage claim withdrawn; Key B / saddle; but parallel-edge shear at Key A remains (S2)"
+  "rev3_note": "cage claim withdrawn; Key B / saddle; but parallel-edge shear at Key A remains (S2)",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "R2",
@@ -167,7 +199,9 @@
   "rev2_status": "new",
   "rev2_note": "raised on Rev 2 bases",
   "rev3_status": "closed",
-  "rev3_note": "psi_ec,N and max-anchor check applied, lever 85 mm"
+  "rev3_note": "psi_ec,N and max-anchor check applied, lever 85 mm",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "R3",
@@ -177,7 +211,9 @@
   "rev2_status": "new",
   "rev2_note": "raised on Rev 2 bases",
   "rev3_status": "open",
-  "rev3_note": "criterion and min-zone table exist but assume a centred 800 zone; impossible at perimeter columns (S1)"
+  "rev3_note": "criterion and min-zone table exist but assume a centred 800 zone; impossible at perimeter columns (S1)",
+  "rev4_status": "closed",
+  "rev4_note": "per-base criterion and fallback replaced by per-base type selection"
  },
  {
   "id": "R4",
@@ -187,7 +223,9 @@
   "rev2_status": "new",
   "rev2_note": "raised on Rev 2 bases",
   "rev3_status": "closed",
-  "rev3_note": "h_ef 200 in the slab only, no drilling into column heads"
+  "rev3_note": "h_ef 200 in the slab only, no drilling into column heads",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "R5",
@@ -197,7 +235,9 @@
   "rev2_status": "new",
   "rev2_note": "raised on Rev 2 bases",
   "rev3_status": "closed",
-  "rev3_note": "f_y 335; Key A edge check 0.25-0.6 m"
+  "rev3_note": "f_y 335; Key A edge check 0.25-0.6 m",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "R6",
@@ -207,7 +247,9 @@
   "rev2_status": "new",
   "rev2_note": "raised on Rev 2 bases",
   "rev3_status": "closed",
-  "rev3_note": "WP1 moved 280 mm inboard"
+  "rev3_note": "WP1 moved 280 mm inboard",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "R7",
@@ -217,7 +259,9 @@
   "rev2_status": "new",
   "rev2_note": "raised on Rev 2 bases",
   "rev3_status": "closed",
-  "rev3_note": "orientation, keys, psi_ec, max anchor, min zone columns added"
+  "rev3_note": "orientation, keys, psi_ec, max anchor, min zone columns added",
+  "rev4_status": "closed",
+  "rev4_note": "unchanged"
  },
  {
   "id": "S1",
@@ -227,7 +271,9 @@
   "rev2_status": "n/a",
   "rev2_note": "",
   "rev3_status": "new",
-  "rev3_note": "raised at Rev 3 sign-off"
+  "rev3_note": "raised at Rev 3 sign-off",
+  "rev4_status": "closed",
+  "rev4_note": "real slab edges per base; B2 through-bolts at 11 perimeter bases"
  },
  {
   "id": "S2",
@@ -237,7 +283,9 @@
   "rev2_status": "n/a",
   "rev2_note": "",
   "rev3_status": "new",
-  "rev3_note": "raised at Rev 3 sign-off"
+  "rev3_note": "raised at Rev 3 sign-off",
+  "rev4_status": "closed",
+  "rev4_note": "B2 key pair >= 300 from edges; B1 parallel-edge check applied"
  },
  {
   "id": "S3",
@@ -247,7 +295,9 @@
   "rev2_status": "n/a",
   "rev2_note": "",
   "rev3_status": "new",
-  "rev3_note": "raised at Rev 3 sign-off"
+  "rev3_note": "raised at Rev 3 sign-off",
+  "rev4_status": "closed",
+  "rev4_note": "lever T = N_t b/(b-c) with tip bearing; K19 93 kN per M24"
  },
  {
   "id": "S4",
@@ -257,6 +307,80 @@
   "rev2_status": "n/a",
   "rev2_note": "",
   "rev3_status": "new",
-  "rev3_note": "raised at Rev 3 sign-off"
+  "rev3_note": "raised at Rev 3 sign-off",
+  "rev4_status": "open",
+  "rev4_note": "criterion now one-sided but its extents (300 / +-300) are smaller than those used in the cone (340 / +-400) - see T2"
+ },
+ {
+  "id": "T1",
+  "severity": "MAJOR",
+  "item": "Rev 4 B2 layouts at K23 (key 700, bolt 380 along), K25 and K27 (key 600) fall outside the 700 x 550 plate and the +-400 coring zone; standard keys at +-300 reach the plate edge",
+  "fix": "Per-base plate length (K23 1100, K25/K27 950, others 750) and criterion",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "new",
+  "rev4_note": "raised at Rev 4 sign-off"
+ },
+ {
+  "id": "T2",
+  "severity": "MAJOR",
+  "item": "Rev 4 B1 coring criterion (inboard >= 300, along +-300) smaller than the extents used in the cone (340, +-400): with the criterion N_Rd,c 34.4 not 50.4 kN -> K7 1.26, K11 0.98, K14 0.97; B2 key breakout body needs +-683 along",
+  "fix": "Align the criterion with the calculation (inboard 340, +-400 B1; +-700 B2) or recompute",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "new",
+  "rev4_note": "raised at Rev 4 sign-off"
+ },
+ {
+  "id": "T3",
+  "severity": "MAJOR",
+  "item": "Rev 4 B1 key moment: psi_ec applied across the 80 mm spacing with e = 126 mm at K7 (outside the group); tension-row-only check gives 59 vs 41.3 kN (1.43); rigid-post model keeps the moment in the pocket (K7 0.52)",
+  "fix": "State one model and apply consistently (recommend rigid-post), or make K7 and K14 B2",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "new",
+  "rev4_note": "raised at Rev 4 sign-off"
+ },
+ {
+  "id": "T4",
+  "severity": "MINOR",
+  "item": "Adjacency rule misses diagonal opening corners at K3, K16, K17 (~8 % of the cone area); openings in the slab remain an assumption",
+  "fix": "Reduce A_c,N accordingly",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "new",
+  "rev4_note": "raised at Rev 4 sign-off"
+ },
+ {
+  "id": "T5",
+  "severity": "MINOR",
+  "item": "B2 details: under-slab plate 400x200x20 at 0.8; stiffeners class 3; skewed bolt centroid at K23/K25/K27; slab couple 175/114 kN 180 mm apart",
+  "fix": "25 mm under-slab plate; note; slab local check",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "new",
+  "rev4_note": "raised at Rev 4 sign-off"
+ },
+ {
+  "id": "T6",
+  "severity": "MINOR",
+  "item": "B1 bond resistance still quoted with the 800 zone",
+  "fix": "Update table",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "new",
+  "rev4_note": "raised at Rev 4 sign-off"
  }
 ]

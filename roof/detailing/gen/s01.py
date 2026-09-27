@@ -65,7 +65,7 @@ def draw(msp):
         if k in ('K21','K22','K23','K25','K26','K24','K27'): dy = -0.75
         T(x+dx, y+dy, 'C%d' % n, TH, 'S-COL'); T(x+dx, y+dy-0.25, '(K%d) HEA160' % n, TH_SMALL, 'S-COL')
     sh.rect(*L(WP1[0]-0.08, WP1[1]-0.08), *L(WP1[0]+0.08, WP1[1]+0.08), 'S-COL', lineweight=50)
-    T(77.0, 20.5, 'WP1 HEA160 wind post (77.61, 20.25), 280 inboard - Rev 3', TH_SMALL, 'S-COL')
+    T(77.0, 20.5, 'WP1 HEA160 wind post (77.61, 20.25), 280 inboard - Rev 4', TH_SMALL, 'S-COL')
     # wall bracing bays
     for b, d, (a, c) in BAYS:
         (x1, y1), (x2, y2) = KXY[a], KXY[c]
@@ -131,5 +131,5 @@ def draw(msp):
         'Grids 1-11 on the rafter lines, A-H on the primary rows;', 'columns at true positions (K-coordinates).',
         'Rafters bear on fin plates each side of the primary', 'web (D1), bottom flanges flush (10 mm up), no copes.',
         'Fly braces to the bottom flange at mid-span (L <= 6.6 m)', 'and at the third points (7.5 and 9.2 m spans), D8.',
-        'Existing slab and concrete columns shown grey.', 'Bases: interior B1 (Rev 3), perimeter B2 (Rev 4 pending), S05.'], 0.13, 0.24)
+        'Existing slab and concrete columns shown grey.', 'Bases B1 (15) / B2 (11) / P (K21) per Rev 4, S05.'], 0.13, 0.24)
     return sh

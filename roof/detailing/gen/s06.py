@@ -55,21 +55,21 @@ def draw(msp):
     n_raft_ends = 2*sum(1 for r in rows if r[1] in ('rafter', 'trimmer', 'truss post')) + 1
     pl = [('Fin plates 100x150x10 (D1)', n_raft_ends - 8, 0.1*0.15*0.01), ('Fin plates 100x220x10 (D1, 9.2 m rafters)', 8, 0.1*0.22*0.01),
           ('Cap plates 200x280x20 (D2)', 27, 0.2*0.28*0.02), ('Tie plates 140x400x10 (D3, rows F and B)', 8, 0.14*0.40*0.01),
-          ('Base plates 300x400x25 (B1 interior, 5 + K21)', 6, 0.3*0.4*0.025), ('Base plates 400x450x30 (B2 perimeter, Rev 4)', 21, 0.4*0.45*0.03), ('Under-slab plates 300x400x15 (B2)', 21, 0.3*0.4*0.015), ('Key A SHS 90x90x8 x 205 S355 (B1)', 26, 0.00258*0.205), ('Key B dia 60 x 205 S355 (B1-E)', 18, math.pi*0.03**2*0.205), ('K21 saddle plates 400x150x15', 2, 0.4*0.15*0.015),
+          ('Base plates 300x400x25 (B1 interior 8 + K21)', 9, 0.3*0.4*0.025), ('Base plates 350x400x25 (B1 edge heads)', 7, 0.35*0.4*0.025), ('Base plates 700x550x30 + 2 stiffeners 120x10 (B2)', 11, 0.7*0.55*0.03 + 2*0.12*0.45*0.01), ('Under-slab plates 400x200x20 (B2)', 11, 0.4*0.2*0.02), ('Key A SHS 90x90x8 x 205 S355 (B1 15 + B2 pairs 22)', 37, 0.00258*0.205), ('Key B dia 60 x 205 S355 (K3, K4 x2, K6, K8, K14) + WP1 key', 7, math.pi*0.03**2*0.205), ('K21 saddle plates 400x150x15', 2, 0.4*0.15*0.015),
           ('Bracing gussets 10 mm ~350x420 (D4)', 40, 0.35*0.42*0.01*0.6), ('Rod gussets 8 mm ~250x250 (D5)', 96, 0.25*0.25*0.008*0.6),
           ('Purlin cleats 120x160x8 (D8)', pur_n*2, 0.12*0.16*0.008), ('Girt cleats L100x100x8 x150 (D9)', girt_n*2, 0.0015*0.15*1.0),
-          ('WP1 base plate 200x200x15 + head cleat', 1, 0.2*0.2*0.015 + 0.12*0.2*0.01)]
+          ('WP1 base plate 250x250x15 + head cleat', 1, 0.25*0.25*0.015 + 0.12*0.2*0.01)]
     pl_rows = [[a, n, '%.1f' % (n*v*7850)] for a, n, v in pl]
     pl_kg = sum(n*v*7850 for a, n, v in pl)
     y3 = sh.table(14.0, y2 - 0.8, [('Plates and fittings', 6.5), ('Qty', 1.0), ('kg', 1.0)], pl_rows, 0.36, 0.15, title='PLATES (S275 unless noted) - estimate')
     bolts = [['M20 8.8 x 60 (fin plates, incl. slotted rows)', n_raft_ends*2 + 8], ['M20 8.8 x 70 (cap plates + tie plates)', 27*4], ['M20 8.8 x 60 (bracing gussets, 2 per angle end)', 80],
              ['M16 8.8 (bracing crossing clips)', 10], ['M24 8.8 rods with turnbuckle, nuts + lock nuts', 48], ['M12 8.8 (purlin / girt cleats, fly braces, eave rail)', (pur_n + girt_n)*4 + 200],
-             ['M20 resin anchors h_ef 200 (B1 interior + K21)', 24], ['M12 anchors (WP1 location)', 2], ['Key A SHS 90x90x8 x 205 in 140 pockets x 200', 26], ['Key B dia 60 x 205 S355 in 110 pockets x 200 (14 bases, corners x2)', 18], ['M20 8.8 through-bolts x 400 (B2 perimeter, 21 bases) - Rev 4', 84], ['K21 saddle plates 400x150x15', 2]]
+             ['M20 8.8 resin anchors h_ef 200 (B1, 15 bases x 4)', 60], ['M24 8.8 through-bolts x 420 + 60x6 washers (B2, 11 bases x 2)', 22], ['M16 8.8 resin anchors h_ef 400 (K21 pier)', 4], ['M12 anchors (WP1 location)', 2], ['Key A SHS 90x90x8 x 205 in 140 pockets x 200 (B1 15 + B2 22)', 37], ['Key B dia 60 x 205 in 110 pockets x 200 (6) + WP1 key (1)', 7], ['K21 saddle plates 400x150x15', 2], ['Ceiling openings ~600x600 for the B2 under-slab plates', 11]]
     sh.table(23.5, y2 - 0.8, [('Bolts and anchors (add 5 % spare)', 7.5), ('Qty', 1.2)], bolts, 0.36, 0.15, title='BOLTS AND ANCHORS - estimate')
     hot = tot['IPE 330'][1] + tot['IPE 270'][1] + tot['HEA 160'][1]
     grand = hot + pl_kg + tot['L 70x7'][1] + tot['M24 rod 8.8'][1] + pur*zk*1.05 + girt*zk*1.08 + 27.8*6.9 + 360
     sh.note_block(0.5, y2 - 0.8, 'TOTALS', ['Hot-rolled members %.1f t + plates %.1f t = %.1f t' % (hot/1e3, pl_kg/1e3, (hot+pl_kg)/1e3),
         'Wall bracing %.2f t, roof rods %.2f t' % (tot['L 70x7'][1]/1e3, tot['M24 rod 8.8'][1]/1e3), 'Cold-formed Z/C %.1f t' % ((pur*zk*1.05 + girt*zk*1.08 + 27.8*6.9 + 360)/1e3),
         'GRAND TOTAL approx. %.1f t (%.0f kg/m2 of 486 m2 footprint)' % (grand/1e3, grand/486), 'Design report Rev 2 total 23.4 t (purlins 372 m, girts 359 m).',
-        'Galvanising: hot-dip all members and plates; Z/C S350GD Z275.', 'Bases: interior Rev 3; perimeter B2 per Rev 4 pending.'], 0.16, 0.3)
+        'Galvanising: hot-dip all members and plates; Z/C S350GD Z275.', 'Bases per bases_C.md Rev 4 (B1 15, B2 11, P 1).'], 0.16, 0.3)
     return sh

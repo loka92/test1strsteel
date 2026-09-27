@@ -4,7 +4,7 @@ from common import *
 import geom
 OUT = '/home/user/test1strsteel/roof/detailing'
 SHEETS = [('S01', 'Roof framing plan', 60.0), ('S02', 'Column schedule and wall elevations', 110.0), ('S03', 'Typical sections A-A, B-B, C-C', 160.0),
-          ('S04', 'Connection details D1-D10', 210.0), ('S05', 'Base details B1 (interior), B2 (perimeter), Key B, K21, WP1, notes', 260.0), ('S06', 'Bill of materials', 310.0)]
+          ('S04', 'Connection details D1-D10', 210.0), ('S05', 'Base details B1 / B2 / P / WP1 and notes', 260.0), ('S06', 'Bill of materials', 310.0)]
 def index_sheet(msp):
     sh = Sheet(msp, 10.0, 8.0, 'S00', 'SHEET INDEX AND GENERAL NOTES', 'Not to scale')
     rows = [[no, t, 'x %.0f-%.0f' % (ox, ox+42)] for no, t, ox in SHEETS]
@@ -14,14 +14,14 @@ def index_sheet(msp):
         'S-MM details 5x with true-mm text, S-MM1 sections mm text), S-TEXT, S-TITLE, S-DETAIL, S-HATCH, S-DRAIN gutter / downpipes / crickets, S-EXIST existing slab and columns (grey).'], TH_SMALL, 0.32)
     sh.note_block(1.0, 21.5, 'MARKS', ['Cn steel column HEA 160 over existing concrete column Kn (n = 1-27); WP1 wind post. Pn primaries / eave beams IPE 330 (P1-P19), T1/T2 trimmers IPE 270.',
         'Rn rafter lines IPE 270 west to east (R1 x 67.99 ... R11 x 95.55); pieces Rn.1, Rn.2 ... south to north in the BOM. ST1/ST2 roof-truss posts IPE 270.',
-        'B1-B10 wall X-bracing bays (2 x L70x7); RT-* roof rod panels (M24). D1-D10 connection details on S04; B1 base detail (B2 through-bolt fallback) on S05.',
+        'B1-B10 wall X-bracing bays (2 x L70x7); RT-* roof rod panels (M24). D1-D10 connection details on S04; base details B1 (concentric anchors + keys), B2 (through-bolts + key pair), P (K21), WP1 on S05.',
         'Grids: 1-11 numbered on the rafter lines (+8a at K22), A-H lettered on the primary rows. Section A-A / B-B / C-C on S03.'], TH_SMALL, 0.32)
     sh.note_block(1.0, 18.5, 'DESIGN BASIS (see design_report_C.md Rev 2, load_basis.md Rev 2)', ['EN 1990/1991/1993/1998, EN 1992-4 anchors. Site Tripoli, q_p 1.30 kN/m2 (binding), no snow, a_g 0.10 g check only.',
         'Roof: one plane at 6 % falling north; TOS(y) = 3.30 + 0.06 (35.87 - y); clear height 3.03 m under the north eave beam. Openings: stair and elevator wells not roofed.',
         'Steel S275 J0; bolts 8.8 (M20 fin/cap/gussets, M12 cleats, M24 rods); purlins / girts Z200x2.0 S350GD; PIR panel 50 mm; BoardX walls 0.30 kN/m2 (to be confirmed).',
-        'BASES (bases_C.md Rev 3): B1 plate 300x400x25, 4 M20 resin anchors 80 x 280 h_ef 200 in the slab solid zone only, Key A SHS 90x90x8 stub; B1-E at 14 near-edge bases with Key B dia 60 at 180 inboard (c1 250);',
-        'K21 saddle (type P); WP1 280 mm inboard. Sign-off: interior bases, Key B, saddle, WP1 accepted; PERIMETER bases -> type B2 through-bolts (4 M20 at 500 x 300, under-slab plate, base plate 400x450x30), layout per Rev 4 - pending (S05).'], TH_SMALL, 0.32)
-    sh.note_block(1.0, 14.5, 'STATUS', ['Superstructure: Rev 2 - for fabrication drawings review. Bases: interior Rev 3 accepted; perimeter Rev 4 pending (B2 through-bolts). No anchor / bolt installation before cores, scans and pull-out tests.', 'Date 2026-09-27. Generated with ezdxf from the Rev 2 calculation model (calc/model.py).'], TH_SMALL, 0.32)
+        'BASES (bases_C.md Rev 4, S05): B1 at 15 bases - plate 300x400x25 (350 across at edge heads), 4 M20 resin anchors 80 x 280 h_ef 200 in the slab, Key A SHS 90x90x8 centred, Key B dia 60 at K3, K4, K6, K8, K14;',
+        'B2 at 11 bases - plate 700x550x30 + 2 stiffeners, 2 M24 through-bolts 250 inboard @ 280 on a 400x200x20 under-slab plate, tip bearing strip, pair of SHS 90 keys 200 inboard; P at K21 (4 M16 h_ef 400 in the pier + saddle); WP1 280 mm inboard with one centred key.'], TH_SMALL, 0.32)
+    sh.note_block(1.0, 14.5, 'STATUS', ['Superstructure: Rev 2 - for fabrication drawings review. Bases: Rev 4 (final). No anchor / bolt installation before cores (one-sided criterion), rebar scans and pull-out tests (S05).', 'Date 2026-09-27. Generated with ezdxf from the Rev 2 calculation model (calc/model.py).'], TH_SMALL, 0.32)
     return sh
 def main():
     doc = new_doc(); msp = doc.modelspace()

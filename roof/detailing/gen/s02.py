@@ -77,7 +77,7 @@ def draw(msp):
         rows.append(['C%d' % n, k, 'HEA 160', '%.2f' % c['cx'], '%.2f' % c['cy'], '%.2f' % L_col(c['cy']), '%.3f' % cap_top(c['cy']), '+0.065',
                      'E-W (400 x 200)' if ew else 'N-S (200 x 400)', 'N-S' if ew else 'E-W', ','.join(BAY_OF.get(k, [])) or '-', ','.join(faces) or 'int'])
     rows.append(['WP1', '-', 'HEA 160', '77.89', '19.97', '4.21', 'slotted', '+0.055', 'notch edge beam (core)', 'N-S', '-', 'S2,EN'])
-    sh.table(0.5, 29.3, cols, rows, 0.4, 0.13, title='COLUMN SCHEDULE - all columns HEA 160 S275, pinned base B1 (S05), cap plate 200x280x20 (D2); base plate top +0.065 above slab (40 grout + 25 plate); cap top = TOS(y) - 0.28')
+    sh.table(0.5, 29.3, cols, rows, 0.4, 0.13, title='COLUMN SCHEDULE - all columns HEA 160 S275, pinned bases B1 / B2 / P per Rev 4 (S05), cap plate 200x280x20 (D2); base plate top +0.065 above slab (40 grout + 25 plate); cap top = TOS(y) - 0.28')
     elev(sh, FACES[4], 19.0, 23.3, True, FACES[4]['title'] + ' - viewed from outside, north on the left')
     elev(sh, FACES[3], 19.0, 16.4, False, FACES[3]['title'] + ' - viewed from outside, north on the right')
     elev(sh, FACES[0], 1.5, 10.0, True, FACES[0]['title'] + ' - viewed from outside, east on the left')

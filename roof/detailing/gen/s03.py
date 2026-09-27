@@ -12,7 +12,7 @@ def column(sh, U, Z, u, cy, mark):
     zt = cap_top(cy)
     sh.rect(U(u-0.08), Z(BASE_TOP), U(u+0.08), Z(zt), 'S-COL', lineweight=35); sh.line(U(u), Z(BASE_TOP), U(u), Z(zt), 'S-COL')
     sh.rect(U(u-0.2), Z(0.04), U(u+0.2), Z(BASE_TOP), 'S-COL'); sh.rect(U(u-0.14), Z(zt-0.02), U(u+0.14), Z(zt), 'S-COL')
-    sh.rect(U(u-0.045), Z(-0.20), U(u+0.045), Z(0.04), 'S-COL')   # Key A SHS 90 stub, 180 embedded (Rev 3)
+    sh.rect(U(u-0.045), Z(-0.20), U(u+0.045), Z(0.04), 'S-COL')   # Key A SHS 90 stub, 180 embedded (Rev 4)
     sh.text(U(u)+0.12, Z(1.2), mark + ' HEA 160', TH_SMALL, 'S-COL', rot=90)
 def slab(sh, U, Z, a, b, cols):
     sh.line(U(a), Z(0), U(b), Z(0), 'S-EXIST', lineweight=35); sh.line(U(a), Z(-0.25), U(b), Z(-0.25), 'S-EXIST')
