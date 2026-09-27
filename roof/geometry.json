@@ -331,5 +331,30 @@
   13.5,
   5.0,
   0.6
- ]
+ ],
+ "roof_openings_not_roofed": {
+  "STAIR": {
+   "x": [
+    77.89,
+    81.79
+   ],
+   "y": [
+    29.37,
+    35.37
+   ]
+  },
+  "ELEVATOR": {
+   "x": [
+    77.89,
+    81.99
+   ],
+   "y": [
+    20.17,
+    24.16
+   ]
+  },
+  "note": "Both areas are left open (no sandwich panel). Roof needs trimmer beams around each opening and an upstand/flashing on all four sides."
+ },
+ "roof_boundary": "outer faces of the L-shape: x 67.89-95.69, y 15.57-35.87, excluding the notch x 77.89-95.69 / y 15.57-19.97",
+ "roof_slope": "single plane, constant pitch, falling NORTH from y=15.57 (high) to y=35.87 (low); no steps, no change of pitch across the plan"
 }

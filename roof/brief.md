@@ -40,3 +40,8 @@ Agreed with the client in interview on 2026-09-27.
 2. Wind speed / seismic zone for the actual city.
 3. "BoardX" wall panel product data (weight, span, fixing).
 4. Whether the stair and elevator penetrate the new roof (assumed: they stop at the existing slab; a roof access hatch/stair is not part of this scope).
+
+## Revision 1 (client markup, 2026-09-27)
+- **Roof openings**: the stair well (x 77.89-81.79, y 29.37-35.37) and the elevator shaft (x 77.89-81.99, y 20.17-24.16) are **not roofed**. They are openings in the sandwich roof: trimmer members around each opening, upstand and flashing on all sides, panels stop at the trimmers. The steel framing may pass beside them but not over them.
+- **Single-stage slope**: the roof is ONE plane at ONE constant pitch, falling north from the south edge (y 15.57, high) to the north edge (y 35.87, low). No steps, no change of pitch, no separate slopes for the north block and the hall. Pitch 6 % -> total rise 1.22 m over 20.3 m; low eave 3.0 m clear at the north edge.
+- Roof boundary confirmed as the outer faces of the L-shape (yellow line on the client's markup); notch remains outside.
