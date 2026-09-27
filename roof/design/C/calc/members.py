@@ -151,7 +151,7 @@ def column_checks(res, Hchar, H4):
                 if c['case'].startswith('SLS'): continue
                 c['base'] = []
                 for N in [c['N']] + ([c['Nt']] if 'Nt' in c else []):
-                    bc = connections.base_check(N, c['V'], c['Vc'], edges, R, COL_LONG[cid], tuple(keyB), btype)
+                    bc = connections.base_check(N, c['V'], c['Vc'], edges, R, COL_LONG[cid], tuple(keyB), btype, cid=cid)
                     c['base'].append((N, bc))
                     if N > env['Nc'][0]: env['Nc'] = (N, c['case'])
                     if -N > env['Nt'][0]: env['Nt'] = (-N, c['case'])
@@ -176,7 +176,7 @@ def column_checks(res, Hchar, H4):
                     if c['case'].startswith('SLS'): continue
                     for N in [c['N']] + ([c['Nt']] if 'Nt' in c else []):
                         if N < 0:
-                            bz = connections.base_check(N, c['V'], c['Vc'], edges, None, COL_LONG[cid], tuple(keyB), 'B1', zone=z)
+                            bz = connections.base_check(N, c['V'], c['Vc'], edges, None, COL_LONG[cid], tuple(keyB), 'B1', zone=z, cid=cid)
                             uz = max(uz, max(v for k, v in bz['util'].items() if 'cone' in k))
             env['u_zone'][z] = uz
         cases_all[cid] = cases; base_env[cid] = env

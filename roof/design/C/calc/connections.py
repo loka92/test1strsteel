@@ -71,7 +71,9 @@ def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=200, tf_beam=11.5, tw_beam=7.5):
 BASE = dict(bp=300, lp=400, tp=25, sx=80, sy=280, hef=200, fck=25, zone=800, slab=250, grout=25,
             keyA_b=90, keyA_Wpl=75.0e3, keyA_fy=355.0, keyA_core=140, keyB_d=60, keyB_fy=335.0, emb=180, pocket=200, keyB_off=180, saddle_t=15,
             b2_row=250, b2_tip=430, b2_keys_x=300, b2_keys_y=200, b2_bolt_FtRd=0.9*800*353/1.25/1e3, b2_plate_b=350, b2_plate_t=30,
-            b2_MRd_plate=48.0, b2_plate_c=60, p_hef=400, p_d=16, p_sx=70)
+            b2_MRd_plate=48.0, b2_plate_c=60, p_hef=400, p_d=16, p_sx=70, b2_under_t=25)
+DIAG_CORNER = {'K3', 'K16', 'K17'}   # T4: a slab-opening corner cuts ~8 % of the cone area diagonally
+KEY_MODEL = 'rigid-post'             # T3: the key moment V x 85 mm stays in the grouted pocket (rotation point z0), not in the anchors
 ANCH = dict(NRk_s=196.0, gMc=1.5, gMs=1.4, gMp=1.5, tau=10.0, d=20, k_cr=7.2)
 FJD = 10.0; FCD = 25/1.5
 LEVER = BASE['grout'] + BASE['emb']/3      # 85 mm
@@ -86,14 +88,21 @@ def V_edge_key(c1, d_nom, lf=BASE['emb'], h=BASE['slab'], fck=BASE['fck'], side=
     psi_s = 1.0 if side is None else min(1.0, 0.7 + 0.3*side/(1.5*c1))
     return V0*Ac/A0*psi_h*psi_s/ANCH['gMc']
 
-def cone_group(ext, hef=BASE['hef'], sx=BASE['sx'], sy=BASE['sy'], k=ANCH['k_cr']):
+def cone_group(ext, hef=BASE['hef'], sx=BASE['sx'], sy=BASE['sy'], k=ANCH['k_cr'], diag=False):
     """Cone of a 2 x 2 group (spacings sx across, sy along) with the available solid concrete beyond the outer anchors:
     ext = (out, in, side1, side2) mm, each capped at c_cr = 1.5 h_ef. Returns dict (design N_Rd for the group)."""
     N0 = k*math.sqrt(BASE['fck'])*hef**1.5/1e3; scr = 3*hef; ccr = 1.5*hef
     e = [min(v, ccr) for v in ext]
-    Ac = (e[0] + sx + e[1])*(e[2] + sy + e[3]); ratio = Ac/scr**2
+    Ac = (e[0] + sx + e[1])*(e[2] + sy + e[3])*(0.92 if diag else 1.0); ratio = Ac/scr**2
     psi_s = min(1.0, 0.7 + 0.3*min(e)/ccr)
     return dict(N0=N0, ratio=ratio, psi_s=psi_s, NRk=N0*ratio*psi_s, NRd=N0*ratio*psi_s/ANCH['gMc'], scr=scr, ext=e)
+
+def bond_group(ext, d=ANCH['d'], hef=BASE['hef'], sx=BASE['sx'], sy=BASE['sy']):
+    """Bond (pull-out) of the group with the real extents (T6)."""
+    N0 = math.pi*d*hef*ANCH['tau']/1e3; scr = min(7.3*d*math.sqrt(ANCH['tau']), 3*hef); ccr = scr/2
+    e = [min(v, ccr) for v in ext]; ratio = (e[0] + sx + e[1])*(e[2] + sy + e[3])/scr**2
+    psi_s = min(1.0, 0.7 + 0.3*min(e)/ccr)
+    return dict(N0=N0, ratio=ratio, psi_s=psi_s, NRd=N0*ratio*psi_s/ANCH['gMp'], scr=scr)
 
 def anchor_resistances(zone=BASE['zone'], B=BASE, A=ANCH):
     r = {}
@@ -127,6 +136,7 @@ def anchor_resistances(zone=BASE['zone'], B=BASE, A=ANCH):
     r['b2_C_bearing'] = B['b2_plate_b']*B['b2_plate_c']*FJD/1e3          # tip bearing strip 350 x 60 at 10 MPa
     r['b2_MRd'] = B['b2_MRd_plate']                                        # stiffened plate section (2 x 120x10 + 350x30), plastic
     r['b2_underplate'] = 400*200*FJD/1e3
+    r['b2_under_MRd'] = 400*B['b2_under_t']**2/6*FY/1e6      # 400 x 25 plate, elastic, cantilever 50 from the bolt to the slab bearing
     # P (K21): 4 M16 h_ef 400 in the 200 mm pier: cone limited by the two pier faces at 65 mm, bond
     cgp = cone_group((65, 65, 400, 400), hef=B['p_hef'], sx=B['p_sx'], sy=B['sy']); r['p_NRd_c'] = cgp['NRd']; r['p_cone'] = cgp
     r['p_NRd_p'] = 4*math.pi*B['p_d']*B['p_hef']*A['tau']/1e3*min(1.0, (65 + B['p_sx'] + 65)*(300 + B['sy'] + 300)/ (min(7.3*B['p_d']*math.sqrt(A['tau']), 3*B['p_hef']))**2)/A['gMp']
@@ -176,7 +186,24 @@ def b2_layout(edges, orient):
         by = place(lo_y, hi_y, (-140, 140)); ky = place(lo_y, hi_y, (-300, 300))
         bolts = [(bx, by[0]), (bx, by[1])]; keys = [(kx, ky[0]), (kx, ky[1])]
     cx = 0.5*(bolts[0][0] + bolts[1][0]); cy = 0.5*(bolts[0][1] + bolts[1][1]); cc = math.hypot(cx, cy)
-    return dict(bolts=bolts, keys=keys, c=cc, b=cc + 180, dirn=(cx/cc, cy/cc) if cc > 1 else (0, 1), near=near)
+    # plate extents (mm from the column centre): cover the column (+-200/+-150), the bolts (+50), the key pockets (+75)
+    # and the tip bearing strip (+180 beyond the bolt row in the lever direction), capped 50 mm inside a slab edge
+    pts = bolts + keys
+    ext = {}
+    for ax, i, lo_k, hi_k in (('x', 0, '-x', '+x'), ('y', 1, '-y', '+y')):
+        lo = min([-200] + [p[i] - (75 if p in keys else 50) for p in pts]); hi = max([200] + [p[i] + (75 if p in keys else 50) for p in pts])
+        tip = (cx if i == 0 else cy) + (180 + 60)*(cx/cc if i == 0 else cy/cc)
+        lo = min(lo, tip); hi = max(hi, tip)
+        lo = max(lo, -(lim[lo_k] - 50)); hi = min(hi, lim[hi_k] - 50)
+        ext[ax] = (math.floor(lo/50)*50, math.ceil(hi/50)*50)
+    # coring zone: key breakout bodies (1.5 c1 = 383 beyond each key) and the bolts + under-slab plate (+150)
+    zone = {}
+    for ax, i, lo_k, hi_k in (('x', 0, '-x', '+x'), ('y', 1, '-y', '+y')):
+        lo = min([k[i] - 383 for k in keys] + [b[i] - 150 for b in bolts] + [-400]); hi = max([k[i] + 383 for k in keys] + [b[i] + 150 for b in bolts] + [400])
+        lo = max(lo, -lim[lo_k]); hi = min(hi, lim[hi_k])
+        zone[ax] = (math.floor(lo/50)*50, math.ceil(hi/50)*50)
+    return dict(bolts=bolts, keys=keys, c=cc, b=cc + 180, dirn=(cx/cc, cy/cc) if cc > 1 else (0, 1), near=near, plate=ext, zone=zone,
+                skew=abs(cx) > 1 and abs(cy) > 1)
 
 def b2_check(N, Vx, Vy, edges, lay, R):
     """B2 base: key pair (rigid distribution incl. torque) and through-bolt lever. Returns (utils dict, Nmax, M_along, M_across)."""
@@ -199,14 +226,15 @@ def b2_check(N, Vx, Vy, edges, lay, R):
     if N >= 0: u['bearing'] = N/R['NRd_bearing']
     else:
         Nt = -N; kk = lay['b']/(lay['b'] - lay['c']); Tt = kk*Nt; C = Tt - Nt
-        Tb = Tt/2 + Mk/(2*0.28); Nmax = Tb
+        Tb = Tt/2; Nmax = Tb                                   # rigid-post model: the key moment stays in the pocket
         u['B2 through-bolt tension (lever %.2f, %.0f kN each)' % (kk, Tb)] = Tb/R['b2_FtRd']
         u['B2 tip bearing (%.0f kN)' % C] = C/R['b2_C_bearing']
-        u['B2 stiffened plate (M %.0f kNm)' % (Nt*lay['c']/1e3 + Mk)] = (Nt*lay['c']/1e3 + Mk)/R['b2_MRd']
+        u['B2 stiffened plate, class 3 elastic (M %.0f kNm)' % (Nt*lay['c']/1e3)] = (Nt*lay['c']/1e3)/R['b2_MRd']
         u['B2 under-slab plate bearing'] = Tt/R['b2_underplate']
+        u['B2 under-slab plate bending (t 25)'] = (Tt/2*0.05)/R['b2_under_MRd']
     return u, Nmax, Mk
 
-def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), btype='B1', zone=None):
+def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), btype='B1', zone=None, cid=''):
     """One base, one load case. btype 'B1' | 'B2' | 'P'. Returns utilisations and the key/anchor actions."""
     from model import NEAR_EDGE
     R = R or anchor_resistances()
@@ -255,15 +283,15 @@ def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), btype='B1', zon
             elif edges[k] < NEAR_EDGE: u['UNRESOLVED outward %s' % k] = 9.9
         if N >= 0: u['bearing'] = N/R['NRd_bearing']
         else:
-            Nt = -N; cg = cone_group(group_extents(edges, orient, zone or BASE['zone']))
-            e1 = M_along/Nt*1e3; e2 = M_across/Nt*1e3; psi = 1/(1 + 2*e1/cg['scr'])/(1 + 2*e2/cg['scr'])
-            u['anchor group cone, real edges (N_Rd,c %.0f, psi_ec %.2f)' % (cg['NRd'], psi)] = Nt/(cg['NRd']*psi)
-            u['anchor group bond'] = Nt/R['NRd_p']
-            Nmax = Nt/4 + M_along/(2*BASE['sy']/1e3) + M_across/(2*BASE['sx']/1e3)
+            Nt = -N; ext = group_extents(edges, orient, zone or BASE['zone']); cg = cone_group(ext, diag=cid in DIAG_CORNER); bg = bond_group(ext)
+            psi = 1.0                                           # rigid-post model: no key moment on the anchor group (T3)
+            u['anchor group cone, real edges%s (N_Rd,c %.0f)' % (', -8 % diagonal corner' if cid in DIAG_CORNER else '', cg['NRd'])] = Nt/cg['NRd']
+            u['anchor group bond, real edges (N_Rd,p %.0f)' % bg['NRd']] = Nt/bg['NRd']
+            Nmax = Nt/4
             u['anchor steel (max anchor %.0f kN)' % Nmax] = Nmax/R['NRd_s']
-            u['plate T-stub'] = (Nt/2 + M_along/(BASE['sy']/1e3))/R['FT1_row']
-            zreq = required_zone(Nt, e1, e2)
-        u['plate strip at key moment'] = (M_along + M_across)/R['Mpl_plate_strip']
+            u['plate T-stub'] = (Nt/2)/R['FT1_row']
+            zreq = required_zone(Nt, 0.0, 0.0)
+        u['plate strip at key moment'] = (M_along + M_across)/R['Mpl_plate_strip']      # local bending under the key weld only
     return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get), Vt=Vt, VB=VB, along=along, across=across,
                 M_along=M_along, M_across=M_across, psi_ec=psi, Nmax=Nmax, zreq=zreq)
 
@@ -276,5 +304,5 @@ if __name__ == '__main__':
     R = anchor_resistances(); print({k: (round(v, 1) if isinstance(v, float) else v) for k, v in R.items() if k != 'p_cone'})
     print(group_extents({'+x': 9, '-x': 0.1, '+y': 9, '-y': 9}, 'y'), cone_group(group_extents({'+x': 9, '-x': 0.1, '+y': 9, '-y': 9}, 'y'))['NRd'])
     for e in ({'+x': 9, '-x': 0.1, '+y': 9, '-y': 9}, {'+x': 0.2, '-x': 9, '+y': 9, '-y': 0.1}, {'+x': 0.11, '-x': 9, '+y': 9, '-y': 0.3}):
-        print(b2_layout(e, 'x'))
+        l = b2_layout(e, 'x'); print(l['plate'], l['zone'], l['skew'])
     print(base_check(-62, (-63.7, 0), (0, 0), {'+x': 0.2, '-x': 9, '+y': 9, '-y': 0.1}, R, 'x', (), 'B2'))
