@@ -1,4 +1,6 @@
-# Structural system comparison – steel roof over the existing slab
+# Structural system comparison – steel roof over the existing slab (Rev 1)
+
+Rev 1: stair well and elevator shaft are unroofed openings (trimmed, upstand + flashing); roof is ONE plane at 6 % falling north. Roofed area about 446 m2 of the 486 m2 footprint.
 
 All three schemes: 27 steel columns on the existing column positions, mono-pitch 6 % falling north,
 3.0 m clear at the north eave, PIR 50 mm roof on Z200 purlins at 1.5 m, S275, bolted site joints,
@@ -13,8 +15,9 @@ Roofed area about 485 m2 (the notch x 77.9-95.7 / y 15.6-20.1 is outside the foo
 | Lateral stability | N-S by portal action, E-W by 4 braced wall bays + roof bracing | X bracing in 8 wall bays + roof bracing, both directions | X bracing in 7 wall bays (must be door-free) + perimeter roof bracing |
 | Different hot-rolled sections | 4 (+ SHS posts) | 4 SHS + IPE girder | 3 |
 | Site connections | moment end plates (fit-up sensitive) + pins | shop-welded trusses, site splice on 19.3 m trusses, pins | 2 simple details only |
-| Roof profile height | 3.45 m N to 4.6 m S | 4.8 m N to 6.0 m S (deep trusses) | 3.6 m N to 4.8 m S |
-| Steel weight (approx.) | 33 kg/m2, 16 t | 30 kg/m2, 14.4 t (+1 t girts) | 42 kg/m2, 20.4 t |
+| Roof profile height (top of steel) | 3.45 m N to 4.67 m S | 4.52 m N to 5.74 m S (deep trusses) | 3.28 m N to 4.50 m S |
+| Steel weight (approx., Rev 1) | 16.3 t = 34 kg/m2 footprint | 14.9 t = 31 kg/m2 footprint (+1 t girts) | 20.5 t = 42 kg/m2 footprint |
+| Openings handled by | 4 trimmers IPE 200 between F3/F4; roof bracing moved east | trimmers SHS 100x100x4 between trusses; roof bracing moved east | trimmers T1/T2 IPE 270; primaries and rafters already bound the openings |
 | Base uplift (worst, ULS) | 25-35 kN | about 88 kN on truss posts | 63-70 kN |
 | Main advantage | Standard portal system, lowest profile, no bracing needed on north/south facades | Lightest, column-free hall, small reactions per post | Simplest to fabricate and erect; irregular grid absorbed by beam-on-beam framing; plumb columns |
 | Main drawback | 7 different frame geometries, transfer girder and hung post at the notch, moment knees on short columns | Tallest walls (about 20 % more cladding), hollow-section joint welding, high uplift per post, site splice | Heaviest; stability relies entirely on 7 braced wall bays; every base in net uplift |
