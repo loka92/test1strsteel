@@ -22,10 +22,10 @@
 | T2 | 81.8, 95.5 | K21/K3, K23/K4 | 15.6 m | 5 × 3.12 m, one piece |
 | T2 | 87.2, 92.5 | K1, K2 north / **eave girder** y 20.07 south | 15.6 m | as above |
 
-- Spacing 4.1 / 5.7 / 4.0 / 5.4 / 5.3 / 3.0 m; all trusses sized for 5.4 m tributary.
+- Spacing 4.1 / 5.7 / 4.0 / 5.4 / 5.3 / 3.0 m; all trusses sized for 5.4 m.
 - **Openings**: T1 at x 77.785 (chord face 77.845) runs along the west edge of both openings; T2 at x 81.84 (chord 81.78–81.90) along the east edge: flush with the stair edge 81.79 but 0.1–0.2 m inside the elevator's notional edge 81.99, i.e. over the 200 mm shaft wall, not the hoistway (client to confirm; T2 cannot move east without leaving post K21). Trimmers **SHS 100×100×4** on the N and S edges (y 20.17, 24.16, 29.37, 35.37) span 4.05 m between the two trusses; E/W edges are the truss top chords. Upstand L100×8 + flashing all round, panels stop at the trimmers. Nothing crosses the openings: 7 purlin lines and 2 tie lines omitted between x 77.8 and 81.8; roof bracing moved from bay 77.8–81.8 to 81.8–87.2.
 - **Eave girder IPE 330** along y 20.07, K21–K22–K23 (7.1 + 6.6 m continuous), carries the trusses at x 87.2 and 92.5 (no south column). Re-entrant corner (77.9, 20.07): header IPE 200 from K21 to truss x 77.8, corner mullion hung from it.
-- **Purlins Z200×2.0 S350GD @ 1.5 m**, sleeved, independent of truss nodes (chord takes ≤ 5 kNm local bending).
+- **Purlins Z200×2.0 S350GD @ 1.5 m**, sleeved, independent of truss nodes (chord takes ≤ 5 kNm locally).
 - Posts on 19 columns (13 truss posts + wall posts K24, K19, K15, K8, K18, K14); K9–K13, K16, K17, K20 unused.
 - Stability: X-bracing L70×6 in **8 wall bays** (N: K6–K5, K2–K4; S: K25–K26, K22–K23; W: K25–K19, K8–K6; E: K23–K18, K14–K4) and **3 roof bays** at top-chord level (68.0–72.1, 81.8–87.2, 92.5–95.5); eave struts N and S; bottom-chord ties @ ~4.8 m. All joints pinned, bolted.
 
@@ -43,20 +43,20 @@ ULS-1: 1.35 G + 1.5 Q = **1.58 kN/m² down**. ULS-2: 1.0 G + 1.5 W = **1.68 kN/m
 
 ## 3. Member sizes (S275; SHS hot-finished EN 10210)
 
-T1 at 5.4 m: w = 8.5 kN/m, M = 396 kNm, V = 82 kN → chord N = M/d = **283 kN**, end diagonal V/sin 43° = **120 kN**. T2: M = 259 kNm → 185 kN. Rev 1: one chord section for all trusses so TOS and bottom-chord planes coincide without cleat packs.
+T1 at 5.4 m: w = 8.5 kN/m, M = 396 kNm, V = 82 kN → chord N = M/d = **283 kN**, end diagonal V/sin 43° = **120 kN**; T2 185 kN. Rev 1: one chord section for all trusses so the TOS and bottom-chord planes coincide without packs.
 
 | Member | Section | Check |
 |---|---|---|
-| Chords, all trusses | SHS 120×120×5 (17.8 kg/m) | 283 kN / N_b,Rd 456 kN (L_cr 2.7 m) + 5 kNm → 0.81; uplift bottom chord 270 kN, ties @ 4.8 m → 331 kN |
+| Chords, all trusses | SHS 120×120×5 (17.8 kg/m) | 283 / 456 kN (L_cr 2.7 m) + 5 kNm → 0.81; uplift bottom chord 270 / 331 kN with ties @ 4.8 m |
 | Diagonals (all) | SHS 70×70×4 | 120 / 209 kN; β 0.58 OK for gap K-joints |
-| Posts (19) | SHS 150×150×5 | N 95 kN + wind M 24 kNm; N_b,Rd 490 kN, M_pl 40 kNm |
-| Eave girder | IPE 330 continuous | M_Ed ≈ 105 kNm (67 kN at 1.7 m from K22) / 221 kNm; deflection governs |
+| Posts (19) | SHS 150×150×5 | N 95 kN + M 24 kNm; N_b,Rd 490 kN, M_pl 40 kNm |
+| Eave girder | IPE 330 continuous | M_Ed ≈ 105 / 221 kNm; deflection governs |
 | Purlins | Z200×2.0 sleeved | 7.7 / ≈ 12 kNm; δ ≈ 15 mm |
-| Eave struts / trimmers / BC ties | SHS 100×100×4 / 100×100×4 / 60×60×4 | trimmer: 4.05 m, panel strip + upstand, M ≈ 3 kNm, λ̄ < 1.5 |
+| Eave struts / trimmers / BC ties | SHS 100×100×4 / 100×100×4 / 60×60×4 | trimmer 4.05 m, M ≈ 3 kNm; λ̄ < 1.5 |
 | Bracing | L70×70×6 crossed, M20 8.8 | bay 41 kN, diagonal 49 kN |
-| Splices, caps | 15 mm end plates, 4–6 M20 8.8 | |
+| Splices, caps | 15 mm end plates, M20 8.8 | |
 
-**Take-off (446 m² roofed):** trusses 6.3 t, posts 1.8 t, purlins 1.9 t, girder 0.8 t, struts/trimmers/ties 1.6 t, bracing 1.6 t, plates/bolts 1.0 t → **≈ 14.9 t ≈ 33 kg/m² roofed (31 kg/m² of footprint)**, + girts ≈ 1.0 t. Rev 1 change +0.5 t (uniform chords, trimmers).
+**Take-off (446 m² roofed):** trusses 6.3 t, posts 1.8, purlins 1.9, girder 0.8, struts/trimmers/ties 1.6, bracing 1.6, plates 1.0 → **≈ 14.9 t ≈ 33 kg/m² roofed (31 kg/m² of footprint)** + girts ≈ 1.0 t; Rev 1 +0.5 t.
 
 ## 4. Base connection on the hollow-block slab
 
