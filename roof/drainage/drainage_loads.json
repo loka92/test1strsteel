@@ -1,0 +1,135 @@
+{
+ "units": "kN, m, mm",
+ "gutter": "external box gutter 150 wide x 100 deep, hung on brackets outside the north outer face (y 35.37 west run x 67.89-77.89; y 35.87 east run x 81.79-95.69)",
+ "gutter_line_load_kN_per_m": 0.25,
+ "gutter_line_load_note": "characteristic, gutter brim-full of water (0.15) + gutter, brackets and fascia trim (0.10); applied 0.20 m outside the fascia line -> add eccentricity moment 0.05 kNm/m on the eave member",
+ "gutter_uplift_kN_per_m": -0.5,
+ "gutter_uplift_note": "wind zone F on the 0.15 m gutter width (-3.3 kN/m2); brackets and fascia fixings to resist it",
+ "maintenance_point_load_kN": 0.5,
+ "maintenance_point_load_note": "at any bracket (ladder / person leaning), not combined with wind",
+ "bracket_spacing_m": 0.6,
+ "load_per_bracket_kN": {
+  "gravity_char": 0.15,
+  "point": 0.5,
+  "uplift": -0.3
+ },
+ "fascia_support": "continuous eave rail (eave Z200 purlin or C200x60x2.5) fixed to every rafter end / eave beam; brackets screw to it at 0.6 m",
+ "gutter_runs": [
+  {
+   "id": "G-W",
+   "x0": 67.89,
+   "x1": 77.89,
+   "y_face": 35.37,
+   "length_m": 10.0,
+   "high_point_x": 73.0,
+   "expansion_joint_x": 73.0
+  },
+  {
+   "id": "G-E",
+   "x0": 81.79,
+   "x1": 95.69,
+   "y_face": 35.87,
+   "length_m": 13.9,
+   "high_point_x": 88.65,
+   "expansion_joint_x": 88.65
+  }
+ ],
+ "downpipes": [
+  {
+   "id": "DP1",
+   "x": 68.7,
+   "y_face": 35.37,
+   "dia_mm": 100,
+   "Q_100_l_s": 2.89,
+   "Q_150_l_s": 4.34,
+   "fixed_to": "north facade beside column K6"
+  },
+  {
+   "id": "DP2",
+   "x": 77.3,
+   "y_face": 35.37,
+   "dia_mm": 100,
+   "Q_100_l_s": 3.07,
+   "Q_150_l_s": 4.61,
+   "fixed_to": "north facade beside column K7, 0.6 m west of the stair well"
+  },
+  {
+   "id": "DP3",
+   "x": 85.3,
+   "y_face": 35.87,
+   "dia_mm": 100,
+   "Q_100_l_s": 3.4,
+   "Q_150_l_s": 5.1,
+   "fixed_to": "north facade wall between K3 and K1 (shift to x 82.4 beside K3 if the wall is glazed there)"
+  },
+  {
+   "id": "DP4",
+   "x": 92.0,
+   "y_face": 35.87,
+   "dia_mm": 100,
+   "Q_100_l_s": 3.2,
+   "Q_150_l_s": 4.8,
+   "fixed_to": "north facade beside column K2"
+  }
+ ],
+ "outlets": [
+  {
+   "id": "O1",
+   "x": 68.7,
+   "run": "G-W",
+   "dia_mm": 100,
+   "type": "conical gutter outlet with wire-balloon strainer"
+  },
+  {
+   "id": "O2",
+   "x": 77.3,
+   "run": "G-W",
+   "dia_mm": 100,
+   "type": "conical gutter outlet with wire-balloon strainer"
+  },
+  {
+   "id": "O3",
+   "x": 85.3,
+   "run": "G-E",
+   "dia_mm": 100,
+   "type": "conical gutter outlet with wire-balloon strainer"
+  },
+  {
+   "id": "O4",
+   "x": 92.0,
+   "run": "G-E",
+   "dia_mm": 100,
+   "type": "conical gutter outlet with wire-balloon strainer"
+  }
+ ],
+ "overflow_spouts_x": [
+  67.89,
+  77.89,
+  81.79,
+  95.69
+ ],
+ "openings": {
+  "stair": {
+   "upstand_mm": 150,
+   "cricket": "south side y 29.37, apex 2.0 m upslope at x 79.84, ridge 120 mm at the upstand (cross-fall 6 %), upstand 300 mm at the ridge; ~0.05 kN/m2 extra on trimmer T(29.37) and the two rafters 77.89/81.79 over 2 m",
+   "well_area_m2": 23.4,
+   "well_Q_100_l_s": 0.65
+  },
+  "elevator": {
+   "upstand_mm": 150,
+   "cricket": "none possible (roof edge 0.2 m south); south upstand merged with the notch verge flashing, capped 5 % both ways",
+   "well_area_m2": 16.4,
+   "well_Q_100_l_s": 0.45
+  }
+ },
+ "catchment_m2": {
+  "west_run": 208.6,
+  "east_run": 230.8,
+  "roofed_total": 439.3,
+  "wind_factor": 1.03
+ },
+ "total_Q_l_s": {
+  "r100": 12.6,
+  "r150": 18.9
+ }
+}
