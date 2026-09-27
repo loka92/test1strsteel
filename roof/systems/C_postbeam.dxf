@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461311.845671296
+2461311.853090278
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461311.845671296
+2461311.853090278
   9
 $TDUUPDATE
  40
@@ -553,7 +553,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-206
+21B
   9
 $SURFTAB1
  70
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{DBA0482F-D821-4C28-8A86-E38DE735484A}
+{8CF5A8E5-BCE4-4317-9E76-8AF74F90ADE9}
   9
 $VERSIONGUID
   2
-{D4679FF3-89CB-46C1-BDE9-7BDDABCD2AF9}
+{4064D9EF-5FD2-4FC0-8243-8305C133433C}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -2237,7 +2237,7 @@ LAYER
 100
 AcDbSymbolTable
  70
-11
+12
   0
 LAYER
   5
@@ -2500,6 +2500,30 @@ C-OUTLINE
 DASHED
 370
 13
+390
+13
+347
+21
+  0
+LAYER
+  5
+93
+330
+1
+100
+AcDbSymbolTableRecord
+100
+AcDbLayerTableRecord
+  2
+C-OPENING
+ 70
+0
+ 62
+6
+  6
+Continuous
+370
+25
 390
 13
 347
@@ -3305,7 +3329,7 @@ ACAD
   0
 APPID
   5
-203
+218
 330
 3
 100
@@ -3319,7 +3343,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-204
+219
 330
 3
 100
@@ -5431,7 +5455,7 @@ ENTITIES
   0
 LWPOLYLINE
   5
-93
+94
 330
 17
 100
@@ -5479,7 +5503,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-94
+95
 330
 17
 100
@@ -5511,7 +5535,7 @@ AcDbPolyline
   0
 HATCH
   5
-95
+96
 330
 17
 100
@@ -5577,7 +5601,7 @@ SOLID
   0
 TEXT
   5
-96
+97
 330
 17
 100
@@ -5607,7 +5631,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-97
+98
 330
 17
 100
@@ -5639,7 +5663,7 @@ AcDbPolyline
   0
 HATCH
   5
-98
+99
 330
 17
 100
@@ -5705,7 +5729,7 @@ SOLID
   0
 TEXT
   5
-99
+9A
 330
 17
 100
@@ -5735,7 +5759,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-9A
+9B
 330
 17
 100
@@ -5767,7 +5791,7 @@ AcDbPolyline
   0
 HATCH
   5
-9B
+9C
 330
 17
 100
@@ -5833,7 +5857,7 @@ SOLID
   0
 TEXT
   5
-9C
+9D
 330
 17
 100
@@ -5863,7 +5887,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-9D
+9E
 330
 17
 100
@@ -5895,7 +5919,7 @@ AcDbPolyline
   0
 HATCH
   5
-9E
+9F
 330
 17
 100
@@ -5961,7 +5985,7 @@ SOLID
   0
 TEXT
   5
-9F
+A0
 330
 17
 100
@@ -5991,7 +6015,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-A0
+A1
 330
 17
 100
@@ -6023,7 +6047,7 @@ AcDbPolyline
   0
 HATCH
   5
-A1
+A2
 330
 17
 100
@@ -6089,7 +6113,7 @@ SOLID
   0
 TEXT
   5
-A2
+A3
 330
 17
 100
@@ -6119,7 +6143,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-A3
+A4
 330
 17
 100
@@ -6151,7 +6175,7 @@ AcDbPolyline
   0
 HATCH
   5
-A4
+A5
 330
 17
 100
@@ -6217,7 +6241,7 @@ SOLID
   0
 TEXT
   5
-A5
+A6
 330
 17
 100
@@ -6247,7 +6271,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-A6
+A7
 330
 17
 100
@@ -6279,7 +6303,7 @@ AcDbPolyline
   0
 HATCH
   5
-A7
+A8
 330
 17
 100
@@ -6345,7 +6369,7 @@ SOLID
   0
 TEXT
   5
-A8
+A9
 330
 17
 100
@@ -6375,7 +6399,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-A9
+AA
 330
 17
 100
@@ -6407,7 +6431,7 @@ AcDbPolyline
   0
 HATCH
   5
-AA
+AB
 330
 17
 100
@@ -6473,7 +6497,7 @@ SOLID
   0
 TEXT
   5
-AB
+AC
 330
 17
 100
@@ -6503,7 +6527,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-AC
+AD
 330
 17
 100
@@ -6535,7 +6559,7 @@ AcDbPolyline
   0
 HATCH
   5
-AD
+AE
 330
 17
 100
@@ -6601,7 +6625,7 @@ SOLID
   0
 TEXT
   5
-AE
+AF
 330
 17
 100
@@ -6631,7 +6655,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-AF
+B0
 330
 17
 100
@@ -6663,7 +6687,7 @@ AcDbPolyline
   0
 HATCH
   5
-B0
+B1
 330
 17
 100
@@ -6729,7 +6753,7 @@ SOLID
   0
 TEXT
   5
-B1
+B2
 330
 17
 100
@@ -6759,7 +6783,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-B2
+B3
 330
 17
 100
@@ -6791,7 +6815,7 @@ AcDbPolyline
   0
 HATCH
   5
-B3
+B4
 330
 17
 100
@@ -6857,7 +6881,7 @@ SOLID
   0
 TEXT
   5
-B4
+B5
 330
 17
 100
@@ -6887,7 +6911,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-B5
+B6
 330
 17
 100
@@ -6919,7 +6943,7 @@ AcDbPolyline
   0
 HATCH
   5
-B6
+B7
 330
 17
 100
@@ -6985,7 +7009,7 @@ SOLID
   0
 TEXT
   5
-B7
+B8
 330
 17
 100
@@ -7015,7 +7039,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-B8
+B9
 330
 17
 100
@@ -7047,7 +7071,7 @@ AcDbPolyline
   0
 HATCH
   5
-B9
+BA
 330
 17
 100
@@ -7113,7 +7137,7 @@ SOLID
   0
 TEXT
   5
-BA
+BB
 330
 17
 100
@@ -7143,7 +7167,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-BB
+BC
 330
 17
 100
@@ -7175,7 +7199,7 @@ AcDbPolyline
   0
 HATCH
   5
-BC
+BD
 330
 17
 100
@@ -7241,7 +7265,7 @@ SOLID
   0
 TEXT
   5
-BD
+BE
 330
 17
 100
@@ -7271,7 +7295,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-BE
+BF
 330
 17
 100
@@ -7303,7 +7327,7 @@ AcDbPolyline
   0
 HATCH
   5
-BF
+C0
 330
 17
 100
@@ -7369,7 +7393,7 @@ SOLID
   0
 TEXT
   5
-C0
+C1
 330
 17
 100
@@ -7399,7 +7423,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-C1
+C2
 330
 17
 100
@@ -7431,7 +7455,7 @@ AcDbPolyline
   0
 HATCH
   5
-C2
+C3
 330
 17
 100
@@ -7497,7 +7521,7 @@ SOLID
   0
 TEXT
   5
-C3
+C4
 330
 17
 100
@@ -7527,7 +7551,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-C4
+C5
 330
 17
 100
@@ -7559,7 +7583,7 @@ AcDbPolyline
   0
 HATCH
   5
-C5
+C6
 330
 17
 100
@@ -7625,7 +7649,7 @@ SOLID
   0
 TEXT
   5
-C6
+C7
 330
 17
 100
@@ -7655,7 +7679,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-C7
+C8
 330
 17
 100
@@ -7687,7 +7711,7 @@ AcDbPolyline
   0
 HATCH
   5
-C8
+C9
 330
 17
 100
@@ -7753,7 +7777,7 @@ SOLID
   0
 TEXT
   5
-C9
+CA
 330
 17
 100
@@ -7783,7 +7807,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-CA
+CB
 330
 17
 100
@@ -7815,7 +7839,7 @@ AcDbPolyline
   0
 HATCH
   5
-CB
+CC
 330
 17
 100
@@ -7881,7 +7905,7 @@ SOLID
   0
 TEXT
   5
-CC
+CD
 330
 17
 100
@@ -7911,7 +7935,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-CD
+CE
 330
 17
 100
@@ -7943,7 +7967,7 @@ AcDbPolyline
   0
 HATCH
   5
-CE
+CF
 330
 17
 100
@@ -8009,7 +8033,7 @@ SOLID
   0
 TEXT
   5
-CF
+D0
 330
 17
 100
@@ -8039,7 +8063,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-D0
+D1
 330
 17
 100
@@ -8071,7 +8095,7 @@ AcDbPolyline
   0
 HATCH
   5
-D1
+D2
 330
 17
 100
@@ -8137,7 +8161,7 @@ SOLID
   0
 TEXT
   5
-D2
+D3
 330
 17
 100
@@ -8167,7 +8191,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-D3
+D4
 330
 17
 100
@@ -8199,7 +8223,7 @@ AcDbPolyline
   0
 HATCH
   5
-D4
+D5
 330
 17
 100
@@ -8265,7 +8289,7 @@ SOLID
   0
 TEXT
   5
-D5
+D6
 330
 17
 100
@@ -8295,7 +8319,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-D6
+D7
 330
 17
 100
@@ -8327,7 +8351,7 @@ AcDbPolyline
   0
 HATCH
   5
-D7
+D8
 330
 17
 100
@@ -8393,7 +8417,7 @@ SOLID
   0
 TEXT
   5
-D8
+D9
 330
 17
 100
@@ -8423,7 +8447,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-D9
+DA
 330
 17
 100
@@ -8455,7 +8479,7 @@ AcDbPolyline
   0
 HATCH
   5
-DA
+DB
 330
 17
 100
@@ -8521,7 +8545,7 @@ SOLID
   0
 TEXT
   5
-DB
+DC
 330
 17
 100
@@ -8551,7 +8575,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-DC
+DD
 330
 17
 100
@@ -8583,7 +8607,7 @@ AcDbPolyline
   0
 HATCH
   5
-DD
+DE
 330
 17
 100
@@ -8649,7 +8673,7 @@ SOLID
   0
 TEXT
   5
-DE
+DF
 330
 17
 100
@@ -8679,7 +8703,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-DF
+E0
 330
 17
 100
@@ -8711,7 +8735,7 @@ AcDbPolyline
   0
 HATCH
   5
-E0
+E1
 330
 17
 100
@@ -8777,7 +8801,7 @@ SOLID
   0
 TEXT
   5
-E1
+E2
 330
 17
 100
@@ -8807,7 +8831,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-E2
+E3
 330
 17
 100
@@ -8839,7 +8863,7 @@ AcDbPolyline
   0
 HATCH
   5
-E3
+E4
 330
 17
 100
@@ -8905,7 +8929,7 @@ SOLID
   0
 TEXT
   5
-E4
+E5
 330
 17
 100
@@ -8935,7 +8959,7 @@ AcDbText
   0
 LINE
   5
-E5
+E6
 330
 17
 100
@@ -8959,7 +8983,7 @@ AcDbLine
   0
 LINE
   5
-E6
+E7
 330
 17
 100
@@ -8978,30 +9002,6 @@ AcDbLine
 77.79
  21
 35.17
- 31
-0.0
-  0
-LINE
-  5
-E7
-330
-17
-100
-AcDbEntity
-  8
-C-PRIMARY
-100
-AcDbLine
- 10
-77.79
- 20
-35.17
- 30
-0.0
- 11
-81.89
- 21
-35.67
  31
 0.0
   0
@@ -10093,23 +10093,23 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-RAFTER
 100
 AcDbLine
  10
-68.0
+77.79
  20
-35.6
+35.17
  30
 0.0
  11
-95.5
+81.8
  21
-35.6
+35.17
  31
 0.0
   0
-LINE
+TEXT
   5
 116
 330
@@ -10117,21 +10117,27 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-TEXT
 100
-AcDbLine
+AcDbText
  10
-68.0
+82.0
  20
-34.1
+35.02
  30
 0.0
+ 40
+0.3
+  1
+T1 TRIMMER IPE 270 4.0 m
  11
-95.5
+82.0
  21
-34.1
+35.02
  31
 0.0
+100
+AcDbText
   0
 LINE
   5
@@ -10141,23 +10147,23 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-RAFTER
 100
 AcDbLine
  10
-68.0
+77.78
  20
-32.6
+24.16
  30
 0.0
  11
-95.5
+81.85
  21
-32.6
+24.16
  31
 0.0
   0
-LINE
+TEXT
   5
 118
 330
@@ -10165,23 +10171,29 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-TEXT
 100
-AcDbLine
+AcDbText
  10
-68.0
+82.05
  20
-31.1
+24.01
  30
 0.0
+ 40
+0.3
+  1
+T2 TRIMMER IPE 270 4.0 m
  11
-95.5
+82.05
  21
-31.1
+24.01
  31
 0.0
+100
+AcDbText
   0
-LINE
+LWPOLYLINE
   5
 119
 330
@@ -10189,23 +10201,31 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-OPENING
 100
-AcDbLine
+AcDbPolyline
+ 90
+4
+ 70
+1
  10
-68.0
+77.89
  20
-29.6
- 30
-0.0
- 11
-95.5
- 21
-29.6
- 31
-0.0
+29.37
+ 10
+81.79
+ 20
+29.37
+ 10
+81.79
+ 20
+35.37
+ 10
+77.89
+ 20
+35.37
   0
-LINE
+HATCH
   5
 11A
 330
@@ -10213,23 +10233,85 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-OPENING
+ 62
+7
 100
-AcDbLine
+AcDbHatch
  10
-68.0
+0.0
  20
-28.1
+0.0
  30
 0.0
- 11
-95.5
- 21
-28.1
- 31
+210
 0.0
+220
+0.0
+230
+1.0
+  2
+ANSI31
+ 70
+0
+ 71
+0
+ 91
+1
+ 92
+3
+ 72
+0
+ 73
+1
+ 93
+4
+ 10
+77.89
+ 20
+29.37
+ 10
+81.79
+ 20
+29.37
+ 10
+81.79
+ 20
+35.37
+ 10
+77.89
+ 20
+35.37
+ 97
+0
+ 75
+1
+ 76
+1
+ 52
+0.0
+ 41
+3.0
+ 77
+0
+ 78
+1
+ 53
+45.0
+ 43
+0.0
+ 44
+0.0
+ 45
+-6.7351920909
+ 46
+6.7351920909
+ 79
+0
+ 98
+0
   0
-LINE
+TEXT
   5
 11B
 330
@@ -10237,23 +10319,31 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-TEXT
 100
-AcDbLine
+AcDbText
  10
-68.0
+79.84
  20
-26.6
+32.769999999999996
  30
 0.0
+ 40
+0.3
+  1
+STAIR OPENING - NOT ROOFED
+ 72
+1
  11
-95.5
+79.84
  21
-26.6
+32.769999999999996
  31
 0.0
+100
+AcDbText
   0
-LINE
+TEXT
   5
 11C
 330
@@ -10261,23 +10351,31 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-TEXT
 100
-AcDbLine
+AcDbText
  10
-68.0
+79.84
  20
-25.1
+31.97
  30
 0.0
+ 40
+0.3
+  1
+UPSTAND + FLASHING ALL SIDES
+ 72
+1
  11
-95.5
+79.84
  21
-25.1
+31.97
  31
 0.0
+100
+AcDbText
   0
-LINE
+LWPOLYLINE
   5
 11D
 330
@@ -10285,23 +10383,31 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-OPENING
 100
-AcDbLine
+AcDbPolyline
+ 90
+4
+ 70
+1
  10
-68.0
+77.89
  20
-23.6
- 30
-0.0
- 11
-95.5
- 21
-23.6
- 31
-0.0
+20.17
+ 10
+81.99
+ 20
+20.17
+ 10
+81.99
+ 20
+24.16
+ 10
+77.89
+ 20
+24.16
   0
-LINE
+HATCH
   5
 11E
 330
@@ -10309,23 +10415,85 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-OPENING
+ 62
+7
 100
-AcDbLine
+AcDbHatch
  10
-68.0
+0.0
  20
-22.1
+0.0
  30
 0.0
- 11
-95.5
- 21
-22.1
- 31
+210
 0.0
+220
+0.0
+230
+1.0
+  2
+ANSI31
+ 70
+0
+ 71
+0
+ 91
+1
+ 92
+3
+ 72
+0
+ 73
+1
+ 93
+4
+ 10
+77.89
+ 20
+20.17
+ 10
+81.99
+ 20
+20.17
+ 10
+81.99
+ 20
+24.16
+ 10
+77.89
+ 20
+24.16
+ 97
+0
+ 75
+1
+ 76
+1
+ 52
+0.0
+ 41
+3.0
+ 77
+0
+ 78
+1
+ 53
+45.0
+ 43
+0.0
+ 44
+0.0
+ 45
+-6.7351920909
+ 46
+6.7351920909
+ 79
+0
+ 98
+0
   0
-LINE
+TEXT
   5
 11F
 330
@@ -10333,23 +10501,31 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-TEXT
 100
-AcDbLine
+AcDbText
  10
-68.0
+79.94
  20
-20.6
+22.564999999999998
  30
 0.0
+ 40
+0.3
+  1
+ELEVATOR OPENING - NOT ROOFED
+ 72
+1
  11
-95.5
+79.94
  21
-20.6
+22.564999999999998
  31
 0.0
+100
+AcDbText
   0
-LINE
+TEXT
   5
 120
 330
@@ -10357,21 +10533,29 @@ LINE
 100
 AcDbEntity
   8
-C-PURLIN
+C-TEXT
 100
-AcDbLine
+AcDbText
  10
-68.0
+79.94
  20
-19.1
+21.765
  30
 0.0
+ 40
+0.3
+  1
+UPSTAND + FLASHING ALL SIDES
+ 72
+1
  11
-77.8
+79.94
  21
-19.1
+21.765
  31
 0.0
+100
+AcDbText
   0
 LINE
   5
@@ -10387,13 +10571,13 @@ AcDbLine
  10
 68.0
  20
-17.6
+35.2
  30
 0.0
  11
 77.8
  21
-17.6
+35.2
  31
 0.0
   0
@@ -10411,13 +10595,13 @@ AcDbLine
  10
 68.0
  20
-16.1
+34.2
  30
 0.0
  11
 77.8
  21
-16.1
+34.2
  31
 0.0
   0
@@ -10429,19 +10613,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
 68.0
  20
-35.2
+32.7
  30
 0.0
  11
-72.09
+77.8
  21
-32.235
+32.7
  31
 0.0
   0
@@ -10453,19 +10637,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
 68.0
  20
-32.235
+31.2
  30
 0.0
  11
-72.09
+77.8
  21
-35.2
+31.2
  31
 0.0
   0
@@ -10477,19 +10661,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
 68.0
  20
-32.235
+29.7
  30
 0.0
  11
-72.09
+77.8
  21
-29.27
+29.7
  31
 0.0
   0
@@ -10501,19 +10685,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-68.0
+81.8
  20
-29.27
+35.6
  30
 0.0
  11
-72.09
+95.5
  21
-32.235
+35.6
  31
 0.0
   0
@@ -10525,19 +10709,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-72.09
+81.8
  20
-35.2
+34.2
  30
 0.0
  11
-74.89
+95.5
  21
-32.235
+34.2
  31
 0.0
   0
@@ -10549,19 +10733,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-72.09
+81.8
  20
-32.235
+32.7
  30
 0.0
  11
-74.89
+95.5
  21
-35.2
+32.7
  31
 0.0
   0
@@ -10573,19 +10757,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-72.09
+81.8
  20
-32.235
+31.2
  30
 0.0
  11
-74.89
+95.5
  21
-29.27
+31.2
  31
 0.0
   0
@@ -10597,19 +10781,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-72.09
+81.8
  20
-29.27
+29.7
  30
 0.0
  11
-74.89
+95.5
  21
-32.235
+29.7
  31
 0.0
   0
@@ -10621,19 +10805,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-74.89
+68.0
  20
-35.2
+28.2
  30
 0.0
  11
-77.78
+95.5
  21
-32.235
+28.2
  31
 0.0
   0
@@ -10645,19 +10829,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-74.89
+68.0
  20
-32.235
+26.7
  30
 0.0
  11
-77.78
+95.5
  21
-35.2
+26.7
  31
 0.0
   0
@@ -10669,19 +10853,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-74.89
+68.0
  20
-32.235
+25.2
  30
 0.0
  11
-77.78
+95.5
  21
-29.27
+25.2
  31
 0.0
   0
@@ -10693,19 +10877,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-74.89
+68.0
  20
-29.27
+23.7
  30
 0.0
  11
-77.78
+77.8
  21
-32.235
+23.7
  31
 0.0
   0
@@ -10717,19 +10901,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-77.78
+81.8
  20
-35.72
+23.7
  30
 0.0
  11
-81.8
+95.5
  21
-32.495
+23.7
  31
 0.0
   0
@@ -10741,19 +10925,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-77.78
+68.0
  20
-32.495
+22.2
  30
 0.0
  11
-81.8
+77.8
  21
-35.72
+22.2
  31
 0.0
   0
@@ -10765,19 +10949,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-77.78
+81.8
  20
-32.495
+22.2
  30
 0.0
  11
-81.8
+95.5
  21
-29.27
+22.2
  31
 0.0
   0
@@ -10789,19 +10973,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-77.78
+68.0
  20
-29.27
+20.7
  30
 0.0
  11
-81.8
+77.8
  21
-32.495
+20.7
  31
 0.0
   0
@@ -10813,19 +10997,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
 81.8
  20
-35.72
+20.7
  30
 0.0
  11
-84.5
+95.5
  21
-32.495
+20.7
  31
 0.0
   0
@@ -10837,19 +11021,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-81.8
+68.0
  20
-32.495
+19.2
  30
 0.0
  11
-84.5
+77.8
  21
-35.72
+19.2
  31
 0.0
   0
@@ -10861,19 +11045,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-81.8
+68.0
  20
-32.495
+17.7
  30
 0.0
  11
-84.5
+77.8
  21
-29.27
+17.7
  31
 0.0
   0
@@ -10885,19 +11069,19 @@ LINE
 100
 AcDbEntity
   8
-C-BRACE-ROOF
+C-PURLIN
 100
 AcDbLine
  10
-81.8
+68.0
  20
-29.27
+16.2
  30
 0.0
  11
-84.5
+77.8
  21
-32.495
+16.2
  31
 0.0
   0
@@ -10913,15 +11097,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-84.5
+68.0
  20
-35.72
+35.2
  30
 0.0
  11
-87.19
+72.09
  21
-32.495
+32.235
  31
 0.0
   0
@@ -10937,15 +11121,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-84.5
+68.0
  20
-32.495
+32.235
  30
 0.0
  11
-87.19
+72.09
  21
-35.72
+35.2
  31
 0.0
   0
@@ -10961,13 +11145,13 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-84.5
+68.0
  20
-32.495
+32.235
  30
 0.0
  11
-87.19
+72.09
  21
 29.27
  31
@@ -10985,15 +11169,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-84.5
+68.0
  20
 29.27
  30
 0.0
  11
-87.19
+72.09
  21
-32.495
+32.235
  31
 0.0
   0
@@ -11009,15 +11193,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-87.19
+72.09
  20
-35.72
+35.2
  30
 0.0
  11
-89.9
+74.89
  21
-32.495
+32.235
  31
 0.0
   0
@@ -11033,15 +11217,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-87.19
+72.09
  20
-32.495
+32.235
  30
 0.0
  11
-89.9
+74.89
  21
-35.72
+35.2
  31
 0.0
   0
@@ -11057,13 +11241,13 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-87.19
+72.09
  20
-32.495
+32.235
  30
 0.0
  11
-89.9
+74.89
  21
 29.27
  31
@@ -11081,15 +11265,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-87.19
+72.09
  20
 29.27
  30
 0.0
  11
-89.9
+74.89
  21
-32.495
+32.235
  31
 0.0
   0
@@ -11105,15 +11289,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-89.9
+74.89
  20
-35.72
+35.2
  30
 0.0
  11
-92.48
+77.78
  21
-32.495
+32.235
  31
 0.0
   0
@@ -11129,15 +11313,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-89.9
+74.89
  20
-32.495
+32.235
  30
 0.0
  11
-92.48
+77.78
  21
-35.72
+35.2
  31
 0.0
   0
@@ -11153,13 +11337,13 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-89.9
+74.89
  20
-32.495
+32.235
  30
 0.0
  11
-92.48
+77.78
  21
 29.27
  31
@@ -11177,15 +11361,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-89.9
+74.89
  20
 29.27
  30
 0.0
  11
-92.48
+77.78
  21
-32.495
+32.235
  31
 0.0
   0
@@ -11201,13 +11385,13 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-92.48
+81.8
  20
 35.72
  30
 0.0
  11
-95.5
+84.5
  21
 32.495
  31
@@ -11225,13 +11409,13 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-92.48
+81.8
  20
 32.495
  30
 0.0
  11
-95.5
+84.5
  21
 35.72
  31
@@ -11249,13 +11433,13 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-92.48
+81.8
  20
 32.495
  30
 0.0
  11
-95.5
+84.5
  21
 29.27
  31
@@ -11273,13 +11457,13 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-92.48
+81.8
  20
 29.27
  30
 0.0
  11
-95.5
+84.5
  21
 32.495
  31
@@ -11297,15 +11481,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-81.8
+84.5
  20
-20.07
+35.72
  30
 0.0
  11
-84.5
+87.19
  21
-22.97
+32.495
  31
 0.0
   0
@@ -11321,15 +11505,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-81.8
+84.5
  20
-22.97
+32.495
  30
 0.0
  11
-84.5
+87.19
  21
-20.07
+35.72
  31
 0.0
   0
@@ -11347,6 +11531,438 @@ AcDbLine
  10
 84.5
  20
+32.495
+ 30
+0.0
+ 11
+87.19
+ 21
+29.27
+ 31
+0.0
+  0
+LINE
+  5
+14A
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+84.5
+ 20
+29.27
+ 30
+0.0
+ 11
+87.19
+ 21
+32.495
+ 31
+0.0
+  0
+LINE
+  5
+14B
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+87.19
+ 20
+35.72
+ 30
+0.0
+ 11
+89.9
+ 21
+32.495
+ 31
+0.0
+  0
+LINE
+  5
+14C
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+87.19
+ 20
+32.495
+ 30
+0.0
+ 11
+89.9
+ 21
+35.72
+ 31
+0.0
+  0
+LINE
+  5
+14D
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+87.19
+ 20
+32.495
+ 30
+0.0
+ 11
+89.9
+ 21
+29.27
+ 31
+0.0
+  0
+LINE
+  5
+14E
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+87.19
+ 20
+29.27
+ 30
+0.0
+ 11
+89.9
+ 21
+32.495
+ 31
+0.0
+  0
+LINE
+  5
+14F
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+89.9
+ 20
+35.72
+ 30
+0.0
+ 11
+92.48
+ 21
+32.495
+ 31
+0.0
+  0
+LINE
+  5
+150
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+89.9
+ 20
+32.495
+ 30
+0.0
+ 11
+92.48
+ 21
+35.72
+ 31
+0.0
+  0
+LINE
+  5
+151
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+89.9
+ 20
+32.495
+ 30
+0.0
+ 11
+92.48
+ 21
+29.27
+ 31
+0.0
+  0
+LINE
+  5
+152
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+89.9
+ 20
+29.27
+ 30
+0.0
+ 11
+92.48
+ 21
+32.495
+ 31
+0.0
+  0
+LINE
+  5
+153
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+92.48
+ 20
+35.72
+ 30
+0.0
+ 11
+95.5
+ 21
+32.495
+ 31
+0.0
+  0
+LINE
+  5
+154
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+92.48
+ 20
+32.495
+ 30
+0.0
+ 11
+95.5
+ 21
+35.72
+ 31
+0.0
+  0
+LINE
+  5
+155
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+92.48
+ 20
+32.495
+ 30
+0.0
+ 11
+95.5
+ 21
+29.27
+ 31
+0.0
+  0
+LINE
+  5
+156
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+92.48
+ 20
+29.27
+ 30
+0.0
+ 11
+95.5
+ 21
+32.495
+ 31
+0.0
+  0
+LINE
+  5
+157
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+77.78
+ 20
+24.46
+ 30
+0.0
+ 11
+81.8
+ 21
+29.27
+ 31
+0.0
+  0
+LINE
+  5
+158
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+77.78
+ 20
+29.27
+ 30
+0.0
+ 11
+81.8
+ 21
+24.46
+ 31
+0.0
+  0
+LINE
+  5
+159
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+81.8
+ 20
+20.07
+ 30
+0.0
+ 11
+84.5
+ 21
+22.97
+ 31
+0.0
+  0
+LINE
+  5
+15A
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+81.8
+ 20
+22.97
+ 30
+0.0
+ 11
+84.5
+ 21
+20.07
+ 31
+0.0
+  0
+LINE
+  5
+15B
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+84.5
+ 20
 20.07
  30
 0.0
@@ -11359,7 +11975,7 @@ AcDbLine
   0
 LINE
   5
-14A
+15C
 330
 17
 100
@@ -11383,438 +11999,6 @@ AcDbLine
   0
 LINE
   5
-14B
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-87.19
- 20
-20.07
- 30
-0.0
- 11
-89.9
- 21
-22.97
- 31
-0.0
-  0
-LINE
-  5
-14C
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-87.19
- 20
-22.97
- 30
-0.0
- 11
-89.9
- 21
-20.07
- 31
-0.0
-  0
-LINE
-  5
-14D
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-89.9
- 20
-20.07
- 30
-0.0
- 11
-92.48
- 21
-22.97
- 31
-0.0
-  0
-LINE
-  5
-14E
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-89.9
- 20
-22.97
- 30
-0.0
- 11
-92.48
- 21
-20.07
- 31
-0.0
-  0
-LINE
-  5
-14F
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-92.48
- 20
-20.07
- 30
-0.0
- 11
-95.5
- 21
-22.97
- 31
-0.0
-  0
-LINE
-  5
-150
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-92.48
- 20
-22.97
- 30
-0.0
- 11
-95.5
- 21
-20.07
- 31
-0.0
-  0
-LINE
-  5
-151
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-68.0
- 20
-15.9
- 30
-0.0
- 11
-72.09
- 21
-18.8
- 31
-0.0
-  0
-LINE
-  5
-152
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-68.0
- 20
-18.8
- 30
-0.0
- 11
-72.09
- 21
-15.9
- 31
-0.0
-  0
-LINE
-  5
-153
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-72.09
- 20
-15.9
- 30
-0.0
- 11
-74.89
- 21
-18.8
- 31
-0.0
-  0
-LINE
-  5
-154
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-72.09
- 20
-18.8
- 30
-0.0
- 11
-74.89
- 21
-15.9
- 31
-0.0
-  0
-LINE
-  5
-155
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-74.89
- 20
-15.9
- 30
-0.0
- 11
-77.78
- 21
-18.8
- 31
-0.0
-  0
-LINE
-  5
-156
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-74.89
- 20
-18.8
- 30
-0.0
- 11
-77.78
- 21
-15.9
- 31
-0.0
-  0
-LINE
-  5
-157
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-68.0
- 20
-29.27
- 30
-0.0
- 11
-72.09
- 21
-26.37
- 31
-0.0
-  0
-LINE
-  5
-158
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-68.0
- 20
-26.37
- 30
-0.0
- 11
-72.09
- 21
-29.27
- 31
-0.0
-  0
-LINE
-  5
-159
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-68.0
- 20
-26.37
- 30
-0.0
- 11
-72.09
- 21
-21.76
- 31
-0.0
-  0
-LINE
-  5
-15A
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-68.0
- 20
-21.76
- 30
-0.0
- 11
-72.09
- 21
-26.37
- 31
-0.0
-  0
-LINE
-  5
-15B
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-68.0
- 20
-21.76
- 30
-0.0
- 11
-72.09
- 21
-15.9
- 31
-0.0
-  0
-LINE
-  5
-15C
-330
-17
-100
-AcDbEntity
-  8
-C-BRACE-ROOF
-100
-AcDbLine
- 10
-68.0
- 20
-15.9
- 30
-0.0
- 11
-72.09
- 21
-21.76
- 31
-0.0
-  0
-LINE
-  5
 15D
 330
 17
@@ -11825,15 +12009,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-92.48
+87.19
  20
-29.27
+20.07
  30
 0.0
  11
-95.5
+89.9
  21
-24.46
+22.97
  31
 0.0
   0
@@ -11849,15 +12033,15 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
-92.48
+87.19
  20
-24.46
+22.97
  30
 0.0
  11
-95.5
+89.9
  21
-29.27
+20.07
  31
 0.0
   0
@@ -11873,6 +12057,438 @@ C-BRACE-ROOF
 100
 AcDbLine
  10
+89.9
+ 20
+20.07
+ 30
+0.0
+ 11
+92.48
+ 21
+22.97
+ 31
+0.0
+  0
+LINE
+  5
+160
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+89.9
+ 20
+22.97
+ 30
+0.0
+ 11
+92.48
+ 21
+20.07
+ 31
+0.0
+  0
+LINE
+  5
+161
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+92.48
+ 20
+20.07
+ 30
+0.0
+ 11
+95.5
+ 21
+22.97
+ 31
+0.0
+  0
+LINE
+  5
+162
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+92.48
+ 20
+22.97
+ 30
+0.0
+ 11
+95.5
+ 21
+20.07
+ 31
+0.0
+  0
+LINE
+  5
+163
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+68.0
+ 20
+15.9
+ 30
+0.0
+ 11
+72.09
+ 21
+18.8
+ 31
+0.0
+  0
+LINE
+  5
+164
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+68.0
+ 20
+18.8
+ 30
+0.0
+ 11
+72.09
+ 21
+15.9
+ 31
+0.0
+  0
+LINE
+  5
+165
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+72.09
+ 20
+15.9
+ 30
+0.0
+ 11
+74.89
+ 21
+18.8
+ 31
+0.0
+  0
+LINE
+  5
+166
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+72.09
+ 20
+18.8
+ 30
+0.0
+ 11
+74.89
+ 21
+15.9
+ 31
+0.0
+  0
+LINE
+  5
+167
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+74.89
+ 20
+15.9
+ 30
+0.0
+ 11
+77.78
+ 21
+18.8
+ 31
+0.0
+  0
+LINE
+  5
+168
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+74.89
+ 20
+18.8
+ 30
+0.0
+ 11
+77.78
+ 21
+15.9
+ 31
+0.0
+  0
+LINE
+  5
+169
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+68.0
+ 20
+29.27
+ 30
+0.0
+ 11
+72.09
+ 21
+26.37
+ 31
+0.0
+  0
+LINE
+  5
+16A
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+68.0
+ 20
+26.37
+ 30
+0.0
+ 11
+72.09
+ 21
+29.27
+ 31
+0.0
+  0
+LINE
+  5
+16B
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+68.0
+ 20
+26.37
+ 30
+0.0
+ 11
+72.09
+ 21
+21.76
+ 31
+0.0
+  0
+LINE
+  5
+16C
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+68.0
+ 20
+21.76
+ 30
+0.0
+ 11
+72.09
+ 21
+26.37
+ 31
+0.0
+  0
+LINE
+  5
+16D
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+68.0
+ 20
+21.76
+ 30
+0.0
+ 11
+72.09
+ 21
+15.9
+ 31
+0.0
+  0
+LINE
+  5
+16E
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+68.0
+ 20
+15.9
+ 30
+0.0
+ 11
+72.09
+ 21
+21.76
+ 31
+0.0
+  0
+LINE
+  5
+16F
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+92.48
+ 20
+29.27
+ 30
+0.0
+ 11
+95.5
+ 21
+24.46
+ 31
+0.0
+  0
+LINE
+  5
+170
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
+92.48
+ 20
+24.46
+ 30
+0.0
+ 11
+95.5
+ 21
+29.27
+ 31
+0.0
+  0
+LINE
+  5
+171
+330
+17
+100
+AcDbEntity
+  8
+C-BRACE-ROOF
+100
+AcDbLine
+ 10
 92.48
  20
 24.46
@@ -11887,7 +12503,7 @@ AcDbLine
   0
 LINE
   5
-160
+172
 330
 17
 100
@@ -11911,7 +12527,7 @@ AcDbLine
   0
 LINE
   5
-161
+173
 330
 17
 100
@@ -11935,7 +12551,7 @@ AcDbLine
   0
 LINE
   5
-162
+174
 330
 17
 100
@@ -11959,7 +12575,7 @@ AcDbLine
   0
 TEXT
   5
-163
+175
 330
 17
 100
@@ -11991,7 +12607,7 @@ AcDbText
   0
 LINE
   5
-164
+176
 330
 17
 100
@@ -12015,7 +12631,7 @@ AcDbLine
   0
 LINE
   5
-165
+177
 330
 17
 100
@@ -12039,7 +12655,7 @@ AcDbLine
   0
 TEXT
   5
-166
+178
 330
 17
 100
@@ -12071,7 +12687,7 @@ AcDbText
   0
 LINE
   5
-167
+179
 330
 17
 100
@@ -12095,7 +12711,7 @@ AcDbLine
   0
 LINE
   5
-168
+17A
 330
 17
 100
@@ -12119,7 +12735,7 @@ AcDbLine
   0
 TEXT
   5
-169
+17B
 330
 17
 100
@@ -12151,7 +12767,7 @@ AcDbText
   0
 LINE
   5
-16A
+17C
 330
 17
 100
@@ -12175,7 +12791,7 @@ AcDbLine
   0
 LINE
   5
-16B
+17D
 330
 17
 100
@@ -12199,7 +12815,7 @@ AcDbLine
   0
 TEXT
   5
-16C
+17E
 330
 17
 100
@@ -12231,7 +12847,7 @@ AcDbText
   0
 LINE
   5
-16D
+17F
 330
 17
 100
@@ -12255,7 +12871,7 @@ AcDbLine
   0
 LINE
   5
-16E
+180
 330
 17
 100
@@ -12279,7 +12895,7 @@ AcDbLine
   0
 TEXT
   5
-16F
+181
 330
 17
 100
@@ -12313,7 +12929,7 @@ AcDbText
   0
 LINE
   5
-170
+182
 330
 17
 100
@@ -12337,7 +12953,7 @@ AcDbLine
   0
 LINE
   5
-171
+183
 330
 17
 100
@@ -12361,7 +12977,7 @@ AcDbLine
   0
 TEXT
   5
-172
+184
 330
 17
 100
@@ -12395,7 +13011,7 @@ AcDbText
   0
 LINE
   5
-173
+185
 330
 17
 100
@@ -12419,7 +13035,7 @@ AcDbLine
   0
 LINE
   5
-174
+186
 330
 17
 100
@@ -12443,7 +13059,7 @@ AcDbLine
   0
 TEXT
   5
-175
+187
 330
 17
 100
@@ -12477,7 +13093,7 @@ AcDbText
   0
 TEXT
   5
-176
+188
 330
 17
 100
@@ -12509,7 +13125,7 @@ AcDbText
   0
 TEXT
   5
-177
+189
 330
 17
 100
@@ -12541,7 +13157,7 @@ AcDbText
   0
 TEXT
   5
-178
+18A
 330
 17
 100
@@ -12573,7 +13189,7 @@ AcDbText
   0
 TEXT
   5
-179
+18B
 330
 17
 100
@@ -12605,7 +13221,7 @@ AcDbText
   0
 TEXT
   5
-17A
+18C
 330
 17
 100
@@ -12637,7 +13253,7 @@ AcDbText
   0
 TEXT
   5
-17B
+18D
 330
 17
 100
@@ -12669,7 +13285,7 @@ AcDbText
   0
 TEXT
   5
-17C
+18E
 330
 17
 100
@@ -12701,7 +13317,7 @@ AcDbText
   0
 TEXT
   5
-17D
+18F
 330
 17
 100
@@ -12733,7 +13349,7 @@ AcDbText
   0
 TEXT
   5
-17E
+190
 330
 17
 100
@@ -12765,7 +13381,7 @@ AcDbText
   0
 TEXT
   5
-17F
+191
 330
 17
 100
@@ -12793,9 +13409,39 @@ SYSTEM C - POST AND BEAM BRACED FRAME (ALL PINNED), ROOF FALLS NORTH 6%
 100
 AcDbText
   0
+TEXT
+  5
+192
+330
+17
+100
+AcDbEntity
+  8
+C-TEXT
+100
+AcDbText
+ 10
+67.9
+ 20
+37.7
+ 30
+0.0
+ 40
+0.3
+  1
+REV 1: STAIR AND ELEVATOR OPENINGS, SINGLE ROOF PLANE TOS = 3.28 + 0.06 (35.87 - y)
+ 11
+67.9
+ 21
+37.7
+ 31
+0.0
+100
+AcDbText
+  0
 LINE
   5
-180
+193
 330
 17
 100
@@ -12819,7 +13465,7 @@ AcDbLine
   0
 LWPOLYLINE
   5
-181
+194
 330
 17
 100
@@ -12847,7 +13493,7 @@ AcDbPolyline
   0
 TEXT
   5
-182
+195
 330
 17
 100
@@ -12879,7 +13525,7 @@ AcDbText
   0
 MTEXT
   5
-183
+196
 330
 17
 100
@@ -12901,17 +13547,23 @@ AcDbMText
  71
 1
   3
-SYSTEM C NOTES\PSections S275: HEA 160 columns (27); IPE 330 E-W primaries on cap plates; IPE 270 N-S rafters and edge beams (fin plates, bottom flanges flush); Z200x2.0 S350 purlins and girts @ 1.5 m; wall bracing 2L 70x7 crossed tension-only; roof 
+SYSTEM C NOTES - REV 1\PSections S275: HEA 160 columns (27); IPE 330 E-W primaries on cap plates; IPE 270 N-S rafters and edge beams (fin plates, bottom flanges flush); Z200x2.0 S350 purlins and girts @ 1.5 m; wall bracing 2L 70x7 crossed tension-onl
   3
-bracing M20 rods.\PSlope 6% north by stepped column caps: 3.00 (y 35.7) / 3.39 (29.3) / 3.56 (26.4) / 3.68 (24.5) / 3.84 (21.8) / 3.94 (20.1) / 4.19 (15.9) m.\PWeight: hot-rolled 15.3 t = 32 kg/m2; total with purlins, girts, bracing 20.4 t = 42 kg/m2
+y; roof bracing M20 rods.\PSingle roof plane 6% falling north: top of steel TOS = 3.28 + 0.06 x (35.87 - y). Cap-plate top = TOS - 0.27: 3.00 (y 35.7) / 3.03 (35.2) / 3.39 (29.3) / 3.56 (26.4) / 3.68 (24.5) / 3.84 (21.8) / 3.94 (20.1) / 4.19 (15.9) m
   3
- (486 m2).\PWall bracing bays (door-free, to confirm): E-W B1 K1-K2, B2 K5-K7, B3 K22-K23, B4 K25-K26; N-S B5 K15-K19, B6 K14-K18, B7 K20-K27. Roof-plane X strip 3.2 m around the perimeter.\PBases: 300x400x20 plate, 4 M20 resin anchors hef 170-200 mm
+. Rafters frame into primary webs with fin plates, bottom flanges flush, ends cut at 3.4 deg - no seats or packs; primary top = TOS + 0.06.\POpenings: stair well and elevator shaft not roofed; long edges = rafters x 77.8 / 81.8, stair south edge = y 
+  3
+29.3 primary, stair north edge = trimmer T1 (y 35.17, K7 to rafter 81.8, replaces skewed K7-K3 beam), elevator north edge = trimmer T2 (y 24.16), south edge = eave beam y 20.07. 150 mm upstand + flashing all sides, cricket on the uphill (south) side 
+  3
+of the stair opening. Roof truss jogs south of the stair opening (X in panel K10-K11-K17-K16).\PWeight: hot-rolled incl. plates 16.7 t; total with purlins, girts, bracing, upstands 20.5 t = 42 kg/m2 of footprint (486 m2) = 46 kg/m2 of roofed area (44
+  3
+6 m2).\PWall bracing bays (door-free, to confirm): E-W B1 K1-K2, B2 K5-K7, B3 K22-K23, B4 K25-K26; N-S B5 K15-K19, B6 K14-K18, B7 K20-K27. Roof-plane X strip 3.2 m around the perimeter.\PBases: 300x400x20 plate, 4 M20 resin anchors hef 170-200 mm in 
   1
- in solid column-head zone only, 40 mm grout. Design uplift up to 70 kN, shear 15 kN at braced-bay columns.
+solid column-head zone only, 40 mm grout. Design uplift up to 70 kN, shear 15 kN at braced-bay columns.
   0
 LINE
   5
-184
+197
 330
 17
 100
@@ -12935,7 +13587,7 @@ AcDbLine
   0
 LINE
   5
-185
+198
 330
 17
 100
@@ -12959,7 +13611,7 @@ AcDbLine
   0
 TEXT
   5
-186
+199
 330
 17
 100
@@ -12991,7 +13643,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-187
+19A
 330
 17
 100
@@ -13023,7 +13675,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-188
+19B
 330
 17
 100
@@ -13055,7 +13707,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-189
+19C
 330
 17
 100
@@ -13087,7 +13739,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-18A
+19D
 330
 17
 100
@@ -13119,7 +13771,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-18B
+19E
 330
 17
 100
@@ -13151,7 +13803,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-18C
+19F
 330
 17
 100
@@ -13183,7 +13835,7 @@ AcDbPolyline
   0
 TEXT
   5
-18D
+1A0
 330
 17
 100
@@ -13215,7 +13867,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-18E
+1A1
 330
 17
 100
@@ -13247,7 +13899,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-18F
+1A2
 330
 17
 100
@@ -13279,7 +13931,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-190
+1A3
 330
 17
 100
@@ -13311,7 +13963,7 @@ AcDbPolyline
   0
 TEXT
   5
-191
+1A4
 330
 17
 100
@@ -13343,7 +13995,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-192
+1A5
 330
 17
 100
@@ -13375,7 +14027,7 @@ AcDbPolyline
   0
 TEXT
   5
-193
+1A6
 330
 17
 100
@@ -13407,7 +14059,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-194
+1A7
 330
 17
 100
@@ -13439,7 +14091,7 @@ AcDbPolyline
   0
 TEXT
   5
-195
+1A8
 330
 17
 100
@@ -13469,7 +14121,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-196
+1A9
 330
 17
 100
@@ -13501,7 +14153,7 @@ AcDbPolyline
   0
 TEXT
   5
-197
+1AA
 330
 17
 100
@@ -13531,7 +14183,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-198
+1AB
 330
 17
 100
@@ -13563,7 +14215,7 @@ AcDbPolyline
   0
 TEXT
   5
-199
+1AC
 330
 17
 100
@@ -13595,7 +14247,7 @@ AcDbText
   0
 LINE
   5
-19A
+1AD
 330
 17
 100
@@ -13619,7 +14271,7 @@ AcDbLine
   0
 LINE
   5
-19B
+1AE
 330
 17
 100
@@ -13643,7 +14295,7 @@ AcDbLine
   0
 LWPOLYLINE
   5
-19C
+1AF
 330
 17
 100
@@ -13675,7 +14327,7 @@ AcDbPolyline
   0
 TEXT
   5
-19D
+1B0
 330
 17
 100
@@ -13707,7 +14359,7 @@ AcDbText
   0
 LINE
   5
-19E
+1B1
 330
 17
 100
@@ -13731,7 +14383,7 @@ AcDbLine
   0
 LINE
   5
-19F
+1B2
 330
 17
 100
@@ -13755,7 +14407,7 @@ AcDbLine
   0
 CIRCLE
   5
-1A0
+1B3
 330
 17
 100
@@ -13775,7 +14427,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A1
+1B4
 330
 17
 100
@@ -13795,7 +14447,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A2
+1B5
 330
 17
 100
@@ -13815,7 +14467,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A3
+1B6
 330
 17
 100
@@ -13835,7 +14487,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A4
+1B7
 330
 17
 100
@@ -13855,7 +14507,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A5
+1B8
 330
 17
 100
@@ -13875,7 +14527,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A6
+1B9
 330
 17
 100
@@ -13895,7 +14547,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A7
+1BA
 330
 17
 100
@@ -13915,7 +14567,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A8
+1BB
 330
 17
 100
@@ -13935,7 +14587,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1A9
+1BC
 330
 17
 100
@@ -13955,7 +14607,7 @@ AcDbCircle
   0
 CIRCLE
   5
-1AA
+1BD
 330
 17
 100
@@ -13975,7 +14627,7 @@ AcDbCircle
   0
 LINE
   5
-1AB
+1BE
 330
 17
 100
@@ -13999,7 +14651,7 @@ AcDbLine
   0
 TEXT
   5
-1AC
+1BF
 330
 17
 100
@@ -14017,7 +14669,7 @@ AcDbText
  40
 0.3
   1
-50 mm PIR SANDWICH PANEL ON Z200 PURLINS @ 1.5 m, SLOPE 6% FALLING NORTH
+50 mm PIR SANDWICH PANEL ON Z200 PURLINS @ 1.5 m, ONE PLANE 6% FALLING NORTH, TOS = 3.28 + 0.06 (35.87 - y)
  72
 1
  11
@@ -14031,7 +14683,7 @@ AcDbText
   0
 LINE
   5
-1AD
+1C0
 330
 17
 100
@@ -14055,7 +14707,7 @@ AcDbLine
   0
 LINE
   5
-1AE
+1C1
 330
 17
 100
@@ -14079,7 +14731,7 @@ AcDbLine
   0
 TEXT
   5
-1AF
+1C2
 330
 17
 100
@@ -14111,7 +14763,7 @@ AcDbText
   0
 TEXT
   5
-1B0
+1C3
 330
 17
 100
@@ -14143,7 +14795,7 @@ AcDbText
   0
 TEXT
   5
-1B1
+1C4
 330
 17
 100
@@ -14175,7 +14827,7 @@ AcDbText
   0
 TEXT
   5
-1B2
+1C5
 330
 17
 100
@@ -14207,7 +14859,7 @@ AcDbText
   0
 TEXT
   5
-1B3
+1C6
 330
 17
 100
@@ -14239,7 +14891,7 @@ AcDbText
   0
 LINE
   5
-1B4
+1C7
 330
 17
 100
@@ -14263,7 +14915,7 @@ AcDbLine
   0
 LINE
   5
-1B5
+1C8
 330
 17
 100
@@ -14287,7 +14939,7 @@ AcDbLine
   0
 LINE
   5
-1B6
+1C9
 330
 17
 100
@@ -14311,7 +14963,7 @@ AcDbLine
   0
 LINE
   5
-1B7
+1CA
 330
 17
 100
@@ -14335,7 +14987,7 @@ AcDbLine
   0
 TEXT
   5
-1B8
+1CB
 330
 17
 100
@@ -14365,7 +15017,7 @@ AcDbText
   0
 TEXT
   5
-1B9
+1CC
 330
 17
 100
@@ -14395,7 +15047,7 @@ AcDbText
   0
 TEXT
   5
-1BA
+1CD
 330
 17
 100
@@ -14427,7 +15079,7 @@ AcDbText
   0
 LINE
   5
-1BB
+1CE
 330
 17
 100
@@ -14451,7 +15103,7 @@ AcDbLine
   0
 LINE
   5
-1BC
+1CF
 330
 17
 100
@@ -14475,7 +15127,7 @@ AcDbLine
   0
 TEXT
   5
-1BD
+1D0
 330
 17
 100
@@ -14505,7 +15157,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1BE
+1D1
 330
 17
 100
@@ -14537,7 +15189,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1BF
+1D2
 330
 17
 100
@@ -14569,7 +15221,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1C0
+1D3
 330
 17
 100
@@ -14601,7 +15253,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1C1
+1D4
 330
 17
 100
@@ -14633,7 +15285,7 @@ AcDbPolyline
   0
 TEXT
   5
-1C2
+1D5
 330
 17
 100
@@ -14665,7 +15317,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1C3
+1D6
 330
 17
 100
@@ -14697,7 +15349,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1C4
+1D7
 330
 17
 100
@@ -14729,7 +15381,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1C5
+1D8
 330
 17
 100
@@ -14761,7 +15413,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1C6
+1D9
 330
 17
 100
@@ -14793,7 +15445,7 @@ AcDbPolyline
   0
 TEXT
   5
-1C7
+1DA
 330
 17
 100
@@ -14825,7 +15477,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1C8
+1DB
 330
 17
 100
@@ -14857,7 +15509,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1C9
+1DC
 330
 17
 100
@@ -14889,7 +15541,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1CA
+1DD
 330
 17
 100
@@ -14921,7 +15573,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1CB
+1DE
 330
 17
 100
@@ -14953,7 +15605,7 @@ AcDbPolyline
   0
 TEXT
   5
-1CC
+1DF
 330
 17
 100
@@ -14985,7 +15637,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1CD
+1E0
 330
 17
 100
@@ -15017,7 +15669,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1CE
+1E1
 330
 17
 100
@@ -15049,7 +15701,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1CF
+1E2
 330
 17
 100
@@ -15081,7 +15733,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1D0
+1E3
 330
 17
 100
@@ -15113,7 +15765,7 @@ AcDbPolyline
   0
 TEXT
   5
-1D1
+1E4
 330
 17
 100
@@ -15145,7 +15797,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1D2
+1E5
 330
 17
 100
@@ -15177,7 +15829,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1D3
+1E6
 330
 17
 100
@@ -15209,7 +15861,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1D4
+1E7
 330
 17
 100
@@ -15241,7 +15893,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1D5
+1E8
 330
 17
 100
@@ -15273,7 +15925,7 @@ AcDbPolyline
   0
 TEXT
   5
-1D6
+1E9
 330
 17
 100
@@ -15305,7 +15957,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1D7
+1EA
 330
 17
 100
@@ -15337,7 +15989,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1D8
+1EB
 330
 17
 100
@@ -15369,7 +16021,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1D9
+1EC
 330
 17
 100
@@ -15401,7 +16053,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1DA
+1ED
 330
 17
 100
@@ -15433,7 +16085,7 @@ AcDbPolyline
   0
 TEXT
   5
-1DB
+1EE
 330
 17
 100
@@ -15465,7 +16117,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1DC
+1EF
 330
 17
 100
@@ -15497,7 +16149,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1DD
+1F0
 330
 17
 100
@@ -15529,7 +16181,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1DE
+1F1
 330
 17
 100
@@ -15561,7 +16213,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1DF
+1F2
 330
 17
 100
@@ -15593,7 +16245,7 @@ AcDbPolyline
   0
 TEXT
   5
-1E0
+1F3
 330
 17
 100
@@ -15625,7 +16277,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1E1
+1F4
 330
 17
 100
@@ -15657,7 +16309,7 @@ AcDbPolyline
   0
 TEXT
   5
-1E2
+1F5
 330
 17
 100
@@ -15689,7 +16341,7 @@ AcDbText
   0
 LINE
   5
-1E3
+1F6
 330
 17
 100
@@ -15713,7 +16365,7 @@ AcDbLine
   0
 TEXT
   5
-1E4
+1F7
 330
 17
 100
@@ -15745,7 +16397,7 @@ AcDbText
   0
 LINE
   5
-1E5
+1F8
 330
 17
 100
@@ -15769,7 +16421,7 @@ AcDbLine
   0
 TEXT
   5
-1E6
+1F9
 330
 17
 100
@@ -15801,7 +16453,7 @@ AcDbText
   0
 LINE
   5
-1E7
+1FA
 330
 17
 100
@@ -15825,7 +16477,7 @@ AcDbLine
   0
 TEXT
   5
-1E8
+1FB
 330
 17
 100
@@ -15857,7 +16509,7 @@ AcDbText
   0
 LINE
   5
-1E9
+1FC
 330
 17
 100
@@ -15881,7 +16533,7 @@ AcDbLine
   0
 TEXT
   5
-1EA
+1FD
 330
 17
 100
@@ -15913,7 +16565,7 @@ AcDbText
   0
 LINE
   5
-1EB
+1FE
 330
 17
 100
@@ -15937,7 +16589,7 @@ AcDbLine
   0
 TEXT
   5
-1EC
+1FF
 330
 17
 100
@@ -15969,7 +16621,7 @@ AcDbText
   0
 LINE
   5
-1ED
+200
 330
 17
 100
@@ -15993,7 +16645,7 @@ AcDbLine
   0
 LINE
   5
-1EE
+201
 330
 17
 100
@@ -16017,7 +16669,7 @@ AcDbLine
   0
 LINE
   5
-1EF
+202
 330
 17
 100
@@ -16041,7 +16693,7 @@ AcDbLine
   0
 TEXT
   5
-1F0
+203
 330
 17
 100
@@ -16059,7 +16711,7 @@ AcDbText
  40
 0.3
   1
-IPE 330 PRIMARY ON CAP PLATES, ROW y = 29.3, CAP 3.39 m
+IPE 330 PRIMARY ON CAP PLATES, ROW y = 29.3, CAP 3.39 m, TOS 3.66 m
  72
 1
  11
@@ -16073,7 +16725,71 @@ AcDbText
   0
 LWPOLYLINE
   5
-1F1
+204
+330
+17
+100
+AcDbEntity
+  8
+C-OPENING
+100
+AcDbPolyline
+ 90
+4
+ 70
+1
+ 10
+77.89
+ 20
+-2.32
+ 10
+81.79
+ 20
+-2.32
+ 10
+81.79
+ 20
+-2.17
+ 10
+77.89
+ 20
+-2.17
+  0
+TEXT
+  5
+205
+330
+17
+100
+AcDbEntity
+  8
+C-TEXT
+100
+AcDbText
+ 10
+79.85
+ 20
+-0.71
+ 30
+0.0
+ 40
+0.3
+  1
+STAIR OPENING ABOVE x 77.9-81.8: UPSTAND ON PRIMARY
+ 72
+1
+ 11
+79.85
+ 21
+-0.71
+ 31
+0.0
+100
+AcDbText
+  0
+LWPOLYLINE
+  5
+206
 330
 17
 100
@@ -16105,7 +16821,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1F2
+207
 330
 17
 100
@@ -16137,7 +16853,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1F3
+208
 330
 17
 100
@@ -16169,7 +16885,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1F4
+209
 330
 17
 100
@@ -16201,7 +16917,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1F5
+20A
 330
 17
 100
@@ -16233,7 +16949,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1F6
+20B
 330
 17
 100
@@ -16265,7 +16981,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1F7
+20C
 330
 17
 100
@@ -16297,7 +17013,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1F8
+20D
 330
 17
 100
@@ -16329,7 +17045,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1F9
+20E
 330
 17
 100
@@ -16361,7 +17077,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1FA
+20F
 330
 17
 100
@@ -16393,7 +17109,7 @@ AcDbPolyline
   0
 TEXT
   5
-1FB
+210
 330
 17
 100
@@ -16425,7 +17141,7 @@ AcDbText
   0
 LINE
   5
-1FC
+211
 330
 17
 100
@@ -16449,7 +17165,7 @@ AcDbLine
   0
 TEXT
   5
-1FD
+212
 330
 17
 100
@@ -16481,7 +17197,7 @@ AcDbText
   0
 LINE
   5
-1FE
+213
 330
 17
 100
@@ -16505,7 +17221,7 @@ AcDbLine
   0
 LINE
   5
-1FF
+214
 330
 17
 100
@@ -16529,7 +17245,7 @@ AcDbLine
   0
 TEXT
   5
-200
+215
 330
 17
 100
@@ -16559,7 +17275,7 @@ AcDbText
   0
 TEXT
   5
-201
+216
 330
 17
 100
@@ -16589,7 +17305,7 @@ AcDbText
   0
 TEXT
   5
-202
+217
 330
 17
 100
@@ -17709,7 +18425,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-205
+21A
   0
 DICTIONARYVAR
   5
@@ -17721,7 +18437,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-27T20:17:46.847797+00:00
+1.4.4 @ 2026-09-27T20:28:27.577820+00:00
   0
 VISUALSTYLE
   5
@@ -24275,7 +24991,7 @@ strokes_ogs.tif
   0
 DICTIONARYVAR
   5
-205
+21A
 330
 2D
 100
@@ -24283,7 +24999,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-27T20:17:46.863341+00:00
+1.4.4 @ 2026-09-27T20:28:27.593978+00:00
   0
 ENDSEC
   0
