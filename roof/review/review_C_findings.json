@@ -3,90 +3,176 @@
   "id": "F1",
   "severity": "BLOCKER",
   "item": "Braced-bay base anchors: wall base shear wrongly diverted to the wall rail; with V_wall at the base K21 interaction 1.38 (2.07 with cracked edge), K23 1.02/1.55, K22 1.01/1.47, K19 0.95/1.24; without strut K21 shear 74 kN vs 34 kN",
-  "fix": "Redesign braced-bay bases (through-bolts with plate under slab, grouted shear lug, or 2-3 more bays per direction so H+V_wall <= ~25 kN per base); re-run all 27 bases with V_wall in V"
+  "fix": "Redesign braced-bay bases (through-bolts with plate under slab, grouted shear lug, or 2-3 more bays per direction so H+V_wall <= ~25 kN per base); re-run all 27 bases with V_wall in V",
+  "rev2_status": "closed",
+  "rev2_note": "wall shear wL/2 at every base in members.py; struts deleted"
  },
  {
   "id": "F2",
   "severity": "MAJOR",
   "item": "Edge shear uses uncracked k9 = 2.4 while cone uses cracked k = 7.2; slab top over column head is the hogging tension zone",
-  "fix": "Use cracked: V_Rd,c = 34.0 kN instead of 48.1 kN"
+  "fix": "Use cracked: V_Rd,c = 34.0 kN instead of 48.1 kN",
+  "rev2_status": "closed",
+  "rev2_note": "anchors carry no shear; cone cracked k 7.2"
  },
  {
   "id": "F3",
   "severity": "MAJOR",
   "item": "HEA 160 base strut H/2 sharing between two anchor groups via bolted side gussets in clearance holes is slip-governed and unproven",
-  "fix": "Fitted/injection bolts or welded ends with compatibility check, or design each base for full H; otherwise delete struts"
+  "fix": "Fitted/injection bolts or welded ends with compatibility check, or design each base for full H; otherwise delete struts",
+  "rev2_status": "closed",
+  "rev2_note": "base struts and wall-rail anchorage deleted, full H per base"
  },
  {
   "id": "F4",
   "severity": "MAJOR",
   "item": "Load basis omits the horizontal component of roof suction on the 3.43 deg roof: 614 x sin(3.43) = 36.8 kN char, +34 % on S-wind roof force (108.7 -> 145.5 kN); friction not actually in 1.3",
-  "fix": "Add to basis (both alternatives); B8 T 68 -> 92 kN, N_col 45.5 -> 61 kN, K17/K21 uplift 60 -> 76 kN; re-run bracing and bases"
+  "fix": "Add to basis (both alternatives); B8 T 68 -> 92 kN, N_col 45.5 -> 61 kN, K17/K21 uplift 60 -> 76 kN; re-run bracing and bases",
+  "rev2_status": "closed",
+  "rev2_note": "roof-suction component 39.1 kN in bracing.py; basis Rev 2"
  },
  {
   "id": "F5",
   "severity": "MINOR",
   "item": "Basis wind-direction labels reversed (theta = 0 is wind from N low eave: F -1.7/G -1.2/H -0.6; theta = 180 from S: -2.3/-1.3/-0.8); C envelopes both so no numeric effect",
-  "fix": "Correct the load basis text so alternative A cannot use the mislabelled set"
+  "fix": "Correct the load basis text so alternative A cannot use the mislabelled set",
+  "rev2_status": "closed",
+  "rev2_note": "basis Rev 2 labels corrected"
  },
  {
   "id": "F6",
   "severity": "MINOR",
   "item": "Gutter loads (0.25 gravity / -0.50 uplift kN/m, 0.05 kNm/m) in no script; drainage north edge y 35.37 (west run) vs structural roof/wall edge y 35.87",
-  "fix": "Add to eave rail, fascia and rafter cantilevers; coordinate west-block north edge with drainage"
+  "fix": "Add to eave rail, fascia and rafter cantilevers; coordinate west-block north edge with drainage",
+  "rev2_status": "closed",
+  "rev2_note": "gutter loads in take-down; west-block north edge left as open item 6"
  },
  {
   "id": "F7",
   "severity": "MINOR",
   "item": "Column 6.3.3 uses k_zy = 0.6 k_yy (Table B.1) while applying M_b,Rd; Table B.2 gives k_zy ~0.98: K25 0.79, K23 0.76, K22 0.62 vs 0.68/0.64/0.56",
-  "fix": "Use Table B.2; HEA 160 still adequate"
+  "fix": "Use Table B.2; HEA 160 still adequate",
+  "rev2_status": "closed",
+  "rev2_note": "Table B.2 k_zy; K25 0.73"
  },
  {
   "id": "F8",
   "severity": "MINOR",
   "item": "Purlin uplift 8.3 kNm on 3.07 m corner spans (zone F) not 'elsewhere <= 6.5'; 8.6 kNm on 4.07 m compared with a gravity capacity 12.5",
-  "fix": "Mid-span anti-sag row on corner and stair-strip spans; supplier uplift capacity before purlin order"
+  "fix": "Mid-span anti-sag row on corner and stair-strip spans; supplier uplift capacity before purlin order",
+  "rev2_status": "closed",
+  "rev2_note": "anti-sag row all spans; supplier uplift capacity remains open item 3"
  },
  {
   "id": "F9",
   "severity": "MINOR",
   "item": "Seismic check on roof mass alone (76 kN) vs E-W wind 108 kN ignores floor amplification through the existing building",
-  "fix": "Two-mass / floor-spectrum check when building period known"
+  "fix": "Two-mass / floor-spectrum check when building period known",
+  "rev2_status": "open",
+  "rev2_note": "ULS-4 rows added but floor amplification through the existing building still unchecked (open item 5)"
  },
  {
   "id": "F10",
   "severity": "MINOR",
   "item": "Roof diaphragm deflection unchecked (~20 mm at east wall mid-length, h/165-180); RT-E/RT-W modelled as single deep panels but rods lie in 3.07/2.05 m cells",
-  "fix": "Check diaphragm drift against BoardX limit; correct truss geometry, rod lengths and weight; consider M24 rods on the east band"
+  "fix": "Check diaphragm drift against BoardX limit; correct truss geometry, rod lengths and weight; consider M24 rods on the east band",
+  "rev2_status": "closed",
+  "rev2_note": "trusses re-modelled, M24 rods, drift 10.4 mm east"
  },
  {
   "id": "F11",
   "severity": "MINOR",
   "item": "Primary bottom at y 35.77 = 2.996 m (< 3.0 m); rafter/primary bottom-flange clearance 8.5 mm (3.7 mm at flange tip); T1/T2 centred on opening edges; R82 at x 81.85 inside brief's elevator limit 81.99",
-  "fix": "Primary top at TOS + 0.05, TOS(35.87) = 3.30; shift trimmers by half a flange; client to confirm framing over the shaft wall"
+  "fix": "Primary top at TOS + 0.05, TOS(35.87) = 3.30; shift trimmers by half a flange; client to confirm framing over the shaft wall",
+  "rev2_status": "closed",
+  "rev2_note": "TOS 3.30, primary top TOS+0.05, trimmers moved; R82 client confirmation open item 7"
  },
  {
   "id": "F12",
   "severity": "MINOR",
   "item": "Cap-plate nuts (gauge 90, pitch 140) sit under the passing rafter bottom flange (135 wide, 20 mm above)",
-  "fix": "Erection sequence (primaries bolted before rafters) or pitch >= 200"
+  "fix": "Erection sequence (primaries bolted before rafters) or pitch >= 200",
+  "rev2_status": "closed",
+  "rev2_note": "cap plate pitch 200, erection sequence"
  },
  {
   "id": "F13",
   "severity": "MINOR",
   "item": "Reactions table lacks concurrent N-V pairs per case, WP1 base, ULS-4, anchor layout and solid-zone requirement; V_wall listed separately",
-  "fix": "Add; merge V_wall into V"
+  "fix": "Add; merge V_wall into V",
+  "rev2_status": "closed",
+  "rev2_note": "reactions_C.csv one row per column and case, WP1 included"
  },
  {
   "id": "F14",
   "severity": "MINOR",
   "item": "Angle bolt bearing with e2 = 35; standard gauge gives e2 = 30 -> 124 kN, B8 0.55 (0.74 with F4)",
-  "fix": "Note only"
+  "fix": "Note only",
+  "rev2_status": "closed",
+  "rev2_note": "e2 = 30"
  },
  {
   "id": "F15",
   "severity": "MINOR",
   "item": "Complexity: 8 X-bays + 8 floor struts + rail anchors + 20 rod panels + fly braces + tie plates; 23.6 t (+15 %) incl. 1.3 t struts",
-  "fix": "Delete struts once F1 is solved; reconsider bay count vs base detail"
+  "fix": "Delete struts once F1 is solved; reconsider bay count vs base detail",
+  "rev2_status": "closed",
+  "rev2_note": "struts and rail anchorage deleted"
+ },
+ {
+  "id": "R1",
+  "severity": "MAJOR",
+  "item": "Rev 2 bases: 60 kN near-edge shear resistance from the column cage is not demonstrable (dowels loaded towards 30 mm cover, stirrup legs beyond 0.75 c1, stirrup presence unknown); plain-concrete key edge breakout 5.6 kN at c1 55 mm vs demands up to 29.3 kN (K21) at 15 bases",
+  "fix": "Key inboard with c1 >= 250 mm (36-42 kN) and torsion resolved, or edge clamp / horizontal through-bolt, or hairpins designed per EN 1992-4 7.2.2.6 for the full force",
+  "rev2_status": "new",
+  "rev2_note": "raised on Rev 2 bases"
+ },
+ {
+  "id": "R2",
+  "severity": "MAJOR",
+  "item": "Rev 2 bases: moment V x 123 mm from the shear key on the anchor group under uplift ignored; with psi_ec,N K19 0.94, K23 0.87, K16 0.79",
+  "fix": "Include psi_ec,N or design the key to carry its moment by toe bearing; shorter lug reduces the lever",
+  "rev2_status": "new",
+  "rev2_note": "raised on Rev 2 bases"
+ },
+ {
+  "id": "R3",
+  "severity": "MAJOR",
+  "item": "Rev 2 bases: tension capacity 98 kN is set only by the assumed 800 x 800 solid zone (700: 71.7 kN, K19 1.02; 600: 50 kN, nine bases 1.04-1.45)",
+  "fix": "Core acceptance criterion >= 750 x 750 x 250 C25 at every head; pre-designed through-bolt fallback at K9, K10, K12, K13, K16, K19, K20, K22, K23",
+  "rev2_status": "new",
+  "rev2_note": "raised on Rev 2 bases"
+ },
+ {
+  "id": "R4",
+  "severity": "MAJOR",
+  "item": "Rev 2 bases: drilling anchors and coring the 90 mm key pocket into the column head is unnecessary (h_ef 200 in the slab gives the same 98 kN) and 5-11 mm from the column bars; the core also cuts slab hogging bars over the support",
+  "fix": "Anchors h_ef 200 and key pocket <= 200 deep in the slab only; pocket located by scan; 100-110 mm core; anchors after grouting",
+  "rev2_status": "new",
+  "rev2_note": "raised on Rev 2 bases"
+ },
+ {
+  "id": "R5",
+  "severity": "MINOR",
+  "item": "Rev 2 bases: 60 mm S355 bar f_y 335 not 355 (V <= 90.7 kN); no key edge check beyond 0.25 m",
+  "fix": "Update note; state 40-42 kN plain value at c1 255-355",
+  "rev2_status": "new",
+  "rev2_note": "raised on Rev 2 bases"
+ },
+ {
+  "id": "R6",
+  "severity": "MINOR",
+  "item": "Rev 2 bases: WP1 plate centred on the slab corner overhangs both edges; 2 M16 towards the edge in an unconfirmed edge beam",
+  "fix": "Offset post >= 150 mm inboard; detail as R1",
+  "rev2_status": "new",
+  "rev2_note": "raised on Rev 2 bases"
+ },
+ {
+  "id": "R7",
+  "severity": "MINOR",
+  "item": "Rev 2 reactions table: add anchor-spacing orientation, key moment / max anchor tension, minimum solid zone per column",
+  "fix": "Add columns",
+  "rev2_status": "new",
+  "rev2_note": "raised on Rev 2 bases"
  }
 ]
