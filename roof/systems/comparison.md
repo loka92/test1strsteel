@@ -33,3 +33,21 @@ Whichever is chosen, the slab anchorage is the critical unknown: the solid-zone 
 column heads must be confirmed on site (trial cores) before the anchor design is final.
 
 Files: A_portal.md, B_truss.md, C_postbeam.md and the *_plan.png / elevation images in this folder.
+
+## Cost, simplicity and programme (indicative MENA rates, relative use only)
+
+| | A: Portal frames | B: Lattice trusses | C: Post-and-beam |
+|---|---|---|---|
+| Steel tonnage | 16.3 t | 15.9 t incl. girts | 20.5 t |
+| Steel rate, fabricated + erected | ~2,300 $/t | ~2,900 $/t | ~2,000 $/t |
+| Steel cost | 37,500 $ | 46,000 $ | 41,000 $ |
+| Roof panel, 446 m2 | 18,000 $ | 18,000 $ | 18,000 $ |
+| Wall cladding (96 m perimeter) | 420 m2, 14,800 $ | 520 m2, 18,200 $ | 405 m2, 14,100 $ |
+| Bases, grout, anchors (27) | 6,800 $ | 6,800 $ | 6,800 $ |
+| Total, indicative | 77,000 $ | 89,000 $ | 80,000 $ |
+| Relative cost | 1.00 | 1.16 | 1.04 |
+| Simplicity | medium | low | high |
+| Fabrication | 4 weeks | 5-6 weeks | 3-4 weeks |
+| Erection | 2.5 weeks, crane | 2 weeks, splice + larger crane | 3 weeks, small crane/hoist |
+| Cladding | 2 weeks | 2.5 weeks | 2 weeks |
+| Programme total | ~9 weeks | ~10-11 weeks | ~8-9 weeks |
