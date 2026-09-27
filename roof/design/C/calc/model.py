@@ -113,19 +113,20 @@ def bay_geom(b):
 # ---- free slab edges near a column base (Rev 2 anchorage basis): distance from the column centre to the nearest
 # free edge in each direction (+x, -x, +y, -y); envelope, notch and the two shaft openings (assumed to be slab openings)
 def edge_distances(cx, cy):
+    """Distance (m) from the column centre to the nearest free slab edge in each direction. An opening edge counts
+    only when the column lies within the opening's extent in the other coordinate (Rev 4 refinement)."""
     d = {'+x': 99.0, '-x': 99.0, '+y': 99.0, '-y': 99.0}
     def upd(k, v):
         if v >= -0.05: d[k] = min(d[k], max(v, 0.0))
     upd('+x', ENV['x1'] - cx); upd('-x', cx - ENV['x0']); upd('+y', ENV['y1'] - cy); upd('-y', cy - ENV['y0'])
-    # notch: x 77.89-95.69 / y 15.57-19.97 is outside the slab
-    if NOTCH['y0'] <= cy <= NOTCH['y1'] + 0.3 and cx <= NOTCH['x0'] + 0.3: upd('+x', NOTCH['x0'] - cx)
-    if cx >= NOTCH['x0'] - 0.3 and cy >= NOTCH['y1'] - 0.3 and cy <= NOTCH['y1'] + 0.5: upd('-y', cy - NOTCH['y1'])
+    if NOTCH['y0'] - 0.05 <= cy <= NOTCH['y1'] + 0.05 and cx <= NOTCH['x0'] + 0.05: upd('+x', NOTCH['x0'] - cx)
+    if cx >= NOTCH['x0'] - 0.05 and cy >= NOTCH['y1'] - 0.05: upd('-y', cy - NOTCH['y1'])
     for o in OPEN.values():
-        if o['y0'] - 0.3 <= cy <= o['y1'] + 0.3:
-            if cx <= o['x0']: upd('+x', o['x0'] - cx)
-            if cx >= o['x1']: upd('-x', cx - o['x1'])
-        if o['x0'] - 0.3 <= cx <= o['x1'] + 0.3:
-            if cy <= o['y0']: upd('+y', o['y0'] - cy)
-            if cy >= o['y1']: upd('-y', cy - o['y1'])
+        if o['y0'] - 0.05 <= cy <= o['y1'] + 0.05:
+            if cx <= o['x0'] + 0.05: upd('+x', o['x0'] - cx)
+            if cx >= o['x1'] - 0.05: upd('-x', cx - o['x1'])
+        if o['x0'] - 0.05 <= cx <= o['x1'] + 0.05:
+            if cy <= o['y0'] + 0.05: upd('+y', o['y0'] - cy)
+            if cy >= o['y1'] - 0.05: upd('-y', cy - o['y1'])
     return d
 NEAR_EDGE = 0.25    # m from the column centre: closer than this, base shear in that direction counts as "towards a free edge"

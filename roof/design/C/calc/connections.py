@@ -56,144 +56,214 @@ def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=200, tf_beam=11.5, tw_beam=7.5):
     Lw = 908; u['weld'] = ((N_t*1e3/(Lw*6))**2 + (V_h*1e3/(Lw*6))**2)**0.5/(weld_res(6)*1e3/6)
     return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get))
 
-# ---- base plate and anchors, Rev 3 (base re-review R1-R7) --------------------------------------------------------
-# Plate 300 x 400 x 25 S275 (extended inboard to 350 across at near-edge bases) on 25 mm non-shrink grout.
-# 4 M20 8.8 resin anchors at 80 x 280 (280 along the concrete column's long axis), h_ef = 200 IN THE SLAB ONLY,
-# 26 mm clearance holes (tension only). Tension: steel, bond (tau_Rk 10 cracked) and cone (h_ef 200, k 7.2 cracked) in the
-# slab solid zone (size Z, 800 assumed, boundary = free edges), eccentricity psi_ec,N from the key moments.
-# Shear: Key A = SHS 90x90x8 S355 stub, 180 embedded, under the column centre in a 140 mm cored pocket 200 deep
-# (along-axis and inward shear; 25 mm compressible strip on the outboard face at near-edge bases so it takes no outward
-# shear). Key B = 60 mm round bar S355 (f_y 335)
-# 180 embedded in a 90 pocket 200 deep, 180 mm inboard of the column centre on the outward axis, c1 >= 250 to the edge,
-# for the outward shear at near-edge bases. Nothing is drilled into the column head.
+# ---- base plate and anchors, Rev 4 (sign-off S1-S4) ---------------------------------------------------------------
+# B1 (interior and lightly loaded edge bases): plate 300 x 400 x 25, 4 M20 resin anchors 80 x 280 (280 along the concrete
+#    column's long axis), h_ef 200 in the slab; cone with the REAL slab edges (column flush with the face: the outboard
+#    row is 60 mm from the edge); Key A SHS 90x90x8 under the column centre (along/inward shear; parallel-to-edge breakout
+#    2 V_Rk,c where an edge is closer than 0.6 m); Key B 60 mm bar 180 mm inboard for outward shear (c1 250).
+# B2 (perimeter / edge-adjacent bases that fail B1): plate 700 (along) x 550 (across: 100 outboard, 450 inboard) x 30
+#    with two 120 x 10 stiffeners; 2 M24 8.8 through-bolts at (+-140 along, +250 inboard), 400 x 200 x 20 plate under
+#    the slab; uplift by lever action about the inboard plate tip (T = 2.39 N_t, C = 1.39 N_t); shear by a PAIR of SHS
+#    90x90x8 keys at (+-300 along, +200 inboard): c1 = 255 to the building face, torque V_along x 0.2 m resolved by the
+#    pair (arm 0.6 m); nothing drilled into the column head.
+# P  (K21, 200 mm pier between the notch edge and the shaft opening): 4 M16 resin anchors 70 x 280, h_ef 400 into the
+#    pier (the only base where the client's permission to drill the column/pier head is used), saddle for N-S shear.
 BASE = dict(bp=300, lp=400, tp=25, sx=80, sy=280, hef=200, fck=25, zone=800, slab=250, grout=25,
-            keyA_b=90, keyA_Wpl=75.0e3, keyA_fy=355.0, keyA_core=140, keyB_d=60, keyB_fy=335.0, emb=180, pocket=200, keyB_off=180, saddle_t=15)
+            keyA_b=90, keyA_Wpl=75.0e3, keyA_fy=355.0, keyA_core=140, keyB_d=60, keyB_fy=335.0, emb=180, pocket=200, keyB_off=180, saddle_t=15,
+            b2_row=250, b2_tip=430, b2_keys_x=300, b2_keys_y=200, b2_bolt_FtRd=0.9*800*353/1.25/1e3, b2_plate_b=350, b2_plate_t=30,
+            b2_MRd_plate=48.0, b2_plate_c=60, p_hef=400, p_d=16, p_sx=70)
 ANCH = dict(NRk_s=196.0, gMc=1.5, gMs=1.4, gMp=1.5, tau=10.0, d=20, k_cr=7.2)
-FJD = 10.0          # MPa bearing under the grout (0.6 f_cd, basis)
-FCD = 25/1.5
-LEVER = BASE['grout'] + BASE['emb']/3      # 85 mm: key shear resultant below the plate (triangular bearing in the pocket)
+FJD = 10.0; FCD = 25/1.5
+LEVER = BASE['grout'] + BASE['emb']/3      # 85 mm
 
 def V_edge_key(c1, d_nom, lf=BASE['emb'], h=BASE['slab'], fck=BASE['fck'], side=None):
-    """EN 1992-4 7.2.2.5 concrete edge breakout (cracked, k9 = 1.7) for a stiff element of width d_nom loaded
-    towards a free edge at c1 (mm), design value (kN). side = distance to a side edge (solid-zone boundary) or None."""
+    """EN 1992-4 7.2.2.5 edge breakout (cracked k9 1.7) of a stiff element of width d_nom loaded towards an edge at c1."""
     if c1 <= 0: return 0.0
     al = 0.1*(lf/c1)**0.5; be = 0.1*(d_nom/c1)**0.2
     V0 = 1.7*d_nom**al*lf**be*math.sqrt(fck)*c1**1.5/1e3
-    A0 = 4.5*c1**2
-    w = 3*c1 if side is None else min(3*c1, 1.5*c1 + side)
-    Ac = w*min(1.5*c1, h)
-    psi_h = math.sqrt(1.5*c1/h) if 1.5*c1 > h else 1.0
+    A0 = 4.5*c1**2; w = 3*c1 if side is None else min(3*c1, 1.5*c1 + side)
+    Ac = w*min(1.5*c1, h); psi_h = math.sqrt(1.5*c1/h) if 1.5*c1 > h else 1.0
     psi_s = 1.0 if side is None else min(1.0, 0.7 + 0.3*side/(1.5*c1))
     return V0*Ac/A0*psi_h*psi_s/ANCH['gMc']
 
-def cone_group(zone, B=BASE, A=ANCH):
-    """Concrete cone of the 4-anchor group in a solid zone 'zone' x 'zone' (mm), h_ef 200, cracked. Returns dict."""
-    hef = B['hef']; N0 = A['k_cr']*math.sqrt(B['fck'])*hef**1.5/1e3
-    scr = 3*hef; ccr = 1.5*hef
-    cx = min((zone - B['sy'])/2, ccr); cy = min((zone - B['sx'])/2, ccr)
-    Ac = (cx + B['sy'] + cx)*(cy + B['sx'] + cy); ratio = Ac/scr**2
-    psi_s = min(1.0, 0.7 + 0.3*min(cx, cy)/ccr)
-    return dict(N0=N0, ratio=ratio, psi_s=psi_s, NRk=N0*ratio*psi_s, NRd=N0*ratio*psi_s/A['gMc'], scr=scr, cx=cx, cy=cy)
+def cone_group(ext, hef=BASE['hef'], sx=BASE['sx'], sy=BASE['sy'], k=ANCH['k_cr']):
+    """Cone of a 2 x 2 group (spacings sx across, sy along) with the available solid concrete beyond the outer anchors:
+    ext = (out, in, side1, side2) mm, each capped at c_cr = 1.5 h_ef. Returns dict (design N_Rd for the group)."""
+    N0 = k*math.sqrt(BASE['fck'])*hef**1.5/1e3; scr = 3*hef; ccr = 1.5*hef
+    e = [min(v, ccr) for v in ext]
+    Ac = (e[0] + sx + e[1])*(e[2] + sy + e[3]); ratio = Ac/scr**2
+    psi_s = min(1.0, 0.7 + 0.3*min(e)/ccr)
+    return dict(N0=N0, ratio=ratio, psi_s=psi_s, NRk=N0*ratio*psi_s, NRd=N0*ratio*psi_s/ANCH['gMc'], scr=scr, ext=e)
 
 def anchor_resistances(zone=BASE['zone'], B=BASE, A=ANCH):
     r = {}
     r['NRd_s'] = A['NRk_s']/A['gMs']
-    cg = cone_group(zone); r.update(N0c=cg['N0'], ratio_c=cg['ratio'], psi_s=cg['psi_s'], NRk_cg=cg['NRk'], NRd_c=cg['NRd'], scr=cg['scr'])
+    h = zone/2
+    cg = cone_group((h - B['sx']/2, h - B['sx']/2, h - B['sy']/2, h - B['sy']/2)); r.update(N0c=cg['N0'], ratio_c=cg['ratio'], psi_s=cg['psi_s'], NRk_cg=cg['NRk'], NRd_c=cg['NRd'], scr=cg['scr'])
     N0p = math.pi*A['d']*B['hef']*A['tau']/1e3
     scrp = min(7.3*A['d']*math.sqrt(A['tau']), 3*B['hef']); ccrp = scrp/2
-    cxp = min((zone - B['sy'])/2, ccrp); cyp = min((zone - B['sx'])/2, ccrp)
-    Ap = (cxp + B['sy'] + cxp)*(cyp + B['sx'] + cyp); ratio_p = Ap/scrp**2
-    psi_sp = min(1.0, 0.7 + 0.3*min(cxp, cyp)/ccrp)
+    cxp = min(h - B['sy']/2, ccrp); cyp = min(h - B['sx']/2, ccrp)
+    Ap = (cxp + B['sy'] + cxp)*(cyp + B['sx'] + cyp); ratio_p = Ap/scrp**2; psi_sp = min(1.0, 0.7 + 0.3*min(cxp, cyp)/ccrp)
     r.update(N0p=N0p, scrp=scrp, ratio_p=ratio_p, psi_sp=psi_sp, NRk_pg=N0p*ratio_p*psi_sp, NRd_p=N0p*ratio_p*psi_sp/A['gMp'])
     r['NRd_g'] = min(4*r['NRd_s'], r['NRd_c'], r['NRd_p'])
-    # Key A lug: rigid-post bearing bound (pressure linear, rotation point z0) and plate-fixed bending bound, weld
-    D, h = B['emb'], B['grout']; z0 = D*(D/3 + h/2)/(D/2 + h); r['z0'] = z0
-    kA = z0/(B['keyA_b']*(z0*D - D**2/2))          # p_max = V * kA  (MPa per N), rigid-post pressure distribution
-    r['sigma_A'] = 1.5*FCD                          # partially loaded area, EN 1992-1-1 6.7: sqrt(A_c1/A_c0) >= 1.5 in the solid zone
-    r['VRd_A_bearing'] = r['sigma_A']/kA/1e3
-    r['MRd_A'] = B['keyA_Wpl']*B['keyA_fy']/1e6
-    r['VRd_A_bending'] = r['MRd_A']/(LEVER/1e3)
-    r['VRd_A_weld'] = weld_res(8)*4*B['keyA_b']
+    D, hg = B['emb'], B['grout']; z0 = D*(D/3 + hg/2)/(D/2 + hg); r['z0'] = z0
+    kA = z0/(B['keyA_b']*(z0*D - D**2/2)); r['sigma_A'] = 1.5*FCD; r['VRd_A_bearing'] = r['sigma_A']/kA/1e3
+    r['MRd_A'] = B['keyA_Wpl']*B['keyA_fy']/1e6; r['VRd_A_bending'] = r['MRd_A']/(LEVER/1e3); r['VRd_A_weld'] = weld_res(8)*4*B['keyA_b']
     r['VRd_A'] = min(r['VRd_A_bearing'], r['VRd_A_bending'], r['VRd_A_weld'])
-    # Key B bar
     kB = z0/(B['keyB_d']*(z0*D - D**2/2)); r['VRd_B_bearing'] = FCD/kB/1e3
-    WB = B['keyB_d']**3/6; r['MRd_B'] = WB*B['keyB_fy']/1e6; r['VRd_B_bending'] = r['MRd_B']/(LEVER/1e3)
-    r['VRd_B_weld'] = weld_res(8)*math.pi*B['keyB_d']
-    r['VRd_B_edge250'] = V_edge_key(250, B['keyB_d'])
-    r['VRd_B'] = min(r['VRd_B_bearing'], r['VRd_B_bending'], r['VRd_B_weld'], r['VRd_B_edge250'])
-    # plate
+    WB = B['keyB_d']**3/6; r['MRd_B'] = WB*B['keyB_fy']/1e6; r['VRd_B_bending'] = r['MRd_B']/(LEVER/1e3); r['VRd_B_weld'] = weld_res(8)*math.pi*B['keyB_d']
+    r['VRd_B_edge250'] = V_edge_key(250, B['keyB_d']); r['VRd_B'] = min(r['VRd_B_bearing'], r['VRd_B_bending'], r['VRd_B_weld'], r['VRd_B_edge250'])
+    r['VRd_A_par55'] = 2*V_edge_key(55, B['keyA_b'])               # Key A parallel to an edge 100 mm from the column centre
+    r['VRd_A_edge255'] = V_edge_key(255, B['keyA_b'])              # B2 key pair outward, c1 = 300 - 45
     col = sec('HEA 160'); cc = B['tp']*math.sqrt(FY/(3*FJD)); r['c'] = cc
     r['Aeff'] = min(B['bp'], col['h'] + 2*cc)*min(B['lp'], col['b'] + 2*cc) - max(0, col['h'] - 2*col['tf'] - 2*cc)*max(0, col['b'] - col['tw'] - 2*cc)
     r['NRd_bearing'] = r['Aeff']*FJD/1e3
-    m = B['sy']/2 - col['b']/2 - 0.8*6; leff = min(2*math.pi*m, B['sx'] + 4*m, B['bp'])
-    Mpl = 0.25*leff*B['tp']**2*FY/1e3; r['FT1_row'] = 4*Mpl/m; r['m_plate'] = m
-    r['Mpl_plate_strip'] = 300*B['tp']**2/4*FY/1e6          # kNm, 300 mm strip at Key B
-    # saddle (K21): two 15 mm plates 400 x 150 on the pier faces, cantilever 150, grouted
-    r['VRd_saddle_bearing'] = 400*150*FCD/1e3
-    r['MRd_saddle'] = 400*B['saddle_t']**2/4*FY/1e6; r['VRd_saddle'] = min(r['VRd_saddle_bearing'], r['MRd_saddle']/0.075)
-    r['VRd_edge_fallback'] = V_edge_key(250, B['keyB_d'])
+    mm = B['sy']/2 - col['b']/2 - 0.8*6; leff = min(2*math.pi*mm, B['sx'] + 4*mm, B['bp'])
+    Mpl = 0.25*leff*B['tp']**2*FY/1e3; r['FT1_row'] = 4*Mpl/mm; r['m_plate'] = mm
+    r['Mpl_plate_strip'] = 300*B['tp']**2/4*FY/1e6
+    r['VRd_saddle_bearing'] = 400*150*FCD/1e3; r['MRd_saddle'] = 400*B['saddle_t']**2/4*FY/1e6; r['VRd_saddle'] = min(r['VRd_saddle_bearing'], r['MRd_saddle']/0.075)
+    # B2 lever: row at b2_row, tip bearing at b2_tip -> T = N * tip/(tip - row), C = T - N
+    r['b2_k'] = B['b2_tip']/(B['b2_tip'] - B['b2_row']); r['b2_FtRd'] = B['b2_bolt_FtRd']
+    r['b2_C_bearing'] = B['b2_plate_b']*B['b2_plate_c']*FJD/1e3          # tip bearing strip 350 x 60 at 10 MPa
+    r['b2_MRd'] = B['b2_MRd_plate']                                        # stiffened plate section (2 x 120x10 + 350x30), plastic
+    r['b2_underplate'] = 400*200*FJD/1e3
+    # P (K21): 4 M16 h_ef 400 in the 200 mm pier: cone limited by the two pier faces at 65 mm, bond
+    cgp = cone_group((65, 65, 400, 400), hef=B['p_hef'], sx=B['p_sx'], sy=B['sy']); r['p_NRd_c'] = cgp['NRd']; r['p_cone'] = cgp
+    r['p_NRd_p'] = 4*math.pi*B['p_d']*B['p_hef']*A['tau']/1e3*min(1.0, (65 + B['p_sx'] + 65)*(300 + B['sy'] + 300)/ (min(7.3*B['p_d']*math.sqrt(A['tau']), 3*B['p_hef']))**2)/A['gMp']
+    r['p_NRd_s'] = 4*0.9*800*157/1.4/1e3
+    r['p_links'] = 4*28.3*435/1e3      # 2 dia6 links (4 legs) crossing the splitting plane over the 400 mm lap, f_yd 435
     return r
 
 def required_zone(Nt, e_along, e_across, B=BASE):
-    """Smallest solid zone (mm, 50 mm steps) for which the eccentric cone group carries Nt (kN)."""
     if Nt <= 0: return 0
     for z in range(400, 1001, 50):
-        cg = cone_group(z)
-        psi = 1/(1 + 2*e_along/cg['scr'])/(1 + 2*e_across/cg['scr'])
-        if cg['NRd']*psi >= Nt: return z
+        h = z/2; cg = cone_group((h - B['sx']/2, h - B['sx']/2, h - B['sy']/2, h - B['sy']/2))
+        if cg['NRd']/(1 + 2*e_along/cg['scr'])/(1 + 2*e_across/cg['scr']) >= Nt: return z
     return 9999
 
-def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), saddle=False, zone=None):
-    """One base, one load case. N (+ compression, - tension) kN; V = (Vx, Vy) signed shear on the concrete; Vcross =
-    (|Vx|, |Vy|) cross-bay share (worst sign); edges = distances to free slab edges; orient = column long axis ('x'/'y');
-    keyB = directions ('+x','-x','+y','-y') with a Key B; saddle = K21 detail. Returns utilisations."""
+def group_extents(edges, orient, zone=BASE['zone']):
+    """Available solid concrete beyond the anchor rows (mm) from the real edges: (across-, across+, along-, along+)."""
+    h = zone/2
+    if orient == 'x': ac = ('-y', '+y'); al = ('-x', '+x')
+    else: ac = ('-x', '+x'); al = ('-y', '+y')
+    ex = []
+    for k in ac: ex.append(min(h, edges[k]*1000) - BASE['sx']/2)
+    for k in al: ex.append(min(h, edges[k]*1000) - BASE['sy']/2)
+    return tuple(max(v, 0.0) for v in ex)
+
+def b2_layout(edges, orient):
+    """Rev 4 B2 geometry from the real edges (m). Bolts and keys >= 300 mm from every slab edge. Returns dict with
+    bolts [(x,y)], keys [(x,y)] (mm from the column centre), lever c (bolt centroid distance), tip b, plate extents."""
+    lim = {k: edges[k]*1000 for k in edges}
+    lo_x, hi_x = -(lim['-x'] - 300), lim['+x'] - 300; lo_y, hi_y = -(lim['-y'] - 300), lim['+y'] - 300
+    def place(lo, hi, want):        # two points 'want' = (p1, p2) shifted into [lo, hi]
+        p1, p2 = want; s = p2 - p1
+        if p1 < lo: p1, p2 = lo, lo + s
+        if p2 > hi: p2, p1 = hi, hi - s
+        return p1, p2
+    # primary (across) edge = nearest edge; the bolt row and key line sit 250 / 200 inboard of the column across it
+    near = min(edges, key=edges.get)
+    if near[1] == 'y':
+        sgn = -1 if near == '+y' else 1
+        by = sgn*250; ky = sgn*200
+        by = max(lo_y, min(hi_y, by)); ky = max(lo_y, min(hi_y, ky))
+        bx = place(lo_x, hi_x, (-140, 140)); kx = place(lo_x, hi_x, (-300, 300))
+        bolts = [(bx[0], by), (bx[1], by)]; keys = [(kx[0], ky), (kx[1], ky)]
+    else:
+        sgn = -1 if near == '+x' else 1
+        bx = sgn*250; kx = sgn*200
+        bx = max(lo_x, min(hi_x, bx)); kx = max(lo_x, min(hi_x, kx))
+        by = place(lo_y, hi_y, (-140, 140)); ky = place(lo_y, hi_y, (-300, 300))
+        bolts = [(bx, by[0]), (bx, by[1])]; keys = [(kx, ky[0]), (kx, ky[1])]
+    cx = 0.5*(bolts[0][0] + bolts[1][0]); cy = 0.5*(bolts[0][1] + bolts[1][1]); cc = math.hypot(cx, cy)
+    return dict(bolts=bolts, keys=keys, c=cc, b=cc + 180, dirn=(cx/cc, cy/cc) if cc > 1 else (0, 1), near=near)
+
+def b2_check(N, Vx, Vy, edges, lay, R):
+    """B2 base: key pair (rigid distribution incl. torque) and through-bolt lever. Returns (utils dict, Nmax, M_along, M_across)."""
+    u = {}
+    k1, k2 = lay['keys']; xc, yc = 0.5*(k1[0]+k2[0]), 0.5*(k1[1]+k2[1])
+    T = yc*Vx - xc*Vy                              # torque of the load (at the column) about the pair centroid, kN mm
+    rr = sum((k[0]-xc)**2 + (k[1]-yc)**2 for k in (k1, k2))
+    worst_bear = worst_edge = 0.0
+    for k in (k1, k2):
+        Rx = Vx/2 + T*(-(k[1]-yc))/rr; Ry = Vy/2 + T*(k[0]-xc)/rr      # reaction the key applies to the concrete
+        worst_bear = max(worst_bear, math.hypot(Rx, Ry)/R['VRd_A'])
+        for d, comp, pos in (('+x', Rx, k[0]), ('-x', -Rx, -k[0]), ('+y', Ry, k[1]), ('-y', -Ry, -k[1])):
+            dist = edges[d]*1000 - pos - BASE['keyA_b']/2
+            if comp > 3.0 and dist < 555:
+                worst_edge = max(worst_edge, comp/V_edge_key(dist, BASE['keyA_b']))
+    u['B2 key pair bearing'] = worst_bear
+    if worst_edge > 0: u['B2 key pair outward (c1 >= 255)'] = worst_edge
+    Vk = math.hypot(Vx, Vy); Mk = Vk*LEVER/1e3
+    Nmax = 0.0
+    if N >= 0: u['bearing'] = N/R['NRd_bearing']
+    else:
+        Nt = -N; kk = lay['b']/(lay['b'] - lay['c']); Tt = kk*Nt; C = Tt - Nt
+        Tb = Tt/2 + Mk/(2*0.28); Nmax = Tb
+        u['B2 through-bolt tension (lever %.2f, %.0f kN each)' % (kk, Tb)] = Tb/R['b2_FtRd']
+        u['B2 tip bearing (%.0f kN)' % C] = C/R['b2_C_bearing']
+        u['B2 stiffened plate (M %.0f kNm)' % (Nt*lay['c']/1e3 + Mk)] = (Nt*lay['c']/1e3 + Mk)/R['b2_MRd']
+        u['B2 under-slab plate bearing'] = Tt/R['b2_underplate']
+    return u, Nmax, Mk
+
+def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), btype='B1', zone=None):
+    """One base, one load case. btype 'B1' | 'B2' | 'P'. Returns utilisations and the key/anchor actions."""
     from model import NEAR_EDGE
-    R = R or anchor_resistances(zone or BASE['zone'])
-    if zone: cg = cone_group(zone); NRd_c = cg['NRd']; scr = cg['scr']
-    else: NRd_c = R['NRd_c']; scr = R['scr']
+    R = R or anchor_resistances()
     u = {}; Vx, Vy = V
     comps = {'+x': Vx + Vcross[0], '-x': -Vx + Vcross[0], '+y': Vy + Vcross[1], '-y': -Vy + Vcross[1]}
-    # split the shear: outward components towards a Key B direction go to Key B; the rest to Key A (or the saddle)
-    VB = {k: max(comps[k], 0.0) for k in keyB}
-    # Key A takes everything except the outward components assigned to a Key B
     Ax = abs(Vx) + Vcross[0]; Ay = abs(Vy) + Vcross[1]
-    for k, v in VB.items():
-        if k[1] == 'x': Ax = max(Ax - v, 0.0)
-        else: Ay = max(Ay - v, 0.0)
     along = Ax if orient == 'x' else Ay; across = Ay if orient == 'x' else Ax
-    if saddle:
-        u['saddle plates (N-S)'] = Ay/R['VRd_saddle']; u['Key A (E-W)'] = Ax/R['VRd_A']
+    outdirs = [k for k in ('+x', '-x', '+y', '-y') if edges[k] < NEAR_EDGE]
+    Vt = math.hypot(Ax, Ay); VB = {}; Nmax = 0.0; psi = 1.0; zreq = 0; M_along = M_across = 0.0
+    if btype == 'B2':
+        lay = b2_layout(edges, orient)
+        u, Nmax, Mk = b2_check(N, Vx + (Vcross[0] if Vx >= 0 else -Vcross[0]), Vy + (Vcross[1] if Vy >= 0 else -Vcross[1]), edges, lay, R)
+        M_along = Mk; M_across = 0.0
+    elif btype == 'P':
+        u['saddle plates (N-S)'] = Ay/R['VRd_saddle']
         M_along = Ay*0.075; M_across = Ax*LEVER/1e3
-    else:
+        if N >= 0: u['bearing'] = N/R['NRd_bearing']
+        else:
+            Nt = -N; Nmax = Nt/4 + M_along/(2*0.28)
+            u['P pier anchors: splitting of the 200 pier restrained by the dia6/200 links (49 kN)'] = (Nt + M_along/0.28)/R['p_links']
+            u['P pier anchors bond (h_ef 400)'] = Nt/R['p_NRd_p']; u['P anchor steel M16'] = Nmax/(R['p_NRd_s']/4)
+    else:   # B1
+        VB = {k: max(comps[k], 0.0) for k in keyB}
+        for k, v in VB.items():
+            if k[1] == 'x': Ax = max(Ax - v, 0.0)
+            else: Ay = max(Ay - v, 0.0)
+        along = Ax if orient == 'x' else Ay; across = Ay if orient == 'x' else Ax
         u['Key A SHS bearing'] = math.hypot(along, across)/R['VRd_A']
-        M_along = along*LEVER/1e3; M_across = across*LEVER/1e3      # kNm, key shear resultant 85 mm below the plate
-    for k, v in VB.items():
-        if v > 0.5:
-            u['Key B outward %s (c1 250)' % k] = v/R['VRd_B']
-            if k[1] == ('x' if orient == 'x' else 'y'): M_along += v*LEVER/1e3
-            else: M_across += v*LEVER/1e3
-    # Key A outward towards an edge 0.25-0.60 m away (no Key B): plain breakout with c1 = distance - lug half thickness
-    for k, v in comps.items():   # outward components <= 3 kN (cross-bay torsion shares) are neglected
-        if k in keyB or v <= 3.0 or (saddle and k[1] == 'y'): continue
-        if NEAR_EDGE <= edges[k] < 0.60:
-            c1 = edges[k]*1000 - BASE['keyA_b']/2
-            u['Key A towards edge %s (c1 %.0f)' % (k, c1)] = v/V_edge_key(c1, BASE['keyA_b'])
-        elif edges[k] < NEAR_EDGE: u['UNRESOLVED outward %s' % k] = 9.9
-    Vt = math.hypot(abs(Vx) + Vcross[0], abs(Vy) + Vcross[1])
-    # anchors
-    if N >= 0:
-        u['bearing'] = N/R['NRd_bearing']; psi = 1.0; e1 = e2 = 0.0; Nmax = 0.0; zreq = 0
-    else:
-        Nt = -N
-        e1 = M_along/Nt*1e3; e2 = M_across/Nt*1e3        # mm, eccentricity of the group tension
-        psi = 1/(1 + 2*e1/scr)/(1 + 2*e2/scr)
-        u['anchor group cone (psi_ec %.2f)' % psi] = Nt/(NRd_c*psi)
-        u['anchor group bond'] = Nt/R['NRd_p']
-        Nmax = Nt/4 + M_along/(2*BASE['sy']/1e3) + M_across/(2*BASE['sx']/1e3)
-        u['anchor steel (max anchor %.0f kN)' % Nmax] = Nmax/R['NRd_s']
-        u['plate T-stub'] = (Nt/2 + M_along/(BASE['sy']/1e3))/R['FT1_row']
-        zreq = required_zone(Nt, e1, e2)
-    u['plate strip at key moment'] = (M_along + M_across)/R['Mpl_plate_strip']
+        # parallel-to-edge breakout at Key A for the components running along an edge closer than 0.6 m
+        for k in ('+x', '-x', '+y', '-y'):
+            if edges[k] < 0.60:
+                par = Ay if k[1] == 'x' else Ax
+                if par > 3.0:
+                    c1 = edges[k]*1000 - BASE['keyA_b']/2
+                    u['Key A parallel to edge %s (c1 %.0f)' % (k, c1)] = par/(2*V_edge_key(c1, BASE['keyA_b']))
+        M_along = along*LEVER/1e3; M_across = across*LEVER/1e3
+        for k, v in VB.items():
+            if v > 0.5:
+                u['Key B outward %s (c1 250)' % k] = v/R['VRd_B']
+                if k[1] == ('x' if orient == 'x' else 'y'): M_along += v*LEVER/1e3
+                else: M_across += v*LEVER/1e3
+        for k, v in comps.items():
+            if k in keyB or v <= 3.0: continue
+            if NEAR_EDGE <= edges[k] < 0.60:
+                c1 = edges[k]*1000 - BASE['keyA_b']/2; u['Key A towards edge %s (c1 %.0f)' % (k, c1)] = v/V_edge_key(c1, BASE['keyA_b'])
+            elif edges[k] < NEAR_EDGE: u['UNRESOLVED outward %s' % k] = 9.9
+        if N >= 0: u['bearing'] = N/R['NRd_bearing']
+        else:
+            Nt = -N; cg = cone_group(group_extents(edges, orient, zone or BASE['zone']))
+            e1 = M_along/Nt*1e3; e2 = M_across/Nt*1e3; psi = 1/(1 + 2*e1/cg['scr'])/(1 + 2*e2/cg['scr'])
+            u['anchor group cone, real edges (N_Rd,c %.0f, psi_ec %.2f)' % (cg['NRd'], psi)] = Nt/(cg['NRd']*psi)
+            u['anchor group bond'] = Nt/R['NRd_p']
+            Nmax = Nt/4 + M_along/(2*BASE['sy']/1e3) + M_across/(2*BASE['sx']/1e3)
+            u['anchor steel (max anchor %.0f kN)' % Nmax] = Nmax/R['NRd_s']
+            u['plate T-stub'] = (Nt/2 + M_along/(BASE['sy']/1e3))/R['FT1_row']
+            zreq = required_zone(Nt, e1, e2)
+        u['plate strip at key moment'] = (M_along + M_across)/R['Mpl_plate_strip']
     return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get), Vt=Vt, VB=VB, along=along, across=across,
                 M_along=M_along, M_across=M_across, psi_ec=psi, Nmax=Nmax, zreq=zreq)
 
@@ -203,7 +273,8 @@ def gusset_bolts(T):
     return dict(bolt_shear=T/(2*BOLT['FvRd']), bearing_gusset=T/(2*Fb_g), bearing_angle=T/(2*Fb_a))
 
 if __name__ == '__main__':
-    R = anchor_resistances(); print({k: round(v, 1) for k, v in R.items()})
-    for z in (800, 750, 700, 600): print(z, round(cone_group(z)['NRd'], 1))
-    print(base_check(-73, (-20, 40), (0, 0), {'+x': 9, '-x': 0.1, '+y': 9, '-y': 9}, R, 'y', ('-x',)))
-    print(V_edge_key(250, 60), V_edge_key(285, 150), V_edge_key(205, 60))
+    R = anchor_resistances(); print({k: (round(v, 1) if isinstance(v, float) else v) for k, v in R.items() if k != 'p_cone'})
+    print(group_extents({'+x': 9, '-x': 0.1, '+y': 9, '-y': 9}, 'y'), cone_group(group_extents({'+x': 9, '-x': 0.1, '+y': 9, '-y': 9}, 'y'))['NRd'])
+    for e in ({'+x': 9, '-x': 0.1, '+y': 9, '-y': 9}, {'+x': 0.2, '-x': 9, '+y': 9, '-y': 0.1}, {'+x': 0.11, '-x': 9, '+y': 9, '-y': 0.3}):
+        print(b2_layout(e, 'x'))
+    print(base_check(-62, (-63.7, 0), (0, 0), {'+x': 0.2, '-x': 9, '+y': 9, '-y': 0.1}, R, 'x', (), 'B2'))

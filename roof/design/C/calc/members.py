@@ -145,28 +145,39 @@ def column_checks(res, Hchar, H4):
                     comp = {'+x': c['V'][0] + c['Vc'][0], '-x': -c['V'][0] + c['Vc'][0], '+y': c['V'][1] + c['Vc'][1], '-y': -c['V'][1] + c['Vc'][1]}[k]
                     dem = max(dem, comp)
                 if dem > 3.0: keyB.append(k)   # > 3 kN: cross-bay torsion shares (<= 1.5 kN) do not call for a Key B
-        env = dict(Nc=(-1e9, ''), Nt=(-1e9, ''), Vt=(-1e9, ''), umax=(0, '', ''), keyB=keyB, orient=COL_LONG[cid], saddle=cid in SADDLE, zreq=0, Nmax=0.0, Mkey=0.0)
-        for c in cases:
-            if c['case'].startswith('SLS'): continue
-            Ns = [c['N']] + ([c['Nt']] if 'Nt' in c else [])
-            for N in Ns:
-                bc = connections.base_check(N, c['V'], c['Vc'], edges, R, COL_LONG[cid], tuple(keyB), cid in SADDLE)
-                c.setdefault('base', []).append((N, bc))
-                if N > env['Nc'][0]: env['Nc'] = (N, c['case'])
-                if -N > env['Nt'][0]: env['Nt'] = (-N, c['case'])
-                if bc['Vt'] > env['Vt'][0]: env['Vt'] = (bc['Vt'], c['case'])
-                if bc['umax'] > env['umax'][0]: env['umax'] = (bc['umax'], c['case'], bc['gov'])
-                env['zreq'] = max(env['zreq'], bc['zreq']); env['Nmax'] = max(env['Nmax'], bc['Nmax']); env['Mkey'] = max(env['Mkey'], bc['M_along'] + bc['M_across'])
-        # utilisation of the governing tension case at smaller solid zones (R3)
+        def run_type(btype):
+            env = dict(Nc=(-1e9, ''), Nt=(-1e9, ''), Vt=(-1e9, ''), umax=(0, '', ''), keyB=keyB if btype == 'B1' else [], orient=COL_LONG[cid], btype=btype, zreq=0, Nmax=0.0, Mkey=0.0, ukey=0.0, uten=0.0, uplate=0.0)
+            for c in cases:
+                if c['case'].startswith('SLS'): continue
+                c['base'] = []
+                for N in [c['N']] + ([c['Nt']] if 'Nt' in c else []):
+                    bc = connections.base_check(N, c['V'], c['Vc'], edges, R, COL_LONG[cid], tuple(keyB), btype)
+                    c['base'].append((N, bc))
+                    if N > env['Nc'][0]: env['Nc'] = (N, c['case'])
+                    if -N > env['Nt'][0]: env['Nt'] = (-N, c['case'])
+                    if bc['Vt'] > env['Vt'][0]: env['Vt'] = (bc['Vt'], c['case'])
+                    if bc['umax'] > env['umax'][0]: env['umax'] = (bc['umax'], c['case'], bc['gov'])
+                    env['zreq'] = max(env['zreq'], bc['zreq']); env['Nmax'] = max(env['Nmax'], bc['Nmax']); env['Mkey'] = max(env['Mkey'], bc['M_along'] + bc['M_across'])
+                    for k, v in bc['util'].items():
+                        if 'Key' in k or 'key' in k or 'saddle' in k: env['ukey'] = max(env['ukey'], v)
+                        elif 'anchor' in k or 'bolt' in k or 'pier' in k: env['uten'] = max(env['uten'], v)
+                        elif 'plate' in k or 'bearing' in k: env['uplate'] = max(env['uplate'], v)
+            return env
+        if cid in SADDLE: env = run_type('P')
+        else:
+            env = run_type('B1')
+            if env['umax'][0] > 0.90: env = run_type('B2')
+        # cone utilisation of the governing tension case at smaller inboard zones (B1 only; R3 / S4 one-sided criterion)
         env['u_zone'] = {}
         for z in (800, 750, 700, 600):
             uz = 0.0
-            for c in cases:
-                if c['case'].startswith('SLS'): continue
-                for N in [c['N']] + ([c['Nt']] if 'Nt' in c else []):
-                    if N < 0:
-                        bz = connections.base_check(N, c['V'], c['Vc'], edges, None, COL_LONG[cid], tuple(keyB), cid in SADDLE, zone=z)
-                        uz = max(uz, max(v for k, v in bz['util'].items() if 'cone' in k))
+            if env['btype'] == 'B1':
+                for c in cases:
+                    if c['case'].startswith('SLS'): continue
+                    for N in [c['N']] + ([c['Nt']] if 'Nt' in c else []):
+                        if N < 0:
+                            bz = connections.base_check(N, c['V'], c['Vc'], edges, None, COL_LONG[cid], tuple(keyB), 'B1', zone=z)
+                            uz = max(uz, max(v for k, v in bz['util'].items() if 'cone' in k))
             env['u_zone'][z] = uz
         cases_all[cid] = cases; base_env[cid] = env
         # member check 6.3.3 (Annex B, Table B.2 for LTB-susceptible members: k_zy per B.2, review F7)
@@ -239,8 +250,8 @@ if __name__ == '__main__':
     print('COLUMNS')
     for r in out['cols']:
         e = out['base_env'][r['id']]
-        print('%-4s %s keyB=%-12s Nc=%6.1f(%s) Nt=%6.1f(%s) Vt=%5.1f(%s) base %.2f %s %s | zreq %d u800/700/600 %.2f/%.2f/%.2f Nmax %.0f' % (
-            r['id'], e['orient'], ','.join(e['keyB']) or '-', e['Nc'][0], e['Nc'][1], e['Nt'][0], e['Nt'][1], e['Vt'][0], e['Vt'][1], e['umax'][0], e['umax'][1], e['umax'][2], e['zreq'], e['u_zone'][800], e['u_zone'][700], e['u_zone'][600], e['Nmax']))
+        print('%-4s %s %s keyB=%-8s Nc=%6.1f(%s) Nt=%6.1f(%s) Vt=%5.1f(%s) base %.2f %s %s | ten %.2f key %.2f plate %.2f zreq %d u800/700/600 %.2f/%.2f/%.2f' % (
+            r['id'], e['btype'], e['orient'], ','.join(e['keyB']) or '-', e['Nc'][0], e['Nc'][1], e['Nt'][0], e['Nt'][1], e['Vt'][0], e['Vt'][1], e['umax'][0], e['umax'][1], e['umax'][2], e['uten'], e['ukey'], e['uplate'], e['zreq'], e['u_zone'][800], e['u_zone'][700], e['u_zone'][600]))
     print('seismic', out['seis'], out['H4'])
     print('PURLINS', out['purlins'])
     for d in 'NSEW':
