@@ -1,0 +1,335 @@
+{
+ "units": "m",
+ "source": "Drawing 3.dxf (structural plan, layer 0 hatches = columns)",
+ "column_section_cm": [
+  20,
+  40
+ ],
+ "column_reinforcement": "C1: 6 dia14, stirrups dia6 @ 20 cm; C2: 12 dia14 (not used on plan)",
+ "columns": [
+  {
+   "id": "K1",
+   "label": "C1",
+   "cx": 87.19,
+   "cy": 35.77,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K2",
+   "label": "C1",
+   "cx": 92.48,
+   "cy": 35.77,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K3",
+   "label": "C1",
+   "cx": 81.89,
+   "cy": 35.67,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K4",
+   "label": "C1",
+   "cx": 95.59,
+   "cy": 35.67,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K5",
+   "label": "C1",
+   "cx": 72.09,
+   "cy": 35.27,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K6",
+   "label": "C1",
+   "cx": 67.99,
+   "cy": 35.17,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K7",
+   "label": "C1",
+   "cx": 77.79,
+   "cy": 35.17,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K8",
+   "label": "C1",
+   "cx": 67.99,
+   "cy": 29.37,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K9",
+   "label": "C1",
+   "cx": 72.09,
+   "cy": 29.27,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K10",
+   "label": "C1",
+   "cx": 77.89,
+   "cy": 29.27,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K11",
+   "label": "C1",
+   "cx": 81.78,
+   "cy": 29.27,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K12",
+   "label": "C1",
+   "cx": 87.19,
+   "cy": 29.27,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K13",
+   "label": "C1",
+   "cx": 92.48,
+   "cy": 29.27,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K14",
+   "label": "C1",
+   "cx": 95.48,
+   "cy": 29.27,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K15",
+   "label": "C1",
+   "cx": 67.99,
+   "cy": 26.37,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K16",
+   "label": "C1",
+   "cx": 77.78,
+   "cy": 24.46,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K17",
+   "label": "C1",
+   "cx": 81.89,
+   "cy": 24.46,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K18",
+   "label": "C1",
+   "cx": 95.59,
+   "cy": 24.46,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K19",
+   "label": "C1",
+   "cx": 67.99,
+   "cy": 21.76,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K20",
+   "label": "C1",
+   "cx": 77.78,
+   "cy": 21.76,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K21",
+   "label": "C1",
+   "cx": 81.79,
+   "cy": 20.07,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K22",
+   "label": "C1",
+   "cx": 88.88,
+   "cy": 20.07,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K23",
+   "label": "C1",
+   "cx": 95.49,
+   "cy": 20.07,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K24",
+   "label": "C1",
+   "cx": 74.89,
+   "cy": 15.97,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W"
+  },
+  {
+   "id": "K25",
+   "label": "C1",
+   "cx": 67.99,
+   "cy": 15.87,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K26",
+   "label": "C1",
+   "cx": 71.99,
+   "cy": 15.87,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  },
+  {
+   "id": "K27",
+   "label": "C1",
+   "cx": 77.78,
+   "cy": 15.87,
+   "bx": 0.2,
+   "by": 0.4,
+   "orientation": "long axis N-S"
+  }
+ ],
+ "envelope_outer_faces": {
+  "x_min": 67.89,
+  "x_max": 95.69,
+  "y_min": 15.57,
+  "y_max": 35.87
+ },
+ "grid_lines_from_columns": {
+  "x": [
+   67.99,
+   71.99,
+   72.09,
+   74.89,
+   77.78,
+   77.79,
+   77.89,
+   81.78,
+   81.79,
+   81.89,
+   87.19,
+   88.88,
+   92.48,
+   95.48,
+   95.49,
+   95.59
+  ],
+  "y": [
+   15.87,
+   15.97,
+   20.07,
+   21.76,
+   24.46,
+   26.37,
+   29.27,
+   29.37,
+   35.17,
+   35.27,
+   35.67,
+   35.77
+  ]
+ },
+ "interior_walls_y": [
+  29.17,
+  29.37,
+  35.17,
+  35.37,
+  35.67,
+  35.87,
+  19.97,
+  20.17,
+  15.57,
+  16.07
+ ],
+ "interior_walls_x": [
+  67.89,
+  68.09,
+  77.69,
+  77.89,
+  81.79,
+  81.99,
+  95.49,
+  95.69
+ ],
+ "rooms": {
+  "SERVICES": "x 67.9-77.9, y 29.4-35.4",
+  "STAIR": "x 77.9-81.8, y 29.4-35.4",
+  "KITCHEN": "x 82.0-95.7, y 29.4-35.9",
+  "SEATING": "x 67.9-95.7, y 20.2-29.2 (open hall)",
+  "ELEVATOR": "x 77.9-82.0, y 20.2-24.2",
+  "TERRACE_SW": "x 67.9-77.9, y 15.6-20.2",
+  "TERRACE_S": "x 82-95.7, y 20 - 22 (strip along south)",
+  "TERRACE_E": "x ~93-95.7, y 20-29"
+ },
+ "dimensions_on_drawing_m": [
+  3.9,
+  6.3,
+  9.0,
+  9.6,
+  13.5,
+  5.0,
+  0.6
+ ]
+}
