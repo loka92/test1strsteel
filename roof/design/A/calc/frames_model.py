@@ -13,11 +13,10 @@ OUT = os.path.join(HERE, '..')
 
 # ---------------------------------------------------------------- design choice (iterated by the checks)
 DESIGN = dict(
-    rafter={'F1': 'IPE240', 'F2': 'IPE330', 'F3': 'IPE240', 'F4': 'IPE240', 'F5': 'IPE300', 'F6': 'IPE300', 'F7': 'IPE240'},
-    column_default='HEA160',
-    column={'K26': 'HEA200', 'K9': 'HEA200', 'K5': 'HEA200',
-            'K12': 'HEA200', 'K1': 'HEA200', 'K13': 'HEA200', 'K2': 'HEA200'},
-    haunch={'F1': 1.0, 'F2': 1.5, 'F3': 1.0, 'F4': 1.0, 'F5': 1.2, 'F6': 1.2, 'F7': 1.0},   # m each side of column
+    rafter={'F1': 'IPE300', 'F2': 'IPE300', 'F3': 'IPE300', 'F4': 'IPE300', 'F5': 'IPE300', 'F6': 'IPE300', 'F7': 'IPE300'},
+    column_default='HEA200',
+    column={},                       # exceptions per column id, none: one column section for all 27
+    haunch={'F1': 1.3, 'F2': 1.3, 'F3': 1.3, 'F4': 1.3, 'F5': 1.3, 'F6': 1.3, 'F7': 1.3},   # m each side of column, one cutting detail
     girder='IPE300',
     haunch_min_bay=3.5,   # bays shorter than this: haunch only at one side (bracket depth by plates)
 )

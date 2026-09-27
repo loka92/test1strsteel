@@ -1,0 +1,116 @@
+member_id,type,section,length_m,frm,to,N_Ed_kN,M_Ed_kNm,V_Ed_kN,utilisation,governing_check,combo
+K25 (F1),column,HEA200,4.5,base,knee,32.3,5.3,5.8,0.39,6.3.3 (6.62),ULS2_R
+K19 (F1),column,HEA200,4.15,base,knee,0.0,1.3,0.3,0.44,6.2.9 M+N,ULS2_R
+K15 (F1),column,HEA200,3.87,base,knee,2.8,1.3,0.3,0.28,6.2.9 M+N,ULS2_R
+K8 (F1),column,HEA200,3.69,base,knee,0.0,0.3,0.1,0.29,6.2.9 M+N,ULS2_R
+K6 (F1),column,HEA200,3.34,base,knee,28.4,5.7,5.2,0.25,6.3.3 (6.62),ULS2_R
+F1 rafter bay 1,rafter,IPE300 + haunch,5.89,y=15.87,y=21.76,0.0,8.0,17.4,0.08,haunch Mel,ULS3_R
+F1 rafter bay 2,rafter,IPE300 + haunch,4.61,y=21.76,y=26.37,0.0,3.7,17.4,0.08,haunch Mel,ULS3_R
+F1 rafter bay 3,rafter,IPE300 + haunch,3.0,y=26.37,y=29.37,0.0,13.1,15.8,0.08,6.2.9 M+N,ULS3_R
+F1 rafter bay 4,rafter,IPE300 + haunch,5.8,y=29.37,y=35.17,0.2,13.1,15.8,0.08,6.2.9 M+N,ULS3_R
+F1 rafter cant N,rafter,IPE300 + haunch,0.7,y=35.17,y=35.87,3.6,15.5,11.4,0.08,LTB 6.3.2/6.3.3,ULS2_S0
+K26 (F2),column,HEA200,4.5,base,knee,55.3,55.5,12.3,0.57,6.3.3 (6.62),ULS1-
+K9 (F2),column,HEA200,3.7,base,knee,0.0,80.0,21.6,0.7,6.3.3 (6.62),ULS3_N
+K5 (F2),column,HEA200,3.34,base,knee,29.5,36.6,14.2,0.35,6.3.3 (6.62),ULS2_S0
+F2 rafter bay 1,rafter,IPE300 + haunch,13.4,y=15.87,y=29.27,1.4,86.9,63.3,0.66,haunch Mel,ULS3_N
+F2 rafter bay 2,rafter,IPE300 + haunch,6.0,y=29.27,y=35.27,1.4,47.2,63.3,0.66,haunch Mel,ULS3_N
+F2 rafter cant N,rafter,IPE300 + haunch,0.6,y=35.27,y=35.87,8.6,37.7,16.1,0.18,LTB 6.3.2/6.3.3,ULS2_S0
+K27 (F3),column,HEA200,4.5,base,knee,38.5,5.0,4.5,0.29,6.3.3 (6.62),ULS2_R
+K20 (F3),column,HEA200,4.15,base,knee,3.2,17.0,4.1,0.16,6.3.3 (6.62),ULS2_N
+K16 (F3),column,HEA200,3.98,base,knee,0.0,16.8,4.2,0.15,6.3.3 (6.62),ULS2_N
+K10 (F3),column,HEA200,3.7,base,knee,0.0,20.7,5.6,0.18,6.3.3 (6.62),ULS2_N
+K7 (F3),column,HEA200,3.34,base,knee,1.4,19.8,20.4,0.17,6.3.3 (6.62),ULS2_N
+F3 rafter bay 1,rafter,IPE300 + haunch,5.89,y=15.87,y=21.76,0.0,11.1,17.7,0.09,haunch Mel,ULS3_N
+F3 rafter bay 2,rafter,IPE300 + haunch,2.7,y=21.76,y=24.46,2.4,12.1,17.7,0.09,haunch Mel,ULS3_N
+F3 rafter bay 3,rafter,IPE300 + haunch,4.81,y=24.46,y=29.27,6.7,12.1,25.5,0.13,haunch Mel,ULS3_N
+F3 rafter bay 4,rafter,IPE300 + haunch,5.9,y=29.27,y=35.17,6.7,5.2,25.5,0.13,haunch Mel,ULS3_N
+F3 rafter cant N,rafter,IPE300 + haunch,0.7,y=35.17,y=35.87,1.4,14.4,12.9,0.07,LTB 6.3.2/6.3.3,ULS2_S0
+K21 (F4),column,HEA200,4.25,base,knee,14.7,23.3,21.6,0.23,6.3.3 (6.62),ULS2_S0
+K17 (F4),column,HEA200,3.98,base,knee,24.3,25.4,6.4,0.25,6.3.3 (6.62),ULS2_S0
+K11 (F4),column,HEA200,3.7,base,knee,32.3,29.7,8.0,0.29,6.3.3 (6.62),ULS2_S0
+K3 (F4),column,HEA200,3.31,base,knee,29.0,32.6,12.9,0.31,6.3.3 (6.62),ULS2_S0
+F4 rafter bay 1,rafter,IPE300 + haunch,4.39,y=20.07,y=24.46,21.8,20.8,14.6,0.1,LTB 6.3.2/6.3.3,ULS2_S0
+F4 rafter bay 2,rafter,IPE300 + haunch,4.81,y=24.46,y=29.27,8.7,4.7,18.5,0.14,haunch Mel,ULS3_S
+F4 rafter bay 3,rafter,IPE300 + haunch,6.4,y=29.27,y=35.67,15.9,32.8,21.4,0.14,LTB 6.3.2/6.3.3,ULS2_S0
+K12 (F5),column,HEA200,3.7,base,knee,59.4,39.1,10.6,0.4,6.3.3 (6.62),ULS2_S0
+K1 (F5),column,HEA200,3.31,base,knee,22.0,37.8,14.9,0.35,6.3.3 (6.62),ULS2_S
+F5 rafter bay 1,rafter,IPE300 + haunch,9.2,y=20.07,y=29.27,2.0,92.5,51.5,0.54,6.2.9 M+N,ULS3_N
+F5 rafter bay 2,rafter,IPE300 + haunch,6.5,y=29.27,y=35.77,2.0,92.5,51.5,0.54,6.2.9 M+N,ULS3_N
+K13 (F6),column,HEA200,3.7,base,knee,47.6,35.3,9.5,0.36,6.3.3 (6.62),ULS2_S0
+K2 (F6),column,HEA200,3.31,base,knee,19.5,34.4,13.1,0.32,6.3.3 (6.62),ULS2_S
+F6 rafter bay 1,rafter,IPE300 + haunch,9.2,y=20.07,y=29.27,0.7,73.2,40.0,0.42,6.2.9 M+N,ULS3_N
+F6 rafter bay 2,rafter,IPE300 + haunch,6.5,y=29.27,y=35.77,0.7,73.2,40.0,0.42,6.2.9 M+N,ULS3_N
+K23 (F7),column,HEA200,4.25,base,knee,34.1,3.2,4.3,0.29,6.3.3 (6.62),ULS2_R
+K18 (F7),column,HEA200,3.98,base,knee,4.1,0.7,0.2,0.36,6.2.9 M+N,ULS2_R
+K14 (F7),column,HEA200,3.7,base,knee,0.7,0.1,0.0,0.37,6.2.9 M+N,ULS2_R
+K4 (F7),column,HEA200,3.31,base,knee,1.5,4.4,4.1,0.22,6.2.9 M+N,ULS2_R
+F7 rafter bay 1,rafter,IPE300 + haunch,4.39,y=20.07,y=24.46,8.3,8.8,7.7,0.04,LTB 6.3.2/6.3.3,ULS2_S0
+F7 rafter bay 2,rafter,IPE300 + haunch,4.81,y=24.46,y=29.27,0.0,4.1,14.0,0.07,haunch Mel,ULS3_R
+F7 rafter bay 3,rafter,IPE300 + haunch,6.4,y=29.27,y=35.67,0.0,7.9,14.0,0.07,haunch Mel,ULS3_R
+purlin F1-F2,purlin,Z200x2.0 S350GD,4.1,F1,F2,0,8.4,0,0.67,uplift edge purlin,
+purlin F2-F3,purlin,Z200x2.0 S350GD,5.7,F2,F3,0,10.1,0,0.63,uplift edge purlin,
+purlin F3-F4,purlin,Z200x2.0 S350GD,4.05,F3,F4,0,5.1,0,0.32,uplift edge purlin,
+purlin F4-F5,purlin,Z200x2.0 S350GD,5.35,F4,F5,0,8.9,0,0.56,uplift edge purlin,
+purlin F5-F6,purlin,Z200x2.0 S350GD,5.3,F5,F6,0,8.7,0,0.55,uplift edge purlin,
+purlin F6-F7,purlin,Z200x2.0 S350GD,3.05,F6,F7,0,4.6,0,0.37,uplift edge purlin,
+eaves beam N K6-K5,eaves beam,IPE200,4.1,K6,K5,0,8.9,8.7,0.33,uplift LTB + strut,
+eaves beam N K5-K7,eaves beam,IPE200,5.7,K5,K7,27.5,10.1,7.1,0.69,uplift LTB + strut,
+eaves beam N K7-K3,eaves beam,IPE200,4.1,K7,K3,0,8.9,8.7,0.33,uplift LTB + strut,
+eaves beam N K3-K1,eaves beam,IPE200,5.3,K3,K1,27.5,8.7,6.6,0.62,uplift LTB + strut,
+eaves beam N K1-K2,eaves beam,IPE200,5.3,K1,K2,27.5,8.7,6.6,0.62,uplift LTB + strut,
+eaves beam N K2-K4,eaves beam,IPE200,3.05,K2,K4,0,4.9,6.5,0.26,uplift LTB + strut,
+eaves beam S K25-K26,eaves beam,IPE200,4.0,K25,K26,18.3,6.4,6.4,0.45,uplift LTB + strut,
+eaves beam S K26-K24,eaves beam,IPE200,2.9,K26,K24,18.3,3.3,4.6,0.35,uplift LTB + strut,
+eaves beam S K24-K27,eaves beam,IPE200,2.9,K24,K27,18.3,3.3,4.6,0.35,uplift LTB + strut,
+transfer girder K21-K22-K23 (+hanger to F3),girder,IPE300,17.7,F3 rafter,K23,0,48.4,40.9,0.75,LTB (L 5.4 m) + weak-axis wind (eaves ties @ 2 m),
+trimmer y=20.17,trimmer,IPE200,4.05,F3,F4,0,7.4,7.3,0.21,uplift LTB (L 4.05 m),
+trimmer y=24.16,trimmer,IPE200,4.05,F3,F4,0,7.4,7.3,0.21,uplift LTB (L 4.05 m),
+trimmer y=29.37,trimmer,IPE200,4.05,F3,F4,0,7.4,7.3,0.21,uplift LTB (L 4.05 m),
+trimmer y=35.37,trimmer,IPE200,4.05,F3,F4,0,7.4,7.3,0.21,uplift LTB (L 4.05 m),
+wind post x=77.89 (notch corner),post,IPE200,4.4,slab,girder/eave,0.0,10.1,9.2,0.31,wind bending (pinned-pinned),
+wind post x=87.2,post,IPE200,4.6,slab,girder/eave,0.0,20.1,17.5,0.64,wind bending (pinned-pinned),
+wind post x=92.5,post,IPE200,4.6,slab,girder/eave,0.0,18.7,16.3,0.6,wind bending (pinned-pinned),
+eave post K24,post,HEA200,4.6,slab,girder/eave,12.0,16.5,14.3,0.18,wind bending (pinned-pinned),
+eave post K22,post,HEA200,4.6,slab,girder/eave,52.2,15.0,13.1,0.22,wind bending (pinned-pinned),
+wall bracing K6-K5,wall bracing,rod M20 8.8 (X),5.36,K6,K5,35.8,0,0,0.25,tension rod,
+wall bracing K5-K7,wall bracing,rod M20 8.8 (X),6.67,K5,K7,32.0,0,0,0.23,tension rod,
+wall bracing K25-K26,wall bracing,rod M20 8.8 (X),6.13,K25,K26,28.0,0,0,0.2,tension rod,
+wall bracing K26-K24,wall bracing,rod M20 8.8 (X),5.48,K26,K24,34.5,0,0,0.24,tension rod,
+wall bracing K24-K27,wall bracing,rod M20 8.8 (X),5.48,K24,K27,34.5,0,0,0.24,tension rod,
+wall bracing K3-K1,wall bracing,rod M20 8.8 (X),6.33,K3,K1,32.7,0,0,0.23,tension rod,
+wall bracing K1-K2,wall bracing,rod M20 8.8 (X),6.32,K1,K2,32.7,0,0,0.23,tension rod,
+wall bracing K21-K22,wall bracing,rod M20 8.8 (X),8.34,K21,K22,32.2,0,0,0.23,tension rod,
+wall bracing K22-K23,wall bracing,rod M20 8.8 (X),7.94,K22,K23,32.9,0,0,0.23,tension rod,
+roof bracing W bay 68.0-72.1,roof bracing,CHS 76.3x3.2,7.18,-,-,96.0,0,0,0.48,tension-only diagonal,
+roof bracing E bay 92.5-95.55,roof bracing,CHS 76.3x3.2,7.09,-,-,127.4,0,0,0.63,tension-only diagonal,
+roof bracing E bay 81.85-87.2 (diaphragm tie),roof bracing,CHS 76.3x3.2,8.34,-,-,42.7,0,0,0.21,tension-only diagonal,
+roof bracing mid panel 77.8-81.85 (y 24.2-29.3),roof bracing,CHS 76.3x3.2,6.59,-,-,22.3,0,0,0.11,tension-only diagonal,
+knee end-plate connection (all 27 columns),connection,"200 x 680 x 20 S275, 12 x M20 8.8, gauge 100, rows at -45/55/155/295/395/495 from rafter top (symmetric)",,rafter,column,0,156.6,62.5,0.9,"bolt-row tension (uplift, sagging)",ULS3_N K9
+rafter-to-girder pin F5/F6,connection,4 x M20 8.8,,rafter,girder,0,0,33.8,0.09,bolt shear,ULS3
+base K1 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-31.9,0,29.6,0.6,anchor N+V interaction (EN 1992-4),ULS3_S
+base K2 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-28.0,0,27.4,0.59,anchor N+V interaction (EN 1992-4),ULS3_S
+base K3 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-29.1,0,27.4,0.46,anchor N+V interaction (EN 1992-4),ULS3_R
+base K4 (corner),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-13.0,0,12.6,0.19,anchor N+V interaction (EN 1992-4),ULS3_R
+base K5 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-25.9,0,27.4,0.57,anchor N+V interaction (EN 1992-4),ULS3_S
+base K6 (corner),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-41.6,0,27.4,0.79,anchor N+V interaction (EN 1992-4),ULS3_R
+base K7 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-25.4,0,27.4,0.47,anchor N+V interaction (EN 1992-4),ULS3_R
+base K8 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-25.9,0,18.1,0.37,anchor N+V interaction (EN 1992-4),ULS3_R
+base K9 (interior),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-95.5,0,21.6,0.38,anchor N+V interaction (EN 1992-4),ULS3_N
+base K10 (interior),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-37.7,0,5.6,0.15,anchor N+V interaction (EN 1992-4),ULS3_N
+base K11 (interior),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-35.4,0,8.3,0.14,anchor N+V interaction (EN 1992-4),ULS3_N
+base K12 (interior),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-82.9,0,11.2,0.33,anchor N+V interaction (EN 1992-4),ULS3_N
+base K13 (interior),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-63.1,0,9.6,0.25,anchor N+V interaction (EN 1992-4),ULS3_N
+base K14 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-24.2,0,23.1,0.44,anchor N+V interaction (EN 1992-4),ULS3_R
+base K15 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-12.4,0,16.4,0.23,anchor N+V interaction (EN 1992-4),ULS3_R
+base K16 (interior),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-20.6,0,4.2,0.08,anchor N+V interaction (EN 1992-4),ULS3_N
+base K17 (interior),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-27.5,0,6.5,0.11,anchor N+V interaction (EN 1992-4),ULS3_N
+base K18 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-14.5,0,20.4,0.31,anchor N+V interaction (EN 1992-4),ULS3_R
+base K19 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-30.8,0,24.2,0.53,anchor N+V interaction (EN 1992-4),ULS3_R
+base K20 (interior),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-21.3,0,4.1,0.09,anchor N+V interaction (EN 1992-4),ULS3_S
+base K21 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-37.9,0,27.4,0.58,anchor N+V interaction (EN 1992-4),ULS3_R
+base K22 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-70.3,0,27.4,0.87,anchor N+V interaction (EN 1992-4),ULS3_N
+base K23 (corner),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-33.5,0,27.4,0.64,anchor N+V interaction (EN 1992-4),ULS3_R
+base K24 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-5.0,0,18.3,0.27,anchor N+V interaction (EN 1992-4),ULS2_R
+base K25 (corner),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-34.5,0,18.3,0.57,anchor N+V interaction (EN 1992-4),ULS3_R
+base K26 (edge),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-46.1,0,21.8,0.52,anchor N+V interaction (EN 1992-4),ULS3_R
+base K27 (corner),base,300x400x20 + 4 M20 h_ef 300,,column,slab,-37.8,0,18.3,0.6,anchor N+V interaction (EN 1992-4),ULS3_R

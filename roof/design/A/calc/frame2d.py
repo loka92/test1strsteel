@@ -125,7 +125,7 @@ class Frame2D:
         self.reactions = {n_: R[dof[n_]:dof[n_] + 3].copy() for n_ in self.supports}
         for n_, (kx, kz, kr) in self.springs.items():   # spring reactions
             u = U[dof[n_]:dof[n_] + 3]
-            self.reactions[n_] = self.reactions.get(n_, np.zeros(3)) + np.array([kx * u[0], kz * u[1], kr * u[2]])
+            self.reactions[n_] = self.reactions.get(n_, np.zeros(3)) + np.array([-kx * u[0], -kz * u[1], -kr * u[2]])  # force ON the structure (up = +)
         self.results = []
         for mi, m in enumerate(self.members):
             L, c, s, T = self._geom(m)

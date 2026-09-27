@@ -19,8 +19,13 @@ CPE_WALL_D, CPE_WALL_E, CPE_WALL_SIDE = 0.8, -0.5, -0.8   # windward, leeward, s
 # roof cpe (Table 7.3a, 5 deg): zones by distance from the windward edge (e/10 = 1.2 m -> F or G, then H)
 E_ZONE = 12.0
 ROOF_CPE = {'N': dict(F=-2.3, G=-1.3, H=-0.8), 'S': dict(F=-1.7, G=-1.2, H=-0.6)}
-# along-ridge wind (theta = 90): governing zone per frame (see report 2.3)
-ROOF_CPE_RIDGE = {'F1': -1.8, 'F2': -0.6, 'F3': -0.5, 'F4': -0.5, 'F5': -0.5, 'F6': -0.6, 'F7': -1.8}
+# along-ridge wind (theta = 90): governing zone per frame (see report 2.3). Gable frames: area-weighted
+# over their 2.2 m strip (1.2 m of G -1.8 + 1.0 m of H -0.6 -> -1.3); F/G values are kept for purlins and eaves members.
+ROOF_CPE_RIDGE = {'F1': -1.3, 'F2': -0.6, 'F3': -0.5, 'F4': -0.5, 'F5': -0.5, 'F6': -0.6, 'F7': -1.3}
+# vertical X-braced wall bays (E-W stability), two bays in series per corner region: (col_a, col_b)
+BRACED_BAYS = [('K6', 'K5'), ('K5', 'K7'), ('K25', 'K26'), ('K26', 'K24'), ('K24', 'K27'),
+               ('K3', 'K1'), ('K1', 'K2'), ('K21', 'K22'), ('K22', 'K23')]
+BRACED_COLS = sorted({c for b in BRACED_BAYS for c in b})
 UPSTAND = 0.3                                  # kN/m along opening edges
 ALLOW_PLATES = 0.10                            # +10 % of rafter/column self-weight for haunches, plates, bolts
 
