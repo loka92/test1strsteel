@@ -38,9 +38,9 @@ def fin_plate(V_Ed, n, tw_beam, tp=10, e=50, p1=70, e1=40, e2=40, hp=None):
     u['web block tearing'] = V_Ed/Veff2
     return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get), n=n, tp=tp, hp=hp, V_Ed=V_Ed)
 
-def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=140, tf_beam=11.5, tw_beam=7.5):
-    """Column cap plate 200x240x20 welded to HEA 160 (a=6 all round); primary bolted with 4 M20 through its
-    bottom flange. Tension from uplift N_t (kN) and horizontal chord/strut force V_h (kN)."""
+def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=200, tf_beam=11.5, tw_beam=7.5):
+    """Column cap plate 200x280x20 welded to HEA 160 (a=6 all round); primary bolted with 4 M20 through its
+    bottom flange at pitch 200 so the nuts clear the passing rafter flange (review F12). Tension from uplift N_t (kN) and horizontal chord/strut force V_h (kN)."""
     u = {}
     u['bolt tension'] = N_t/4/BOLT['FtRd']
     u['bolt shear'] = V_h/4/BOLT['FvRd']
@@ -56,64 +56,84 @@ def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=140, tf_beam=11.5, tw_beam=7.5):
     Lw = 908; u['weld'] = ((N_t*1e3/(Lw*6))**2 + (V_h*1e3/(Lw*6))**2)**0.5/(weld_res(6)*1e3/6)
     return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get))
 
-# ---- base plate and anchors (EN 1992-4 with the basis values) ------------------------------------------------
-BASE = dict(bp=300, lp=400, tp=20, sx=200, sy=300, hef=170, fck=25, zone=800, slab=250)
-ANCH = dict(NRk_s=196.0, NRk_c0=80.0, NRk_p0=107.0, VRk_s=98.0, gMc=1.5, gMs=1.4, tau=10.0, d=20)
+# ---- base plate and anchors, Rev 2 anchorage basis ----------------------------------------------------------
+# Plate 300 x 400 x 25 S275 on 40 mm grout. 4 M20 8.8 resin anchors at 80 x 280 inside the concrete column core,
+# drilled through the slab solid zone into the column head, h_ef = 300 (250 slab + 50 column). Tension: steel, bond
+# (tau_Rk 10 MPa cracked, s_cr,Np = 7.3 d sqrt(tau)) and concrete cone in the slab solid zone (h_ef 250, k = 7.2 cracked,
+# 800 x 800 zone treated as free edges). Shear: ALL shear through a central grouted shear key (60 mm round bar S355 in a
+# 90 mm cored pocket 350 deep: 250 slab + 100 column head); the anchors sit in 26 mm clearance holes and take no shear.
+BASE = dict(bp=300, lp=400, tp=25, sx=80, sy=280, hef=300, hef_cone=250, fck=25, zone=800, slab=250,
+            key_d=60, key_fy=355.0, pocket_d=90, pocket_depth=350, key_bearing_depth=250)
+ANCH = dict(NRk_s=196.0, VRk_s=98.0, gMc=1.5, gMs=1.4, gMp=1.5, tau=10.0, d=20, k_cr=7.2)
+V_RD_EDGE = 60.0   # kN: key shear towards a free edge closer than 0.25 m, carried by the column cage (3 dia14 dowels
+                   # at 50 % + one dia6 stirrup, f_yd 435): 3 x 0.5 x 21.7 + 24 = 57 -> 60 kN with the rebar scan (bases_C.md)
+FJD = 10.0         # MPa bearing under the grout (0.6 f_cd, basis)
 
-def base_plate(N_c, N_t, V, B=BASE):
-    """Bearing on grout (0.6 f_cd = 10 MPa), plate bending under compression (effective-area method) and
-    under uplift (T-stub cantilever from the column flange to the anchor row), 4 M20 resin anchors group."""
+def anchor_resistances(B=BASE, A=ANCH):
+    """Design resistances of the 4-anchor group (kN) per EN 1992-4 with the basis values."""
+    r = {}
+    r['NRd_s'] = A['NRk_s']/A['gMs']
+    # concrete cone in the slab solid zone
+    hef = B['hef_cone']; N0c = A['k_cr']*math.sqrt(B['fck'])*hef**1.5/1e3
+    scr = 3*hef; ccr = 1.5*hef
+    cx = min((B['zone'] - B['sy'])/2, ccr); cy = min((B['zone'] - B['sx'])/2, ccr)
+    AcN = (cx + B['sy'] + cx)*(cy + B['sx'] + cy); ratio_c = AcN/scr**2
+    psi_s = min(1.0, 0.7 + 0.3*min(cx, cy)/ccr)
+    r.update(N0c=N0c, ratio_c=ratio_c, psi_s=psi_s, NRk_cg=N0c*ratio_c*psi_s)
+    r['NRd_c'] = r['NRk_cg']/A['gMc']
+    # bond (pull-out) over the full embedment
+    N0p = math.pi*A['d']*B['hef']*A['tau']/1e3
+    scrp = min(7.3*A['d']*math.sqrt(A['tau']), 3*B['hef']); ccrp = scrp/2
+    cxp = min((B['zone'] - B['sy'])/2, ccrp); cyp = min((B['zone'] - B['sx'])/2, ccrp)
+    ApN = (cxp + B['sy'] + cxp)*(cyp + B['sx'] + cyp); ratio_p = ApN/scrp**2
+    psi_sp = min(1.0, 0.7 + 0.3*min(cxp, cyp)/ccrp)
+    r.update(N0p=N0p, scrp=scrp, ratio_p=ratio_p, psi_sp=psi_sp, NRk_pg=N0p*ratio_p*psi_sp)
+    r['NRd_p'] = r['NRk_pg']/A['gMp']
+    r['NRd_g'] = min(4*r['NRd_s'], r['NRd_c'], r['NRd_p'])
+    # shear key: bearing (triangular over the slab depth), bending at the plate, weld
+    d = B['key_d']; hb = B['key_bearing_depth']
+    fcd = B['fck']/1.5
+    r['VRd_key_bearing'] = fcd*d*hb/2/1e3                        # sigma_max = 2V/(d hb) <= f_cd
+    lever = hb/3 + 40 + 10                                         # grout + plate half... to the weld at the plate
+    Wpl = d**3/6; r['MRd_key'] = Wpl*B['key_fy']/1e6              # kNm
+    r['VRd_key_bending'] = r['MRd_key']/(lever/1e3)
+    r['VRd_key_weld'] = weld_res(8)*math.pi*d                    # a = 8 all round
+    r['VRd_key'] = min(r['VRd_key_bearing'], r['VRd_key_bending'], r['VRd_key_weld'])
+    r['VRd_edge'] = V_RD_EDGE
+    # plate: effective bearing area under compression, T-stub under uplift
+    col = sec('HEA 160'); cc = B['tp']*math.sqrt(FY/(3*FJD))
+    r['c'] = cc
+    r['Aeff'] = min(B['bp'], col['h'] + 2*cc)*min(B['lp'], col['b'] + 2*cc) - max(0, col['h'] - 2*col['tf'] - 2*cc)*max(0, col['b'] - col['tw'] - 2*cc)
+    r['NRd_bearing'] = r['Aeff']*FJD/1e3
+    m = B['sy']/2 - col['b']/2 - 0.8*6; leff = min(2*math.pi*m, B['sx'] + 4*m, B['bp'])
+    Mpl = 0.25*leff*B['tp']**2*FY/1e3; r['FT1_row'] = 4*Mpl/m; r['m_plate'] = m
+    return r
+
+def base_check(N, V, Vcross, edges, R=None):
+    """One base, one load case. N: axial (+ compression, - tension) kN; V: (Vx, Vy) signed shear on the concrete;
+    Vcross: (|Vx|, |Vy|) unsigned shear from cross bays (applied with the worst sign); edges: {'+x','-x','+y','-y'}
+    distances (m) from the column centre to a free slab edge. Returns utilisations."""
+    from model import NEAR_EDGE
+    R = R or anchor_resistances()
     u = {}
-    col = sec('HEA 160')
-    fjd = 10.0
-    c = B['tp']*math.sqrt(FY/(3*fjd*1.0))                     # cantilever width (EN 1993-1-8 6.2.5)
-    Aeff = min(B['bp'], col['b'] + 2*c)*min(B['lp'], col['h'] + 2*c) - max(0, (col['h'] - 2*col['tf'] - 2*c))*max(0, (col['b'] - col['tw'] - 2*c))
-    u['bearing (grout/slab)'] = N_c/(Aeff*fjd/1e3)
-    # uplift: anchors at +-sy/2 = 150 from centre, flange face at h/2 = 76 -> m = 150-76-0.8*6
-    m = B['sy']/2 - col['h']/2 - 0.8*6; leff = min(2*math.pi*m, 4*m + 1.25*50, B['bp'])
-    Mpl = 0.25*leff*B['tp']**2*FY/1e3; FT1 = 4*Mpl/m          # per anchor pair (mode 1)
-    u['plate bending (uplift)'] = (N_t/2)/FT1
-    # --- anchors: tension
-    NEd_a = N_t/4
-    NRd_s = ANCH['NRk_s']/ANCH['gMs']
-    scr = 3*B['hef']; ccr = scr/2
-    cedge = (B['zone'] - max(B['sx'], B['sy']))/2.0            # distance from the outer anchors to the solid-zone edge
-    c1 = min(cedge, ccr)
-    AcN = (c1 + B['sy'] + c1)*(min((B['zone']-B['sx'])/2, ccr) + B['sx'] + min((B['zone']-B['sx'])/2, ccr))
-    ratio_c = AcN/scr**2; psi_s = min(1.0, 0.7 + 0.3*c1/ccr)
-    NRk_cg = ANCH['NRk_c0']*ratio_c*psi_s
-    NRd_c = NRk_cg/ANCH['gMc']
-    scrp = min(20*ANCH['d']*math.sqrt(ANCH['tau']/7.5), scr); ccrp = scrp/2
-    c1p = min(cedge, ccrp)
-    ApN = (c1p + B['sy'] + c1p)*(min((B['zone']-B['sx'])/2, ccrp) + B['sx'] + min((B['zone']-B['sx'])/2, ccrp))
-    NRd_p = ANCH['NRk_p0']*ApN/scrp**2*min(1.0, 0.7 + 0.3*c1p/ccrp)/ANCH['gMc']
-    NRd_g = min(4*NRd_s, NRd_c, NRd_p)
-    u['anchor tension steel'] = NEd_a/NRd_s
-    u['anchor group cone'] = N_t/NRd_c
-    u['anchor group bond'] = N_t/NRd_p
-    # --- anchors: shear (4 anchors, holes 22 mm with washers welded after fit-up so all 4 act)
-    VRd_s = ANCH['VRk_s']/ANCH['gMs']; u['anchor shear steel'] = V/4/VRd_s
-    VRd_cp = 2*NRk_cg/ANCH['gMc']; u['anchor pry-out'] = V/VRd_cp
-    # concrete edge failure towards the solid-zone edge (treated as a free edge - conservative, see open items)
-    c1v = cedge; lf = B['hef']; d = ANCH['d']
-    al = 0.1*(lf/c1v)**0.5; be = 0.1*(d/c1v)**0.2
-    V0 = 2.4*d**al*lf**be*math.sqrt(B['fck'])*c1v**1.5/1e3       # kN, uncracked k9 = 2.4
-    AcV0 = 4.5*c1v**2
-    AcV = min(3*c1v + B['sx'], B['zone'])*min(1.5*c1v, B['slab'])
-    psi_h = math.sqrt(1.5*c1v/B['slab'])
-    VRd_c = V0*AcV/AcV0*psi_h/ANCH['gMc']
-    u['anchor group edge'] = V/VRd_c
-    uN = max(u['anchor tension steel'], u['anchor group cone'], u['anchor group bond'])
-    uV = max(u['anchor shear steel'], u['anchor pry-out'], u['anchor group edge'])
-    u['N-V interaction'] = uN**1.5 + uV**1.5
-    return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get), NRd_g=NRd_g, NRd_c=NRd_c, NRd_p=NRd_p, VRd_c=VRd_c,
-                VRd_cp=VRd_cp, Aeff=Aeff, ratio_c=ratio_c, cedge=cedge)
+    if N >= 0: u['bearing'] = N/R['NRd_bearing']
+    else:
+        u['anchor tension (cone governs)'] = -N/R['NRd_g']; u['plate T-stub'] = (-N/2)/R['FT1_row']
+    Vx, Vy = V; Vt = math.hypot(abs(Vx) + Vcross[0], abs(Vy) + Vcross[1])
+    u['key shear'] = Vt/R['VRd_key']
+    # components towards near edges
+    worst = 0.0; which = ''
+    for k, comp in (('+x', Vx + Vcross[0]), ('-x', -Vx + Vcross[0]), ('+y', Vy + Vcross[1]), ('-y', -Vy + Vcross[1])):
+        if edges[k] < NEAR_EDGE and comp > 0:
+            if comp/R['VRd_edge'] > worst: worst = comp/R['VRd_edge']; which = k
+    if which: u['edge shear %s (cage)' % which] = worst
+    return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get), Vt=Vt)
 
 def gusset_bolts(T):
-    """Bracing gusset: single L70x7 with 2 M20 in single shear on a 10 mm gusset."""
-    Fb_g = bearing(10, 40, 110, 35); Fb_a = bearing(7, 40, 110, 35)
+    """Bracing gusset: single L70x7 with 2 M20 in single shear on a 10 mm gusset, e2 = 30 (review F14)."""
+    Fb_g = bearing(10, 40, 110, 30); Fb_a = bearing(7, 40, 110, 30)
     return dict(bolt_shear=T/(2*BOLT['FvRd']), bearing_gusset=T/(2*Fb_g), bearing_angle=T/(2*Fb_a))
 
 if __name__ == '__main__':
-    print(fin_plate(30, 2, 6.6)); print(fin_plate(45, 3, 6.6)); print(cap_plate(70, 55)); 
-    b = base_plate(100, 75, 74); print(b)
+    R = anchor_resistances(); print({k: round(v, 1) for k, v in R.items()})
+    print(base_check(-80, (0, 40), (3, 0), {'+x': 9, '-x': 0.1, '+y': 9, '-y': 9}))

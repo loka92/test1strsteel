@@ -8,11 +8,13 @@ Q_ROOF  = 0.60                   # cat. H, psi0 = 0
 QP      = 1.30                   # peak velocity pressure kN/m2 (z_e = 10 m)
 G_WALL  = 0.30                   # kN/m2 of wall (BoardX + girts)
 CPI_UP, CPI_PR = +0.2, -0.3
-E_ZONE  = 12.0                   # e = min(b, 2h) approx. 12 m -> strips e/10 = 1.2, e/4 = 3.0, e/2 = 6.0
+E_ZONE  = 20.0                   # Rev 2: e = min(b, 2h) with h above ground = 20 m -> strips e/10 = 2.0, e/4 = 5.0, e/2 = 10.0
+GUTTER_G, GUTTER_W = 0.25, -0.50  # kN/m gravity / uplift on the north eave (gutter, fascia), Rev 2 (review F6)
+SLOPE_SIN = 0.0598               # sin(3.43 deg): horizontal (northward) component of the roof suction
 
-# Roof cpe (mono-pitch 5 deg, EN 1991-1-4 Table 7.3a). The basis labels theta=0 as wind from S; per Fig. 7.6
-# theta=0 is wind onto the LOW eave (north here). To remove the ambiguity the larger theta=180 set
-# (F -2.3, G -1.3, H -0.8) is applied for BOTH N and S wind with the F/G strip at the windward edge.
+# Roof cpe (mono-pitch 5 deg, EN 1991-1-4 Table 7.3a). Basis Rev 2: theta=0 = wind from N (-1.7/-1.2/-0.6),
+# theta=180 = wind from S (-2.3/-1.3/-0.8). The larger theta=180 set is kept for BOTH N and S wind (envelope,
+# as agreed) with the F/G strip at the windward edge.
 CPE_NS   = dict(F=-2.3, G=-1.3, H=-0.8)
 CPE_EW   = dict(F=-2.1, G=-1.8, H=-0.6, I=-0.5)
 CPE_WALL = dict(D=+0.8, E=-0.5, A=-1.2, B=-0.8, C=-0.5)

@@ -1,6 +1,7 @@
 """Geometry model for alternative C (post-and-beam, all pinned). Units m, kN.
-Roof plane: TOS(y) = 3.28 + 0.06 (35.87 - y). Primary top = TOS + 0.04 (rafter bottom flange 20 mm above
-primary bottom flange -> no cope). Cap plate top = TOS - 0.29, column length = TOS - 0.35 (grout 40 + plate 20)."""
+Rev 2. Roof plane: TOS(y) = 3.30 + 0.06 (35.87 - y) (raised 20 mm, review F11). Primary top = TOS + 0.05 (rafter bottom
+flange 30 mm above the primary bottom flange -> no cope, 13 mm clearance at the down-slope flange tip).
+Cap plate top = TOS - 0.28, column length = TOS - 0.34 (grout 40 + plate 25 -> 65 mm, rounded)."""
 import json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 GEO = json.load(open(os.path.join(HERE, '..', '..', '..', 'geometry.json')))
@@ -10,9 +11,9 @@ NOTCH = dict(x0=77.89, x1=95.69, y0=15.57, y1=19.97)
 OPEN = {'STAIR': dict(x0=77.89, x1=81.79, y0=29.37, y1=35.37),
         'ELEV':  dict(x0=77.89, x1=81.99, y0=20.17, y1=24.16)}
 PITCH = 0.06
-def TOS(y): return 3.28 + PITCH*(35.87 - y)
-def cap_top(y): return TOS(y) - 0.29
-def L_col(y): return TOS(y) - 0.35
+def TOS(y): return 3.30 + PITCH*(35.87 - y)
+def cap_top(y): return TOS(y) - 0.28
+def L_col(y): return TOS(y) - 0.34
 def wall_h(y): return TOS(y) + 0.30          # panel top + flashing, above slab
 SEC_PRIM, SEC_RAFT, SEC_COL = 'IPE 330', 'IPE 270', 'HEA 160'   # scheme sections (checked / revised in run)
 
@@ -42,7 +43,7 @@ RAFTERS = [
 PRIMARIES = [
  dict(id='P_K6K5',   y=35.22, x0=67.99, x1=72.09, sup=[(67.99,'K6'),(72.09,'K5')],  kind='eave'),
  dict(id='P_K5K7',   y=35.22, x0=72.09, x1=77.78, sup=[(72.09,'K5'),(77.78,'K7')],  kind='prim'),
- dict(id='T1',       y=35.37, x0=77.78, x1=81.85, sup=[(77.78,'R78'),(81.85,'R82')], kind='trim'),
+ dict(id='T1',       y=35.44, x0=77.78, x1=81.85, sup=[(77.78,'R78'),(81.85,'R82')], kind='trim'),
  dict(id='P_K3K1',   y=35.72, x0=81.85, x1=87.19, sup=[(81.85,'K3'),(87.19,'K1')],  kind='prim'),
  dict(id='P_K1K2',   y=35.77, x0=87.19, x1=92.48, sup=[(87.19,'K1'),(92.48,'K2')],  kind='prim'),
  dict(id='P_K2K4',   y=35.72, x0=92.48, x1=95.55, sup=[(92.48,'K2'),(95.55,'K4')],  kind='eave'),
@@ -53,7 +54,7 @@ PRIMARIES = [
  dict(id='P_K12K13', y=29.27, x0=87.19, x1=92.48, sup=[(87.19,'K12'),(92.48,'K13')],kind='prim'),
  dict(id='P_K13K14', y=29.27, x0=92.48, x1=95.55, sup=[(92.48,'K13'),(95.55,'K14')],kind='prim'),
  dict(id='P_K16K17', y=24.46, x0=77.78, x1=81.85, sup=[(77.78,'K16'),(81.85,'K17')],kind='prim'),
- dict(id='T2',       y=24.16, x0=77.78, x1=81.85, sup=[(77.78,'R78'),(81.85,'R82')],kind='trim'),
+ dict(id='T2',       y=24.09, x0=77.78, x1=81.85, sup=[(77.78,'R78'),(81.85,'R82')],kind='trim'),
  dict(id='P_K19K20', y=21.76, x0=67.99, x1=77.78, sup=[(67.99,'K19'),(77.78,'K20')],kind='prim'),
  dict(id='P_NOTCH',  y=20.07, x0=77.78, x1=81.85, sup=[(77.78,'R78'),(81.85,'K21')],kind='eave'),
  dict(id='P_K21K22', y=20.07, x0=81.85, x1=88.88, sup=[(81.85,'K21'),(88.88,'K22')],kind='prim'),
@@ -90,15 +91,39 @@ def face_tribs():
             out.setdefault(p, []).append((f['id'], hi-lo, f['normal']))
     return out
 
-# ---- vertical X-braced bays (tension-only diagonals): id, direction, two columns
+# ---- vertical X-braced bays (tension-only diagonals), Rev 2: 10 bays. The N-S bracing sits on three lines
+# (x = 68.0, 77.8, 95.5) with two bays in series per line so that no braced-bay base has a bay shear towards a free
+# slab edge and the middle column of each line carries no net bracing uplift. K17-K21 (Rev 1 B8) is dropped: K21 is a
+# 200 mm pier between the notch edge and the shaft opening and cannot take shear across it.
 BAYS = [
  dict(id='B1', dir='x', c=('K1','K2')),   dict(id='B2', dir='x', c=('K5','K7')),
  dict(id='B3', dir='x', c=('K22','K23')), dict(id='B4', dir='x', c=('K25','K26')),
  dict(id='B5', dir='y', c=('K15','K19')), dict(id='B6', dir='y', c=('K14','K18')),
- dict(id='B7', dir='y', c=('K20','K27')), dict(id='B8', dir='y', c=('K17','K21')),
+ dict(id='B7', dir='y', c=('K20','K27')), dict(id='B8', dir='y', c=('K10','K16')),
+ dict(id='B9', dir='y', c=('K18','K23')), dict(id='B10', dir='y', c=('K19','K25')),
 ]
 def bay_geom(b):
     (x1,y1),(x2,y2) = COLS[b['c'][0]], COLS[b['c'][1]]
     w = abs(x2-x1) if b['dir']=='x' else abs(y2-y1)
     ym = 0.5*(y1+y2); h = L_col(ym) + 0.17     # base plate to primary centre line
     return w, h, (h**2+w**2)**0.5, 0.5*(x1+x2), ym
+
+# ---- free slab edges near a column base (Rev 2 anchorage basis): distance from the column centre to the nearest
+# free edge in each direction (+x, -x, +y, -y); envelope, notch and the two shaft openings (assumed to be slab openings)
+def edge_distances(cx, cy):
+    d = {'+x': 99.0, '-x': 99.0, '+y': 99.0, '-y': 99.0}
+    def upd(k, v):
+        if v >= -0.05: d[k] = min(d[k], max(v, 0.0))
+    upd('+x', ENV['x1'] - cx); upd('-x', cx - ENV['x0']); upd('+y', ENV['y1'] - cy); upd('-y', cy - ENV['y0'])
+    # notch: x 77.89-95.69 / y 15.57-19.97 is outside the slab
+    if NOTCH['y0'] <= cy <= NOTCH['y1'] + 0.3 and cx <= NOTCH['x0'] + 0.3: upd('+x', NOTCH['x0'] - cx)
+    if cx >= NOTCH['x0'] - 0.3 and cy >= NOTCH['y1'] - 0.3 and cy <= NOTCH['y1'] + 0.5: upd('-y', cy - NOTCH['y1'])
+    for o in OPEN.values():
+        if o['y0'] - 0.3 <= cy <= o['y1'] + 0.3:
+            if cx <= o['x0']: upd('+x', o['x0'] - cx)
+            if cx >= o['x1']: upd('-x', cx - o['x1'])
+        if o['x0'] - 0.3 <= cx <= o['x1'] + 0.3:
+            if cy <= o['y0']: upd('+y', o['y0'] - cy)
+            if cy >= o['y1']: upd('-y', cy - o['y1'])
+    return d
+NEAR_EDGE = 0.25    # m from the column centre: closer than this, base shear in that direction counts as "towards a free edge"

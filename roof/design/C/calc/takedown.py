@@ -24,6 +24,10 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
     fields = dict(G=np.where(R, G_ROOF, 0.0), Gmin=np.where(R, G_MIN, 0.0), Q=np.where(R, Q_ROOF, 0.0),
                   W_D=np.where(R, W_DOWN, 0.0))
     for d, f in wind_fields(X, Y, R).items(): fields['W_'+d] = f
+    # gutter and fascia on the north eave (Rev 2, review F6): line loads spread over the northmost cell row
+    jn = X.shape[1] - 1
+    for t in ('G', 'Gmin'): fields[t][:, jn] += np.where(R[:, jn], GUTTER_G/dx, 0.0)
+    for d in 'NSEW': fields['W_'+d][:, jn] += np.where(R[:, jn], GUTTER_W/dx, 0.0)
     # --- purlin tributary: each cell to the adjacent N-S beams left/right (purlins = simple spans)
     ybins = {r['id']: np.arange(r['y0'], r['y1']+1e-9, dx) for r in RAFTERS}
     line = {r['id']: {t: np.zeros(len(ybins[r['id']])-1) for t in TYPES} for r in RAFTERS}

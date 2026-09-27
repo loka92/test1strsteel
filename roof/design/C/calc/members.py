@@ -2,6 +2,7 @@
 purlins vs basis capacities, plus the column/base reaction envelope.  kN, m, kNm."""
 import numpy as np, math
 from model import *
+from model import edge_distances
 from loads import *
 from sections import sec, Mb_Rd, Nb_Rd, chi, FY, E as ES
 from takedown import build, TYPES, COMBOS, combine
@@ -64,85 +65,107 @@ def beam_checks(res):
     return rows
 
 def column_orientation(cid, ft):
-    """Return (strong_normal, weak_normal): the wall face normal resisted by the strong axis (web normal to that wall)."""
+    """(strong_normal, weak_normal): the wall face normal resisted by the strong axis (web normal to that wall)."""
     faces = ft.get(cid, [])
     if not faces: return None, None
-    faces = sorted(faces, key=lambda f: -f[1])
-    strong = faces[0][2]
+    faces = sorted(faces, key=lambda f: -f[1]); strong = faces[0][2]
     weak = next((f[2] for f in faces if f[2][0] != strong[0]), None)
     return strong, weak
 
-def column_checks(res, bays_uls):
-    """bays_uls: {d: {bay: dict(H,T,N,...)}} at ULS (1.5 W). Returns rows and the reaction envelope."""
-    SC = res['sections']['col']; ft = res['wall_trib']
-    rows, reac = [], {}
-    NbR, xy, xz, ly, lz = None, None, None, None, None
+UDIR = {'N': (0.0, -1.0), 'S': (0.0, 1.0), 'E': (-1.0, 0.0), 'W': (1.0, 0.0)}
+NVEC = {'x+': (1, 0), 'x-': (-1, 0), 'y+': (0, 1), 'y-': (0, -1)}
+
+def wall_loads(cid, d, ft, L):
+    """Wall wind on column cid for wind from d (characteristic): base shear vector on the concrete (kN), moments
+    about the strong/weak axis (kNm) with the web normal to the governing wall."""
+    cx, cy = COLS[cid]; strong, weak = column_orientation(cid, ft)
+    Vx = Vy = 0.0; My = Mz = 0.0
+    for fid, trib, normal in ft.get(cid, []):
+        f = next(ff for ff in FACES if ff['id'] == fid)
+        along = cy if normal[0] == 'x' else cx
+        corner = f['b'] if d in ('N', 'E') else f['a']
+        s = abs(along - corner) if normal[0] != {'N':'y','S':'y','E':'x','W':'x'}[d] else 0.0
+        cp = wall_cp_net(normal, d, s)
+        w = abs(cp)*QP*trib; M = w*L**2/8
+        if normal == strong: My += M
+        else: Mz += M
+        n = NVEC[normal]; Vx += -n[0]*cp*QP*trib*L/2; Vy += -n[1]*cp*QP*trib*L/2   # pressure pushes inward
+    return (Vx, Vy), My, Mz
+
+def column_checks(res, Hchar, H4):
+    """Hchar: {d: {bay: H char}} wind; H4: {'x': {bay: H}, 'y': {...}} seismic (1.0 E). Returns member rows, the
+    per-case base actions {col: [case dicts]} and the base-check envelope."""
+    import connections
+    SC = res['sections']['col']; ft = res['wall_trib']; R = connections.anchor_resistances()
+    rows, cases_all, base_env = [], {}, {}
     for cid, (cx, cy) in COLS.items():
-        L = L_col(cy); v = res['colloads'][cid]
-        NbR, xy, xz, ly, lz = Nb_Rd(SC, L, L)
-        MbR, xlt, llt = Mb_Rd(SC, L)
-        strong, weak = column_orientation(cid, ft)
-        # bracing membership
+        L = L_col(cy); v = res['colloads'][cid]; edges = edge_distances(cx, cy)
+        NbR, xy, xz, ly, lz = Nb_Rd(SC, L, L); MbR, xlt, llt = Mb_Rd(SC, L)
         mybays = [b for b in BAYS if cid in b['c']]
-        best = None
-        env = dict(Nc_ULS=0, Nt_ULS=0, Vx_ULS=0, Vy_ULS=0, Nc_SLS=0, Nt_SLS=0, Vx_SLS=0, Vy_SLS=0, case_c='', case_t='')
-        # ULS-1 (gravity, no wind)
-        N1 = 1.35*v['G'] + 1.5*v['Q']; env['Nc_ULS'] = N1; env['case_c'] = 'ULS1'
-        env['Nc_SLS'] = v['G'] + v['Q']
-        cands = [dict(case='ULS1', N=N1, My=0.0, Mz=0.0)]
-        for d in 'NSEW':
-            # wall wind line loads on this column (kN/m) per face, worst net cp
-            My = Mz = 0.0; Vw = dict(x=0.0, y=0.0)
-            for fid, trib, normal in ft.get(cid, []):
-                f = next(ff for ff in FACES if ff['id'] == fid)
-                # distance from the windward corner along the face (for zones A/B/C)
-                along = cy if normal[0] == 'x' else cx
-                if d in 'NS':  corner = f['b'] if d == 'N' else f['a']
-                else:          corner = f['b'] if d == 'E' else f['a']
-                s = abs(along - corner) if normal[0] != {'N':'y','S':'y','E':'x','W':'x'}[d] else 0.0
-                cp = wall_cp_net(normal, d, s)
-                w = 1.5*abs(cp)*QP*trib               # ULS line load kN/m on the column
-                M = w*L**2/8
-                if normal == strong: My += M
-                else: Mz += M
-                Vw[normal[0]] += w*L/2               # base shear from the wall (ULS)
-            Nb = 0.0; Hb = dict(x=0.0, y=0.0)
+        def brace(Hd, ud):
+            """bracing at this column for bay forces Hd (magnitudes) and wind unit vector ud: returns
+            (V aligned signed, Vcross unsigned, N_windward(-uplift), N_leeward(+))."""
+            Vx = Vy = 0.0; cxs = [0.0, 0.0]; Nt = Nc = 0.0
             for b in mybays:
-                bf = bays_uls[d][b['id']]; Nb = max(Nb, bf['N']); Hb[b['dir']] = max(Hb[b['dir']], bf['H'])
-            # ULS-2: gravity + downward wind + bracing compression (leeward column)
-            N2 = 1.35*v['G'] + 1.5*v['W_D'] + Nb
-            cands.append(dict(case='ULS2' + d, N=N2, My=My, Mz=Mz))
-            # ULS-3: uplift + bracing tension (windward column)
-            N3 = 1.0*v['Gmin'] + 1.5*v['W_' + d] - Nb
-            cands.append(dict(case='ULS3' + d, N=N3, My=My, Mz=Mz))
-            if N2 > env['Nc_ULS']: env['Nc_ULS'], env['case_c'] = N2, 'ULS2' + d
-            if -N3 > env['Nt_ULS']: env['Nt_ULS'], env['case_t'] = -N3, 'ULS3' + d
-            env['Nt_SLS'] = max(env['Nt_SLS'], -(v['Gmin'] + v['W_' + d] - Nb/1.5))
-            env['Nc_SLS'] = max(env['Nc_SLS'], v['G'] + v['W_D'] + Nb/1.5)
-            for ax in 'xy':   # bay shear shared by the two bases through the HEA 160 base strut; wall base shear
-                Vt = Hb[ax]/2  # goes to the slab through the anchored wall base rail (reported separately)
-                env['V%s_ULS' % ax] = max(env['V%s_ULS' % ax], Vt); env['V%s_SLS' % ax] = max(env['V%s_SLS' % ax], Vt/1.5)
-                env['Vwall_%s' % ax] = max(env.get('Vwall_%s' % ax, 0.0), Vw[ax])
-        # 6.3.3 interaction (Annex B method 2, class 1, Cm = 0.95 pinned-pinned UDL)
+                H = Hd[b['id']]; other = b['c'][1] if b['c'][0] == cid else b['c'][0]
+                bd = (1, 0) if b['dir'] == 'x' else (0, 1)
+                proj = ud[0]*bd[0] + ud[1]*bd[1]
+                w, h, Ld, xm, ym = bay_geom(b)
+                if abs(proj) > 0.5:      # bay aligned with the wind
+                    me = COLS[cid][0]*bd[0] + COLS[cid][1]*bd[1]; ot = COLS[other][0]*bd[0] + COLS[other][1]*bd[1]
+                    windward = (me - ot)*proj < 0
+                    if windward: Vx += H*proj*bd[0]; Vy += H*proj*bd[1]; Nt += H*h/w
+                    else: Nc += H*h/w
+                else:                    # cross bay (torsion share): both signs possible
+                    cxs[0] += H*bd[0]; cxs[1] += H*bd[1]; Nt += H*h/w; Nc += H*h/w
+            return (Vx, Vy), tuple(cxs), Nt, Nc
+        cases = []
+        cases.append(dict(case='ULS1', N=1.35*v['G'] + 1.5*v['Q'], V=(0.0, 0.0), Vc=(0.0, 0.0), My=0.0, Mz=0.0))
+        cases.append(dict(case='SLS', N=v['G'] + v['Q'], V=(0.0, 0.0), Vc=(0.0, 0.0), My=0.0, Mz=0.0))
+        for d in 'NSEW':
+            (Vwx, Vwy), My, Mz = wall_loads(cid, d, ft, L)
+            (Vbx, Vby), Vc, Nt, Nc = brace(Hchar[d], UDIR[d])
+            V15 = (1.5*(Vwx + Vbx), 1.5*(Vwy + Vby)); Vc15 = (1.5*Vc[0], 1.5*Vc[1])
+            cases.append(dict(case='ULS2' + d, N=1.35*v['G'] + 1.5*v['W_D'] + 1.5*Nc, V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))
+            cases.append(dict(case='ULS3' + d, N=1.0*v['Gmin'] + 1.5*v['W_' + d] - 1.5*Nt, V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))
+            cases.append(dict(case='SLSW' + d, N=v['G'] + v['W_' + d] - Nt, V=(Vwx + Vbx, Vwy + Vby), Vc=Vc, My=My, Mz=Mz))
+        for ax, ud in (('+x', (1, 0)), ('-x', (-1, 0)), ('+y', (0, 1)), ('-y', (0, -1))):
+            (Vbx, Vby), Vc, Nt, Nc = brace(H4[ax[1]], ud)
+            cases.append(dict(case='ULS4' + ax, N=1.0*v['G'] + Nc, V=(Vbx, Vby), Vc=Vc, My=0.0, Mz=0.0, Nt=1.0*v['G'] - Nt))
+        # base checks per case (ULS only)
+        env = dict(Nc=(-1e9, ''), Nt=(-1e9, ''), Vt=(-1e9, ''), umax=(0, '', ''))
+        for c in cases:
+            if c['case'].startswith('SLS'): continue
+            Ns = [c['N']] + ([c['Nt']] if 'Nt' in c else [])
+            for N in Ns:
+                bc = connections.base_check(N, c['V'], c['Vc'], edges, R)
+                c.setdefault('base', []).append((N, bc))
+                if N > env['Nc'][0]: env['Nc'] = (N, c['case'])
+                if -N > env['Nt'][0]: env['Nt'] = (-N, c['case'])
+                if bc['Vt'] > env['Vt'][0]: env['Vt'] = (bc['Vt'], c['case'])
+                if bc['umax'] > env['umax'][0]: env['umax'] = (bc['umax'], c['case'], bc['gov'])
+        cases_all[cid] = cases; base_env[cid] = env
+        # member check 6.3.3 (Annex B, Table B.2 for LTB-susceptible members: k_zy per B.2, review F7)
         best = None
-        for c in cands:
-            N = max(c['N'], 0.0); My, Mz = c['My'], c['Mz']
-            Npl = SC['Npl']; ny = N/(xy*Npl); nz = N/(xz*Npl)
-            Cm = 0.95
+        for c in cases:
+            if c['case'].startswith('SLS'): continue
+            N = max(c['N'], 0.0); My, Mz = c['My'], c['Mz']; Npl = SC['Npl']
+            ny = N/(xy*Npl); nz = N/(xz*Npl); Cm = 0.95; CmLT = 0.95
             kyy = min(Cm*(1 + (ly - 0.2)*ny), Cm*(1 + 0.8*ny))
             kzz = min(Cm*(1 + (2*lz - 0.6)*nz), Cm*(1 + 1.4*nz))
-            kzy = 0.6*kyy; kyz = 0.6*kzz
+            kzy = max(1 - 0.1*lz*nz/(CmLT - 0.25), 1 - 0.1*nz/(CmLT - 0.25)) if lz >= 0.4 else 0.6 + lz
+            kyz = 0.6*kzz
             u1 = N/(xy*Npl) + kyy*My/MbR + kyz*Mz/SC['Mpl_z']
             u2 = N/(xz*Npl) + kzy*My/MbR + kzz*Mz/SC['Mpl_z']
             uxs = abs(c['N'])/Npl + My/SC['Mpl_y'] + Mz/SC['Mpl_z']
             u = max(u1, u2, uxs)
-            if best is None or u > best['u']: best = dict(u=u, u1=u1, u2=u2, uxs=uxs, **c)
+            if best is None or u > best['u']: best = dict(u=u, u1=u1, u2=u2, uxs=uxs, kzy=kzy, **{k: c[k] for k in ('case', 'N', 'My', 'Mz')})
+        uN = env['Nc'][0]/NbR
         rows.append(dict(id=cid, section=SC['name'], L=L, N_Ed=best['N'], My=best['My'], Mz=best['Mz'], case=best['case'],
-                         NbRd=NbR, MbRd=MbR, util=dict(N=env['Nc_ULS']/NbR, NM=best['u'], Nt=env['Nt_ULS']/SC['Npl']),
-                         umax=max(env['Nc_ULS']/NbR, best['u']), gov='6.3.3' if best['u'] > env['Nc_ULS']/NbR else '6.3.1',
-                         chi_y=xy, chi_z=xz, lam_z=lz, orient=strong, bays=[b['id'] for b in mybays]))
-        reac[cid] = env
-    return rows, reac
+                         NbRd=NbR, MbRd=MbR, util=dict(N=uN, NM=best['u'], Nt=env['Nt'][0]/SC['Npl']), kzy=best['kzy'],
+                         umax=max(uN, best['u']), gov='6.3.3' if best['u'] > uN else '6.3.1', chi_y=xy, chi_z=xz, lam_z=lz,
+                         orient=column_orientation(cid, ft)[0], bays=[b['id'] for b in mybays], edges=edges))
+    return rows, cases_all, base_env
 
 def purlin_checks(res):
     """Worst purlin span: integrate the field along each purlin span (trib 1.5 m) for gravity and uplift."""
@@ -170,14 +193,18 @@ def purlin_checks(res):
 
 def run(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL):
     res = build(sec_prim, sec_raft, sec_col)
-    bays = {}; Fr = {}
+    Hchar, Fr = {}, {}
     for d in 'NSEW':
-        H, Ftot, Hr, Ht = bracing.distribute(d)
-        bays[d] = bracing.bay_forces({k: 1.5*v for k, v in H.items()}); Fr[d] = (Ftot, Hr, Ht, H)
+        H, Ftot, Hr, Ht = bracing.distribute(d); Hchar[d] = H; Fr[d] = (Ftot, Hr, Ht, H)
+    bays = {d: bracing.bay_forces({k: 1.5*v for k, v in Hchar[d].items()}) for d in 'NSEW'}
+    steel = sum(sec(s['section'])['w']*s['L'] for s in res['spans']) + sum(sec(sec_col)['w']*L_col(COLS[c][1]) for c in COLS)
+    seis = bracing.seismic_check(res['roof_area'], 1.1*steel)
+    X, Y, R, dx = res['grid']; xc = float((X*R).sum()/R.sum()); yc = float((Y*R).sum()/R.sum())
+    H4 = {'x': bracing.distribute_point(seis['Fb'], xc, yc, 'x'), 'y': bracing.distribute_point(seis['Fb'], xc, yc, 'y')}
     beams = beam_checks(res)
-    cols, reac = column_checks(res, bays)
+    cols, cases, base_env = column_checks(res, Hchar, H4)
     pur = purlin_checks(res)
-    return dict(res=res, bays=bays, Fr=Fr, beams=beams, cols=cols, reac=reac, purlins=pur)
+    return dict(res=res, bays=bays, Fr=Fr, Hchar=Hchar, H4=H4, seis=seis, beams=beams, cols=cols, cases=cases, base_env=base_env, purlins=pur)
 
 if __name__ == '__main__':
     out = run()
@@ -187,9 +214,10 @@ if __name__ == '__main__':
             r['id'], r['span'], r['section'], r['L'], r['M_Ed'], r['Mu_Ed'], r['V_Ed'], r['MbG'], r['MbU'], r['Lu'], r['d'], r['umax'], r['gov']))
     print('COLUMNS')
     for r in out['cols']:
-        e = out['reac'][r['id']]
-        print('%-4s L=%.2f N=%6.1f My=%5.1f Mz=%5.1f %-6s NbRd=%5.0f u=%.2f | Nc=%6.1f(%s) Nt=%6.1f(%s) Vx=%5.1f Vy=%5.1f' % (
-            r['id'], r['L'], r['N_Ed'], r['My'], r['Mz'], r['case'], r['NbRd'], r['umax'], e['Nc_ULS'], e['case_c'], e['Nt_ULS'], e['case_t'], e['Vx_ULS'], e['Vy_ULS']))
+        e = out['base_env'][r['id']]
+        print('%-4s L=%.2f N=%6.1f My=%5.1f Mz=%5.1f %-6s kzy=%.2f u=%.2f | Nc=%6.1f(%s) Nt=%6.1f(%s) Vt=%5.1f(%s) base %.2f %s %s' % (
+            r['id'], r['L'], r['N_Ed'], r['My'], r['Mz'], r['case'], r['kzy'], r['umax'], e['Nc'][0], e['Nc'][1], e['Nt'][0], e['Nt'][1], e['Vt'][0], e['Vt'][1], e['umax'][0], e['umax'][1], e['umax'][2]))
+    print('seismic', out['seis'], out['H4'])
     print('PURLINS', out['purlins'])
     for d in 'NSEW':
         print(d, {k: (round(v['H'],1), round(v['T'],1), round(v['N'],1), round(v['sway'],2)) for k, v in out['bays'][d].items()})

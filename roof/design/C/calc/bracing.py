@@ -1,143 +1,196 @@
-"""Horizontal load to the roof diaphragm (wind, seismic check) and its distribution to the 7 X-braced bays.
-Rigid-diaphragm stiffness share (3 DOF) AND simple tributary share; the envelope is used.  kN, m."""
+"""Rev 2. Horizontal load to the roof diaphragm (wind incl. the horizontal component of the roof suction, seismic check)
+and its distribution to the X-braced bays: rigid-diaphragm stiffness share (3 DOF) AND flexible tributary share per
+bracing line (bays on one line share by stiffness); the envelope is used. Roof-plane trusses with M24 rods and their
+deflection by virtual work.  kN, m."""
 import numpy as np, math
-from model import FACES, POSTS, BAYS, bay_geom, wall_h, ENV, NOTCH, L_col, COLS
-from loads import QP, G_ROOF, G_WALL
+from functools import lru_cache
+from model import FACES, POSTS, BAYS, bay_geom, wall_h, ENV, NOTCH, L_col, COLS, roofed
+from loads import QP, G_ROOF, G_WALL, SLOPE_SIN, roof_grid, wind_fields
 from sections import E, FY, FU, GM0, GM2
 
-C_GLOBAL = 1.3            # (cpe,D - cpe,E + friction) per the load basis
-DIAG = dict(name='L 70x7', A=940.0, e_bolt=19.7)   # mm2 ; one angle per diagonal, tension only
-BOLT = dict(d=20, d0=22, As=245.0, Fv=94.0, Ft=141.0)  # M20 8.8 per basis
+C_GLOBAL = 1.3            # cpe,D - cpe,E = 0.8 + 0.5 (no friction term, basis Rev 2)
+DIAG = dict(name='L 70x7', A=940.0)                      # one angle per diagonal, tension only
+BOLT = dict(d=20, d0=22, As=245.0, Fv=94.0, Ft=141.0)
+ROD = dict(name='M24 rod 8.8', As=353.0, FtRd=0.9*800*353/1.25/1e3, kg=3.55)   # 203 kN
+
+@lru_cache(None)
+def roof_suction_component():
+    """Horizontal (northward, +y) component of the net roof suction for wind from S, E, W (char., kN):
+    total, centroid x, y, and the distribution along x (strip loads) for the tributary method."""
+    X, Y, R, dx = roof_grid(0.1); W = wind_fields(X, Y, R)
+    out = {}
+    for d in 'SEW':
+        f = -W[d]*dx*dx*SLOPE_SIN                # kN per cell, positive northward
+        F = f.sum(); xc = (f*X).sum()/F; yc = (f*Y).sum()/F
+        strips = list(zip(X[:, 0], f.sum(axis=1)))
+        out[d] = (float(F), float(xc), float(yc), strips)
+    return out
 
 def face_roof_force(d):
-    """Wind from d: characteristic force at roof level (kN) on each windward-projected face, with resultant position.
-    Returns list of (F, x_res, y_res)."""
+    """Wind from d: characteristic force at roof level (kN) on each windward-projected face, resultant position,
+    and its distribution along the face (for the tributary method). Returns list of dicts."""
     normal = {'N':'y+', 'S':'y-', 'E':'x+', 'W':'x-'}[d]
     out = []
     for f in FACES:
         if f['normal'] != normal: continue
-        n = 200; t = np.linspace(f['a'], f['b'], n+1)
+        t = np.linspace(f['a'], f['b'], 201)
         if normal[0] == 'y': ys = np.full_like(t, f['c']); xs = t
         else: ys = t; xs = np.full_like(t, f['c'])
-        q = C_GLOBAL*QP*wall_h(ys)/2.0        # half of the wall to the roof (pinned columns)
+        q = C_GLOBAL*QP*wall_h(ys)/2.0            # half of the wall to the roof (pinned columns)
         F = np.trapezoid(q, t); xr = np.trapezoid(q*xs, t)/F; yr = np.trapezoid(q*ys, t)/F
-        out.append((F, xr, yr, f['id']))
+        strips = list(zip(t, q*(f['b']-f['a'])/200))
+        out.append(dict(F=float(F), x=float(xr), y=float(yr), id=f['id'], along='x' if normal[0]=='y' else 'y', strips=strips))
+    if d in 'SEW':
+        F, xc, yc, strips = roof_suction_component()[d]
+        out.append(dict(F=F, x=xc, y=yc, id='roof-suction-h', along='x', strips=strips, dirn='y'))
     return out
 
 def bay_stiffness():
-    """k (kN/m) of one tension diagonal per bay: E A cos^2(alpha) / L_d."""
-    ks = {}
-    for b in BAYS:
-        w, h, Ld, xm, ym = bay_geom(b)
-        ks[b['id']] = E*DIAG['A']/1e3*(w/Ld)**2/(Ld)   # kN/m  (E MPa * mm2 = N -> /1e3 kN)
-    return ks
+    return {b['id']: E*DIAG['A']/1e3*(bay_geom(b)[0]/bay_geom(b)[2])**2/bay_geom(b)[2] for b in BAYS}   # kN/m
 
-def distribute(d):
-    """Return {bay: H (kN, characteristic, roof level)} for wind from d: max of rigid-diaphragm and tributary."""
-    forces = face_roof_force(d)
-    Ftot = sum(F for F, *_ in forces)
-    dirn = 'y' if d in 'NS' else 'x'
-    ks = bay_stiffness()
-    # rigid diaphragm
+def _rigid(forces):
+    """forces: list of (Fx, Fy, x, y). Returns {bay: H} (signed along its direction)."""
+    ks = bay_stiffness(); pos = {b['id']: bay_geom(b)[3:5] for b in BAYS}
     kx = {b['id']: ks[b['id']] for b in BAYS if b['dir']=='x'}; ky = {b['id']: ks[b['id']] for b in BAYS if b['dir']=='y'}
-    pos = {b['id']: bay_geom(b)[3:5] for b in BAYS}
     xr = sum(ky[i]*pos[i][0] for i in ky)/sum(ky.values()); yr = sum(kx[i]*pos[i][1] for i in kx)/sum(kx.values())
     J = sum(kx[i]*(pos[i][1]-yr)**2 for i in kx) + sum(ky[i]*(pos[i][0]-xr)**2 for i in ky)
     H = {i: 0.0 for i in ks}
-    for F, xf, yf, _ in forces:
-        if dirn == 'y':
-            T = F*(xf - xr)                 # torque (Fy at xf about centre of rigidity)
-            for i in ky: H[i] += F*ky[i]/sum(ky.values()) + T*ky[i]*(pos[i][0]-xr)/J
-            for i in kx: H[i] += -T*kx[i]*(pos[i][1]-yr)/J
-        else:
-            T = -F*(yf - yr)
-            for i in kx: H[i] += F*kx[i]/sum(kx.values()) - T*kx[i]*(pos[i][1]-yr)/J
-            for i in ky: H[i] += T*ky[i]*(pos[i][0]-xr)/J
-    Hrig = {i: abs(v) for i, v in H.items()}
-    # tributary (perimeter truss spans between adjacent bracing lines; each face load split by tributary width)
-    Htrib = {i: 0.0 for i in ks}
-    lines = sorted([(pos[b['id']][0 if dirn=='y' else 1], b['id']) for b in BAYS if b['dir']==dirn])
-    for F, xf, yf, fid in forces:
-        # spread the face load along its length and assign each strip to the two adjacent bracing lines
-        f = next(ff for ff in FACES if ff['id']==fid)
-        t = np.linspace(f['a'], f['b'], 201); q = C_GLOBAL*QP*wall_h(np.full_like(t, f['c']) if f['normal'][0]=='y' else t)/2
-        for ti, qi in zip(t, q):
-            dF = qi*(f['b']-f['a'])/200
-            left = [l for l in lines if l[0] <= ti]; right = [l for l in lines if l[0] > ti]
+    for Fx, Fy, xf, yf in forces:
+        T = Fy*(xf - xr) - Fx*(yf - yr)          # torque about the centre of rigidity (z up)
+        for i in ky: H[i] += Fy*ky[i]/sum(ky.values()) + T*ky[i]*(pos[i][0]-xr)/J
+        for i in kx: H[i] += Fx*kx[i]/sum(kx.values()) - T*kx[i]*(pos[i][1]-yr)/J
+    return H, (xr, yr)
+
+def _tributary(items, dirn):
+    """items: list of dicts with 'strips' [(coordinate along the perpendicular axis, dF)] for a load in direction dirn.
+    Each strip goes to the two adjacent bracing lines (perpendicular coordinate), then to the bays on that line by k."""
+    ks = bay_stiffness(); pos = {b['id']: bay_geom(b)[3:5] for b in BAYS}
+    lines = {}
+    for b in BAYS:
+        if b['dir'] != dirn: continue
+        key = round(pos[b['id']][0 if dirn=='y' else 1], 1); lines.setdefault(key, []).append(b['id'])
+    lc = sorted(lines)
+    Hl = {c: 0.0 for c in lc}
+    for it in items:
+        for t, dF in it['strips']:
+            left = [c for c in lc if c <= t]; right = [c for c in lc if c > t]
             if left and right:
-                (a, ia), (b, ib) = left[-1], right[0]
-                Htrib[ib] += dF*(ti-a)/(b-a); Htrib[ia] += dF*(b-ti)/(b-a)
-            elif left: Htrib[left[-1][1]] += dF
-            else: Htrib[right[0][1]] += dF
-    return {i: max(Hrig[i], Htrib[i]) for i in ks}, Ftot, Hrig, Htrib
+                a, b = left[-1], right[0]; Hl[b] += dF*(t-a)/(b-a); Hl[a] += dF*(b-t)/(b-a)
+            elif left: Hl[left[-1]] += dF
+            else: Hl[right[0]] += dF
+    H = {b['id']: 0.0 for b in BAYS}
+    for c, bays in lines.items():
+        kt = sum(ks[i] for i in bays)
+        for i in bays: H[i] = Hl[c]*ks[i]/kt
+    return H
+
+def distribute(d):
+    """Wind from d. Returns ({bay: H char. (magnitude)}, F_total, H_rigid, H_trib)."""
+    forces = face_roof_force(d)
+    rig = []
+    for f in forces:
+        dirn = f.get('dirn', 'y' if d in 'NS' else 'x')
+        sgn = {'N': -1, 'S': +1, 'E': -1, 'W': +1}[d] if f['id'] != 'roof-suction-h' else +1
+        rig.append((sgn*f['F'] if dirn == 'x' else 0.0, sgn*f['F'] if dirn == 'y' else 0.0, f['x'], f['y']))
+    Hr, _ = _rigid(rig)
+    wall = [f for f in forces if f['id'] != 'roof-suction-h']; roof = [f for f in forces if f['id'] == 'roof-suction-h']
+    Ht = _tributary(wall, 'y' if d in 'NS' else 'x')
+    if roof:
+        Hy = _tributary(roof, 'y')
+        for i in Hy: Ht[i] += Hy[i] if d != 'N' else 0.0
+    Ftot = sum(f['F'] for f in forces)
+    return {i: max(abs(Hr[i]), abs(Ht[i])) for i in Hr}, Ftot, {i: abs(v) for i, v in Hr.items()}, Ht
+
+def distribute_point(F, xc, yc, dirn):
+    """A single horizontal force (seismic) at (xc, yc) in direction dirn, with 5 % accidental eccentricity: envelope of
+    rigid share (both eccentricity signs) and tributary by roof area."""
+    Lperp = (ENV['x1']-ENV['x0']) if dirn == 'y' else (ENV['y1']-ENV['y0'])
+    Hs = []
+    for e in (-0.05*Lperp, 0.05*Lperp):
+        x, y = (xc + e, yc) if dirn == 'y' else (xc, yc + e)
+        H, _ = _rigid([(F if dirn=='x' else 0.0, F if dirn=='y' else 0.0, x, y)]); Hs.append({i: abs(v) for i, v in H.items()})
+    X, Y, R, dx = roof_grid(0.2); A = R.sum()
+    ax = 0 if dirn == 'y' else 1
+    coord = X[:, 0] if dirn == 'y' else Y[0, :]
+    strips = list(zip(coord, F*R.sum(axis=1-ax)/A))
+    Ht = _tributary([dict(strips=strips)], dirn)
+    return {i: max(Hs[0][i], Hs[1][i], Ht[i]) for i in Ht}
 
 def seismic_check(roof_area, steel_kN):
-    """EN 1998-1 lateral force method, a_g = 0.10 g, soil B (S=1.2, TB..TC plateau), q = 1.5."""
+    """EN 1998-1 lateral force method, a_g = 0.10 g, soil B S = 1.2, plateau 2.5/q, q = 1.5, lambda = 1 (roof mass only;
+    floor amplification through the existing building is an open item, review F9)."""
     m = G_ROOF*roof_area + steel_kN + 0.5*sum(G_WALL*(f['b']-f['a'])*wall_h(0.5*(f['a']+f['b']) if f['normal'][0]=='x' else f['c']) for f in FACES)
-    Sd = 0.10*1.2*2.5/1.5      # g
+    Sd = 0.10*1.2*2.5/1.5
     return dict(W=m, Sd=Sd, Fb=Sd*m)
 
 def check_diagonal(T_Ed):
-    """Single angle L70x7 S275 connected by one leg with 2 M20 bolts (p1 = 5 d0): EN 1993-1-8 3.10.3 beta2 = 0.7."""
+    """Single angle L70x7 S275 connected by one leg with 2 M20 (p1 = 5 d0): EN 1993-1-8 3.10.3 beta2 = 0.7.
+    Gusset bolts: 2 M20 single shear; bearing on the 10 mm gusset and the 7 mm angle leg with e1 = 40, p1 = 110,
+    e2 = 30 (standard 40 mm gauge on the 70 leg, review F14)."""
     A = DIAG['A']; Anet = A - BOLT['d0']*7
-    Npl = A*FY/GM0/1e3; Nu = 0.7*Anet*FU/GM2/1e3
-    NtRd = min(Npl, Nu)
-    # gusset bolts: 2 M20 single shear; bearing on 10 mm gusset (e1 = 40, p1 = 110 -> alpha_b = min(40/66, 110/66-0.25, 800/430, 1) = 0.61)
-    ab = min(40/(3*22), 110/(3*22)-0.25, 800/430, 1.0); k1 = min(2.8*40/22-1.7, 2.5)
-    FbRd = k1*ab*FU*20*10/GM2/1e3
-    FvRd = 2*BOLT['Fv']; FbRd2 = 2*FbRd
-    return dict(NtRd=NtRd, Npl=Npl, Nu=Nu, util=T_Ed/NtRd, FvRd=FvRd, FbRd=FbRd2, util_bolt=T_Ed/min(FvRd, FbRd2))
+    Npl = A*FY/GM0/1e3; Nu = 0.7*Anet*FU/GM2/1e3; NtRd = min(Npl, Nu)
+    ab = min(40/(3*22), 110/(3*22)-0.25, 800/430, 1.0); k1 = min(2.8*30/22-1.7, 2.5)
+    FbRd_g = k1*ab*FU*20*10/GM2/1e3; FbRd_a = k1*ab*FU*20*7/GM2/1e3
+    FvRd = 2*BOLT['Fv']
+    return dict(NtRd=NtRd, Npl=Npl, Nu=Nu, util=T_Ed/NtRd, FvRd=FvRd, FbRd=2*FbRd_a, util_bolt=T_Ed/min(FvRd, 2*FbRd_g, 2*FbRd_a))
 
 def bay_forces(H):
-    """Given bay shear H (kN), return diagonal tension T, column axial +/-N, base shear."""
     out = {}
     for b in BAYS:
-        w, h, Ld, xm, ym = bay_geom(b)
-        Hi = H[b['id']]
-        out[b['id']] = dict(H=Hi, T=Hi*Ld/w, N=Hi*h/w, w=w, h=h, Ld=Ld, sway=Hi/bay_stiffness()[b['id']]*1000)  # sway mm at H
+        w, h, Ld, xm, ym = bay_geom(b); Hi = H[b['id']]
+        out[b['id']] = dict(H=Hi, T=Hi*Ld/w, N=Hi*h/w, w=w, h=h, Ld=Ld, sway=Hi/bay_stiffness()[b['id']]*1000)
     return out
 
-if __name__ == '__main__':
-    for d in 'NSEW':
-        H, Ftot, Hr, Ht = distribute(d)
-        print(d, 'F_roof=%.1f' % Ftot, {k: round(v,1) for k, v in H.items()})
-    print(bay_stiffness())
-
-# ---------------- roof-plane bracing (horizontal trusses in the roof plane, X diagonals tension-only) ----------
-ROD = dict(name='M20 rod 8.8', As=245.0, FtRd=141.0, kg=2.47)
-# Trusses: id, wind dir served, chord lines, depth D, span L between bracing lines, panel list (x0,x1,y0,y1)
+# ---------------- roof-plane bracing: X of M24 rods in the cells listed (one rafter bay x one rafter span), except the
+# east and west edge trusses whose diagonals span TWO rafter bays (R90-R95 and R68-R72, passing the intermediate rafter
+# through a slotted web clip) so that the truss depth is 5.65 / 4.10 m (review F10).
 ROOF_TRUSSES = [
- dict(id='RT-N-W', dirs='NS', span=(67.99, 77.78), D=5.90, face='N',  panels=[(67.99,70.04,29.32,35.22),(70.04,72.09,29.32,35.22),(72.09,74.90,29.27,35.22),(74.90,77.78,29.27,35.17)]),
- dict(id='RT-N-E', dirs='NS', span=(81.85, 95.55), D=6.40, face='N',  panels=[(81.85,84.50,29.27,35.67),(84.50,87.19,29.27,35.72),(87.19,89.90,29.27,35.77),(89.90,92.48,29.27,35.77),(92.48,95.55,29.27,35.67)]),
- dict(id='RT-S-E', dirs='NS', span=(81.85, 95.55), D=9.20, face='S2', panels=[(81.85,84.50,20.07,29.27),(84.50,87.19,20.07,29.27),(87.19,89.90,20.07,29.27),(89.90,92.48,20.07,29.27),(92.48,95.55,20.07,29.27)]),
- dict(id='RT-S-W', dirs='NS', span=(67.99, 77.78), D=5.89, face='S1', panels=[(67.99,70.04,15.87,21.76),(70.04,72.09,15.87,21.76),(72.09,74.90,15.92,21.76),(74.90,77.78,15.92,21.76)]),
- dict(id='RT-W',   dirs='EW', span=(15.87, 35.22), D=4.10, face='W',  panels=[(67.99,72.09,21.76,29.32)]),   # + shares the N-W and S-W panels
- dict(id='RT-E',   dirs='EW', span=(20.07, 35.72), D=5.65, face='E',  panels=[]),                             # uses the two east panels of RT-N-E / RT-S-E
- dict(id='RT-JOG', dirs='NS', span=(77.78, 81.85), D=4.81, face='N',  panels=[(77.78,81.85,24.46,29.27)]),   # shear transfer past the stair well
+ dict(id='RT-N-W', dirs='NS', span=(67.99, 77.78), D=5.90, face='N',  a=[2.05, 2.05, 2.81, 2.88],
+      panels=[(67.99,70.04,29.32,35.22),(70.04,72.09,29.32,35.22),(72.09,74.90,29.27,35.22),(74.90,77.78,29.27,35.17)]),
+ dict(id='RT-N-E', dirs='NS', span=(81.85, 95.55), D=6.40, face='N',  a=[2.65, 2.69, 2.71, 2.58, 3.07],
+      panels=[(81.85,84.50,29.27,35.67),(84.50,87.19,29.27,35.72),(87.19,89.90,29.27,35.77),(89.90,92.48,29.27,35.77),(92.48,95.55,29.27,35.67)]),
+ dict(id='RT-S-E', dirs='NS', span=(81.85, 95.55), D=9.20, face='S2', a=[2.65, 2.69, 2.71, 2.58, 3.07],
+      panels=[(81.85,84.50,20.07,29.27),(84.50,87.19,20.07,29.27),(87.19,89.90,20.07,29.27),(89.90,92.48,20.07,29.27),(92.48,95.55,20.07,29.27)]),
+ dict(id='RT-S-W', dirs='NS', span=(67.99, 77.78), D=5.89, face='S1', a=[2.05, 2.05, 2.81, 2.88],
+      panels=[(67.99,70.04,15.87,21.76),(70.04,72.09,15.87,21.76),(72.09,74.90,15.92,21.76),(74.90,77.78,15.92,21.76)]),
+ dict(id='RT-W',   dirs='EW', span=(15.87, 35.22), D=4.10, face='W',  a=[5.89, 7.56, 5.90],
+      panels=[(67.99,72.09,15.87,21.76),(67.99,72.09,21.76,29.32),(67.99,72.09,29.32,35.22)]),
+ dict(id='RT-E',   dirs='EW', span=(20.07, 35.72), D=5.65, face='E',  a=[9.20, 6.45],
+      panels=[(89.90,95.55,20.07,29.27),(89.90,95.55,29.27,35.72)]),
+ dict(id='RT-JOG', dirs='NS', span=(77.78, 81.85), D=4.81, face='N',  a=[4.07], panels=[(77.78,81.85,24.46,29.27)]),
 ]
+def truss_analysis(t, w, V_end=None):
+    """Simply supported horizontal truss, uniform load w (kN/m) over the span, panels a_i, depth D, X diagonals
+    tension-only (one active per panel). Returns max diagonal T, chord force, and the deflection at the panel points by
+    virtual work over the diagonals (chords and posts rigid), for rods of area ROD['As']."""
+    a = np.array(t['a']); L = a.sum(); D = t['D']
+    xs = np.concatenate([[0], np.cumsum(a)]); xm = 0.5*(xs[:-1] + xs[1:])
+    V = w*L/2 - w*xm                                   # shear at panel mid-points
+    if V_end is not None: V = V*(V_end/(w*L/2))        # scale to the bay force actually collected at the ends
+    Ld = np.sqrt(a**2 + D**2); T = np.abs(V)*Ld/D
+    M = w*L/2*xm - w*xm**2/2; chord = M.max()/D
+    # deflection at each interior panel point p: unit load at p -> shear n_i = (1 - xp/L) for x < xp, -xp/L beyond
+    dmax = 0.0
+    for p in xs[1:-1]:
+        n = np.where(xm < p, 1 - p/L, -p/L)*Ld/D
+        dmax = max(dmax, float(abs((T*np.sign(V)*n*Ld).sum())/(E*ROD['As']/1e3)))  # m
+    return dict(T=float(T.max()), chord=float(chord), V=float(np.abs(V).max()), Ld=float(Ld.max()), delta=dmax*1000, L=float(L))
+
 def roof_truss_forces(H_bays_uls):
-    """Simple statics per truss: line load w = wind at roof level on the served face (ULS), truss simply supported
-    between its two bracing lines: V = wL/2 (>= the larger adjacent bay force is NOT required: each bay's H comes
-    from the diaphragm shear next to it), chord = wL^2/8/D, diagonal T = V/sin(theta), post = V."""
     out = []
     for t in ROOF_TRUSSES:
         f = next(ff for ff in FACES if ff['id'] == t['face'])
-        L = t['span'][1] - t['span'][0]
         c = 0.5*(f['a']+f['b']); yy = f['c'] if f['normal'][0]=='y' else c
-        w = 1.5*C_GLOBAL*QP*wall_h(yy)/2.0            # ULS kN/m along the eave
-        if t['id'] == 'RT-JOG':                          # carries the shear of RT-N-E's west end past the stair well
-            V = H_bays_uls['B8'] if 'B8' in H_bays_uls else w*L/2
-        elif t['id'] == 'RT-E': V = max(H_bays_uls.get('B3', 0), H_bays_uls.get('B1', 0))
-        elif t['id'] == 'RT-W': V = max(H_bays_uls.get('B2', 0), H_bays_uls.get('B4', 0))
-        else: V = w*L/2
-        # panel aspect: use the shallowest angle of the truss panels (worst for the diagonal)
-        if t['id'] == 'RT-E': a = 9.20; D = t['D']
-        elif t['id'] == 'RT-W': a = 7.56; D = t['D']
-        else:
-            a = max(p[1]-p[0] for p in t['panels']) if t['panels'] else 3.0; D = t['D']
-        Ld = (a**2 + D**2)**0.5; sin = D/Ld
-        T = V/sin; chord = w*L**2/8/D if t['id'] not in ('RT-E', 'RT-W', 'RT-JOG') else V*L/4/D
-        out.append(dict(id=t['id'], L=L, D=D, w=w, V=V, T=T, chord=chord, post=V, Ld=Ld, util=T/ROD['FtRd'], npanels=len(t['panels'])))
+        w = 1.5*C_GLOBAL*QP*wall_h(yy)/2.0
+        if t['id'] in ('RT-N-E', 'RT-S-E', 'RT-N-W', 'RT-S-W'):    # add the roof-suction component share (N-S trusses)
+            F, xc, yc, strips = roof_suction_component()['S']
+            w += 1.5*F/(ENV['x1']-ENV['x0'])*0.5
+        r = truss_analysis(t, w)
+        if t['id'] == 'RT-E': r = truss_analysis(t, w, V_end=max(H_bays_uls.get('B3', 0), H_bays_uls.get('B1', 0)))
+        if t['id'] == 'RT-W': r = truss_analysis(t, w, V_end=max(H_bays_uls.get('B2', 0), H_bays_uls.get('B4', 0)))
+        if t['id'] == 'RT-JOG': r = truss_analysis(t, w, V_end=H_bays_uls.get('B8', 0))
+        r.update(id=t['id'], D=t['D'], w=w, util=r['T']/ROD['FtRd'], npanels=len(t['panels']), post=r['V'])
+        out.append(r)
     return out
 
 def roof_bracing_length():
@@ -146,3 +199,11 @@ def roof_bracing_length():
         for (x0, x1, y0, y1) in t['panels']:
             tot += 2*((x1-x0)**2 + (y1-y0)**2)**0.5; n += 1
     return tot, n
+
+if __name__ == '__main__':
+    for d in 'NSEW':
+        H, Ftot, Hr, Ht = distribute(d)
+        print(d, 'F=%.1f' % Ftot, 'env', {k: round(v, 1) for k, v in H.items()})
+        print('   rigid', {k: round(v, 1) for k, v in Hr.items()}); print('   trib ', {k: round(v, 1) for k, v in Ht.items()})
+    print('roof comp', {d: (round(v[0], 1), round(v[1], 1), round(v[2], 1)) for d, v in roof_suction_component().items()})
+    for t in roof_truss_forces({k: 1.5*v for k, v in distribute('E')[0].items()}): print({k: (round(v, 1) if isinstance(v, float) else v) for k, v in t.items()})
