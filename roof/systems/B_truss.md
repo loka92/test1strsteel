@@ -61,20 +61,20 @@ T1 at 5.4 m: w = 8.5 kN/m, M = 396 kNm, V = 82 kN → chord N = M/d = **283 kN**
 ## 4. Base connection on the hollow-block slab
 
 - Pinned base: plate 300×300×20 on **40 mm non-shrink grout** (screed removed, levelling nuts), 4 × M20 8.8 resin anchors in a **110×300 pattern inside the 200×400 column footprint** (two plate variants for the two orientations), drilled through the solid zone **300 mm into the column head** after rebar scanning; bond pull-out ≈ 120 kN per anchor.
-- **Uplift governs**: post ULS uplift ≈ 88 kN (1.68 × 52 m²) vs 95 kN gravity. Global hold-down is fine (slab + column ≈ 150 kN), but anchors in the 250 mm ribbed slab alone would not work: the through-slab anchor into the column head is essential and must be re-checked once slab thickness and solid-zone extent are confirmed.
-- Shear ≤ 41 kN at braced-bay posts via a 20 mm shear key in a grouted pocket; compression goes straight into the column head, no slab punching.
+- **Uplift governs**: post ULS uplift ≈ 88 kN vs 95 kN gravity. Global hold-down is fine (slab + column ≈ 150 kN), but anchors in the ribbed slab alone would not work: the through-slab anchor into the column head is essential and must be re-checked once slab thickness and solid-zone extent are confirmed.
+- Shear ≤ 41 kN at braced-bay posts via a 20 mm shear key in a grouted pocket; compression goes straight into the column head.
 
 ## 5. Pros / cons for this project
 
 **Pros**
 - Open hall; 1 truss depth, 1 chord, 1 diagonal, 1 post, 1 purlin section: repetitive, easy to price.
 - Trusses fully shop welded, all site work bolted; 14 truss pieces craned onto the slab.
-- The openings fall naturally between two trusses: only 4 short trimmers, no extra posts, no change to the truss family.
-- Light (14 kg/m² trusses), low reactions on the existing columns; irregular grid absorbed by the eave girder and constant truss depth.
+- Openings fall between two trusses: 4 short trimmers, no extra posts, truss family unchanged.
+- Light (14 kg/m² trusses), low reactions on the existing columns; irregular grid absorbed by the eave girder.
 
 **Cons (honest)**
-- Deepest option: 6.0 m south façade, 4.8 m north: ≈ 20 % more wall cladding than a beam scheme, heavy-looking north eave.
-- Needs a shop competent in hollow-section K-joints; 19.3 m trusses spliced on site; more small pieces (ties, vertical bracing, sag rods) than a rafter scheme.
+- Deepest option: 6.0 m south façade, 4.8 m north: ≈ 20 % more wall cladding than a beam scheme.
+- Needs a shop competent in hollow-section K-joints; 19.3 m trusses spliced on site; more small pieces than a rafter scheme.
 - Uplift ≈ gravity: ties and anchors are not optional; the anchor detail hinges on the unknown slab.
-- The IPE 330 eave girder is the one non-repetitive element; T2 at x 81.8 sits over the elevator's east shaft wall (0.15 m inside the stated opening).
-- Fallback if height matters: support on line y 29.3 (spans 13.4/9.2 + 6.4 m) → depth 1.0 m, ≈ 15 % less steel, but 7 interior posts and 3 truss types.
+- IPE 330 eave girder is the one non-repetitive element; T2 at x 81.8 sits over the elevator's east shaft wall.
+- Fallback if height matters: support on line y 29.3 → depth 1.0 m, ≈ 15 % less steel, but 7 interior posts and 3 truss types.
