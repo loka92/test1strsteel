@@ -1,4 +1,4 @@
-# Common load and design basis (binding for both alternatives A and C)
+# Common load and design basis (binding for both alternatives A and C) - Rev 2
 
 Codes: EN 1990, EN 1991-1-1/-1-4, EN 1993-1-1/-1-8, EN 1992-4 (anchors), EN 1998-1 (check only). Units kN, m.
 
@@ -20,13 +20,15 @@ Codes: EN 1990, EN 1991-1-1/-1-4, EN 1993-1-1/-1-8, EN 1992-4 (anchors), EN 1998
 - Imposed roof load, category H (not accessible): q_k = 0.60 kN/m2 (uniform) and Q_k = 1.0 kN point; psi_0 = 0, so NOT combined with wind.
 - Wind: v_b = 30 m/s, terrain II, z_e = 10 m -> c_r = 1.00, c_e = 2.35 approx. -> q_p = 0.5 x 1.25 x 30^2 x 2.35 /1000 = 1.32 kN/m2. Use q_p = 1.30 kN/m2.
   - Mono-pitch roof, pitch 3.4 deg -> use EN 1991-1-4 Table 7.3a for 5 deg (interpolate with flat roof if wanted):
-    wind from SOUTH (blowing up the slope, theta=0): zones F -1.7/+0.0, G -1.2/+0.0, H -0.6/+0.0 (cpe,10)
-    wind from NORTH (blowing down the slope, theta=180): F -2.3, G -1.3, H -0.8
+    theta = 0 = wind from the LOW eave side = from the NORTH here (roof falls north): zones F -1.7/+0.0, G -1.2/+0.0, H -0.6/+0.0 (cpe,10)
+    theta = 180 = wind from the HIGH eave side = from the SOUTH: F -2.3, G -1.3, H -0.8
+    (Rev 2 correction: the two directions were labelled the wrong way round in Rev 1 - reviewers' finding.)
     wind along the ridge (theta=90): F_up -2.1, F_low -2.1, G -1.8, H -0.6, I -0.5
   - Walls: D +0.8 (h/d<=1 -> +0.7 to +0.8), E -0.5 (use -0.5), A -1.2, B -0.8, C -0.5.
   - Internal pressure enclosed building: c_pi = +0.2 and -0.3 (both to be tried).
-  - Net roof uplift general zone H approx. -(0.8+0.2) x 1.30 = -1.3 kN/m2; edge zones F approx. -3.3 kN/m2 (use for purlins, trimmers and edge members only; e = min(b, 2h) approx. 12 m, F/G strip = e/10 = 1.2 m).
-  - Global horizontal wind force on the hall: use (cpe,D - cpe,E + friction) = 1.3 x q_p on the projected wall area above the slab; wall height N 3.6-4.8 m, S 4.8-6.0 m depending on system.
+  - Net roof uplift general zone H approx. -(0.8+0.2) x 1.30 = -1.3 kN/m2; edge zones F approx. -3.3 kN/m2 (use for purlins, trimmers and edge members only).
+  - Zone size (Rev 2 correction): e = min(b, 2h) with h = height above GROUND (z_e = 10 m) -> e = 20 m for both wind directions; F/G edge strip = e/10 = 2.0 m deep, corner zone F width e/4 = 5.0 m along the eave.
+  - Global horizontal wind force on the hall (Rev 2 correction): walls (cpe,D - cpe,E) = 0.8 + 0.5 = 1.3 x q_p on the projected wall area above the slab (no friction term: the building is shorter than 4h, so none applies), PLUS the horizontal component of the roof suction on the 3.43 deg plane: for wind from the south the net roof suction (zones per direction) acts normal to the roof and its horizontal component (sin 3.43 deg = 0.06) adds to the wind force on the walls (about +37 kN characteristic for the full roof). Wall height N 3.6-4.8 m, S 4.8-6.0 m depending on system.
 - Seismic: a_g = 0.10 g, soil B, q = 1.5 (braced) / 4 (portal, DCM) -> check only that the base shear is below the wind base shear; if it exceeds, design bracing to it.
 - Temperature: +/-30 K on members: provide slotted holes / expansion allowance on the 27.8 m length; no calculation required.
 
