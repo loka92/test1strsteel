@@ -16,9 +16,9 @@ Scripts re-run (`run_all.py`, `write_report.py`): report, members, reactions and
 
 **S2 - MAJOR - Key A shear parallel to the edge.** At the 100 mm-edge bases the pocket wall is 30 mm from the building face; 1.5 f_cd assumes confinement a free face 30-55 mm away does not give. EN 1992-4 7.2.2.5 parallel-to-edge (2 V_Rk,c, c1 55-70): 18.5-23.6 kN against K23 63.7, K27 59.3, K22 59.0, K25 47.0, K18 45.5, K19 35.1. Fix: Key A inboard with the torque resolved (key pair, or anchors in resin-filled holes), or a reinforced edge beam designed for this force.
 
-**S3 - MINOR - Fallback statics.** Rows at 150 / 350 inboard: outer row 73 x 0.35/0.20 = 128 kN (64 per M20, 0.45), not 91; inner row 55 kN compression; plate 11.0 vs M_el 11.5 kNm (400 x 25): stiffeners or t 30.
+**S3 - MINOR - Fallback statics.** Rows at 150 / 350 inboard: outer row 73 x 0.35/0.20 = 128 kN (64 per M20), not 91; inner row 55 kN compression; plate 11.0 vs M_el 11.5 kNm: stiffeners or t 30.
 
-**S4 - MINOR** - Acceptance criterion to be one-sided at perimeter heads (inboard >= 650, outboard to the face, edge beam) once S1 is settled.
+**S4 - MINOR** - Acceptance criterion to be one-sided at perimeter heads once S1 is settled.
 
 | ID | Severity | Item | Fix |
 |---|---|---|---|
@@ -29,4 +29,4 @@ Scripts re-run (`run_all.py`, `write_report.py`): report, members, reactions and
 
 ## Verdict
 
-**NOT ACCEPTABLE.** Interior bases, Key B, saddle and WP1 are fine; the perimeter braced bases fail on the cone with the real edge and on parallel-edge shear at Key A. The through-bolt fallback, already drawn, is the way out: make it the standard perimeter detail and re-issue.
+**NOT ACCEPTABLE.** Interior bases, Key B, saddle and WP1 are fine; the perimeter braced bases fail on the cone with the real edge and on parallel-edge shear at Key A. Make the through-bolt fallback the standard perimeter detail and re-issue.
