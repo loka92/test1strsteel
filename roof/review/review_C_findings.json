@@ -18,7 +18,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F2",
@@ -39,7 +41,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F3",
@@ -60,7 +64,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F4",
@@ -81,7 +87,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F5",
@@ -102,7 +110,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F6",
@@ -123,7 +133,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F7",
@@ -144,7 +156,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F8",
@@ -165,7 +179,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F9",
@@ -186,7 +202,9 @@
   "rev5a_status": "open",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "two-mass appendage check done (S_a 0.65 g, 145/136 kN); see Y1, Y2"
+  "rev4L_note": "two-mass appendage check done (S_a 0.65 g, 145/136 kN); see Y1, Y2",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F10",
@@ -207,7 +225,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F11",
@@ -228,7 +248,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F12",
@@ -249,7 +271,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F13",
@@ -270,7 +294,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F14",
@@ -291,7 +317,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "F15",
@@ -312,7 +340,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "R1",
@@ -333,7 +363,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "R2",
@@ -354,7 +386,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "R3",
@@ -375,7 +409,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "R4",
@@ -396,7 +432,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "R5",
@@ -417,7 +455,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "R6",
@@ -438,7 +478,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "R7",
@@ -459,7 +501,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "S1",
@@ -480,7 +524,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "S2",
@@ -501,7 +547,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "S3",
@@ -522,7 +570,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "S4",
@@ -543,7 +593,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "T1",
@@ -564,7 +616,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "T2",
@@ -585,7 +639,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "T3",
@@ -606,7 +662,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "T4",
@@ -627,7 +685,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "T5",
@@ -648,7 +708,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "T6",
@@ -669,7 +731,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C1",
@@ -689,7 +753,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C2",
@@ -709,7 +775,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C3",
@@ -729,7 +797,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C4",
@@ -749,7 +819,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C6",
@@ -769,7 +841,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C7",
@@ -789,7 +863,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C8",
@@ -809,7 +885,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C10",
@@ -829,7 +907,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C11",
@@ -849,7 +929,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C13",
@@ -869,7 +951,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "C14",
@@ -889,7 +973,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged"
+  "rev4L_note": "unchanged",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "X1",
@@ -909,7 +995,9 @@
   "rev5a_status": "open",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "report s.10 quotes the BOM 25.4 t"
+  "rev4L_note": "report s.10 quotes the BOM 25.4 t",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "X2",
@@ -929,7 +1017,9 @@
   "rev5a_status": "open",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "columns cut to the surveyed level, bed 25 +/- 5"
+  "rev4L_note": "columns cut to the surveyed level, bed 25 +/- 5",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "X3",
@@ -949,7 +1039,9 @@
   "rev5a_status": "open",
   "rev5a_note": "unchanged",
   "rev4L_status": "closed",
-  "rev4L_note": "no change needed"
+  "rev4L_note": "no change needed",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "V1",
@@ -969,7 +1061,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "EAD 330087 rebar, f_bd 2.7, 136/163 kN",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged in Rev 6"
+  "rev4L_note": "unchanged in Rev 6",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "V2",
@@ -989,7 +1083,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "top 300 mm debonded",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged in Rev 6"
+  "rev4L_note": "unchanged in Rev 6",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "V3",
@@ -1009,7 +1105,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "70 x 240, 26 mm clear, face scan, pilot, relocation",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged in Rev 6"
+  "rev4L_note": "unchanged in Rev 6",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "V4",
@@ -1029,7 +1127,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "60 kN / <= 1 mm on 3 bars",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged in Rev 6"
+  "rev4L_note": "unchanged in Rev 6",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "V5",
@@ -1049,7 +1149,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "embed 300 target, 250 min",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged in Rev 6"
+  "rev4L_note": "unchanged in Rev 6",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "V6",
@@ -1069,7 +1171,9 @@
   "rev5a_status": "closed",
   "rev5a_note": "all 27 type E",
   "rev4L_status": "closed",
-  "rev4L_note": "unchanged in Rev 6"
+  "rev4L_note": "unchanged in Rev 6",
+  "rev5B_status": "closed",
+  "rev5B_note": "unchanged"
  },
  {
   "id": "Y1",
@@ -1089,7 +1193,9 @@
   "rev5a_status": "n/a",
   "rev5a_note": "",
   "rev4L_status": "new",
-  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review",
+  "rev5B_status": "open",
+  "rev5B_note": "Rev 4 review item still open"
  },
  {
   "id": "Y2",
@@ -1109,7 +1215,9 @@
   "rev5a_status": "n/a",
   "rev5a_note": "",
   "rev4L_status": "new",
-  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review",
+  "rev5B_status": "open",
+  "rev5B_note": "Rev 4 review item still open"
  },
  {
   "id": "Y3",
@@ -1129,7 +1237,9 @@
   "rev5a_status": "n/a",
   "rev5a_note": "",
   "rev4L_status": "new",
-  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review",
+  "rev5B_status": "open",
+  "rev5B_note": "Rev 4 review item still open"
  },
  {
   "id": "Y4",
@@ -1149,7 +1259,9 @@
   "rev5a_status": "n/a",
   "rev5a_note": "",
   "rev4L_status": "new",
-  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review",
+  "rev5B_status": "open",
+  "rev5B_note": "Rev 4 review item still open"
  },
  {
   "id": "Y5",
@@ -1169,7 +1281,9 @@
   "rev5a_status": "n/a",
   "rev5a_note": "",
   "rev4L_status": "new",
-  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review",
+  "rev5B_status": "open",
+  "rev5B_note": "Rev 4 review item still open"
  },
  {
   "id": "Y6",
@@ -1189,6 +1303,56 @@
   "rev5a_status": "n/a",
   "rev5a_note": "",
   "rev4L_status": "new",
-  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review",
+  "rev5B_status": "open",
+  "rev5B_note": "Rev 4 review item still open"
+ },
+ {
+  "id": "Z1",
+  "severity": "MAJOR",
+  "item": "Rev 5 bracing: fin plates credited with 188 kN bolt shear for strut forces; web bearing 2 x 68.8 = 137 kN governs; R78 strut force double-counted (133.6 vs line force 66.8) -> 0.97 bearing at K10/K16/K20 as stated, ~0.5-0.6 with the real force",
+  "fix": "State R78/R82 strut forces as the line forces (+30 % orthogonal); check fin plates for axial + shear incl. web bearing and the primary web",
+  "rev5B_status": "new",
+  "rev5B_note": "raised at the Rev 5 bracing review"
+ },
+ {
+  "id": "Z2",
+  "severity": "MINOR",
+  "item": "Rev 5 bracing: NE corner cell carries end panels of two trusses; both rod sets needed; combined gussets at K2/K4/K13/K14",
+  "fix": "Design gussets for both rod forces under E_x + 0.3 E_y; draw crossings and the R92 clip",
+  "rev5B_status": "new",
+  "rev5B_note": "raised at the Rev 5 bracing review"
+ },
+ {
+  "id": "Z3",
+  "severity": "MINOR",
+  "item": "Rev 5 bracing: EN 1998-1 4.4.3.2 drift check not stated (west wall 13.5 vs 18 mm)",
+  "fix": "Add, incl. the x 77.8 line",
+  "rev5B_status": "new",
+  "rev5B_note": "raised at the Rev 5 bracing review"
+ },
+ {
+  "id": "Z4",
+  "severity": "MINOR",
+  "item": "Rev 5 bracing: strip end shears equal to the full bay force at both ends and R78 to their sum",
+  "fix": "State the actual split (conservative as is)",
+  "rev5B_status": "new",
+  "rev5B_note": "raised at the Rev 5 bracing review"
+ },
+ {
+  "id": "Z5",
+  "severity": "MINOR",
+  "item": "Rev 5 bracing: south bands unbraced in the roof plane during erection",
+  "fix": "Temporary plan bracing / guys in the sequence",
+  "rev5B_status": "new",
+  "rev5B_note": "raised at the Rev 5 bracing review"
+ },
+ {
+  "id": "Z6",
+  "severity": "MINOR",
+  "item": "Rev 5 bracing: purlin strut check with i_min 20 mm assumed",
+  "fix": "Supplier confirmation",
+  "rev5B_status": "new",
+  "rev5B_note": "raised at the Rev 5 bracing review"
  }
 ]
