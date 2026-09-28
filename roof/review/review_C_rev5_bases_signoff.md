@@ -14,11 +14,11 @@ Pockets 200 deep leave 100 mm; breakout bodies with h = 300: c1 255 -> 45.5 kN, 
 
 ## 3. Constructability
 
-Clearance from a rod at (35, 140) to the corner bar at (57, 157) is **11 mm** with a 20 mm hole; drill wander over 550 mm ~5 mm; GPR from above through 300 mm of reinforced slab locates column bars to +/-15-20 mm: hit risk about one hole in two. Procedure: cover-meter scan of the exposed column faces below the slab (+/-3-5 mm), projected to the slab top; pattern **70 x 240** (26 mm clear, group factor unchanged); 10 mm pilot to full depth with feed monitoring, relocate within +/-15 mm on steel contact; plate holes match-drilled after the final pattern or 30 mm oversize with 10 mm washers; proof tests of 3 sacrificial rods to >= 60 kN with displacement, not 25 kN.
+Clearance from a rod at (35, 140) to the corner bar at (57, 157) is **11 mm** with a 20 mm hole; drill wander over 550 mm ~5 mm; GPR from above through 300 mm of reinforced slab locates column bars to +/-15-20 mm: hit risk about one hole in two. Procedure: cover-meter scan of the column faces below the slab (+/-3-5 mm), projected to the top; pattern **70 x 240** (26 mm clear); 10 mm pilot with feed monitoring, relocate within +/-15 mm on steel contact; plate holes match-drilled or 30 mm oversize with 10 mm washers; proof tests of 3 rods to >= 60 kN with displacement, not 25 kN.
 
 ## 4. Criterion and B1
 
-An 800 x 800 solid head is plausible on a ribbed slab (3-4 blocks omitted) and GPR sees blocks reliably: B1 with the tabulated minima (K12 / K16 700; 0.95 at 700, 1.35 at 600) is verifiable, with the E fallback stated. The 300 mm criterion matches the checks.
+An 800 x 800 solid head is plausible on a ribbed slab and GPR sees blocks reliably: B1 with the tabulated minima (K12 / K16 700; 0.95 at 700, 1.35 at 600) is verifiable, E fallback stated. The 300 mm criterion matches the checks.
 
 ## 5. Findings
 

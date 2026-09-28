@@ -43,9 +43,9 @@ The model-space viewport is saved as a **SW isometric, flat shaded with edges** 
 
 ## How the system works (plain language)
 
-**Gravity.** Loads land on the 50 mm sandwich panel, which spans 1.5 m between the Z200 purlins. The purlins carry them to the green IPE 270 rafters (2-3 m apart), the rafters to the red IPE 330 primaries running east-west on every column row, and the primaries down through the 27 blue HEA 160 columns into the existing concrete columns under the slab. Every joint is a simple pin; nothing relies on frame action.
+**Gravity.** Loads land on the 50 mm sandwich panel, which spans 1.5 m between the Z200 purlins; the purlins carry them to the green IPE 270 rafters, the rafters to the red IPE 330 primaries on every column row, and the primaries down the 27 blue HEA 160 columns into the existing concrete columns under the slab. Every joint is a simple pin.
 
-**Lateral (wind, seismic).** Wind on the wall panels goes into the girts, which span column to column; each column sends half of its wall load to its base and half up to the roof. There the yellow M24 rod panels turn the roof into a stiff plate (diaphragm) that carries the load sideways to the ten magenta X-braced wall bays B1-B10, whose diagonals take it straight down to the base plates, shear keys and anchors in the slab. Those ten bays must stay door-free.
+**Lateral (wind, seismic).** Wind on the wall panels goes into the girts, then the columns, which send half up to the roof. The yellow M24 rod panels turn the roof into a stiff plate (diaphragm) that carries the load sideways to the ten magenta X-braced wall bays B1-B10, whose diagonals take it down to the base plates, shear keys and anchors in the slab. Those bays must stay door-free.
 
 **Level primaries, sloping rafters.** The primaries sit level on the column cap plates, so every column and cap detail is the same; the 6 % drainage fall is made by the rafters alone, whose tops follow the plane from 4.55 m (south) to 3.33 m (north).
 
