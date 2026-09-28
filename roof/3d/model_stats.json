@@ -1,0 +1,46 @@
+{
+ "entities": {
+  "3D-EXIST-SLAB": 1,
+  "3D-EXIST-COL": 27,
+  "3D-COL": 55,
+  "3D-BASE": 28,
+  "3D-PRIM": 19,
+  "3D-RAFT": 56,
+  "3D-PURL": 112,
+  "3D-BRACE-WALL": 20,
+  "3D-BRACE-ROOF": 48,
+  "3D-PANEL": 1,
+  "3D-WALL": 65,
+  "3D-TEXT": 41
+ },
+ "counts": {
+  "columns": 27,
+  "cap plates": 27,
+  "base plates": 28,
+  "wind post WP1": 1,
+  "primaries / eave beams": 19,
+  "trimmer T2": 1,
+  "rafter pieces": 51,
+  "post pieces ST1/ST2": 4,
+  "purlin pieces": 110,
+  "eave rails": 2,
+  "wall diagonals": 20,
+  "roof rods": 48,
+  "roof panels": 24,
+  "girt rows": 54,
+  "wall header": 1
+ },
+ "mismatch": [
+  "WP1: model.py (77.89, 19.97) = notch corner (wall-load model) vs drawings (77.61, 20.25) (Rev 4b, 280 mm inboard) - drawn position used",
+  "rafter R72 at x 72.09 is 100 mm off column K26 (x 71.99)",
+  "rafter R78 at x 77.78 is -110 mm off column K10 (x 77.89)",
+  "rafter R82 at x 81.85 is 60 mm off column K21 (x 81.79)",
+  "rafter R82 at x 81.85 is -40 mm off column K17 (x 81.89)",
+  "rafter R82 at x 81.85 is 70 mm off column K11 (x 81.78)",
+  "rafter R82 at x 81.85 is -40 mm off column K3 (x 81.89)",
+  "rafter R95 at x 95.55 is 60 mm off column K23 (x 95.49)",
+  "rafter R95 at x 95.55 is -40 mm off column K18 (x 95.59)",
+  "rafter R95 at x 95.55 is 70 mm off column K14 (x 95.48)",
+  "rafter R95 at x 95.55 is -40 mm off column K4 (x 95.59)"
+ ]
+}

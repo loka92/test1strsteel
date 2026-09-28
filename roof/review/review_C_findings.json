@@ -12,7 +12,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F2",
@@ -27,7 +29,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F3",
@@ -42,7 +46,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F4",
@@ -57,7 +63,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F5",
@@ -72,7 +80,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F6",
@@ -87,7 +97,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F7",
@@ -102,7 +114,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F8",
@@ -117,7 +131,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F9",
@@ -132,7 +148,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "open",
   "rev4b_status": "open",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "open",
+  "rev5_note": "seismic floor amplification still open"
  },
  {
   "id": "F10",
@@ -147,7 +165,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F11",
@@ -162,7 +182,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F12",
@@ -177,7 +199,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F13",
@@ -192,7 +216,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F14",
@@ -207,7 +233,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "F15",
@@ -222,7 +250,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "R1",
@@ -237,7 +267,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "R2",
@@ -252,7 +284,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "R3",
@@ -267,7 +301,9 @@
   "rev4_note": "per-base criterion and fallback replaced by per-base type selection",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "R4",
@@ -282,7 +318,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "R5",
@@ -297,7 +335,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "R6",
@@ -312,7 +352,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "R7",
@@ -327,7 +369,9 @@
   "rev4_note": "unchanged",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "S1",
@@ -342,7 +386,9 @@
   "rev4_note": "real slab edges per base; B2 through-bolts at 11 perimeter bases",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "S2",
@@ -357,7 +403,9 @@
   "rev4_note": "B2 key pair >= 300 from edges; B1 parallel-edge check applied",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "S3",
@@ -372,7 +420,9 @@
   "rev4_note": "lever T = N_t b/(b-c) with tip bearing; K19 93 kN per M24",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "unchanged"
+  "rev4b_note": "unchanged",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E"
  },
  {
   "id": "S4",
@@ -387,7 +437,9 @@
   "rev4_note": "criterion now one-sided but its extents (300 / +-300) are smaller than those used in the cone (340 / +-400) - see T2",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "criterion aligned with the calculation (T2)"
+  "rev4b_note": "criterion aligned with the calculation (T2)",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "T1",
@@ -402,7 +454,9 @@
   "rev4_note": "raised at Rev 4 sign-off",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "per-base B2 plates and coring zones (Rev 4a)"
+  "rev4b_note": "per-base B2 plates and coring zones (Rev 4a)",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E"
  },
  {
   "id": "T2",
@@ -417,7 +471,9 @@
   "rev4_note": "raised at Rev 4 sign-off",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "criterion = extents used, 340 / +-400 (Rev 4a)"
+  "rev4b_note": "criterion = extents used, 340 / +-400 (Rev 4a)",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "T3",
@@ -432,7 +488,9 @@
   "rev4_note": "raised at Rev 4 sign-off",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "rigid-post model for every key; K7 B2 (Rev 4b)"
+  "rev4b_note": "rigid-post model for every key; K7 B2 (Rev 4b)",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "T4",
@@ -447,7 +505,9 @@
   "rev4_note": "raised at Rev 4 sign-off",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "0.92 cone factor at K3, K16, K17"
+  "rev4b_note": "0.92 cone factor at K3, K16, K17",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "T5",
@@ -462,7 +522,9 @@
   "rev4_note": "raised at Rev 4 sign-off",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "under-slab plate 25, class-3 stiffeners, skewed levers, slab couple listed"
+  "rev4b_note": "under-slab plate 25, class-3 stiffeners, skewed levers, slab couple listed",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E"
  },
  {
   "id": "T6",
@@ -477,7 +539,9 @@
   "rev4_note": "raised at Rev 4 sign-off",
   "rev4a_status": "closed",
   "rev4b_status": "closed",
-  "rev4b_note": "bond with real extents"
+  "rev4b_note": "bond with real extents",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C1",
@@ -491,7 +555,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "north jog modelled, 439.3 m2, T1 deleted, S01/S02/S06"
+  "rev4b_note": "north jog modelled, 439.3 m2, T1 deleted, S01/S02/S06",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C2",
@@ -505,7 +571,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "L = TOS - 0.35 / 0.355, schedule agrees"
+  "rev4b_note": "L = TOS - 0.35 / 0.355, schedule agrees",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C3",
@@ -519,7 +587,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "plane +30 mm, 3.02 m under cap nuts"
+  "rev4b_note": "plane +30 mm, 3.02 m under cap nuts",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C4",
@@ -533,7 +603,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "no slots; 15 kN at +-30 K; K5, K7 B2"
+  "rev4b_note": "no slots; 15 kN at +-30 K; K5, K7 B2",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C6",
@@ -547,7 +619,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "Rev 4a/4b lines and closing sign-off"
+  "rev4b_note": "Rev 4a/4b lines and closing sign-off",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C7",
@@ -561,7 +635,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "100 outboard / 450 inboard, one standard 800"
+  "rev4b_note": "100 outboard / 450 inboard, one standard 800",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C8",
@@ -575,7 +651,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed with correction",
-  "rev4b_note": "report 24.9 t vs BOM 25.4 t (X1)"
+  "rev4b_note": "report 24.9 t vs BOM 25.4 t (X1)",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C10",
@@ -589,7 +667,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "cleat 0.66; fasteners from supplier"
+  "rev4b_note": "cleat 0.66; fasteners from supplier",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C11",
@@ -603,7 +683,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "RT-JOG 50.6 kN rod, 0.25"
+  "rev4b_note": "RT-JOG 50.6 kN rod, 0.25",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C13",
@@ -617,7 +699,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "K21 pattern by scan; K7 B2"
+  "rev4b_note": "K21 pattern by scan; K7 B2",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "C14",
@@ -631,7 +715,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "open",
   "rev4b_status": "closed",
-  "rev4b_note": "superseded figures removed"
+  "rev4b_note": "superseded figures removed",
+  "rev5_status": "closed",
+  "rev5_note": "unchanged"
  },
  {
   "id": "X1",
@@ -645,7 +731,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "n/a",
   "rev4b_status": "new",
-  "rev4b_note": "raised at closing sign-off"
+  "rev4b_note": "raised at closing sign-off",
+  "rev5_status": "open",
+  "rev5_note": "closing corrections still to appear in the Rev 5 issue"
  },
  {
   "id": "X2",
@@ -659,7 +747,9 @@
   "rev4_status": "n/a",
   "rev4a_status": "n/a",
   "rev4b_status": "new",
-  "rev4b_note": "raised at closing sign-off"
+  "rev4b_note": "raised at closing sign-off",
+  "rev5_status": "open",
+  "rev5_note": "closing corrections still to appear in the Rev 5 issue"
  },
  {
   "id": "X3",
@@ -673,6 +763,104 @@
   "rev4_status": "n/a",
   "rev4a_status": "n/a",
   "rev4b_status": "new",
-  "rev4b_note": "raised at closing sign-off"
+  "rev4b_note": "raised at closing sign-off",
+  "rev5_status": "open",
+  "rev5_note": "closing corrections still to appear in the Rev 5 issue"
+ },
+ {
+  "id": "V1",
+  "severity": "MAJOR",
+  "item": "Rev 5: M16 threaded rod at h_ef 550 (34 d) and 70 mm pitch (4.4 d) outside every standard anchor ETA; the 257 kN bond figure (tau_Rk 10, narrow-member factor) has no product basis",
+  "fix": "Specify a post-installed rebar system (EAD 330087), dia 16 B500 with threaded end; EC2 lap l_0 250 >= 240, f_bd 2.7 -> 136 kN (K19 0.54, K23 0.46)",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "new",
+  "rev5_note": "raised at Rev 5 sign-off"
+ },
+ {
+  "id": "V2",
+  "severity": "MAJOR",
+  "item": "Rev 5: the 300 mm slab part of the bond is not inert - it loads the edge-slab cone (50 / 38 kN) before the column lap engages",
+  "fix": "Debond the top 300 mm with a sleeve; inject the column part only",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "new",
+  "rev5_note": "raised at Rev 5 sign-off"
+ },
+ {
+  "id": "V3",
+  "severity": "MAJOR",
+  "item": "Rev 5: 11 mm nominal clearance from the rods (70 x 280) to the corner dia14 bars; GPR from above through 300 mm slab is +/-15-20 mm; hit risk about one hole in two",
+  "fix": "Pattern 70 x 240 (26 mm clear); cover-meter scan of the column faces from below; 10 mm pilot with relocation within +/-15 mm; match-drilled or 30 mm oversize plate holes",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "new",
+  "rev5_note": "raised at Rev 5 sign-off"
+ },
+ {
+  "id": "V4",
+  "severity": "MINOR",
+  "item": "Rev 5: proof test of 3 M16 to 25 kN does not validate the column bond",
+  "fix": "Test 3 sacrificial rods to >= 60 kN with displacement",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "new",
+  "rev5_note": "raised at Rev 5 sign-off"
+ },
+ {
+  "id": "V5",
+  "severity": "MINOR",
+  "item": "Rev 5: lap 250 mm vs l_0,min 240 mm",
+  "fix": "Embed 300 into the column where possible",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "new",
+  "rev5_note": "raised at Rev 5 sign-off"
+ },
+ {
+  "id": "V6",
+  "severity": "MINOR",
+  "item": "Rev 5: B1 interior bases depend on the 800 x 800 solid zone (0.95 at 700, 1.35 at 600)",
+  "fix": "GPR all heads; E fallback; or all 27 as E",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "new",
+  "rev5_note": "raised at Rev 5 sign-off"
  }
 ]
