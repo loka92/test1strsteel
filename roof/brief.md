@@ -57,3 +57,9 @@ Agreed with the client in interview on 2026-09-27.
 - Roof plane raised 30 mm: TOS(y) = 3.33 + 0.06 (35.87 - y), so the clear height under the cap-plate nuts at the north eave is >= 3.00 m.
 - Existing structure (client items, open): as-built drawings of the slab and columns (slab thickness, hidden beams on the wall lines, C25, foundations); a one-page adequacy statement for the added roof load (about 440 kN gravity, 150 kN roof-level wind) is to be produced once the as-builts arrive; a level survey of the slab top (screed thickness) fixes the 3.0 m datum and the base seating before any coring.
 - Base option for the client: 15 drilled-anchor bases + 11 through-bolt bases (as designed) or through-bolts at all 27 bases, which removes the per-head coring criterion at the cost of 16 more ceiling openings.
+
+## Revision 4 (client decisions, 2026-09-28)
+- **No through-bolts at any column.** Every base is anchored from above into the slab / column head (post-installed anchors). Drilling into the column heads remains permitted (Rev 2).
+- **The ribbed (hollow-block) slab is 300 mm thick** (not 250 mm as assumed). Solid zones at the column heads and on the wall lines still to be confirmed by scan and cores.
+- 3D concept model requested for understanding of the column / beam / bracing system.
+- Detailing will be reviewed again after the base redesign and the 3D model.
