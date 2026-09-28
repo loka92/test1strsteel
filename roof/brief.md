@@ -70,3 +70,8 @@ Agreed with the client in interview on 2026-09-27.
 
 ## Revision 6 (client, 2026-09-28)
 - **Rationalise all bracing**: check every roof-plane rod panel and every wall braced bay; remove all that are unnecessary; keep only what the diaphragm and the lateral system need on load basis Rev 3 (seismic-governed). Design change only; detailing remains frozen.
+
+## Revision 7 (client, 2026-09-28)
+- **Adopt the lighter section set**: IPE 300 primaries / IPE 240 rafters / HEA 140 columns (design Rev 6), to save steel.
+- **Detailing to be updated** to the final design, with a professional layout: no text overlapping drawings or other text.
+- **Cost**: steel priced at **6,950 LYD per tonne** (client's rate, taken as supplied, fabricated and erected).
