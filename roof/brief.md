@@ -63,3 +63,7 @@ Agreed with the client in interview on 2026-09-27.
 - **The ribbed (hollow-block) slab is 300 mm thick** (not 250 mm as assumed). Solid zones at the column heads and on the wall lines still to be confirmed by scan and cores.
 - 3D concept model requested for understanding of the column / beam / bracing system.
 - Detailing will be reviewed again after the base redesign and the 3D model.
+
+## Revision 5 (client, 2026-09-28)
+- **Ignore the BoardX wall cladding and girt weight** (0.30 kN/m2 of wall) in the design: no wall self-weight on the perimeter columns. The walls still exist as wind-loaded surfaces (enclosed hall), so wall wind pressure and internal pressure remain.
+- Client considers the load assumptions and combinations possibly overestimated: an independent load critic reviews load_basis.md Rev 2 before any further design work.
