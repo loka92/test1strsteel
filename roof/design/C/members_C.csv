@@ -98,4 +98,11 @@ strut rafter_chord,diaphragm strut/chord,IPE 270,,,,76.1,,,,,,,,0.36,N + M inter
 strut primary_chord,diaphragm strut/chord,IPE 330,,,,35.8,,,,,,,,0.29,N + M interaction,OK
 strut eave_strut,diaphragm strut/chord,IPE 330,,,,72.3,,,,,,,,0.18,N + M interaction,OK
 strut rafter_strut,diaphragm strut/chord,IPE 270,,,,8.2,,,,,,,,0.38,N + M interaction,OK
-strut R78_strut,diaphragm strut/chord,IPE 270,,,,133.6,,,,,,,,0.28,N + M interaction,OK
+strut R78_strut,diaphragm strut/chord,IPE 270,,,,66.8,,,,,,,,0.2,N + M interaction,OK
+fin R68,strut/chord fin plates,3 M20 on IPE 270 web,,"K8, K15, K19, K25 (x 68 line)",,90.8,,3.3,,0.33,,,,0.46,web bearing 0.46,OK
+fin R72,strut/chord fin plates,3 M20 on IPE 270 web,,"K9, ST2, K26 (RT-W chord)",,78.5,,7.4,,0.31,,,,0.42,web bearing 0.42,OK
+fin R78,strut/chord fin plates,2 M20 on IPE 270 web,,"K10, K16, K20 (x 77.8 line)",,66.8,,6.5,,0.41,,,,0.55,web bearing 0.55,OK
+fin R82,strut/chord fin plates,2 M20 on IPE 270 web,,"K11, K17 (RT-N-E west post)",,31.3,,6.3,,0.22,,,,0.3,web bearing 0.30,OK
+fin R90,strut/chord fin plates,3 M20 on IPE 270 web,,"K13, K22 (RT-E chord)",,51.6,,9.8,,0.22,,,,0.3,web bearing 0.30,OK
+fin R95,strut/chord fin plates,3 M20 on IPE 270 web,,"K4, K14, K18, K23 (x 95.5 line)",,82.1,,4.7,,0.31,,,,0.42,web bearing 0.42,OK
+fin R70/R75/R85/R87/R92,strut/chord fin plates,2 M20 on IPE 270 web,,y 29.3 primary (N-S struts),,8.2,,10.3,,0.13,,,,0.18,web bearing 0.18,OK

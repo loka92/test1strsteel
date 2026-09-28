@@ -1,4 +1,4 @@
-# Design C Rev 5 - bracing rationalised (brief Rev 6): before / after, analysis and reasons
+# Design C Rev 5a - bracing rationalised (brief Rev 6, review Z1-Z6 closed): before / after, analysis and reasons
 
 Forces: design roof-level seismic 145 kN E-W / 146 kN N-S (two-mass, q 1.5) and wind 61.9-63.5 kN char. (x 1.5); every bay and strip is seismic-governed.
 
@@ -23,7 +23,45 @@ Forces: design roof-level seismic 145 kN E-W / 146 kN N-S (two-mass, q 1.5) and 
 | RT-W | rafters R68 / R72 (IPE 270) | primaries y 15.9, 21.8, 29.3, 35.2 + ST2 | 19.4 | 4.1 | B4 (y 15.9), B2 (y 35.2) | 64.4 | 78.5 | 76.1 | 64.4 | 0.39 | 15.0 |
 | RT-E | rafters R90 / R95 | primaries y 20.1, 29.3, 35.7 + ST1 | 15.6 | 5.7 | B3 (y 20.1), B1 (y 35.7) | 70.9 | 64.6 | 49.1 | 70.9 | 0.32 | 10.4 |
 
-Struts and chords (axial + bending): purlin lines as E-W struts 3.4 kN (Z200x2.0, N_b,Rd 55 kN) -> 0.41; rafter chords R68/R72/R90/R95 76.1 kN -> 0.36 (with the 7.5 m gravity moment); primaries y 29.3 as chords 35.8 kN -> 0.29; eave primaries as struts to B1-B4 72.3 kN -> 0.18; rafters as N-S struts (south-half inertia to the y 29.3 chord) 8.2 kN -> 0.38; R78 as the N-S strut from the north strips down to B7 133.6 kN -> 0.28. All fin plates (2 M20, 188 kN) carry the strut forces.
+Struts and chords (axial + bending): purlin lines as E-W struts 3.4 kN (Z200x2.0, N_b,Rd 55 kN) -> 0.41; rafter chords R68/R72/R90/R95 76.1 kN -> 0.36 (with the 7.5 m gravity moment); primaries y 29.3 as chords 35.8 kN -> 0.29; eave primaries as struts to B1-B4 72.3 kN -> 0.18; rafters as N-S struts (south-half inertia to the y 29.3 chord) 8.2 kN -> 0.38; R78 as the N-S strut from the north strips down to B7 66.8 kN -> 0.20. The strut and chord forces pass through the rafter fin plates: checked in 2b (web bearing governs, not the 188 kN bolt shear).
+
+### 2a. Actual strip end shears and line forces (Z4)
+
+The rod design above takes V_end = the enveloped force of the line each strip delivers to (conservative, kept). The actual split, from the tributary N-S inertia of each block (roof grid) scaled per line so that the line totals equal the enveloped bay forces: RT-N-W 49.2 kN to x 68 (R68 -> B5) and 28.8 kN to x 77.8; jog panel 6.7 kN to x 77.8; RT-N-E 31.3 kN to x 77.8 (R82 -> jog -> R78) and 67.4 kN to x 95.5 (R95 -> B6 + B9). Line forces: **R68 49.2 kN, R78 66.8 kN (= B7, not the sum of the strip end shears), R82 31.3 kN, R95 67.4 kN**.
+
+### 2b. Strut / chord forces through the rafter fin plates (Z1)
+
+N = envelope of E_y + 0.3 E_x and E_x + 0.3 E_y (strut = N-S line force, chord = strip chord force at the splice); V = gravity end shear of the segment (G + Q, psi_2 = 0 in the seismic combination). Fin plate 10 mm S275, M20 8.8 in one row (pitch 70, e1 = e2 = 40; 3-bolt plate e1 35, 210 deep), bolt line 50 mm from the primary web. Bearing on the 6.6 mm IPE 270 web governs: 68.8 kN per bolt (60.2 with e1 35) in either direction, bolt shear 94 kN, plate net section, weld a 6 both sides; the force passes through the IPE 330 primary web plate-weld-web-weld-plate (web in through-thickness bearing, < 0.05).
+
+| Member | Fin plates at | N strut kN | N chord kN | N design kN | V kN | Bolts | Web bearing | Bolt shear | Plate net | Weld | Note |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| R68 | K8, K15, K19, K25 (x 68 line) | 49.2 | 76.1 | 90.8 | 3.3 | 3 M20 | **0.46** | 0.33 | 0.18 | 0.15 | strut into B5 + RT-W chord |
+| R72 | K9, ST2, K26 (RT-W chord) | 8.2 | 76.1 | 78.5 | 7.4 | 3 M20 | **0.42** | 0.31 | 0.18 | 0.13 | RT-W chord + rafter N-S strut |
+| R78 | K10, K16, K20 (x 77.8 line) | 66.8 | 0.0 | 66.8 | 6.5 | 2 M20 | **0.55** | 0.41 | 0.22 | 0.17 | strut into B7: whole line force |
+| R82 | K11, K17 (RT-N-E west post) | 31.3 | 0.0 | 31.3 | 6.3 | 2 M20 | **0.30** | 0.22 | 0.12 | 0.09 | RT-N-E west end shear (actual split) |
+| R90 | K13, K22 (RT-E chord) | 8.2 | 49.1 | 51.6 | 9.8 | 3 M20 | **0.30** | 0.22 | 0.14 | 0.10 | RT-E chord + rafter N-S strut |
+| R95 | K4, K14, K18, K23 (x 95.5 line) | 67.4 | 49.1 | 82.1 | 4.7 | 3 M20 | **0.42** | 0.31 | 0.17 | 0.14 | strut into B6 + B9 + RT-E chord |
+| R70/R75/R85/R87/R92 | y 29.3 primary (N-S struts) | 8.2 | 0.0 | 8.2 | 10.3 | 2 M20 | **0.18** | 0.13 | 0.08 | 0.10 | south-band inertia to the y 29.3 chord |
+
+With 2 M20 the chord rafters R68 / R95 would be at 0.69 / 0.62 in web bearing, so their splices (and R72 / R90, the other strip chords) get the 3 M20 plate; R78 stays at 2 M20 (0.55 <= 0.6). Purlin lines: 3.4 kN through the 2 M12 cleats (bearing on the 2.0 mm Z flange 2 x 16 kN, 0.11). Eave and row-F primaries: 72.3 kN through the 4 M20 of the cap plate (bolt shear + tension interaction 0.26). Bracing gussets at the NE corner (K2, K4, K13, K14): both rod sets concurrently, E_x + 0.3 E_y - rod forces 64.6 + 0.3 x 57.5 kN on a 10 mm gusset, 2 M20 per rod end (crossings and the R92 web clip to be drawn on S04 by detailing).
+
+### 2c. Seismic drift, EN 1998-1 4.4.3.2 (Z3)
+
+d_e = roof-truss deflection at the wall mid-length under the design (q 1.5) force + bay sway (+ strut strain); d_r = q d_e; nu = 0.5; limit 0.005 h for brittle cladding, h = TOS at the location.
+
+| Line | d_e mm | nu d_r mm | 0.005 h mm | Ratio |
+|---|---|---|---|---|
+| west wall (RT-W + B4/B2) | 17.7 | 13.3 | 19.7 | 0.67 |
+| east wall (RT-E + B3/B1) | 13.6 | 10.2 | 19.0 | 0.54 |
+| x 77.8 line (jog + R78 + B7) | 14.4 | 10.8 | 20.1 | 0.54 |
+| x 68 line (RT-N-W + R68 + B5) | 8.9 | 6.7 | 19.5 | 0.34 |
+
+Passes everywhere; the west wall (13.3 vs 19.7 mm) governs.
+
+### 2d. Erection (Z5) and purlin data (Z6)
+
+- The south bands have no plan bracing until the sandwich panels are fixed: the erector shall place temporary plan bracing (crossed wire ropes or angles) in one rafter cell of each south band (west wing R70-R72 / y 15.9-21.8, east wing R85-R87 / y 20.1-29.3) or guy the wall columns, and keep it until the roof panels and the purlin bridging are complete - to be written into the S05 sequence by detailing. The permanent strips (north bands, jog, west / east edge) are erected and pinned with the first rafters of each block.
+- Purlin strut check: Z200x2.0 S350GD, A 7.4 cm2, i_min 20 mm (principal minor axis; catalogue values 21-23 mm for Z200x65x2.0), buckling length 3.07 m between rafters - the supplier is to confirm A and i_min; with the sheeting fixed to the top flange the real length is the bridging spacing, so the 0.41 (mostly gravity bending) is an upper bound.
 
 ## 3. Wall bays: why each remaining bay is needed
 

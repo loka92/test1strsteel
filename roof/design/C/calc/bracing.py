@@ -273,6 +273,6 @@ def strut_checks(F_ew, F_ns, roof_area, trusses):
     N_raft = F_ns/roof_area*9.2*2.7
     out['rafter_strut'] = dict(N=N_raft, NbRd=Nb_Rd(S, 9.2, 3.07)[0], u=N_raft/Nb_Rd(S, 9.2, 3.07)[0] + 46.9/128.0)
     # R78 as N-S strut from the jog panel / RT-N-W east end down to B7 (K10 -> K16 -> K20): full B7 line force
-    out['R78_strut'] = dict(N=max(t['V'] for t in trusses if t['id'] == 'RT-JOG') + max(t['V'] for t in trusses if t['id'] == 'RT-N-W'), NbRd=Nb_Rd(S, 4.81, 2.4)[0])
+    out['R78_strut'] = dict(N=max(t['V'] for t in trusses if t['id'] == 'RT-JOG'), NbRd=Nb_Rd(S, 4.81, 2.4)[0])   # Rev 5a (Z1): the x 77.8 line force, not the sum of the strip end shears
     out['R78_strut']['u'] = out['R78_strut']['N']/out['R78_strut']['NbRd'] + 15.4/128.0
     return out
