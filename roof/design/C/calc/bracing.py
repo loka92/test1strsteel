@@ -144,20 +144,17 @@ def bay_forces(H):
 # ---------------- roof-plane bracing: X of M24 rods in the cells listed (one rafter bay x one rafter span), except the
 # east and west edge trusses whose diagonals span TWO rafter bays (R90-R95 and R68-R72, passing the intermediate rafter
 # through a slotted web clip) so that the truss depth is 5.65 / 4.10 m (review F10).
-ROOF_TRUSSES = [
- dict(id='RT-N-W', dirs='NS', span=(67.99, 77.78), D=5.90, face='N1',  a=[2.05, 2.05, 2.81, 2.88],
-      panels=[(67.99,70.04,29.32,35.22),(70.04,72.09,29.32,35.22),(72.09,74.90,29.27,35.22),(74.90,77.78,29.27,35.17)]),
- dict(id='RT-N-E', dirs='NS', span=(81.85, 95.55), D=6.40, face='N2',  a=[2.65, 2.69, 2.71, 2.58, 3.07],
-      panels=[(81.85,84.50,29.27,35.67),(84.50,87.19,29.27,35.72),(87.19,89.90,29.27,35.77),(89.90,92.48,29.27,35.77),(92.48,95.55,29.27,35.67)]),
- dict(id='RT-S-E', dirs='NS', span=(81.85, 95.55), D=9.20, face='S2', a=[2.65, 2.69, 2.71, 2.58, 3.07],
-      panels=[(81.85,84.50,20.07,29.27),(84.50,87.19,20.07,29.27),(87.19,89.90,20.07,29.27),(89.90,92.48,20.07,29.27),(92.48,95.55,20.07,29.27)]),
- dict(id='RT-S-W', dirs='NS', span=(67.99, 77.78), D=5.89, face='S1', a=[2.05, 2.05, 2.81, 2.88],
-      panels=[(67.99,70.04,15.87,21.76),(70.04,72.09,15.87,21.76),(72.09,74.90,15.92,21.76),(74.90,77.78,15.92,21.76)]),
- dict(id='RT-W',   dirs='EW', span=(15.87, 35.22), D=4.10, face='W',  a=[5.89, 7.56, 5.90],
-      panels=[(67.99,72.09,15.87,21.76),(67.99,72.09,21.76,29.32),(67.99,72.09,29.32,35.22)]),
- dict(id='RT-E',   dirs='EW', span=(20.07, 35.72), D=5.65, face='E',  a=[9.20, 6.45],
-      panels=[(89.90,95.55,20.07,29.27),(89.90,95.55,29.27,35.72)]),
- dict(id='RT-JOG', dirs='NS', span=(77.78, 81.85), D=4.81, face='N2', a=[4.07], panels=[(77.78,81.85,24.46,29.27)]),   # single panel: carries the west-end reaction of RT-N-E into B8 (K10-K16)
+ROOF_TRUSSES = [   # Rev 5 (brief Rev 6): five braced strips, 11 X panels of M24 rods (was 24)
+ dict(id='RT-N-W', dirs='NS', span=(67.99, 77.78), D=5.90, face='N1', a=[4.10, 5.69], sup=('B5', 'B7'),
+      panels=[(67.99,72.09,29.32,35.22),(72.09,77.78,29.27,35.20)]),                       # north strip, west wing: chords y 29.3 / 35.2, posts R68, R72, R78
+ dict(id='RT-N-E', dirs='NS', span=(81.85, 95.55), D=6.40, face='N2', a=[5.34, 5.29, 3.07], sup=('B7', 'B6'),
+      panels=[(81.85,87.19,29.27,35.72),(87.19,92.48,29.27,35.77),(92.48,95.55,29.27,35.67)]),   # north strip, east block: posts R82, R87, R92, R95 (column lines)
+ dict(id='RT-JOG', dirs='NS', span=(77.78, 81.85), D=4.81, face='N2', a=[4.07], sup=('B7', 'B7'),
+      panels=[(77.78,81.85,24.46,29.27)]),                                                  # jog past the stair well: chords y 24.46 / 29.27, posts R78, R82
+ dict(id='RT-W',   dirs='EW', span=(15.87, 35.22), D=4.10, face='W',  a=[5.89, 4.61, 2.96, 5.90], sup=('B4', 'B2'),
+      panels=[(67.99,72.09,15.87,21.76),(67.99,72.09,21.76,26.37),(67.99,72.09,26.37,29.32),(67.99,72.09,29.32,35.22)]),   # west strip: chords R68 / R72, posts at y 15.9, 21.8, 26.4 (ST2), 29.3, 35.2
+ dict(id='RT-E',   dirs='EW', span=(20.07, 35.72), D=5.65, face='E',  a=[4.39, 4.81, 6.45], sup=('B3', 'B1'),
+      panels=[(89.90,95.55,20.07,24.46),(89.90,95.55,24.46,29.27),(89.90,95.55,29.27,35.72)]),   # east strip: chords R90 / R95 (rods over two rafter bays), posts at y 20.1, 24.5 (ST1), 29.3, 35.7
 ]
 def truss_analysis(t, w, V_end=None):
     """Simply supported horizontal truss, uniform load w (kN/m) over the span, panels a_i, depth D, X diagonals
@@ -177,22 +174,19 @@ def truss_analysis(t, w, V_end=None):
     return dict(T=float(T.max()), chord=float(chord), V=float(np.abs(V).max()), Ld=float(Ld.max()), delta=dmax*1000, L=float(L))
 
 def roof_truss_forces(H_bays_uls):
+    """Rev 5: every strip is a horizontal truss between two braced lines; its end shear is the larger of the bay
+    forces of the lines it delivers to (governing case, wind or seismic, envelope). Diagonal T = V L_d/D of the end
+    panel, chord = V L/4/D (uniform-load equivalent), post = V; deflection by virtual work (rods only)."""
     out = []
     for t in ROOF_TRUSSES:
-        f = next(ff for ff in FACES if ff['id'] == t['face'])
-        c = 0.5*(f['a']+f['b']); yy = f['c'] if f['normal'][0]=='y' else c
-        w = 1.5*C_GLOBAL*QP_DIR[f['normal'][1].replace('+', 'N').replace('-', 'S') if f['normal'][0] == 'y' else ('E' if f['normal'][1] == '+' else 'W')]*wall_h(yy)/2.0
-        if t['id'] in ('RT-N-E', 'RT-S-E', 'RT-N-W', 'RT-S-W'):    # add the roof-suction component share (N-S trusses)
-            F, xc, yc, strips = roof_suction_component()['S']
-            w += 1.5*F/(ENV['x1']-ENV['x0'])*0.5
-        r = truss_analysis(t, w)
-        if t['id'] == 'RT-E': r = truss_analysis(t, w, V_end=max(H_bays_uls.get('B3', 0), H_bays_uls.get('B1', 0)))
-        if t['id'] == 'RT-W': r = truss_analysis(t, w, V_end=max(H_bays_uls.get('B2', 0), H_bays_uls.get('B4', 0)))
-        if t['id'] == 'RT-JOG':      # one panel: end shear = west-end reaction of RT-N-E, T = V L_d/D, chord = V a/D
-            Vj = next(x for x in out if x['id'] == 'RT-N-E')['w']*13.7/2
-            Ld = (4.07**2 + 4.81**2)**0.5
-            r = dict(T=Vj*Ld/4.81, chord=Vj*4.07/4.81, V=Vj, Ld=Ld, delta=Vj*Ld/4.81*Ld/(E*ROD['As']/1e3)*(Ld/4.81)*1000, L=4.07)
-        r.update(id=t['id'], D=t['D'], w=w, util=r['T']/ROD['FtRd'], npanels=len(t['panels']), post=r['V'])
+        L = sum(t['a']); D = t['D']
+        V = max(H_bays_uls.get(s, 0.0) for s in t['sup'])
+        if len(t['a']) == 1:                      # single panel (jog): shear V through one diagonal
+            Ld = (t['a'][0]**2 + D**2)**0.5; T = V*Ld/D
+            r = dict(T=T, V=V, Ld=Ld, L=L, delta=T*Ld/(E*ROD['As']/1e3)*(Ld/D)*1000)
+        else:
+            r = truss_analysis(t, 2*V/L, V_end=V)
+        r.update(id=t['id'], D=D, w=2*V/L, util=r['T']/ROD['FtRd'], npanels=len(t['panels']), post=V, V=V, chord=V*L/4/D)
         out.append(r)
     return out
 
@@ -250,4 +244,35 @@ def two_mass_check(roof_area, steel_kN, kx_bays, ky_bays):
             Sa = ag*S*max(3*(1 + 1.0)/(1 + (1 - Ta/T1)**2) - 0.5, 1.0)
             if Sa > Sa_max: Sa_max, T1_worst = Sa, T1
         out[dirn] = dict(k=k, Ta=Ta, Sa=Sa_max, T1=T1_worst, F=Sa_max*Wa/1.5, F_unamplified=ag*S*2.5/1.5*Wa)
+    return out
+
+# ---------------- struts and chords of the rationalised diaphragm (Rev 5) -------------------------------------------
+def strut_checks(F_ew, F_ns, roof_area, trusses):
+    """Purlin lines as E-W struts (seismic inertia of their 1.5 m strip over half the block width), eave primaries and
+    rafter chords: axial + bending interaction, simple. F_ew/F_ns = design roof-level forces (kN)."""
+    from sections import sec, Nb_Rd, FY
+    a_roof = F_ew/roof_area                       # kN/m2 of roof plan area, E-W
+    out = {}
+    # Z200x2.0: A 7.4 cm2, i_min 2.0 cm (assumed, supplier to confirm), single span 3.07 m between rafters, f_y 350
+    A, imin, Lp = 740.0, 20.0, 3070.0
+    lam = Lp/imin/(3.1416*(210000/350)**0.5); chi_ = 1/( (0.5*(1 + 0.34*(lam - 0.2) + lam**2)) + ((0.5*(1 + 0.34*(lam - 0.2) + lam**2))**2 - lam**2)**0.5 )
+    NbRd_Z = min(1.0, chi_)*A*350/1e3
+    N_purlin = a_roof*1.5*13.7/2                  # tributary strip 1.5 m x half the east-block width
+    out['purlin'] = dict(N=N_purlin, NbRd=NbRd_Z, u=N_purlin/NbRd_Z + 4.35/12.5)   # + gravity bending 4.35 kNm / 12.5
+    # rafter chords of RT-W (R68/R72, IPE 270): chord force + gravity moment (7.5 m span, M 31 kNm ULS)
+    ch = max(t['chord'] for t in trusses if t['id'] in ('RT-W', 'RT-E'))
+    S = sec('IPE 270'); Nb = Nb_Rd(S, 7.56, 3.0)[0]
+    out['rafter_chord'] = dict(N=ch, NbRd=Nb, u=ch/Nb + 31.4/128.0)
+    # primaries as chords/struts of the north strips and eave struts (IPE 330): chord force + gravity moment (K11-K12, 46 kNm)
+    chn = max(t['chord'] for t in trusses if t['id'] in ('RT-N-W', 'RT-N-E', 'RT-JOG'))
+    S3 = sec('IPE 330'); Nb3 = Nb_Rd(S3, 5.7, 5.7)[0]
+    eave = max(F_ew/2, 0.0)                       # eave primary strut: half the E-W force reaching one bay line
+    out['primary_chord'] = dict(N=chn, NbRd=Nb3, u=chn/Nb3 + 46.1/221.0)
+    out['eave_strut'] = dict(N=eave, NbRd=Nb3, u=eave/Nb3 + 2.0/221.0)
+    # rafters as N-S struts (south half inertia to the y 29.3 chord): 9.2 m rafter, IPE 270
+    N_raft = F_ns/roof_area*9.2*2.7
+    out['rafter_strut'] = dict(N=N_raft, NbRd=Nb_Rd(S, 9.2, 3.07)[0], u=N_raft/Nb_Rd(S, 9.2, 3.07)[0] + 46.9/128.0)
+    # R78 as N-S strut from the jog panel / RT-N-W east end down to B7 (K10 -> K16 -> K20): full B7 line force
+    out['R78_strut'] = dict(N=max(t['V'] for t in trusses if t['id'] == 'RT-JOG') + max(t['V'] for t in trusses if t['id'] == 'RT-N-W'), NbRd=Nb_Rd(S, 4.81, 2.4)[0])
+    out['R78_strut']['u'] = out['R78_strut']['N']/out['R78_strut']['NbRd'] + 15.4/128.0
     return out

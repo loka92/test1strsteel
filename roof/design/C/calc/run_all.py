@@ -32,6 +32,7 @@ for b in BAYS:
                       NtRd=chk['NtRd'], sway=sway, sway_lim=bf['h']*1000/150, H4=Hs)
 H_uls_max = {i: bay_env[i]['H'] for i in bay_env}
 trusses = bracing.roof_truss_forces(H_uls_max)
+struts = bracing.strut_checks(seis['Fb_x'], seis['Fb_y'], res['roof_area'], trusses)
 wind_roof = {d: Fr[d][0] for d in 'NSEW'}
 # diaphragm drift at the east / west wall mid-length = truss deflection + bay sway (SLS = ULS/1.5)
 drift = {t['id']: t['delta']/1.5 + max(bay_env[i]['sway'] for i in bay_env) for t in trusses if t['id'] in ('RT-E', 'RT-W')}
@@ -84,7 +85,10 @@ for i, b in bay_env.items():
          governing='6.2.3 net section' if b['util'] >= b['util_bolt'] else 'gusset bolts', verdict='OK')
 for t in trusses:
     krow(id=t['id'], type='roof X-brace', section=ROD['name'], length=round(t['Ld'], 2), frm='', to='', N_Ed=round(t['T'], 1), M_Ed=0, V_Ed='',
-         u_M='', u_V='', u_LTB_g='', u_LTB_up='', u_defl='', utilisation=round(t['util'], 2), governing='rod tension', verdict='OK')
+         u_M='', u_V='', u_LTB_g='', u_LTB_up='', u_defl='', utilisation=round(t['util'], 2), governing='rod tension (seismic)', verdict='OK')
+for k, v in struts.items():
+    krow(id='strut ' + k, type='diaphragm strut/chord', section={'purlin': 'Z200x2.0', 'rafter_chord': 'IPE 270', 'rafter_strut': 'IPE 270', 'R78_strut': 'IPE 270'}.get(k, 'IPE 330'), length='', frm='', to='', N_Ed=round(v['N'], 1), M_Ed='', V_Ed='',
+         u_M='', u_V='', u_LTB_g='', u_LTB_up='', u_defl='', utilisation=round(v['u'], 2), governing='N + M interaction', verdict='OK' if v['u'] <= 1 else 'NO')
 with open(os.path.join(OUT, 'members_C.csv'), 'w', newline='') as f:
     w = csv.DictWriter(f, fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
 
@@ -166,8 +170,8 @@ for t in bracing.ROOF_TRUSSES:
         ax.plot([x0, x1], [y0, y1], 'g--', lw=0.7, alpha=0.7); ax.plot([x0, x1], [y1, y0], 'g--', lw=0.7, alpha=0.7)
 sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm); sm.set_array([]); cb = plt.colorbar(sm, ax=ax, fraction=0.03, pad=0.01); cb.set_label('utilisation (governing check)')
 ax.set_aspect('equal'); ax.set_xlim(66.5, 99.0); ax.set_ylim(14, 37.5); ax.set_xlabel('x (m)'); ax.set_ylabel('y (m)'); ax.grid(alpha=0.25)
-ax.set_title('Alternative C Rev 4 (load basis Rev 3) - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79): %s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns;\n'
-             'red = wall X-bracing bays B1-B10 (L70x7, utilisation), green dashed = roof-plane X bracing (M24 rods); column label = member / base utilisation' % (SP['name'], SR['name'], SC['name']), fontsize=9.5)
+ax.set_title('Alternative C Rev 5 (load basis Rev 3, bracing rationalised) - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79): %s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns;\n'
+             'red = wall X-bracing bays B1-B7, B9 (L70x7, utilisation), green dashed = roof-plane X bracing, %d panels of M24 rods; column label = member / base utilisation' % (SP['name'], SR['name'], SC['name'], n_panels), fontsize=9.5)
 fig.tight_layout(); fig.savefig(os.path.join(OUT, 'framing_C.png'), dpi=150); plt.close(fig)
 
 # purlin cleat under zone-F uplift (C10): reaction of a 3.07 m span at w = (0.17 - 1.5 x 3.25) x 1.5 = -7.06 kN/m
@@ -190,6 +194,7 @@ summary = dict(sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], b
                purlins=dict(Mg=pur['worst']['gravity'][0], Mg_where=pur['worst']['gravity'][1], Mu=pur['worst']['uplift'][0], Mu_where=pur['worst']['uplift'][1], Lmax=pur['Lmax'], d=pur['d'], dlim=pur['dlim']),
                post=dict(N=post_N, NbRd=NbR_raft), st=dict(N1=N_st1, Nb1=Nb_st1, N2=N_st2, Nb2=Nb_st2), wp1=dict(L=Lwp, My=My_wp, Mz=Mz_wp, u=u_wp, V=V_wp),
                weight=W, lengths=lengths, n_roof_panels=n_panels, roof_comp=bracing.roof_suction_component()['S'][:3], cleat=cleat, clear=clear, thermal=thermal,
+               struts=struts,
                bay_gov={i: dict(wind=max(bays[d][i]['H'] for d in 'NSEW'), seis=max(H4['x'][i], H4['y'][i]), gov=('seismic' if max(H4['x'][i], H4['y'][i]) > max(bays[d][i]['H'] for d in 'NSEW') else 'wind')) for i in bay_env},
                colsum={t: float(sum(v[t] for v in res['colloads'].values())) for t in ('G', 'Gmin', 'Q', 'W_N', 'W_S', 'W_E', 'W_W', 'W_D')},
                tos={y: TOS(y) for y in (35.87, 35.77, 35.37, 35.27, 35.17, 29.27, 24.46, 21.76, 20.07, 15.87, 15.57)},

@@ -104,9 +104,9 @@ BAYS = [
  dict(id='B1', dir='x', c=('K1','K2')),   dict(id='B2', dir='x', c=('K5','K7')),
  dict(id='B3', dir='x', c=('K22','K23')), dict(id='B4', dir='x', c=('K25','K26')),
  dict(id='B5', dir='y', c=('K15','K19')), dict(id='B6', dir='y', c=('K14','K18')),
- dict(id='B7', dir='y', c=('K20','K27')), dict(id='B8', dir='y', c=('K10','K16')),
- dict(id='B9', dir='y', c=('K18','K23')), dict(id='B10', dir='y', c=('K19','K25')),
-]
+ dict(id='B7', dir='y', c=('K20','K27')),
+ dict(id='B9', dir='y', c=('K18','K23')),
+]   # Rev 5 (brief Rev 6): B8 (K10-K16, interior hall X) and B10 (K19-K25) removed - see bracing_rev5.md
 def bay_geom(b):
     (x1,y1),(x2,y2) = COLS[b['c'][0]], COLS[b['c'][1]]
     w = abs(x2-x1) if b['dir']=='x' else abs(y2-y1)

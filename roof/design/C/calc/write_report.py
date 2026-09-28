@@ -7,6 +7,7 @@ rea = list(csv.DictReader(open(os.path.join(OUT, 'reactions_C.csv'))))
 W = s['weight']; L = s['lengths']; b = s['bays']; t = {x['id']: x for x in s['trusses']}; be = s['base_env']
 f = lambda x, n=1: ('%.*f' % (n, float(x))) if x not in ('', None) else '-'
 BAYC = {'B1': 'K1-K2', 'B2': 'K5-K7', 'B3': 'K22-K23', 'B4': 'K25-K26', 'B5': 'K15-K19', 'B6': 'K14-K18', 'B7': 'K20-K27', 'B8': 'K10-K16', 'B9': 'K18-K23', 'B10': 'K19-K25'}
+TDESC = {'RT-N-W': 'N band west, chords y 29.3 / 35.2', 'RT-N-E': 'N band east, chords y 29.3 / 35.7', 'RT-S-E': 'S band east', 'RT-S-W': 'S band west', 'RT-W': 'west edge, chords R68 / R72 (rods over two bays)', 'RT-E': 'east edge, chords R90 / R95 (rods over two bays)', 'RT-JOG': 'jog panel x 77.8-81.9 / y 24.5-29.3, carries the RT-N-E west reaction to B7 via R78'}
 
 def member_table():
     keep = [m for m in mem if m['type'] in ('rafter', 'primary', 'eave beam', 'trimmer', 'roof truss post')]
@@ -46,7 +47,7 @@ def bay_table():
 
 def truss_table():
     rows = ['| Roof truss | Wind | Span m | Depth m | Panels | Shear V kN | Diagonal T kN (M24, 203) | Chord kN | Post kN | Util. rod | Truss defl. ULS mm |', '|---|---|---|---|---|---|---|---|---|---|---|']
-    desc = {'RT-N-W': 'N band west, chords y 29.3 / 35.2', 'RT-N-E': 'N band east, chords y 29.3 / 35.7', 'RT-S-E': 'S band east, chords y 20.1 / 29.3', 'RT-S-W': 'S band west, chords y 15.9 / 21.8', 'RT-W': 'west edge, chords R68 / R72 (rods over two bays)', 'RT-E': 'east edge, chords R90 / R95 (rods over two bays)', 'RT-JOG': 'jog panel x 77.8-81.9 / y 24.5-29.3, carries the RT-N-E west reaction into B8'}
+    desc = TDESC
     for k, v in t.items():
         rows.append('| %s (%s) | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (k, desc[k], 'N-S' if k not in ('RT-W', 'RT-E') else 'E-W', f(v['L']), f(v['D']), v.get('npanels', 1), f(v['V']), f(v['T']), f(v['chord']), f(v.get('post', v['V'])), f(v['util'], 2), f(v['delta'])))
     return '\n'.join(rows)
@@ -87,10 +88,12 @@ kw = dict(member_table=member_table(), column_table=column_table(), reaction_tab
           B3s=f(s['bay_gov']['B3']['seis']), B3w=f(s['bay_gov']['B3']['wind']), MK19=f(next(m['M_Ed'] for m in mem if m['id'].startswith('P_K19K20'))), dK19=f(s['thermal']['keff']*0 + float(next(m['u_defl'] for m in mem if m['id'].startswith('P_K19K20')))*9790/200, 1), LK19=f(200/float(next(m['u_defl'] for m in mem if m['id'].startswith('P_K19K20'))), 0),
           uten_max=f(max(e['uten'] for e in be.values()), 2), K19t=f(be['K19']['uten'], 2), K23t=f(be['K23']['uten'], 2), K12t=f(be['K12']['uten'], 2), ukey_max=f(max(e['ukey'] for e in be.values()), 2), ukey_col=max(be, key=lambda c: be[c]['ukey']),
           udiag_max=f(max(v['util'] for v in b.values()), 2), udiag_bay=max(b, key=lambda k: b[k]['util']), ubolt_max=f(max(v['util_bolt'] for v in b.values()), 2),
+          Lrod=f(L['roof_bracing'], 0), Wbr=f((W['roof_bracing'] + W['wall_bracing'])/1000, 2), urod=f(max(x['util'] for x in s['trusses']), 2), Wsave=f((2.26e3 - W['roof_bracing'] - W['wall_bracing'])/1000, 2), Wbom5=f((W['BOM_total'] - (2.26e3 - W['roof_bracing'] - W['wall_bracing']))/1000, 1),
+          Npurlin=f(s['struts']['purlin']['N']), upurlin=f(s['struts']['purlin']['u'], 2), Nchord=f(s['struts']['rafter_chord']['N']), uchord_r=f(s['struts']['rafter_chord']['u'], 2), Nchordp=f(s['struts']['primary_chord']['N']), uchord=f(s['struts']['primary_chord']['u'], 2), Neave=f(s['struts']['eave_strut']['N']), ueave=f(s['struts']['eave_strut']['u'], 2), Nraftstrut=f(s['struts']['rafter_strut']['N']), uraftstrut=f(s['struts']['rafter_strut']['u'], 2), NR78=f(s['struts']['R78_strut']['N']), uR78=f(s['struts']['R78_strut']['u'], 2),
           k_eff=f(s['thermal']['keff'], 1), F_s=f(s['thermal']['F_s'], 0), F_e=f(s['thermal']['F_e'], 0), F_uw=f(s['thermal']['F_uls_wind'], 0), F_ue=f(s['thermal']['F_uls_erect'], 0),
           cleatR=f(s['cleat']['R']), jogT=f(t['RT-JOG']['T']), jogV=f(t['RT-JOG']['V']), Lraft=f(L['rafters'], 0),
           sumG=f(sum(v['G'] for v in s['colloads'].values()), 0), sumQ=f(sum(v['Q'] for v in s['colloads'].values()), 0), sumWS=f(sum(v['W_S'] for v in s['colloads'].values()), 0),
-          B8H=f(b['B8']['H']), B8T=f(b['B8']['T']), B8N=f(b['B8']['N']), B3H=f(b['B3']['H']), K25c=f(s['cols']['K25']['umax'], 2), K23c=f(s['cols']['K23']['umax'], 2), K22c=f(s['cols']['K22']['umax'], 2))
+          B8H=f(b['B7']['H']), B8T=f(b['B7']['T']), B8N=f(b['B7']['N']), B3H=f(b['B3']['H']), K25c=f(s['cols']['K25']['umax'], 2), K23c=f(s['cols']['K23']['umax'], 2), K22c=f(s['cols']['K22']['umax'], 2))
 report = open(os.path.join(HERE, 'report_text.md')).read().format(**kw)
 open(os.path.join(OUT, 'design_report_C.md'), 'w').write(report)
 body = [l for l in report.splitlines() if not l.startswith('|')]
