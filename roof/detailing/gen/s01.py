@@ -7,7 +7,7 @@ def draw(msp):
     L = lambda x, y: (x-OX, y-OY)
     T = lambda x, y, s, h=TH, layer='S-TEXT', align='LEFT', rot=0: sh.text(x-OX, y-OY, s, h, layer, align, rot)
     # existing slab outline + concrete columns (grey)
-    sh.pline([L(67.89,15.57), L(77.89,15.57), L(77.89,19.97), L(95.69,19.97), L(95.69,35.87), L(67.89,35.87)], 'S-EXIST', True, lineweight=35)
+    sh.pline([L(67.89,15.57), L(77.89,15.57), L(77.89,19.97), L(95.69,19.97), L(95.69,35.87), L(81.79,35.87), L(81.79,35.37), L(67.89,35.37)], 'S-EXIST', True, lineweight=35)
     for k, c in COLS.items():
         x, y, bx, by = c['cx'], c['cy'], c['bx'], c['by']
         pts = [L(x-bx/2,y-by/2), L(x+bx/2,y-by/2), L(x+bx/2,y+by/2), L(x-bx/2,y+by/2)]
@@ -18,7 +18,8 @@ def draw(msp):
         sh.pline(pts, 'S-OPEN', True, lineweight=35); sh.hatch(pts, 'S-OPEN', 'ANSI31', 0.3, 8, 45)
         cx, cy = 0.5*(o['x0']+o['x1']), 0.5*(o['y0']+o['y1'])
         T(cx, cy+0.4, name + ' WELL', TH, 'S-TEXT', 'CENTER'); T(cx, cy-0.1, 'NOT ROOFED', TH_SMALL, 'S-TEXT', 'CENTER')
-        T(cx, cy-0.5, '150 UPSTAND + FLASHING ALL SIDES', TH_SMALL, 'S-TEXT', 'CENTER')
+        T(cx, cy-0.5, 'OPEN TO THE NORTH FACE (no roof, no eave beam)' if name == 'STAIR' else '150 UPSTAND + FLASHING ALL SIDES', TH_SMALL, 'S-TEXT', 'CENTER')
+        if name == 'STAIR': T(cx, cy-0.85, '150 UPSTAND + FLASHING on P8 / R5 / R6', TH_SMALL, 'S-TEXT', 'CENTER')
     # grids
     for g, x in XGRID:
         sh.line(*L(x, 14.4), *L(x, 36.9), 'S-GRID'); sh.bubble(x-OX, 37.3-OY, g, r=0.42)
@@ -26,9 +27,11 @@ def draw(msp):
         sh.line(*L(65.2, y), *L(96.6, y), 'S-GRID'); sh.bubble(64.7-OX, y-OY, g, r=0.42)
     # purlins + eave rail
     for y, a, b in purlin_segments(): sh.line(*L(a, y), *L(b, y), 'S-PURL')
-    sh.line(*L(67.89, 35.80), *L(95.69, 35.80), 'S-PURL', lineweight=25)
-    T(70.2, 34.2, 'Z200x2.0 PURLINS @ 1.50 m (E-W), first row 0.30 m from the north edge; anti-sag row at mid-span of every purlin span', TH_SMALL)
-    T(84.0, 35.62, 'EAVE RAIL C200x60x2.5 (gutter bracket rail) on every rafter end', TH_SMALL)
+    sh.line(*L(67.89, 35.32), *L(77.89, 35.32), 'S-PURL', lineweight=25); sh.line(*L(81.79, 35.82), *L(95.69, 35.82), 'S-PURL', lineweight=25)
+    sh.line(*L(77.89, 35.37), *L(81.79, 35.37), 'S-PURL', lineweight=50); T(79.84, 34.55, 'WALL HEADER C200x60x2.5 x2 boxed', TH_SMALL, 'S-PURL', 'CENTER'); T(79.84, 34.3, '(no roof, no eave beam) + gutter stop ends', TH_SMALL, 'S-PURL', 'CENTER')
+    sh.line(*L(81.79, 35.37), *L(81.79, 35.87), 'S-DETAIL', lineweight=50); T(81.65, 35.45, '0.5 m WALL RETURN on brackets from C3', TH_SMALL, 'S-TEXT', 'RIGHT', 90)
+    T(70.2, 34.0, 'Z200x2.0 PURLINS @ 1.50 m (E-W), first row <= 1.3 m from the north edges (east 35.57, west 34.07); anti-sag row at mid-span of every purlin span', TH_SMALL)
+    T(84.0, 35.62, 'EAVE RAIL C200x60x2.5 (gutter bracket rail) on every rafter end, both eaves', TH_SMALL)
     # primaries, trimmers
     for p in PRIMARIES:
         lw = 50 if p['kind'] != 'trim' else 35
@@ -65,7 +68,7 @@ def draw(msp):
         if k in ('K21','K22','K23','K25','K26','K24','K27'): dy = -0.75
         T(x+dx, y+dy, 'C%d' % n, TH, 'S-COL'); T(x+dx, y+dy-0.25, '(K%d) HEA160' % n, TH_SMALL, 'S-COL')
     sh.rect(*L(WP1[0]-0.08, WP1[1]-0.08), *L(WP1[0]+0.08, WP1[1]+0.08), 'S-COL', lineweight=50)
-    T(77.0, 20.5, 'WP1 HEA160 wind post (77.61, 20.25), 280 inboard - Rev 4', TH_SMALL, 'S-COL')
+    T(77.0, 20.5, 'WP1 HEA160 wind post (77.61, 20.25), 280 inboard (Rev 4b)', TH_SMALL, 'S-COL')
     # wall bracing bays
     for b, d, (a, c) in BAYS:
         (x1, y1), (x2, y2) = KXY[a], KXY[c]
@@ -78,15 +81,17 @@ def draw(msp):
             sh.line(*L(xm-0.35, ym-0.5), *L(xm+0.35, ym+0.5), 'S-BRACE', lineweight=50); sh.line(*L(xm-0.35, ym+0.5), *L(xm+0.35, ym-0.5), 'S-BRACE', lineweight=50)
             T(xm+0.45 if xm < 80 else xm-0.45, ym, b + ' L70x7 X', TH, 'S-BRACE', 'LEFT' if xm < 80 else 'RIGHT', 90)
     # drainage
-    g = GUTTER
-    sh.line(*L(g['x0'], g['y']+0.05), *L(g['x1'], g['y']+0.05), 'S-DRAIN'); sh.line(*L(g['x0'], g['y']+0.20), *L(g['x1'], g['y']+0.20), 'S-DRAIN')
+    for g in GUTTERS:
+        y = g['y']; sh.line(*L(g['x0'], y+0.05), *L(g['x1'], y+0.05), 'S-DRAIN'); sh.line(*L(g['x0'], y+0.20), *L(g['x1'], y+0.20), 'S-DRAIN')
+        for xe in (g['x0'], g['x1']): sh.line(*L(xe, y+0.05), *L(xe, y+0.20), 'S-DRAIN', lineweight=35)
+        sh.line(*L(g['hp'], y+0.03), *L(g['hp'], y+0.38), 'S-DRAIN'); T(g['hp'], y+0.55, 'HP/EJ', 0.12, 'S-DRAIN', 'CENTER')
+        T(g['x0']+0.3, y+0.26, '%s BOX GUTTER 150x100 at y %.2f, x %.2f-%.2f, fall 1:350 from HP' % (g['id'], y, g['x0'], g['x1']), 0.12, 'S-DRAIN')
     for dp, x in DOWNPIPES:
-        sh.circle(x-OX, 36.3-OY, 0.12, 'S-DRAIN'); sh.line(*L(x, 36.07), *L(x, 36.18), 'S-DRAIN')
-        T(x, 36.62, '%s dia100' % dp, 0.14, 'S-DRAIN', 'CENTER')
-    for x in HIGH_PTS:
-        sh.line(*L(x, 35.9), *L(x, 36.25), 'S-DRAIN'); T(x, 36.62, 'HP / EJ', 0.14, 'S-DRAIN', 'CENTER')
-    T(67.9, 37.78, 'BOX GUTTER 150x100 on the north eave, fall 1:350 from HP to the outlets; overflow spouts at x 67.89 / 77.89 / 81.79 / 95.69', TH_SMALL, 'S-DRAIN')
-    T(84.0, 37.78, '(drainage report puts the west run at y 35.37 - coordinate, open item 6)', TH_SMALL, 'S-DRAIN')
+        y = north_edge(x); sh.circle(x-OX, y+0.43-OY, 0.1, 'S-DRAIN'); sh.line(*L(x, y+0.20), *L(x, y+0.33), 'S-DRAIN')
+        T(x+0.15, y+0.38, '%s dia100' % dp, 0.12, 'S-DRAIN', 'LEFT')
+    for x in SPOUTS:
+        y = north_edge(x - 0.01) if x in (77.89,) else north_edge(x); sh.pline([L(x, y+0.05), L(x, y+0.5)], 'S-DRAIN'); T(x + (0.08 if x < 80 else -0.08), y+0.52, 'spout', 0.11, 'S-DRAIN', 'LEFT' if x < 80 else 'RIGHT')
+    T(67.9, 37.78, 'GUTTERS: G-W at y 35.37 (x 67.89-77.89, stop ends) and G-E at y 35.87 (x 81.79-95.69, stop ends); overflow spouts 100x30 at the stop ends x 67.89 / 77.89 / 81.79 / 95.69; DP1-DP4 dia 100 on the north facade', TH_SMALL, 'S-DRAIN')
     sh.line(*L(79.84, 29.37), *L(79.84, 27.37), 'S-DRAIN'); sh.line(*L(79.84, 27.37), *L(77.89, 29.37), 'S-DRAIN'); sh.line(*L(79.84, 27.37), *L(81.79, 29.37), 'S-DRAIN')
     T(79.84, 26.95, 'CRICKET ridge 120 mm at the upstand, 2.0 m up-slope', TH_SMALL, 'S-DRAIN', 'CENTER')
     T(79.94, 19.6, 'ELEV well: no cricket, south upstand merged with the notch verge flashing', TH_SMALL, 'S-DRAIN', 'CENTER')
@@ -95,7 +100,7 @@ def draw(msp):
     T(84.15, 29.0, 'FALL 6 % (3.43 deg) NORTH', TH_SMALL, 'S-TEXT', 'LEFT', 90)
     # dimensions: X bays (top), Y bays (left), overall (bottom / far left)
     xs = [x for _, x in XGRID]
-    for a, b in zip(xs[:-1], xs[1:]): sh.dimh(a-OX, b-OX, 35.87-OY, 0.42)
+    for a, b in zip(xs[:-1], xs[1:]): sh.dimh(a-OX, b-OX, 35.87-OY, 0.75)
     sh.dimh(67.89-OX, 95.69-OX, 15.57-OY, -0.9); sh.dimh(67.89-OX, 77.89-OX, 15.57-OY, -0.5); sh.dimh(77.89-OX, 95.69-OX, 19.97-OY, -0.5)
     ys = [y for _, y in YGRID]
     for a, b in zip(ys[:-1], ys[1:]): sh.dimv(a-OY, b-OY, 67.89-OX, -0.75)
@@ -110,7 +115,7 @@ def draw(msp):
         sh.pline([L(xx, 28.8), L(xx, 29.8)], 'S-TEXT', lineweight=50); sh.bubble(xx-OX, 30.4-OY, 'B', 'S03', 0.45)
     # detail bubbles
     for (x, y, d) in ((84.50, 29.27, 'D1'), (87.19, 35.77, 'D2'), (81.85, 29.27, 'D3'), (95.55, 26.9, 'D4'), (84.5, 35.67, 'D5'),
-                      (79.8, 35.44, 'D6'), (90.5, 35.87, 'D7'), (86.0, 32.57, 'D8'), (95.55, 22.3, 'D9'), (77.61, 20.25, 'D10'), (67.99, 21.76, 'B1')):
+                      (79.8, 24.09, 'D6'), (90.5, 35.87, 'D7'), (86.0, 32.57, 'D8'), (95.55, 22.3, 'D9'), (77.61, 20.25, 'D10'), (72.09, 26.4, 'D11'), (67.99, 21.76, 'B1')):
         bx, by = x + 0.9, y + 0.9
         if d in ('D9', 'D4'): bx = x - 1.3
         sh.line(*L(x, y), *L(bx-0.45, by-0.3), 'S-TEXT'); sh.bubble(bx-OX, by-OY, d, 'S05' if d == 'B1' else 'S04', 0.45)
@@ -119,17 +124,18 @@ def draw(msp):
     rows = []
     for y in sorted({c['cy'] for c in COLS.values()}, reverse=True):
         ks = ','.join(k for k, c in COLS.items() if c['cy'] == y)
-        rows.append(['%.2f' % y, '%.3f' % TOS(y), '%.3f' % prim_top(y), '%.3f' % cap_top(y), '%.2f' % L_col(y), ks if len(ks) <= 14 else ks[:12] + '..'])
-    sh.table(96.4-OX, 34.4-OY, [('row y', 0.8), ('TOS', 0.8), ('prim', 0.8), ('cap', 0.8), ('L col', 0.7), ('cols', 1.5)], rows, 0.36, 0.14,
-             title='LEVELS (m): TOS(y) = 3.30 + 0.06 (35.87 - y)')
-    sh.note_block(96.4-OX, 28.5-OY, 'NOTES', [
-        'Levels: top of steel of the sloping rafters; level', 'primaries top at TOS + 0.05; cap-plate top TOS - 0.28;',
-        'column length = TOS - 0.34 (base plate 25 + grout 40).', 'Clear height under steel at the north eave 3.03 m.',
+        rows.append(['%.2f' % y, '%.3f' % TOS(y), '%.3f' % prim_top(y), '%.3f' % col_top(y), '%.3f' % L_col(y), '%.3f' % L_col(y, True), ks if len(ks) <= 10 else ks[:8] + '..'])
+    sh.table(95.95-OX, 34.4-OY, [('row y', 0.7), ('TOS', 0.7), ('prim', 0.7), ('col top', 0.75), ('L B1', 0.7), ('L B2', 0.7), ('cols', 1.25)], rows, 0.36, 0.12,
+             title='LEVELS m: TOS = 3.33+0.06(35.87-y)')
+    sh.note_block(95.95-OX, 28.5-OY, 'NOTES', [
+        'Levels: top of steel of the sloping rafters; level', 'primaries top at TOS + 0.05; column top (cap-plate', 'underside) TOS - 0.30; column length TOS - 0.35 (B1,', '25 grout + 25 plate) / TOS - 0.355 (B2, 30 plate).',
+        'Clear height 3.02 m under the cap-plate nuts at C1/C2,', '3.06 m under the eave primary and the rafter ends.',
+        'North face jogs: y 35.37 west of x 81.79 (R1-R5 end', 'there, 0.10 m past P1/P2), 35.87 east; stair well open', 'to the north face: no roof, no eave beam, wall header.',
         'Marks: Cn steel column over concrete column Kn;', 'P primaries/eave beams IPE 330 (level); R rafters IPE 270',
-        '(sloping, spliced at every primary, D1); T trimmers;', 'ST roof-truss posts; WP wind post; B wall X bays;',
+        '(sloping, spliced at every primary, D1); T2 trimmer;', 'ST roof-truss posts; WP wind post; B wall X bays;',
         'RT roof rod panels (M24 8.8 rods, turnbuckles).', 'Steel S275 J0, bolts 8.8, hot-dip galvanised.',
         'Grids 1-11 on the rafter lines, A-H on the primary rows;', 'columns at true positions (K-coordinates).',
         'Rafters bear on fin plates each side of the primary', 'web (D1), bottom flanges flush (10 mm up), no copes.',
         'Fly braces to the bottom flange at mid-span (L <= 6.6 m)', 'and at the third points (7.5 and 9.2 m spans), D8.',
-        'Existing slab and concrete columns shown grey.', 'Bases B1 (15) / B2 (11) / P (K21) per Rev 4, S05.'], 0.13, 0.24)
+        'Existing slab and concrete columns shown grey.', 'Bases B1 (13) / B2 (13) / P (K21) per Rev 4b, S05.', 'Fin plates plain (no slots); thermal +/-20 K service', 'checked through the B2-RT-N-W-row F-RT-N-E-B1 path.'], 0.13, 0.24)
     return sh

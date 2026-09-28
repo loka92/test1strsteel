@@ -1,8 +1,8 @@
 import math, ezdxf
 from ezdxf.enums import TextEntityAlignment as TA
 PROJECT = 'Steel roof over existing slab - Tripoli'
-REV = 'Rev 2 superstructure / Rev 4a bases'
-DATE = '2026-09-27'
+REV = 'Rev 3 superstructure / Rev 4b bases'
+DATE = '2026-09-28'
 SHEET_W, SHEET_H = 42.0, 30.0
 TH, TH_TITLE, TH_SMALL = 0.25, 0.4, 0.18
 LAYERS = [('S-COL',5,'CONTINUOUS'),('S-PRIM',1,'CONTINUOUS'),('S-RAFT',3,'CONTINUOUS'),('S-PURL',4,'CONTINUOUS'),

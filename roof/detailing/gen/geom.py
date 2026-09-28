@@ -1,4 +1,4 @@
-"""Rev 2 geometry for alternative C (from design/C/calc/model.py + bracing.py), units m."""
+"""Rev 3 geometry for alternative C (from design/C/calc/model.py Rev 3 + bracing.py), units m. North face jogs: y 35.37 west of x 81.79, 35.87 east."""
 import json, csv, math
 ROOT = '/home/user/test1strsteel/roof'
 GEO = json.load(open(ROOT + '/geometry.json'))
@@ -8,22 +8,27 @@ ENV = dict(x0=67.89, x1=95.69, y0=15.57, y1=35.87)
 NOTCH = dict(x0=77.89, x1=95.69, y0=15.57, y1=19.97)
 OPEN = {'STAIR': dict(x0=77.89, x1=81.79, y0=29.37, y1=35.37), 'ELEV': dict(x0=77.89, x1=81.99, y0=20.17, y1=24.16)}
 PITCH = 0.06
-def TOS(y): return 3.30 + PITCH*(35.87 - y)
+NORTH_JOG_X = 81.79
+def north_edge(x): return 35.37 if x < NORTH_JOG_X else 35.87
+def TOS(y): return 3.33 + PITCH*(35.87 - y)          # Rev 3 (C3): 3.33 at y 35.87
 def prim_top(y): return TOS(y) + 0.05
-def cap_top(y): return TOS(y) - 0.28
-def L_col(y): return TOS(y) - 0.34
-BASE_TOP = 0.065        # top of base plate (40 grout + 25 plate)
+def cap_top(y): return TOS(y) - 0.28                 # cap-plate top; column top (cap underside) = TOS - 0.30
+def col_top(y): return TOS(y) - 0.30
+def L_col(y, b2=False): return TOS(y) - (0.355 if b2 else 0.35)   # Rev 3 (C2): 25 grout + 25 plate (B2: 30 plate)
+BASE_TOP = 0.050        # top of base plate, B1 (25 grout + 25 plate); B2 0.055
+GROUT = 0.025
+CLEAR_NUTS, CLEAR_EAVE = 3.02, 3.06   # the only clear-height figures printed (C3)
 SEC = {'IPE 270': dict(h=0.270, b=0.135, tw=0.0066, tf=0.0102, kg=36.1),
        'IPE 330': dict(h=0.330, b=0.160, tw=0.0075, tf=0.0115, kg=49.1),
        'HEA 160': dict(h=0.152, b=0.160, tw=0.006, tf=0.009, kg=30.4),
        'L 70x7': dict(kg=7.38), 'M24 rod 8.8': dict(kg=3.55), 'Z200x2.0': dict(kg=5.9), 'C200x60x2.5': dict(kg=6.9)}
 # N-S rafter lines (11), mark R1..R11 west to east
 RAFTERS = [
- dict(id='R68', mark='R1',  x=67.99, y0=15.57, y1=35.87, sup=[(15.87,'K25'),(21.76,'K19'),(26.37,'K15'),(29.37,'K8'),(35.17,'K6')]),
- dict(id='R70', mark='R2',  x=70.04, y0=15.57, y1=35.87, sup=[(15.87,'P17'),(21.76,'P13'),(29.32,'P6'),(35.22,'P1')]),
- dict(id='R72', mark='R3',  x=72.09, y0=15.57, y1=35.87, sup=[(15.87,'K26'),(21.76,'P13'),(29.27,'K9'),(35.27,'K5')]),
- dict(id='R75', mark='R4',  x=74.90, y0=15.57, y1=35.87, sup=[(15.97,'K24'),(21.76,'P13'),(29.27,'P7'),(35.20,'P2')]),
- dict(id='R78', mark='R5',  x=77.78, y0=15.57, y1=35.87, sup=[(15.87,'K27'),(21.76,'K20'),(24.46,'K16'),(29.27,'K10'),(35.17,'K7')]),
+ dict(id='R68', mark='R1',  x=67.99, y0=15.57, y1=35.37, sup=[(15.87,'K25'),(21.76,'K19'),(26.37,'K15'),(29.37,'K8'),(35.17,'K6')]),
+ dict(id='R70', mark='R2',  x=70.04, y0=15.57, y1=35.37, sup=[(15.87,'P17'),(21.76,'P13'),(29.32,'P6'),(35.22,'P1')]),
+ dict(id='R72', mark='R3',  x=72.09, y0=15.57, y1=35.37, sup=[(15.87,'K26'),(21.76,'P13'),(29.27,'K9'),(35.27,'K5')]),
+ dict(id='R75', mark='R4',  x=74.90, y0=15.57, y1=35.37, sup=[(15.97,'K24'),(21.76,'P13'),(29.27,'P7'),(35.20,'P2')]),
+ dict(id='R78', mark='R5',  x=77.78, y0=15.57, y1=35.37, sup=[(15.87,'K27'),(21.76,'K20'),(24.46,'K16'),(29.27,'K10'),(35.17,'K7')]),
  dict(id='R82', mark='R6',  x=81.85, y0=19.97, y1=35.87, sup=[(20.07,'K21'),(24.46,'K17'),(29.27,'K11'),(35.67,'K3')]),
  dict(id='R85', mark='R7',  x=84.50, y0=19.97, y1=35.87, sup=[(20.07,'P15'),(29.27,'P9'),(35.67,'P3')]),
  dict(id='R87', mark='R8',  x=87.19, y0=19.97, y1=35.87, sup=[(20.07,'P15'),(29.27,'K12'),(35.77,'K1')]),
@@ -53,7 +58,6 @@ PRIMARIES = [
  dict(id='P_K25K26', mark='P17', y=15.87, x0=67.99, x1=71.99, sup=('K25','K26'),kind='eave'),
  dict(id='P_K26K24', mark='P18', y=15.92, x0=71.99, x1=74.89, sup=('K26','K24'),kind='eave'),
  dict(id='P_K24K27', mark='P19', y=15.92, x0=74.89, x1=77.78, sup=('K24','K27'),kind='eave'),
- dict(id='T1',       mark='T1',  y=35.44, x0=77.78, x1=81.85, sup=('R5','R6'),  kind='trim'),
  dict(id='T2',       mark='T2',  y=24.09, x0=77.78, x1=81.85, sup=('R5','R6'),  kind='trim'),
 ]
 PMARK = {p['id']: p['mark'] for p in PRIMARIES}
@@ -79,26 +83,33 @@ XGRID = [('1',67.99),('2',70.04),('3',72.09),('4',74.90),('5',77.78),('6',81.85)
 YGRID = [('A',15.87),('B',20.07),('C',21.76),('D',24.46),('E',26.37),('F',29.27),('G',35.22),('H',35.72)]
 # wall faces: (id, normal, fixed coord, from, to, posts in order)
 FACES = [
- dict(id='N',  normal='y+', c=35.87, a=67.89, b=95.69, posts=['K6','K5','K7','K3','K1','K2','K4'], title='NORTH ELEVATION (low eave, gutter side)'),
+ dict(id='N1', normal='y+', c=35.37, a=67.89, b=81.79, posts=['K6','K5','K7','RET'], title='NORTH ELEVATION N1 - WEST BLOCK (y 35.37, low eave, gutter G-W)'),
+ dict(id='N2', normal='y+', c=35.87, a=81.79, b=95.69, posts=['K3','K1','K2','K4'], title='NORTH ELEVATION N2 - EAST BLOCK (y 35.87, low eave, gutter G-E)'),
  dict(id='S1', normal='y-', c=15.57, a=67.89, b=77.89, posts=['K25','K26','K24','K27'], title='SOUTH ELEVATION - WEST WING (y 15.57)'),
  dict(id='S2', normal='y-', c=19.97, a=77.89, b=95.69, posts=['WP1','K21','K22','K23'], title='SOUTH ELEVATION - EAST BLOCK (y 19.97)'),
  dict(id='E',  normal='x+', c=95.69, a=19.97, b=35.87, posts=['K23','K18','K14','K4'], title='EAST ELEVATION (x 95.69)'),
  dict(id='W',  normal='x-', c=67.89, a=15.57, b=35.87, posts=['K25','K19','K15','K8','K6'], title='WEST ELEVATION (x 67.89)'),
  dict(id='EN', normal='x+', c=77.89, a=15.57, b=19.97, posts=['K27','WP1'], title='NOTCH FACE (x 77.89, faces east)'),
 ]
-POSTXY = dict(KXY); POSTXY['WP1'] = WP1
+POSTXY = dict(KXY); POSTXY['WP1'] = WP1; POSTXY['RET'] = (81.79, 35.37)   # RET: wall-return post at the jog, bracketed from K3
+B1_COLS = ['K3','K4','K6','K8','K9','K11','K12','K13','K14','K16','K17','K24','K26']      # bases_C.md Rev 4b s.3
+B2_COLS = ['K1','K2','K5','K7','K10','K15','K18','K19','K20','K22','K23','K25','K27']
+def base_type(k): return 'B1' if k in B1_COLS else ('B2' if k in B2_COLS else 'P')
+def base_top(k): return 0.055 if k in B2_COLS else 0.050
 # girt row spacing per bay (report section 4): 1.5 m default, 1.2 sleeved, 1.0 sleeved
 GIRT_S = {('K5','K7'):1.2, ('K25','K19'):1.2, ('K8','K6'):1.2, ('K21','K22'):1.0, ('K22','K23'):1.0, ('K14','K4'):1.0}
 def girt_spacing(a, b):
     return GIRT_S.get((a, b), GIRT_S.get((b, a), 1.5))
 # drainage
-GUTTER = dict(y=35.87, x0=67.89, x1=95.69, w=0.15, d=0.10)
+GUTTERS = [dict(id='G-W', y=35.37, x0=67.89, x1=77.89, hp=73.0), dict(id='G-E', y=35.87, x0=81.79, x1=95.69, hp=88.65)]   # box 150 x 100
+SPOUTS = [67.89, 77.89, 81.79, 95.69]
+WELL_HEADER = (77.89, 81.79, 35.37)      # stair well open to the north face: wall header only, no roof / eave beam
+RETURN = (81.79, 35.37, 35.87)          # 0.5 m wall return at the jog, on brackets from K3
 DOWNPIPES = [('DP1',68.7),('DP2',77.3),('DP3',85.3),('DP4',92.0)]
-HIGH_PTS = [73.0, 88.65]
 # purlins: E-W lines @ 1.5 m from the north eave, first line 0.30 m inside the edge
 PURLIN_Y = [round(35.57 - 1.5*k, 2) for k in range(14)]   # 35.57 ... 16.07
 def roofed(x, y):
-    if not (ENV['x0'] <= x <= ENV['x1'] and ENV['y0'] <= y <= ENV['y1']): return False
+    if not (ENV['x0'] <= x <= ENV['x1'] and ENV['y0'] <= y <= north_edge(x)): return False
     if NOTCH['x0'] < x and y < NOTCH['y1']: return False
     for o in OPEN.values():
         if o['x0'] < x < o['x1'] and o['y0'] < y < o['y1']: return False

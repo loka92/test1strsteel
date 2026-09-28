@@ -9,11 +9,11 @@ def iprof(sh, cx, ybot, h, b, tw, tf, layer, lw=35):
            (cx+b/2, ybot+h), (cx-b/2, ybot+h), (cx-b/2, ybot+h-tf), (cx-tw/2, ybot+h-tf), (cx-tw/2, ybot+tf), (cx-b/2, ybot+tf)]
     sh.pline(pts, layer, True, lineweight=lw); sh.hatch(pts, 'S-HATCH', 'ANSI31', 0.05, 8)
 def column(sh, U, Z, u, cy, mark):
-    zt = cap_top(cy)
-    sh.rect(U(u-0.08), Z(BASE_TOP), U(u+0.08), Z(zt), 'S-COL', lineweight=35); sh.line(U(u), Z(BASE_TOP), U(u), Z(zt), 'S-COL')
-    sh.rect(U(u-0.2), Z(0.04), U(u+0.2), Z(BASE_TOP), 'S-COL'); sh.rect(U(u-0.14), Z(zt-0.02), U(u+0.14), Z(zt), 'S-COL')
+    zt = cap_top(cy); k = 'K' + mark[1:]; bt = base_top(k)
+    sh.rect(U(u-0.08), Z(bt), U(u+0.08), Z(zt-0.02), 'S-COL', lineweight=35); sh.line(U(u), Z(bt), U(u), Z(zt-0.02), 'S-COL')
+    sh.rect(U(u-0.2), Z(GROUT), U(u+0.2), Z(bt), 'S-COL'); sh.rect(U(u-0.14), Z(zt-0.02), U(u+0.14), Z(zt), 'S-COL')
     sh.rect(U(u-0.045), Z(-0.20), U(u+0.045), Z(0.04), 'S-COL')   # Key A SHS 90 stub, 180 embedded (Rev 4)
-    sh.text(U(u)+0.12, Z(1.2), mark + ' HEA 160', TH_SMALL, 'S-COL', rot=90)
+    sh.text(U(u)+0.12, Z(1.2), mark + ' HEA 160 (' + base_type(k) + ')', TH_SMALL, 'S-COL', rot=90)
 def slab(sh, U, Z, a, b, cols):
     sh.line(U(a), Z(0), U(b), Z(0), 'S-EXIST', lineweight=35); sh.line(U(a), Z(-0.25), U(b), Z(-0.25), 'S-EXIST')
     sh.hatch([(U(a),Z(-0.25)),(U(b),Z(-0.25)),(U(b),Z(0)),(U(a),Z(0))], 'S-EXIST', 'ANSI37', 0.12, 8)
@@ -50,11 +50,11 @@ def secA(sh, x0, y0):
     wall(sh, U, Z, 35.87, TOS(35.87)+0.30, +1); wall(sh, U, Z, 19.97, TOS(19.97)+0.30, -1)
     # levels
     ue = U(36.5)
-    sh.dimv(Z(0), Z(BASE_TOP), ue, 0.6, 'S-MM1'); sh.dimv(Z(0), Z(cap_top(35.77)), ue, 1.1, 'S-MM1'); sh.dimv(Z(0), Z(TOS(35.87)), ue, 1.6, 'S-MM1'); sh.dimv(Z(0), Z(TOS(35.87)+0.30), ue, 2.1, 'S-MM1')
-    sh.text(ue+2.45, Z(0.4), 'levels in mm above slab: base plate top 65, cap top C1 3026, TOS north eave 3300, wall top 3600; clear under P4 3020', 0.14, rot=90)
+    sh.dimv(Z(0), Z(base_top('K1')), ue, 0.6, 'S-MM1'); sh.dimv(Z(0), Z(col_top(35.77)), ue, 1.1, 'S-MM1'); sh.dimv(Z(0), Z(TOS(35.87)), ue, 1.6, 'S-MM1'); sh.dimv(Z(0), Z(TOS(35.87)+0.30), ue, 2.1, 'S-MM1')
+    sh.text(ue+2.45, Z(0.4), 'mm above slab: plate top %d (C1, B2), column top %d, TOS %d, wall %d; clear 3.02 m under the cap nuts, 3.06 m under P4' % (round(base_top('K1')*1000), round(col_top(35.77)*1000), 3330, 3630), 0.13, rot=90)
     uw = U(19.97) - 0.5
-    sh.dimv(Z(0), Z(TOS(19.97)), uw, -0.6, 'S-MM1'); sh.dimv(Z(0), Z(prim_top(20.07)-0.33), uw, -1.1, 'S-MM1')
-    sh.text(uw-1.4, Z(0.4), 'TOS south edge 4254; clear under P15 3974', 0.14, rot=90)
+    sh.dimv(Z(0), Z(TOS(19.97)), uw, -0.6, 'S-MM1'); sh.dimv(Z(0), Z(col_top(20.07)), uw, -1.1, 'S-MM1')
+    sh.text(uw-1.4, Z(0.4), 'TOS south edge %d; column top row B %d' % (round(TOS(19.97)*1000), round(col_top(20.07)*1000)), 0.14, rot=90)
     sh.dimh(U(19.97), U(20.07), Z(0), -1.35); sh.dimh(U(20.07), U(29.27), Z(0), -1.35); sh.dimh(U(29.27), U(35.77), Z(0), -1.35); sh.dimh(U(35.77), U(35.87), Z(0), -1.35)
     sh.dimh(U(19.97), U(35.87), Z(0), -1.75)
     for (y, z, d, s) in ((29.27, 0.1, 'B1', 'S05'), (35.77, cap_top(35.77), 'D2', 'S04'), (20.07, prim_top(20.07)-0.15, 'D1', 'S04'), (35.95, TOS(35.9)+0.1, 'D7', 'S04'), (32.57, TOS(32.57)+0.1, 'D8', 'S04')):
@@ -80,33 +80,36 @@ def secB(sh, x0, y0):
     for x in (77.89, 81.79):
         sh.rect(U(x-0.05), Z(zt), U(x+0.05), Z(zr+PURL_H+PANEL_T+0.15), 'S-DETAIL')
     sh.line(U(77.84), Z(zr+PURL_H+PANEL_T+0.15), U(81.84), Z(zr+PURL_H+PANEL_T+0.15), 'S-DETAIL', lineweight=35)
-    sh.text(U(79.84), Z(zr+0.55), 'STAIR WELL beyond: 150 upstand C100x50x3 + flashing on P8 / T1 / R5 / R6 (D6), cricket north of P8', TH_SMALL, align='CENTER')
+    sh.text(U(79.84), Z(zr+0.55), 'STAIR WELL beyond, open to the north face (no roof, no eave beam): 150 upstand C100x50x3 + flashing on P8 / R5 / R6 (D6), cricket north of P8', TH_SMALL, align='CENTER')
     wall(sh, U, Z, 67.89, zr+0.30, -1); wall(sh, U, Z, 95.69, zr+0.30, +1)
     xs = [x for _, x in cols]
     sh.dimh(U(67.89), U(xs[0]), Z(0), -1.35)
     for a, b in zip(xs[:-1], xs[1:]): sh.dimh(U(a), U(b), Z(0), -1.35)
     sh.dimh(U(xs[-1]), U(95.69), Z(0), -1.35); sh.dimh(U(67.89), U(95.69), Z(0), -1.75)
     uw = U(67.89) - 0.5
-    sh.dimv(Z(0), Z(cap_top(29.27)), uw, -0.6, 'S-MM1'); sh.dimv(Z(0), Z(zr), uw, -1.1, 'S-MM1'); sh.dimv(Z(0), Z(zr+PURL_H+PANEL_T), uw, -1.6, 'S-MM1')
-    sh.text(uw-1.95, Z(0.3), 'cap top 3414 / TOS 3694 / panel top 3944 (row F)', 0.14, rot=90)
+    sh.dimv(Z(0), Z(col_top(29.27)), uw, -0.6, 'S-MM1'); sh.dimv(Z(0), Z(zr), uw, -1.1, 'S-MM1'); sh.dimv(Z(0), Z(zr+PURL_H+PANEL_T), uw, -1.6, 'S-MM1')
+    sh.text(uw-1.95, Z(0.3), 'column top %d / TOS %d / panel top %d (row F)' % (round(col_top(29.27)*1000), round(zr*1000), round((zr+PURL_H+PANEL_T)*1000)), 0.14, rot=90)
     for (x, z, d, s) in ((87.19, cap_top(29.27), 'D2', 'S04'), (81.85, cap_top(29.27), 'D3', 'S04'), (72.09, 0.1, 'B1', 'S05'), (81.79, zr+0.4, 'D6', 'S04'), (95.48, 0.3, 'D4', 'S04')):
         sh.line(U(x), Z(z), U(x)+0.7, Z(z)+0.6, 'S-TEXT'); sh.bubble(U(x)+1.0, Z(z)+0.85, d, s, 0.42)
 def secC(sh, x0, y0):
     U = lambda y: x0 + (y - 15.57); Z = lambda z: y0 + z
-    sh.text(x0, y0+5.5, 'SECTION C-C  braced line 5 (rafter R5, x 77.78) with bays B7 (C27-C20) and B8 (C10-C16), looking west (north on the right)', TH)
+    sh.text(x0, y0+5.5, 'SECTION C-C  braced line 5 (rafter R5, x 77.78) with bays B7 (C27-C20) and B8 (C10-C16), looking west (north on the right); R5 ends at the west north edge y 35.37', TH)
     cols = [('K27', 15.87), ('K20', 21.76), ('K16', 24.46), ('K10', 29.27), ('K7', 35.17)]
-    slab(sh, U, Z, 15.57, 35.87, [(y, k) for k, y in cols])
+    slab(sh, U, Z, 15.57, 35.37, [(y, k) for k, y in cols])
     for k, y in cols: column(sh, U, Z, y, y, 'C' + k[1:])
     for y, mk in ((15.92, 'P19'), (21.76, 'P13'), (24.46, 'P12'), (29.27, 'P7/P8'), (35.22, 'P2')):
         iprof(sh, U(y), Z(prim_top(y)-0.33), 0.33, 0.16, 0.0075, 0.0115, 'S-PRIM'); sh.text(U(y)+0.12, Z(prim_top(y)+0.08), mk, TH_SMALL, 'S-PRIM')
-    for y, mk in ((24.09, 'T2'), (35.44, 'T1')):
+    for y, mk in ((24.09, 'T2'),):
         iprof(sh, U(y), Z(TOS(y)-0.27), 0.27, 0.135, 0.0066, 0.0102, 'S-RAFT'); sh.text(U(y)-0.5, Z(TOS(y)+0.35), mk + ' IPE 270', TH_SMALL, 'S-RAFT')
-    sups = [15.92, 21.76, 24.46, 29.27, 35.22]; edges = [15.57] + [s for s in sups] + [35.87]
+    sups = [15.92, 21.76, 24.46, 29.27, 35.22]; edges = [15.57] + [s for s in sups] + [35.37]
     for a, b in zip(edges[:-1], edges[1:]):
         aa = a + (0.09 if a in sups else 0); bb = b - (0.09 if b in sups else 0)
         sh.pline([(U(aa), Z(TOS(aa))), (U(bb), Z(TOS(bb))), (U(bb), Z(TOS(bb)-0.27)), (U(aa), Z(TOS(aa)-0.27))], 'S-RAFT', True, lineweight=35)
-    for y in PURLIN_Y: sh.rect(U(y-0.035), Z(TOS(y)), U(y+0.035), Z(TOS(y)+PURL_H), 'S-PURL')
-    sh.line(U(15.57), Z(TOS(15.57)+PURL_H), U(35.87), Z(TOS(35.87)+PURL_H), 'S-DETAIL', lineweight=35)
+    for y in PURLIN_Y:
+        if y < 35.37: sh.rect(U(y-0.035), Z(TOS(y)), U(y+0.035), Z(TOS(y)+PURL_H), 'S-PURL')
+    sh.line(U(15.57), Z(TOS(15.57)+PURL_H), U(35.37), Z(TOS(35.37)+PURL_H), 'S-DETAIL', lineweight=35)
+    sh.rect(U(35.32), Z(TOS(35.37)+0.02), U(35.47), Z(TOS(35.37)+0.12), 'S-DRAIN', lineweight=35); sh.text(U(35.5), Z(TOS(35.37)-0.15), 'G-W gutter (D7), stop end at x 77.89', TH_SMALL, 'S-DRAIN')
+    wall(sh, U, Z, 35.37, TOS(35.37)+0.30, +1)
     for (ya, yb) in ((20.17, 24.16), (29.37, 35.37)):
         sh.line(U(ya), Z(TOS(ya)+PURL_H+PANEL_T+0.15), U(yb), Z(TOS(yb)+PURL_H+PANEL_T+0.15), 'S-DETAIL', lineweight=35)
         for y in (ya, yb): sh.rect(U(y-0.05), Z(TOS(y)+PURL_H), U(y+0.05), Z(TOS(y)+PURL_H+PANEL_T+0.15), 'S-DETAIL')
@@ -120,9 +123,9 @@ def secC(sh, x0, y0):
     ys = [y for _, y in cols]
     sh.dimh(U(15.57), U(ys[0]), Z(0), -1.35)
     for a, b in zip(ys[:-1], ys[1:]): sh.dimh(U(a), U(b), Z(0), -1.35)
-    sh.dimh(U(ys[-1]), U(35.87), Z(0), -1.35); sh.dimh(U(15.57), U(35.87), Z(0), -1.75)
-    uw = U(15.57) - 0.5; sh.dimv(Z(0), Z(TOS(15.57)), uw, -0.6, 'S-MM1'); sh.dimv(Z(0), Z(cap_top(15.87)), uw, -1.1, 'S-MM1')
-    sh.text(uw-1.4, Z(0.3), 'TOS south 4518 / cap top C27 3958', 0.14, rot=90)
+    sh.dimh(U(ys[-1]), U(35.37), Z(0), -1.35); sh.dimh(U(15.57), U(35.37), Z(0), -1.75)
+    uw = U(15.57) - 0.5; sh.dimv(Z(0), Z(TOS(15.57)), uw, -0.6, 'S-MM1'); sh.dimv(Z(0), Z(col_top(15.87)), uw, -1.1, 'S-MM1')
+    sh.text(uw-1.4, Z(0.3), 'TOS south %d / column top C27 %d' % (round(TOS(15.57)*1000), round(col_top(15.87)*1000)), 0.14, rot=90)
     sh.line(U(18.8), Z(1.0), U(18.8)+0.7, Z(1.6), 'S-TEXT'); sh.bubble(U(18.8)+1.0, Z(1.85), 'D4', 'S04', 0.42)
 def draw(msp):
     sh = Sheet(msp, OX, OY, 'S03', 'TYPICAL SECTIONS A-A, B-B, C-C', 'Sections 1:1 in model space (m); levels in mm; print 1:100 on A1')
