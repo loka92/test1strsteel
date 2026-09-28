@@ -5,8 +5,8 @@ Scripts re-run: report, reactions and `bases_C.md` regenerate byte-identical. Ro
 ## 1. The "lap with the column bars" model
 
 - **Concept right, framework wrong.** A threaded rod M16 at h_ef 550 (34 d) and 70 mm pitch (4.4 d) is outside every standard anchor ETA (h_ef <= 20 d = 320, s_min ~ 5 d), so the 257 kN "bond with narrow-member factor" (EN 1992-4, tau_Rk 10) has no product behind it. What is described is a **post-installed rebar connection** (EAD 330087): dia 16 B500 with threaded ends, designed to EN 1992-1-1 8.4 / 8.7 with the product's f_bd. That framework is valid here and passes: f_bd(C25) 2.7 MPa; K19 sigma_sd = 18.3/201 = 91 MPa -> l_b,rqd 135, l_0 = 1.5 x 135 = 203 < l_0,min = 15 d = **240 <= 250 provided** (tight); column-part capacity 4 x pi x 16 x 250 x 2.7 = **136 kN -> K19 0.54**, K23 0.46. Each rod laps 1:1 with its corner dia14 (11 mm clear, "close" lap): 268 kN receiving capacity; d < 20, minimum links suffice (8.7.4). Splitting is covered by the EC2 cover rules in this framework; EN 1992-4 7.2.1.7 applied with c = 65 would give ~52 kN and is not the right check.
-- **Slab part.** Ignoring 300 mm of bond is not conservative: the stiff resin loads the top of the rod first, into the edge-slab cone (50 kN one edge / 38 corner, cracked, zone-limited), near its limit at service (48 kN at K19); the column lap takes over only after that cone cracks. Fix: **debond the top 300 mm** (sleeve), inject the column part only. Cracked concrete throughout: correct.
-- Steel 323 kN (335 with gamma_Ms 1.5): fine. The 70 mm pitch (54 mm clear) is admissible under the rebar framework.
+- **Slab part.** Ignoring 300 mm of bond is not conservative: the stiff resin loads the top of the rod first, into the edge-slab cone (50 kN one edge / 38 corner), near its limit at service (48 kN at K19); the column lap takes over only after that cone cracks. Fix: **debond the top 300 mm** (sleeve), inject the column part only.
+- Steel 323 kN: fine. The 70 mm pitch (54 mm clear) is admissible under the rebar framework; cracked concrete throughout is correct.
 
 ## 2. Keys and plates with the 300 mm slab
 
