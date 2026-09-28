@@ -14,7 +14,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F2",
@@ -31,7 +35,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F3",
@@ -48,7 +56,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F4",
@@ -65,7 +77,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F5",
@@ -82,7 +98,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F6",
@@ -99,7 +119,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F7",
@@ -116,7 +140,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F8",
@@ -133,7 +161,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F9",
@@ -150,7 +182,11 @@
   "rev4b_status": "open",
   "rev4b_note": "unchanged",
   "rev5_status": "open",
-  "rev5_note": "seismic floor amplification still open"
+  "rev5_note": "seismic floor amplification still open",
+  "rev5a_status": "open",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "two-mass appendage check done (S_a 0.65 g, 145/136 kN); see Y1, Y2"
  },
  {
   "id": "F10",
@@ -167,7 +203,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F11",
@@ -184,7 +224,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F12",
@@ -201,7 +245,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F13",
@@ -218,7 +266,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F14",
@@ -235,7 +287,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "F15",
@@ -252,7 +308,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "R1",
@@ -269,7 +329,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "R2",
@@ -286,7 +350,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "R3",
@@ -303,7 +371,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "R4",
@@ -320,7 +392,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "R5",
@@ -337,7 +413,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "R6",
@@ -354,7 +434,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "R7",
@@ -371,7 +455,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "S1",
@@ -388,7 +476,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "S2",
@@ -405,7 +497,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "S3",
@@ -422,7 +518,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "unchanged",
   "rev5_status": "closed",
-  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E"
+  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "S4",
@@ -439,7 +539,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "criterion aligned with the calculation (T2)",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "T1",
@@ -456,7 +560,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "per-base B2 plates and coring zones (Rev 4a)",
   "rev5_status": "closed",
-  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E"
+  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "T2",
@@ -473,7 +581,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "criterion = extents used, 340 / +-400 (Rev 4a)",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "T3",
@@ -490,7 +602,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "rigid-post model for every key; K7 B2 (Rev 4b)",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "T4",
@@ -507,7 +623,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "0.92 cone factor at K3, K16, K17",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "T5",
@@ -524,7 +644,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "under-slab plate 25, class-3 stiffeners, skewed levers, slab couple listed",
   "rev5_status": "closed",
-  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E"
+  "rev5_note": "unchanged; through-bolt items superseded by Rev 5 type E",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "T6",
@@ -541,7 +665,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "bond with real extents",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C1",
@@ -557,7 +685,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "north jog modelled, 439.3 m2, T1 deleted, S01/S02/S06",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C2",
@@ -573,7 +705,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "L = TOS - 0.35 / 0.355, schedule agrees",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C3",
@@ -589,7 +725,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "plane +30 mm, 3.02 m under cap nuts",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C4",
@@ -605,7 +745,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "no slots; 15 kN at +-30 K; K5, K7 B2",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C6",
@@ -621,7 +765,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "Rev 4a/4b lines and closing sign-off",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C7",
@@ -637,7 +785,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "100 outboard / 450 inboard, one standard 800",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C8",
@@ -653,7 +805,11 @@
   "rev4b_status": "closed with correction",
   "rev4b_note": "report 24.9 t vs BOM 25.4 t (X1)",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C10",
@@ -669,7 +825,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "cleat 0.66; fasteners from supplier",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C11",
@@ -685,7 +845,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "RT-JOG 50.6 kN rod, 0.25",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C13",
@@ -701,7 +865,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "K21 pattern by scan; K7 B2",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "C14",
@@ -717,7 +885,11 @@
   "rev4b_status": "closed",
   "rev4b_note": "superseded figures removed",
   "rev5_status": "closed",
-  "rev5_note": "unchanged"
+  "rev5_note": "unchanged",
+  "rev5a_status": "closed",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged"
  },
  {
   "id": "X1",
@@ -733,7 +905,11 @@
   "rev4b_status": "new",
   "rev4b_note": "raised at closing sign-off",
   "rev5_status": "open",
-  "rev5_note": "closing corrections still to appear in the Rev 5 issue"
+  "rev5_note": "closing corrections still to appear in the Rev 5 issue",
+  "rev5a_status": "open",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "report s.10 quotes the BOM 25.4 t"
  },
  {
   "id": "X2",
@@ -749,7 +925,11 @@
   "rev4b_status": "new",
   "rev4b_note": "raised at closing sign-off",
   "rev5_status": "open",
-  "rev5_note": "closing corrections still to appear in the Rev 5 issue"
+  "rev5_note": "closing corrections still to appear in the Rev 5 issue",
+  "rev5a_status": "open",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "columns cut to the surveyed level, bed 25 +/- 5"
  },
  {
   "id": "X3",
@@ -765,7 +945,11 @@
   "rev4b_status": "new",
   "rev4b_note": "raised at closing sign-off",
   "rev5_status": "open",
-  "rev5_note": "closing corrections still to appear in the Rev 5 issue"
+  "rev5_note": "closing corrections still to appear in the Rev 5 issue",
+  "rev5a_status": "open",
+  "rev5a_note": "unchanged",
+  "rev4L_status": "closed",
+  "rev4L_note": "no change needed"
  },
  {
   "id": "V1",
@@ -781,7 +965,11 @@
   "rev4b_status": "n/a",
   "rev4b_note": "",
   "rev5_status": "new",
-  "rev5_note": "raised at Rev 5 sign-off"
+  "rev5_note": "raised at Rev 5 sign-off",
+  "rev5a_status": "closed",
+  "rev5a_note": "EAD 330087 rebar, f_bd 2.7, 136/163 kN",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged in Rev 6"
  },
  {
   "id": "V2",
@@ -797,7 +985,11 @@
   "rev4b_status": "n/a",
   "rev4b_note": "",
   "rev5_status": "new",
-  "rev5_note": "raised at Rev 5 sign-off"
+  "rev5_note": "raised at Rev 5 sign-off",
+  "rev5a_status": "closed",
+  "rev5a_note": "top 300 mm debonded",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged in Rev 6"
  },
  {
   "id": "V3",
@@ -813,7 +1005,11 @@
   "rev4b_status": "n/a",
   "rev4b_note": "",
   "rev5_status": "new",
-  "rev5_note": "raised at Rev 5 sign-off"
+  "rev5_note": "raised at Rev 5 sign-off",
+  "rev5a_status": "closed",
+  "rev5a_note": "70 x 240, 26 mm clear, face scan, pilot, relocation",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged in Rev 6"
  },
  {
   "id": "V4",
@@ -829,7 +1025,11 @@
   "rev4b_status": "n/a",
   "rev4b_note": "",
   "rev5_status": "new",
-  "rev5_note": "raised at Rev 5 sign-off"
+  "rev5_note": "raised at Rev 5 sign-off",
+  "rev5a_status": "closed",
+  "rev5a_note": "60 kN / <= 1 mm on 3 bars",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged in Rev 6"
  },
  {
   "id": "V5",
@@ -845,7 +1045,11 @@
   "rev4b_status": "n/a",
   "rev4b_note": "",
   "rev5_status": "new",
-  "rev5_note": "raised at Rev 5 sign-off"
+  "rev5_note": "raised at Rev 5 sign-off",
+  "rev5a_status": "closed",
+  "rev5a_note": "embed 300 target, 250 min",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged in Rev 6"
  },
  {
   "id": "V6",
@@ -861,6 +1065,130 @@
   "rev4b_status": "n/a",
   "rev4b_note": "",
   "rev5_status": "new",
-  "rev5_note": "raised at Rev 5 sign-off"
+  "rev5_note": "raised at Rev 5 sign-off",
+  "rev5a_status": "closed",
+  "rev5a_note": "all 27 type E",
+  "rev4L_status": "closed",
+  "rev4L_note": "unchanged in Rev 6"
+ },
+ {
+  "id": "Y1",
+  "severity": "MINOR",
+  "item": "Rev 4: orthogonal seismic combination E_x +/- 0.3 E_y (EN 1998-1 4.3.3.5.1) not applied at columns shared by two bays (K19, K18, K23): K23 compression +15 %",
+  "fix": "Add the combination",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "n/a",
+  "rev5_note": "",
+  "rev5a_status": "n/a",
+  "rev5a_note": "",
+  "rev4L_status": "new",
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+ },
+ {
+  "id": "Y2",
+  "severity": "MINOR",
+  "item": "Rev 4: T_1 scan 0.15-0.35 s misses exact resonance T_1 = T_a; S_a = 5.5 alpha S = 0.66 g, not 0.648",
+  "fix": "Use the resonance bound",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "n/a",
+  "rev5_note": "",
+  "rev5a_status": "n/a",
+  "rev5a_note": "",
+  "rev4L_status": "new",
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+ },
+ {
+  "id": "Y3",
+  "severity": "MINOR",
+  "item": "Rev 4: DCL q 1.5 with a_g S 0.12 g > 0.10 g low-seismicity limit; report text inconsistent on HEA 140 (0.79 vs 1.06 at K25)",
+  "fix": "Cite the Tripoli zonation; reconcile the text",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "n/a",
+  "rev5_note": "",
+  "rev5a_status": "n/a",
+  "rev5a_note": "",
+  "rev4L_status": "new",
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+ },
+ {
+  "id": "Y4",
+  "severity": "MINOR",
+  "item": "Rev 6: K7 key pair 0.90 (75.1 kN on the near key from the 400 mm pair offset) under the seismic envelope",
+  "fix": "Accept or SHS 100x100x8 at K7 / K23",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "n/a",
+  "rev5_note": "",
+  "rev5a_status": "n/a",
+  "rev5a_note": "",
+  "rev4L_status": "new",
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+ },
+ {
+  "id": "Y5",
+  "severity": "MINOR",
+  "item": "Rev 4: south-sector terrain III (q_p 0.75) needs >= 1 km continuous urban roughness upwind",
+  "fix": "Confirm on the map; no governing change",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "n/a",
+  "rev5_note": "",
+  "rev5a_status": "n/a",
+  "rev5a_note": "",
+  "rev4L_status": "new",
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
+ },
+ {
+  "id": "Y6",
+  "severity": "MINOR",
+  "item": "Rev 4: existing structure receives 145 / 136 kN design seismic at roof level",
+  "fix": "Include in the C5 adequacy statement",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "n/a",
+  "rev4b_note": "",
+  "rev5_status": "n/a",
+  "rev5_note": "",
+  "rev5a_status": "n/a",
+  "rev5a_note": "",
+  "rev4L_status": "new",
+  "rev4L_note": "raised at the Rev 4 (load basis Rev 3) review"
  }
 ]
