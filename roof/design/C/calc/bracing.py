@@ -5,10 +5,10 @@ deflection by virtual work.  kN, m."""
 import numpy as np, math
 from functools import lru_cache
 from model import FACES, POSTS, BAYS, bay_geom, wall_h, ENV, NOTCH, L_col, COLS, roofed
-from loads import QP, G_ROOF, G_WALL, SLOPE_SIN, roof_grid, wind_fields
+from loads import QP, QP_DIR, G_ROOF, G_WALL_SEIS, LACK_CORR, CPE_WALL, SLOPE_SIN, roof_grid, wind_fields
 from sections import E, FY, FU, GM0, GM2
 
-C_GLOBAL = 1.3            # cpe,D - cpe,E = 0.8 + 0.5 (no friction term, basis Rev 2)
+C_GLOBAL = LACK_CORR*(CPE_WALL['D'] - CPE_WALL['E'])   # 0.85 x (0.75 + 0.40) = 0.98 (Rev 3), no friction
 DIAG = dict(name='L 70x7', A=940.0)                      # one angle per diagonal, tension only
 BOLT = dict(d=20, d0=22, As=245.0, Fv=94.0, Ft=141.0)
 ROD = dict(name='M24 rod 8.8', As=353.0, FtRd=0.9*800*353/1.25/1e3, kg=3.55)   # 203 kN
@@ -36,7 +36,7 @@ def face_roof_force(d):
         t = np.linspace(f['a'], f['b'], 201)
         if normal[0] == 'y': ys = np.full_like(t, f['c']); xs = t
         else: ys = t; xs = np.full_like(t, f['c'])
-        q = C_GLOBAL*QP*wall_h(ys)/2.0            # half of the wall to the roof (pinned columns)
+        q = C_GLOBAL*QP_DIR[d]*wall_h(ys)/2.0     # half of the wall to the roof (pinned columns), q_p of the direction
         F = np.trapezoid(q, t); xr = np.trapezoid(q*xs, t)/F; yr = np.trapezoid(q*ys, t)/F
         strips = list(zip(t, q*(f['b']-f['a'])/200))
         out.append(dict(F=float(F), x=float(xr), y=float(yr), id=f['id'], along='x' if normal[0]=='y' else 'y', strips=strips))
@@ -119,7 +119,7 @@ def distribute_point(F, xc, yc, dirn):
 def seismic_check(roof_area, steel_kN):
     """EN 1998-1 lateral force method, a_g = 0.10 g, soil B S = 1.2, plateau 2.5/q, q = 1.5, lambda = 1 (roof mass only;
     floor amplification through the existing building is an open item, review F9)."""
-    m = G_ROOF*roof_area + steel_kN + 0.5*sum(G_WALL*(f['b']-f['a'])*wall_h(0.5*(f['a']+f['b']) if f['normal'][0]=='x' else f['c']) for f in FACES)
+    m = G_ROOF*roof_area + steel_kN + 0.5*sum(G_WALL_SEIS*(f['b']-f['a'])*wall_h(0.5*(f['a']+f['b']) if f['normal'][0]=='x' else f['c']) for f in FACES)   # wall mass stays (Rev 3)
     Sd = 0.10*1.2*2.5/1.5
     return dict(W=m, Sd=Sd, Fb=Sd*m)
 
@@ -181,7 +181,7 @@ def roof_truss_forces(H_bays_uls):
     for t in ROOF_TRUSSES:
         f = next(ff for ff in FACES if ff['id'] == t['face'])
         c = 0.5*(f['a']+f['b']); yy = f['c'] if f['normal'][0]=='y' else c
-        w = 1.5*C_GLOBAL*QP*wall_h(yy)/2.0
+        w = 1.5*C_GLOBAL*QP_DIR[f['normal'][1].replace('+', 'N').replace('-', 'S') if f['normal'][0] == 'y' else ('E' if f['normal'][1] == '+' else 'W')]*wall_h(yy)/2.0
         if t['id'] in ('RT-N-E', 'RT-S-E', 'RT-N-W', 'RT-S-W'):    # add the roof-suction component share (N-S trusses)
             F, xc, yc, strips = roof_suction_component()['S']
             w += 1.5*F/(ENV['x1']-ENV['x0'])*0.5
@@ -213,7 +213,7 @@ if __name__ == '__main__':
 
 # ---------------- thermal restraint (Rev 3, C4) -------------------------------------------------------------------
 ALPHA_T = 12e-6
-def thermal_check(dT_service=20.0, dT_erection=30.0):
+def thermal_check(dT_service=30.0, dT_erection=45.0):   # Rev 3: +/-30 K service, +45/-25 K erection
     """Locked-in E-W force between the two north E-W bays B2 (K5-K7, y 35.2) and B1 (K1-K2, y 35.8). Path: B2 -
     RT-N-W rods - y 29.3 primary chord (P_K10K11, tie plates) - RT-N-E rods - B1. Elastic upper bound, no bolt-slip
     credit. The south pair B4-B3 is linked only through the weak-axis bending of R78 (k ~ 0.3 kN/mm) and the N-S lines
@@ -233,3 +233,21 @@ def thermal_check(dT_service=20.0, dT_erection=30.0):
     dL_s = ALPHA_T*dT_service*Lbay*1e3; dL_e = ALPHA_T*dT_erection*Lbay*1e3
     return dict(kB1=kB1, kB2=kB2, kW=kW, kE=kE, kch=kch, keff=keff, Lbay=Lbay, dL_s=dL_s, dL_e=dL_e,
                 F_s=keff*dL_s, F_e=keff*dL_e, F_uls_wind=1.5*0.6*keff*dL_s, F_uls_erect=1.5*keff*dL_e)
+
+# ---------------- two-mass floor-amplification check (Rev 4, EN 1998-1 4.3.5.2 appendage response) --------------
+def two_mass_check(roof_area, steel_kN, kx_bays, ky_bays):
+    """Existing single-storey building = mass 1 on its 27 concrete columns (+ infill); the roof steel + walls = mass 2 on
+    the braced bays. Roof-level spectral acceleration per 4.3.5.2: S_a = alpha S [3 (1 + z/H)/(1 + (1 - T_a/T_1)^2) - 0.5]
+    >= alpha S with z = H (roof top of the primary structure). T_1 of the existing building is not known: the range
+    0.15 s (infilled) to 0.35 s (bare 20x40 columns, 4 m) is scanned and the maximum S_a taken. Design force with q = 1.5."""
+    ag, S = 0.10, 1.2
+    Wa = G_ROOF*roof_area + steel_kN + 0.5*sum(G_WALL_SEIS*(f['b']-f['a'])*wall_h(0.5*(f['a']+f['b']) if f['normal'][0]=='x' else f['c']) for f in FACES)
+    out = dict(Wa=Wa)
+    for dirn, k in (('x', kx_bays), ('y', ky_bays)):
+        Ta = 2*math.pi*math.sqrt(Wa/9.81/(k*1e3))        # k in kN/mm -> kN/m: *1e3; mass t = kN/9.81
+        Sa_max = 0.0; T1_worst = None
+        for T1 in [0.15 + 0.01*i for i in range(21)]:
+            Sa = ag*S*max(3*(1 + 1.0)/(1 + (1 - Ta/T1)**2) - 0.5, 1.0)
+            if Sa > Sa_max: Sa_max, T1_worst = Sa, T1
+        out[dirn] = dict(k=k, Ta=Ta, Sa=Sa_max, T1=T1_worst, F=Sa_max*Wa/1.5, F_unamplified=ag*S*2.5/1.5*Wa)
+    return out

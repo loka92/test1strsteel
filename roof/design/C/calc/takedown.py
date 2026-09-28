@@ -22,7 +22,7 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
     SP, SR, SC = sec(sec_prim), sec(sec_raft), sec(sec_col)
     X, Y, R, dx = roof_grid(dx)
     fields = dict(G=np.where(R, G_ROOF, 0.0), Gmin=np.where(R, G_MIN, 0.0), Q=np.where(R, Q_ROOF, 0.0),
-                  W_D=np.where(R, W_DOWN, 0.0))
+                  W_D=down_field(X, Y, R))                 # Rev 3: flat-roof pressure case, zone I only
     for d, f in wind_fields(X, Y, R).items(): fields['W_'+d] = f
     # gutter and fascia on the north eave (Rev 2, review F6): line loads spread over the northmost cell row
     # gutter G-W at y 35.37 (x < 81.79) and G-E at y 35.87: the northmost roofed cell of each column of cells (Rev 3, C1)
@@ -30,7 +30,7 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
         js = np.where(R[i, :])[0]
         if len(js) == 0: continue
         jn = js.max()
-        for t in ('G', 'Gmin'): fields[t][i, jn] += GUTTER_G/dx
+        fields['G'][i, jn] += GUTTER_G/dx; fields['Gmin'][i, jn] += GUTTER_GMIN/dx
         for d in 'NSEW': fields['W_'+d][i, jn] += GUTTER_W/dx
     # --- purlin tributary: each cell to the adjacent N-S beams left/right (purlins = simple spans)
     ybins = {r['id']: np.arange(r['y0'], r['y1']+1e-9, dx) for r in RAFTERS}
@@ -131,6 +131,7 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
     res['wall_trib'] = ft
     for cid in COLS:
         y = COLS[cid][1]
+        # Rev 3 / brief Rev 5: no wall self-weight in G or G_min (G_WALL = 0); column self-weight only
         wall = sum(G_WALL*wall_h(y)*L for _, L, _ in ft.get(cid, []))
         res['colloads'][cid]['G'] += wall + SC['w']*L_col(y)
         res['colloads'][cid]['Gmin'] += wall + SC['w']*L_col(y)

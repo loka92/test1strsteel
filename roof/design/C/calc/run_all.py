@@ -24,8 +24,12 @@ for b in BAYS:
     i = b['id']; H = max(bays[d][i]['H'] for d in 'NSEW'); dmax = max((bays[d][i]['H'], d) for d in 'NSEW')[1]
     bf = bays[dmax][i]; chk = bracing.check_diagonal(bf['T']); g = connections.gusset_bolts(bf['T'])
     sway = max(bays[d][i]['sway'] for d in 'NSEW')/1.5 + 2.0
+    Hs = max(H4['x'][i], H4['y'][i])                       # amplified seismic bay force (1.0 E, q 1.5)
+    if Hs > H:                                             # Rev 4: seismic governs the bay -> diagonal, bolts, sway at the seismic force
+        w_, h_, Ld_, _, _ = bay_geom(b); bf = dict(H=Hs, T=Hs*Ld_/w_, N=Hs*h_/w_, w=w_, h=h_, Ld=Ld_, sway=Hs/bracing.bay_stiffness()[i]*1000)
+        chk = bracing.check_diagonal(bf['T']); g = connections.gusset_bolts(bf['T']); dmax = 'seismic'; H = Hs
     bay_env[i] = dict(H=H, T=bf['T'], N=bf['N'], w=bf['w'], h=bf['h'], Ld=bf['Ld'], dir=dmax, util=chk['util'], util_bolt=g_max if (g_max := max(g.values())) else 0,
-                      NtRd=chk['NtRd'], sway=sway, sway_lim=bf['h']*1000/150, H4=max(H4['x'][i], H4['y'][i]))
+                      NtRd=chk['NtRd'], sway=sway, sway_lim=bf['h']*1000/150, H4=Hs)
 H_uls_max = {i: bay_env[i]['H'] for i in bay_env}
 trusses = bracing.roof_truss_forces(H_uls_max)
 wind_roof = {d: Fr[d][0] for d in 'NSEW'}
@@ -162,7 +166,7 @@ for t in bracing.ROOF_TRUSSES:
         ax.plot([x0, x1], [y0, y1], 'g--', lw=0.7, alpha=0.7); ax.plot([x0, x1], [y1, y0], 'g--', lw=0.7, alpha=0.7)
 sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm); sm.set_array([]); cb = plt.colorbar(sm, ax=ax, fraction=0.03, pad=0.01); cb.set_label('utilisation (governing check)')
 ax.set_aspect('equal'); ax.set_xlim(66.5, 99.0); ax.set_ylim(14, 37.5); ax.set_xlabel('x (m)'); ax.set_ylabel('y (m)'); ax.grid(alpha=0.25)
-ax.set_title('Alternative C Rev 3 - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79): %s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns;\n'
+ax.set_title('Alternative C Rev 4 (load basis Rev 3) - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79): %s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns;\n'
              'red = wall X-bracing bays B1-B10 (L70x7, utilisation), green dashed = roof-plane X bracing (M24 rods); column label = member / base utilisation' % (SP['name'], SR['name'], SC['name']), fontsize=9.5)
 fig.tight_layout(); fig.savefig(os.path.join(OUT, 'framing_C.png'), dpi=150); plt.close(fig)
 
@@ -186,6 +190,8 @@ summary = dict(sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], b
                purlins=dict(Mg=pur['worst']['gravity'][0], Mg_where=pur['worst']['gravity'][1], Mu=pur['worst']['uplift'][0], Mu_where=pur['worst']['uplift'][1], Lmax=pur['Lmax'], d=pur['d'], dlim=pur['dlim']),
                post=dict(N=post_N, NbRd=NbR_raft), st=dict(N1=N_st1, Nb1=Nb_st1, N2=N_st2, Nb2=Nb_st2), wp1=dict(L=Lwp, My=My_wp, Mz=Mz_wp, u=u_wp, V=V_wp),
                weight=W, lengths=lengths, n_roof_panels=n_panels, roof_comp=bracing.roof_suction_component()['S'][:3], cleat=cleat, clear=clear, thermal=thermal,
+               bay_gov={i: dict(wind=max(bays[d][i]['H'] for d in 'NSEW'), seis=max(H4['x'][i], H4['y'][i]), gov=('seismic' if max(H4['x'][i], H4['y'][i]) > max(bays[d][i]['H'] for d in 'NSEW') else 'wind')) for i in bay_env},
+               colsum={t: float(sum(v[t] for v in res['colloads'].values())) for t in ('G', 'Gmin', 'Q', 'W_N', 'W_S', 'W_E', 'W_W', 'W_D')},
                tos={y: TOS(y) for y in (35.87, 35.77, 35.37, 35.27, 35.17, 29.27, 24.46, 21.76, 20.07, 15.87, 15.57)},
                max_util=dict(beams=max(r['umax'] for r in beams), cols=max(r['umax'] for r in cols), bases=max(e['umax'][0] for e in base_env.values())),
                colloads=res['colloads'], Fr={d: dict(Ftot=Fr[d][0], rigid=Fr[d][1], trib=Fr[d][2]) for d in 'NSEW'},

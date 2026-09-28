@@ -1,4 +1,4 @@
-# Alternative C - post-and-beam braced frame: design report, Rev 3 (bases Rev 5a)
+# Alternative C - post-and-beam braced frame: design report, Rev 4 (load basis Rev 3, bases Rev 6)
 
 System C: E-W IPE 330 primaries on the column rows, N-S IPE 270 rafters, pinned HEA 160 columns, vertical X bracing for all lateral load, roof-plane X bracing as the diaphragm. All numbers come from `calc/` (`python3 run_all.py; python3 write_report.py`); ULS design values unless stated. Companion note: `bases_C.md` (bases and anchors, self-contained).
 
@@ -7,14 +7,14 @@ System C: E-W IPE 330 primaries on the column rows, N-S IPE 270 rafters, pinned 
 | Ref | Change |
 |---|---|
 | Basis: wind zones | e = 20 m: F/G strip 2.0 m deep, F corners 5.0 m along the eave; zone sets kept as the envelope (theta = 180 values for both N and S wind, F5). Roof uplift total W_S -669 kN incl. gutter (Rev 1 -614). |
-| Basis / F4 | Horizontal component of the roof suction added: 38.6 kN char. northward for S wind (resultant at x 81.1, y 25.8), also as an N-S load under E/W wind; S-wind roof-level force 108.7 -> **148.5 kN** (+36 %); no friction term. Bracing, braced columns and bases re-run. |
+| Basis / F4 | Horizontal component of the roof suction added: 14.8 kN char. northward for S wind (resultant at x 81.4, y 24.5), also as an N-S load under E/W wind; S-wind roof-level force 108.7 -> **62.5 kN** (+36 %); no friction term. Bracing, braced columns and bases re-run. |
 | Basis: anchorage / F1, F2, F3 | New base for all 27 columns: 4 M20 through the slab into the column head (h_ef 300, 80 x 280 in the core), bond + cracked cone in the slab, **grouted shear key** for all shear (no anchor shear, so the cracked-edge question F2 disappears), plate 25 mm. Wall shear wL/2 is at the column base in every case (F1); base struts deleted, every base carries its full concurrent H + V_wall (F3). |
 | Bracing layout | K17-K21 (Rev 1 B8) dropped - K21 is a 200 mm pier between the notch edge and the shaft opening. N-S bracing now on three lines with two bays in series each: B5 K15-K19 + **B10 K19-K25**, B7 K20-K27 + **B8 K10-K16**, B6 K14-K18 + **B9 K18-K23**; E-W B1-B4 unchanged. 10 bays; no braced-bay base has its bay shear towards a free edge < 0.25 m. |
 | F6 | Gutter/fascia 0.25 kN/m (G) and -0.50 kN/m (W) on the north eave in the take-down (rafter cantilevers, eave beams, fin plates). West-block north edge kept at y 35.87 (wall line); drainage's gutter line y 35.37 to be coordinated (open item 6). |
-| F7 | Column interaction with k_zy from Annex B Table B.2 (0.97-1.00): K25 0.72, K23 0.71, K22 0.64. HEA 160 confirmed. |
+| F7 | Column interaction with k_zy from Annex B Table B.2 (0.97-1.00): K25 0.56, K23 0.54, K22 0.51. HEA 160 confirmed. |
 | F8 | Purlin uplift re-run with the 2.0 m / 5.0 m zones: corner spans (3.07 m, zone F) 8.3 kNm, stair strip 4.07 m 8.6 kNm; mid-span anti-sag row on all spans; supplier uplift capacity before order (open item 3). |
 | F9 | Seismic: ULS-4 rows (1.0 G +/- 1.0 E, both directions, 5 % eccentricity) added to reactions_C.csv; floor amplification through the existing building stated as open item 5. |
-| F10 | Roof diaphragm re-modelled with the rods in the drawn cells; east/west edge trusses now use diagonals over two rafter bays (depth 5.65 / 4.10 m) and posts ST1 (y 24.46, R90-R95) / ST2 (y 26.37, R68-R72) at the wall-column lines; M24 rods throughout; truss deflection by virtual work: east wall drift 10.5 mm, west 9.5 mm (SLS, incl. bay sway) vs h/150 = 26-28 mm. |
+| F10 | Roof diaphragm re-modelled with the rods in the drawn cells; east/west edge trusses now use diagonals over two rafter bays (depth 5.65 / 4.10 m) and posts ST1 (y 24.46, R90-R95) / ST2 (y 26.37, R68-R72) at the wall-column lines; M24 rods throughout; truss deflection by virtual work: east wall drift 11.8 mm, west 12.1 mm (SLS, incl. bay sway) vs h/150 = 26-28 mm. |
 | F11 | (superseded by Rev 3: TOS(35.87) = 3.33, 3.02 m clear under the cap nuts) TOS(35.87) = 3.30 m, primary top at TOS + 0.05: clear height 3.03 m, rafter/primary bottom-flange clearance 18 mm nominal, 13 mm at the down-slope flange tip. T1 at y 35.44 and T2 at y 24.09 (half a flange inside the opening edges). R82 at x 81.85 over the shaft east wall line: client to confirm (open item 7). |
 | F12 | Cap-plate bolts at pitch 200 (plate 200 x 280 x 20); primaries bolted before the rafters are landed. |
 | F13 | reactions_C.csv now one row per column and load case (594 rows: ULS-1, ULS-2/3 x 4 wind directions, ULS-4 x 4, SLS) with concurrent N, V_x, V_y, near-edge flags and the base utilisation; WP1 included; envelope in section 9. |
@@ -23,56 +23,57 @@ System C: E-W IPE 330 primaries on the column rows, N-S IPE 270 rafters, pinned 
 | **Bases Rev 3 / R1-R7** | Section 6 and `bases_C.md` re-issued after the base re-review: R1 column-cage resistance withdrawn, outward shear at the 14 near-edge bases (Rev 3 count) through a second key 180 mm inboard (c1 = 250, plain-concrete edge breakout 41.9 kN) and a saddle at the K21 pier, WP1 moved 280 mm inboard; R2 key moments V x 85 mm carried into the anchor group (psi_ec,N) and the max anchor; R3 minimum solid zone per base, coring acceptance criterion (>= 750 x 750 x 250, C25, edge beams) and a through-bolt fallback pre-designed at 9 bases; R4 anchors h_ef 200 and pockets 200 deep in the slab only, no drilling into the column heads (permitted by the client, shown unnecessary and risky); R5 f_y 335 for the bar, Key A edge check to 0.6 m; R6/R7 tables with spacing orientation, key moment, max anchor, minimum zone. Worst base at Rev 3: K19 0.91 (superseded by Rev 4). |
 | **Bases Rev 4 / S1-S4** | Real slab edges modelled (column flush with the face: outboard anchor row 60 mm from the edge; shaft and stair openings as free edges): concentric cone 50 / 38 kN at edge / corner heads, Key A parallel-to-edge 18-24 kN. Base type chosen per column: **B1** concentric anchors at 0 bases (), **B2** through-bolts + inboard key pair (corrected lever statics T = N_t b/(b-c), stiffened 30 mm plate) at 0 bases (), **P** pier anchors + saddle at K21. One-sided coring criterion at edge heads. |
 | **Bases Rev 4a / T1-T6** | Per-base B2 plate lengths and coring zones for the shifted layouts (K23 1000 x 550 plate, zone -1100..+250 along; K25 550 x 900 and K27 600 x 900, zone to +1000; standard 800 x 550, zone +/- 700); coring criterion made identical to the cone extents used (B1 edge heads: inboard >= 340, +/- 400 along); ONE key-moment model - rigid post in the grouted pocket - for every key (psi_ec dropped; K7 now 0.85 on the Key A parallel-edge check, cone 0.52; K14 0.49); 8 % cone reduction at the diagonal opening corners K3, K16, K17; under-slab plate 25 mm, class-3 stiffeners, skewed levers at K23/K25/K27 and the T/C couple for the slab designer stated; bond quoted with the real extents. Worst base at Rev 4a: K7 0.85 (superseded). |
-| **Design Rev 3 / final critique C1-C14** | C1 north-face jog modelled: wall and roof edge at y 35.37 for x 67.89-81.79 (K6, K5, K7 on that wall), 35.87 east of x 81.79; the stair well reaches the north face, so no roof, no T1 and no eave beam across it (wall header only); 0.5 m wall return at x 81.79 on brackets from K3; rafters R68-R78 end at 35.37 (0.10-0.20 m cantilevers); gutters G-W at 35.37 and G-E at 35.87 with stop ends; roofed area 439.3 m2; loads, bracing (S-wind roof force 148.5 kN), reactions, CSVs and figure re-run. C3 plane raised 30 mm, TOS(35.87) = 3.33: **3.02 m clear under the cap-plate nuts at K1/K2**, one figure; C2 column length TOS - 0.35 (B2 0.355). C4 slotted fin plates deleted; conditioned-hall range +/-20 K, erection state +/-30 K; E-W chord path B2-RT-N-W-y 29.3-RT-N-E-B1 checked: k_eff 2.8 kN/mm, locked-in 10 kN service, ULS +9 kN with wind and 23 kN thermal-leading; K1, K2, K5, K7 checked - **K7 (and K5, whose north edge is now 0.1 m) built as B2**. C7 B2 plate extents to the slab face (100 outboard), one standard length 800; C8 drawing BOM weight quoted (25.4 t at closing sign-off, X1); C10 purlin cleat check (10.8 kN per cleat in zone F, 0.66) and panel fastener schedule from the supplier; C11 RT-JOG corrected (50.6 kN rod, 0.25); C13 K21 pattern fixed on site by the scan; C14 superseded figures removed. Worst base at Rev 3/4b: K25 0.83 (superseded by bases Rev 5). |
+| **Design Rev 3 / final critique C1-C14** | C1 north-face jog modelled: wall and roof edge at y 35.37 for x 67.89-81.79 (K6, K5, K7 on that wall), 35.87 east of x 81.79; the stair well reaches the north face, so no roof, no T1 and no eave beam across it (wall header only); 0.5 m wall return at x 81.79 on brackets from K3; rafters R68-R78 end at 35.37 (0.10-0.20 m cantilevers); gutters G-W at 35.37 and G-E at 35.87 with stop ends; roofed area 439.3 m2; loads, bracing (S-wind roof force 62.5 kN), reactions, CSVs and figure re-run. C3 plane raised 30 mm, TOS(35.87) = 3.33: **3.02 m clear under the cap-plate nuts at K1/K2**, one figure; C2 column length TOS - 0.35 (B2 0.355). C4 slotted fin plates deleted; conditioned-hall range +/-20 K, erection state +/-30 K; E-W chord path B2-RT-N-W-y 29.3-RT-N-E-B1 checked: k_eff 2.8 kN/mm, locked-in 15 kN service, ULS +14 kN with wind and 34 kN thermal-leading; K1, K2, K5, K7 checked - **K7 (and K5, whose north edge is now 0.1 m) built as B2**. C7 B2 plate extents to the slab face (100 outboard), one standard length 800; C8 drawing BOM weight quoted (25.4 t at closing sign-off, X1); C10 purlin cleat check (10.4 kN per cleat in zone F, 0.66) and panel fastener schedule from the supplier; C11 RT-JOG corrected (33.4 kN rod, 0.25); C13 K21 pattern fixed on site by the scan; C14 superseded figures removed. Worst base at Rev 3/4b: K25 0.83 (superseded by bases Rev 5). |
 | **Bases Rev 5 / brief Rev 4** | Client decisions: no through-bolts, every base anchored from above; slab 300 mm. The 13 former B2 bases and the 6 lightly loaded edge bases become type **E: 4 M16 resin anchors 70 x 280 concentric in the column core, h_ef 550 (300 slab + 250 into the column head, rebar scan)**, designed as a lap with the column bars (N_Rd 257 kN, K19 0.28); the inboard lever alternatives (a)/(c) fail on the slab cone (<= 107 kN in the 800 zone vs 100-182 kN) and are not used; no bay added (d). B1 interior with h_ef 250 in the 300 slab (98 kN, zone-limited). Shear keys unchanged. Variants: B1 interior, E edge, E corner, P = K21 (superseded by Rev 5a). |
-| **Bases Rev 5a / V1-V6** | Column-head anchorage re-framed as a **post-installed rebar connection (EAD 330087, EN 1992-1-1 8.4/8.7)**: 4 x dia 16 B500 threaded-end bars at 70 x 240, embedded 300 (250 min) into the column head, top 300 mm debonded so the slab cone is never loaded; f_bd 2.7 MPa: 136 kN at the 250 mm minimum (K19 0.54, K23 0.46), lap l_0 240 <= 250, receiving corner bars 268 kN, existing links suffice; scan/drill procedure (face cover-meter + GPR, pilot drill, relocation +/-15 mm, 30 mm plate holes) and proof tests to >= 60 kN. **All 27 bases built as type E** (one base detail, 108 scanned holes; K21 = E + saddle), no slab-cone check and no solid-zone criterion anywhere; B1 interior kept in an appendix as the client's fewer-holes option. Worst base K23 0.80. |
+| **Bases Rev 5a / V1-V6** | Column-head anchorage re-framed as a **post-installed rebar connection (EAD 330087, EN 1992-1-1 8.4/8.7)**: 4 x dia 16 B500 threaded-end bars at 70 x 240, embedded 300 (250 min) into the column head, top 300 mm debonded so the slab cone is never loaded; f_bd 2.7 MPa: 136 kN at the 250 mm minimum (K19 0.54, K23 0.46), lap l_0 240 <= 250, receiving corner bars 268 kN, existing links suffice; scan/drill procedure (face cover-meter + GPR, pilot drill, relocation +/-15 mm, 30 mm plate holes) and proof tests to >= 60 kN. **All 27 bases built as type E** (one base detail, 108 scanned holes; K21 = E + saddle), no slab-cone check and no solid-zone criterion anywhere; B1 interior kept in an appendix as the client's fewer-holes option. Worst base at Rev 5a: K23 0.80 (superseded). |
+| **Rev 4 / load basis Rev 3** | Complete re-run with the Rev 3 basis (independent load critique): services 0.10, Q 0.40 (psi 0), no wall self-weight in G / G_min (wall mass kept in the seismic mass), gutter 0.10 in G_min; wind by direction q_p N 1.25 / E, W 1.05 / S 0.75 (v_b 27, z_e 9 m, terrain I / II / III), e = 18 m, flat-roof Table 7.2 zones F -1.8 / G -1.2 / H -0.7 / I -0.2 with the pressure case I +0.2 (c_pi -0.3, +0.5 q_p) on the far half, walls D +0.75 / E -0.40 x 0.85, roof-suction component 14.8 kN, no friction; bracing uplift net per braced line; temperature +/-30 K service, +45/-25 K erection; combinations EN 1990 6.10 (6.10a/b not used). Roof-level wind N 61.9 / S 62.5 / E 63.0 / W 63.5 kN char. (Rev 3: 85.6 / 148.5 / 72.4 / 73.6). **Two-mass seismic check done: S_a at roof level 0.65 g (E-W) / 0.61 g (N-S), F 145 / 136 kN at q 1.5 - seismic now governs every braced bay** (B3 70.9 vs wind 32.5 kN ULS). Sections kept (IPE 330 / IPE 270 / HEA 160: the critic's IPE 300 / IPE 240 / HEA 140 set passes at 0.82 / 0.69 / 0.79 but with no margin on the 9.8 m primary LTB and it would re-open the detailing for 2.3 t). Bases Rev 6: same detail, worst K7 0.90. Comparison table rev4_vs_rev3.md. |
 
 ## 1. Basis and assumptions
 
-- Loads, combinations and resistances exactly per `../load_basis.md` Rev 2; geometry per `../../geometry.json`: 27 columns, L-shape less the notch, **north face at y 35.37 for x 67.89-81.79 and at 35.87 for x 81.79-95.69** (interior_walls_y 35.37, K6/K5/K7 on that wall; 0.5 m wall return at x 81.79), stair well x 77.89-81.79 / y 29.37-35.37 open to the north wall (no roof, no eave beam: a wall header carries wall and gutter stop-ends), elevator opening not roofed; roofed area 439.3 m2 from the grid.
+- Loads, combinations and resistances exactly per `../load_basis.md` **Rev 3** (materials and anchorage unchanged from Rev 2); geometry per `../../geometry.json`: 27 columns, L-shape less the notch, **north face at y 35.37 for x 67.89-81.79 and at 35.87 for x 81.79-95.69** (interior_walls_y 35.37, K6/K5/K7 on that wall; 0.5 m wall return at x 81.79), stair well x 77.89-81.79 / y 29.37-35.37 open to the north wall (no roof, no eave beam: a wall header carries wall and gutter stop-ends), elevator opening not roofed; roofed area 439.3 m2 from the grid.
 - One roof plane at 6 % falling north, **TOS(y) = 3.33 + 0.06 (35.87 - y)** (TOS 3.33 at y 35.87, 3.36 at the west north edge 35.37, 4.55 at 15.57); level primaries with their top at TOS + 0.05; column top = cap-plate underside = TOS - 0.30, cap-plate top TOS - 0.28; column length TOS - 0.35 (B1: 25 mm plate + 25 mm grout; B2 plates 30 mm: TOS - 0.355), 2.99 m (y 35.77) to 4.18 m (y 15.87). **Clear height: 3.02 m under the lowest steel (cap-plate nuts at K1/K2, y 35.77); 3.06 m under the eave primary and under the rafters at the north edge.**
 - Statics: all beams are chains of simple spans (fin plates, cap plates), purlins simple spans between rafters, columns pinned-pinned; girts span horizontally between columns, so each column delivers wL/2 of its wall to the roof and wL/2 to its base. The take-down integrates the roof on a 0.1 m grid (exact tributary, openings excluded) -> rafters -> primaries -> columns. Section tables IPE 200-360 / HEA 140-200 in `calc/sections.py`.
-- Wind post WP1 (HEA 160) at the notch corner, set 280 mm inboard of both faces at (77.61, 20.25): wall wind only, slotted top connection, no uplift, base 250 x 250 x 15 with one centred 60 mm key (11.9 kN shear, 0.31).
+- Wind post WP1 (HEA 160) at the notch corner, set 280 mm inboard of both faces at (77.61, 20.25): wall wind only, slotted top connection, no uplift, base 250 x 250 x 15 with one centred 60 mm key (11.4 kN shear, 0.31).
 - Slab: **300 mm ribbed (brief Rev 4)**, solid zone >= 800 x 800 at every column head, C25 cracked, column cage 6 dia14 + dia6/200 - all to be confirmed by GPR/cores and a rebar scan before drilling (bases_C.md sections 5-6). No through-bolts: every base is anchored from above.
 
 ## 2. Loads and combinations (kN, m)
 
 | Action | Value | Used for |
 |---|---|---|
-| Panel + purlins + services G | 0.12 + 0.05 + 0.20 = 0.37 kN/m2 + member self-weight; gutter 0.25 kN/m on the north eave | gravity |
-| G_min (uplift) | 0.17 kN/m2 + member self-weight | ULS-3 |
-| Imposed cat. H Q | 0.60 kN/m2, psi_0 = 0 (never with wind) | ULS-1, SLS |
-| Wind q_p | 1.30 kN/m2 (Tripoli, binding) | all wind cases |
-| Roof net uplift, c_pi +0.2, e = 20 m | H -1.30, G -1.95, F -3.25 kN/m2 (N and S wind, F/G strip 2.0 m, F corners 5.0 m); along the ridge F -2.99, G -2.60, H -1.04, I -0.91; gutter -0.50 kN/m | ULS-3, purlins, fly braces |
-| Roof pressure case, c_pi -0.3 | +0.39 kN/m2 (never governs over Q) | ULS-2 |
-| Walls, net | D +1.1 (c_pi -0.3); A -1.4 / B -1.0 / C -0.7 / E -0.7 (c_pi +0.2); x 1.3 -> up to 1.82 kN/m2 char. | column bending and base shear |
-| Global horizontal wind at roof level | 1.3 q_p on the projected wall area, half to the roof, plus the roof-suction component (38.6 kN, S wind; 30 kN N-S under E/W wind): **N 85.6, S 148.5, E/W 72 (+30 N-S) kN** char. | bracing, diaphragm |
-| Wall self-weight | 0.30 kN/m2 x wall height (3.60 m N ... 4.82 m S) x column trib | column axial |
-| Temperature (C4) | conditioned hall +/-20 K in service, +/-30 K erection/unconditioned state; E-W north bay pair B2-B1 restrained through the roof trusses: k_eff 2.8 kN/mm x 3.6 / 5.4 mm = 10 / 15 kN char.; ULS +9 kN on B1/B2 with wind (psi_0 0.6), 23 kN thermal-leading without wind; south pair released by the weak-axis bending of R78 (0.3 kN/mm), N-S lines by the fin-plate clearances | B1/B2 bays, bases K1, K2, K5, K7 |
-| Seismic (EN 1998-1, a_g 0.10 g, S 1.2, q 1.5, S_d 0.20 g) | seismic weight 379 kN -> F_b = **75.9 kN** (1.0 E) with 5 % eccentricity -> max bay force 37.2 kN (E-W) / 18.4 kN (N-S) vs wind 53 / 57 kN: wind governs; ULS-4 in the reaction table | ULS-4 |
+| Panel + purlins + services G | 0.12 + 0.05 + 0.10 = 0.27 kN/m2 + member self-weight; gutter 0.25 kN/m on the north eaves; **no wall self-weight** (brief Rev 5) | gravity |
+| G_min (uplift) | 0.17 kN/m2 + member self-weight; gutter 0.10 kN/m | ULS-3 |
+| Imposed cat. H Q | 0.40 kN/m2, psi_0 = psi_1 = psi_2 = 0 (never with wind); Q_k 1.0 kN point for the purlin / panel-supplier check | ULS-1, SLS |
+| Wind q_p by direction | v_b 27 m/s, z_e = h = 9 m, c_s c_d 1.0: **N 1.25 (sea, terrain I), E / W 1.05 (II), S 0.75 (III) kN/m2** | all wind cases |
+| Roof net uplift, c_pi +0.2, e = 18 m | flat roof, Table 7.2: F -1.8, G -1.2 (windward strip 1.8 m, F corners 4.5 m), H -0.7 (1.8-9 m), I -0.2 beyond: with the N-wind q_p 1.25: F -2.50, G -1.75, H -1.13, I -0.50 kN/m2; S wind x 0.6; gutter -0.50 kN/m | ULS-3, purlins, fly braces |
+| Roof pressure case, c_pi -0.3 | zone I +0.2 -> +0.5 q_p = **+0.625 kN/m2 (N wind) on the roof beyond 9 m from the windward edge** (per-cell envelope over the four directions); 1.35 G + 1.5 x 0.625 = 1.71 kN/m2 governs the south half over 1.35 G + 1.5 Q = 1.37 | ULS-2 |
+| Walls, net | D +1.05 (0.75 + 0.3); A -1.4 / B -1.0 / C -0.7 / E -0.6 (c_pi +0.2); x q_p of the direction -> up to 1.75 kN/m2 char. (N) | column bending and base shear |
+| Global horizontal wind at roof level | 0.85 x (0.75 + 0.40) = 0.98 q_p on the projected wall area, half to the roof, plus the horizontal component of the net roof suction (14.8 kN, S wind), no friction: **N 61.9, S 62.5, E 63.0, W 63.5 kN** char. | bracing, diaphragm |
+| Wall self-weight | 0.30 kN/m2 in the seismic mass only (brief Rev 5: not in G / G_min) | seismic |
+| Temperature (C4, Rev 3) | +/-30 K in service, +45 / -25 K erection state; E-W north bay pair B2-B1 restrained through the roof trusses: k_eff 2.8 kN/mm x 3.6 / 5.4 mm = 15 / 23 kN char.; ULS +14 kN on B1/B2 with wind (psi_0 0.6), 34 kN thermal-leading without wind; south pair released by the weak-axis bending of R78 (0.3 kN/mm), N-S lines by the fin-plate clearances | B1/B2 bays, bases K1, K2, K5, K7 |
+| Seismic (EN 1998-1, a_g 0.10 g, S 1.2, q 1.5), **two-mass floor amplification (4.3.5.2)** | roof + wall mass W_a = 335 kN; roof steel on the braced bays T_a = 0.13 s (E-W, k 80 kN/mm) / 0.11 s (N-S); the existing building (mass 1 on its 27 columns and infill) T_1 scanned 0.15-0.35 s, worst at 0.15 s: S_a = a_g S [3 (1 + z/H)/(1 + (1 - T_a/T_1)^2) - 0.5] = **0.65 g E-W / 0.61 g N-S** at roof level (unamplified plateau 0.30 g); design force with q 1.5: **F = 145 kN E-W / 136 kN N-S** (was 67.1 unamplified), 5 % eccentricity, rigid/tributary envelope -> bay forces 70.9 kN (B3) / 33.1 kN (B8): **seismic governs every braced bay** (wind ULS max 32.5 kN); ULS-4 rows in the reaction table | ULS-4, bays, bases |
 
-Combinations (EN 1990 6.10): ULS-1 1.35 G + 1.5 Q; ULS-2 1.35 G + 1.5 W (pressure, wall D/E with c_pi -0.3, roof +0.39, bracing compression); ULS-3 1.0 G_min + 1.5 W (uplift, c_pi +0.2, four wind directions, bracing tension); ULS-4 1.0 G +/- 1.0 E; SLS G + Q (L/200, purlins L/150) and G + W (sway H/150).
+Combinations (EN 1990 6.10, the 6.10a/b option not used): ULS-1 1.35 G + 1.5 Q; ULS-2 1.35 G + 1.5 W (pressure, wall D/E with c_pi -0.3, roof zone I +0.5 q_p, bracing compression); ULS-3 1.0 G_min + 1.5 W (uplift, c_pi +0.2, four wind directions, bracing uplift net per braced line); ULS-4 1.0 G +/- 1.0 E (two-mass amplified); SLS G + Q (L/200, purlins L/150) and G + W (sway H/150).
 
 ## 3. Load take-down and bracing analysis results
 
-**Take-down (`takedown.py`).** 11 N-S rafter lines (x = 68.0, 70.0, 72.1, 74.9, 77.8, 81.85, 84.5, 87.2, 89.9, 92.5, 95.5), rafter spans 2.7-9.2 m, purlin spans 2.05-3.1 m; the west-block rafters end at the north wall y 35.37 (0.10-0.20 m cantilevers carrying gutter G-W), the east ones at 35.87 (gutter G-E); nothing spans the stair well. Example column loads (characteristic, kN): K12 interior G 24.5, Q 25.0, W_N -56.0; K19 (braced, west wall) G 28.1, Q 19.1, W_S -43.7. Sum of column loads: G 439 (incl. gutters), Q 264 (= 0.60 x 439.3), W_S -660 kN.
+**Take-down (`takedown.py`).** 11 N-S rafter lines (x = 68.0, 70.0, 72.1, 74.9, 77.8, 81.85, 84.5, 87.2, 89.9, 92.5, 95.5), rafter spans 2.7-9.2 m, purlin spans 2.05-3.1 m; the west-block rafters end at the north wall y 35.37 (0.10-0.20 m cantilevers carrying gutter G-W), the east ones at 35.87 (gutter G-E); nothing spans the stair well. Example column loads (characteristic, kN): K12 interior G 20.3, Q 16.7, W_N -39.6; K19 (braced, west wall) G 17.9, Q 12.7, W_S -19.9. Sum of column loads: G 279 (roof, steel and gutters; no wall weight), Q 176 (= 0.40 x 439.3), W_N -423, W_S -262 kN.
 
 **Bracing (`bracing.py`).** The roof force of each windward face (and the roof-suction component at its centroid) is distributed to the bays twice: (a) rigid diaphragm, 3 DOF, bay stiffness k = E A cos^2(alpha)/L_d of one L70x7 diagonal (15.6-24 kN/mm), centre of rigidity and torsion included; (b) flexible-diaphragm tributary to the bracing lines, then to the bays of a line by stiffness. **The envelope of (a) and (b) is used** (sum of bay forces 1.2-1.4 x the applied force). Wind from S, characteristic: rigid B5 23.4 / B10 22.0 / B7 23.1 / B8 26.1 / B6 28.3 / B9 25.4 kN, tributary 15.2 / 14.3 / 33.9 / 38.2 / 24.9 / 22.3 kN; wind from E: rigid B1 20.0 / B2 19.5 / B3 17.5 / B4 15.2, tributary 1.3 / 26.1 / 35.5 / 9.8 kN.
 
 Bay forces at ULS (1.5 W), tension-only diagonal T = H L_d/w, column axial N = H h/w, base shear H at the tension-diagonal base (windward column) concurrent with that column's wall shear:
 
-| Bay | Columns | w m | h m | Wind | H_Ed kN (ULS) | H seismic (1.0 E) | T_Ed diag. kN | N col. +/- kN | T_Rd L70x7 kN | Util. angle | Util. bolts | Sway SLS mm | h/150 mm |
+| Bay | Columns | w m | h m | Governing case | H_Ed kN (ULS, governing) | H seismic (1.0 E, amplified) | T_Ed diag. kN | N col. +/- kN | T_Rd L70x7 kN | Util. angle | Util. bolts | Sway SLS mm | h/150 mm |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| B1 | K1-K2 | 5.29 | 3.16 | W | 30.7 | 22.0 | 35.8 | 18.3 | 189.3 | 0.19 | 0.29 | 2.9 | 21.0 |
-| B2 | K5-K7 | 5.70 | 3.19 | W | 40.1 | 33.8 | 46.0 | 22.4 | 189.3 | 0.24 | 0.37 | 3.2 | 21.3 |
-| B3 | K22-K23 | 6.61 | 4.10 | E | 53.6 | 37.2 | 63.1 | 33.2 | 189.3 | 0.33 | 0.51 | 3.9 | 27.3 |
-| B4 | K25-K26 | 4.00 | 4.35 | W | 23.4 | 16.2 | 34.6 | 25.4 | 189.3 | 0.18 | 0.28 | 3.0 | 29.0 |
-| B5 | K15-K19 | 4.61 | 3.86 | S | 35.1 | 13.4 | 45.7 | 29.3 | 189.3 | 0.24 | 0.37 | 3.2 | 25.7 |
-| B6 | K14-K18 | 4.81 | 3.69 | S | 42.6 | 15.7 | 53.6 | 32.7 | 189.3 | 0.28 | 0.43 | 3.4 | 24.6 |
-| B7 | K20-K27 | 5.89 | 4.17 | S | 50.9 | 16.4 | 62.4 | 36.1 | 189.3 | 0.33 | 0.50 | 3.9 | 27.8 |
-| B8 | K10-K16 | 4.81 | 3.69 | S | 57.3 | 18.4 | 72.2 | 44.0 | 189.3 | 0.38 | 0.58 | 3.9 | 24.6 |
-| B9 | K18-K23 | 4.39 | 3.97 | S | 38.1 | 14.1 | 51.4 | 34.5 | 189.3 | 0.27 | 0.42 | 3.4 | 26.4 |
-| B10 | K19-K25 | 5.89 | 4.17 | S | 33.1 | 12.7 | 40.5 | 23.4 | 189.3 | 0.21 | 0.33 | 3.2 | 27.8 |
+| B1 | K1-K2 | 5.29 | 3.16 | seismic | 42.0 | 42.0 | 48.9 | 25.1 | 189.3 | 0.26 | 0.40 | 2.5 | 21.0 |
+| B2 | K5-K7 | 5.70 | 3.19 | seismic | 64.4 | 64.4 | 73.8 | 36.1 | 189.3 | 0.39 | 0.60 | 2.7 | 21.3 |
+| B3 | K22-K23 | 6.61 | 4.10 | seismic | 70.9 | 70.9 | 83.4 | 44.0 | 189.3 | 0.44 | 0.67 | 3.2 | 27.3 |
+| B4 | K25-K26 | 4.00 | 4.35 | seismic | 30.8 | 30.8 | 45.6 | 33.5 | 189.3 | 0.24 | 0.37 | 2.6 | 29.0 |
+| B5 | K15-K19 | 4.61 | 3.86 | seismic | 24.1 | 24.1 | 31.4 | 20.2 | 189.3 | 0.17 | 0.25 | 2.5 | 25.7 |
+| B6 | K14-K18 | 4.81 | 3.69 | seismic | 28.2 | 28.2 | 35.5 | 21.6 | 189.3 | 0.19 | 0.29 | 2.6 | 24.6 |
+| B7 | K20-K27 | 5.89 | 4.17 | seismic | 29.4 | 29.4 | 36.0 | 20.8 | 189.3 | 0.19 | 0.29 | 2.8 | 27.8 |
+| B8 | K10-K16 | 4.81 | 3.69 | seismic | 33.1 | 33.1 | 41.7 | 25.4 | 189.3 | 0.22 | 0.34 | 2.8 | 24.6 |
+| B9 | K18-K23 | 4.39 | 3.97 | seismic | 25.2 | 25.2 | 34.0 | 22.8 | 189.3 | 0.18 | 0.28 | 2.6 | 26.4 |
+| B10 | K19-K25 | 5.89 | 4.17 | seismic | 22.7 | 22.7 | 27.8 | 16.1 | 189.3 | 0.15 | 0.23 | 2.5 | 27.8 |
 
 ## 4. Member checks (EN 1993-1-1)
 
@@ -82,139 +83,135 @@ Restraints: rafters - top flange held by purlins @ 1.5 m (gravity, chi_LT = 1.0)
 
 | Member (span) | Section | L m | M_Ed kNm | V_Ed kN | 6.2.5 M | 6.2.6 V | 6.3.2 LTB gravity | 6.3.2 LTB uplift | SLS L/200 | Util. | Governs | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P_K19K20/K19-K20 | IPE 330 | 9.79 | 131.3 | 44.8 | 0.59 | 0.09 | 0.73 | 0.72 | 0.74 | **0.74** | defl | OK |
-| R92/P_K22K23-K13 | IPE 270 | 9.20 | 57.0 | 35.2 | 0.43 | 0.1 | 0.36 | 0.57 | 0.52 | **0.57** | LTBu | OK |
-| R87/P_K21K22-K12 | IPE 270 | 9.20 | 49.5 | 25.0 | 0.37 | 0.07 | 0.35 | 0.49 | 0.5 | **0.5** | defl | OK |
-| R85/P_K21K22-P_K11K12 | IPE 270 | 9.20 | 49.3 | 25.3 | 0.37 | 0.07 | 0.35 | 0.49 | 0.49 | **0.49** | defl | OK |
-| R90/P_K22K23-P_K12K13 | IPE 270 | 9.20 | 49.6 | 26.5 | 0.37 | 0.08 | 0.34 | 0.49 | 0.49 | **0.49** | LTBu | OK |
-| P_K22K23/K22-K23 | IPE 330 | 6.67 | 70.2 | 38.8 | 0.32 | 0.08 | 0.25 | 0.36 | 0.17 | **0.36** | LTBu | OK |
-| P_K21K22/K21-K22 | IPE 330 | 7.03 | 56.6 | 28.5 | 0.26 | 0.06 | 0.27 | 0.31 | 0.2 | **0.31** | LTBu | OK |
-| R75/P_K19K20-P_K9K10 | IPE 270 | 7.51 | 33.2 | 17.7 | 0.25 | 0.05 | 0.25 | 0.3 | 0.28 | **0.3** | LTBu | OK |
-| R70/P_K19K20-P_K8K9 | IPE 270 | 7.56 | 32.6 | 17.2 | 0.24 | 0.05 | 0.19 | 0.29 | 0.22 | **0.29** | LTBu | OK |
-| R92/K13-K2 | IPE 270 | 6.50 | 32.5 | 28.4 | 0.24 | 0.08 | 0.18 | 0.28 | 0.18 | **0.28** | LTBu | OK |
-| R95/K14-K4 | IPE 270 | 6.40 | 31.1 | 19.6 | 0.23 | 0.06 | 0.11 | 0.27 | 0.11 | **0.27** | LTBu | OK |
-| R72/P_K19K20-K9 | IPE 270 | 7.51 | 28.0 | 14.9 | 0.21 | 0.04 | 0.21 | 0.25 | 0.25 | **0.25** | LTBu | OK |
-| R85/P_K11K12-P_K3K1 | IPE 270 | 6.40 | 29.3 | 26.1 | 0.22 | 0.07 | 0.17 | 0.25 | 0.17 | **0.25** | LTBu | OK |
-| R87/K12-K1 | IPE 270 | 6.50 | 27.8 | 22.0 | 0.21 | 0.06 | 0.17 | 0.24 | 0.17 | **0.24** | LTBu | OK |
-| R90/P_K12K13-P_K1K2 | IPE 270 | 6.50 | 26.5 | 20.5 | 0.2 | 0.06 | 0.17 | 0.23 | 0.17 | **0.23** | LTBu | OK |
-| P_K11K12/K11-K12 | IPE 330 | 5.34 | 46.6 | 18.3 | 0.21 | 0.04 | 0.22 | 0.23 | 0.12 | **0.23** | LTBu | OK |
-| P_K9K10/K9-K10 | IPE 330 | 5.69 | 44.9 | 17.0 | 0.2 | 0.03 | 0.22 | 0.22 | 0.12 | **0.22** | LTBg | OK |
-| P_K12K13/K12-K13 | IPE 330 | 5.29 | 45.4 | 18.5 | 0.21 | 0.04 | 0.22 | 0.22 | 0.12 | **0.22** | LTBg | OK |
-| R75/K24-P_K19K20 | IPE 270 | 5.79 | 25.5 | 25.2 | 0.19 | 0.07 | 0.14 | 0.21 | 0.13 | **0.21** | LTBu | OK |
-| R72/K9-K5 | IPE 270 | 6.00 | 23.4 | 21.2 | 0.18 | 0.06 | 0.13 | 0.2 | 0.13 | **0.2** | LTBu | OK |
-| R75/P_K9K10-P_K5K7 | IPE 270 | 5.93 | 23.6 | 19.1 | 0.18 | 0.05 | 0.15 | 0.2 | 0.14 | **0.2** | LTBu | OK |
-| R70/P_K8K9-P_K6K5 | IPE 270 | 5.90 | 21.9 | 19.1 | 0.16 | 0.05 | 0.11 | 0.19 | 0.1 | **0.19** | LTBu | OK |
-| R72/K26-P_K19K20 | IPE 270 | 5.89 | 22.7 | 22.0 | 0.17 | 0.06 | 0.13 | 0.19 | 0.12 | **0.19** | LTBu | OK |
-| P_K3K1/K3-K1 | IPE 330 | 5.34 | 38.1 | 15.0 | 0.17 | 0.03 | 0.11 | 0.19 | 0.06 | **0.19** | LTBu | OK |
-| R70/P_K25K26-P_K19K20 | IPE 270 | 5.89 | 21.8 | 18.4 | 0.16 | 0.05 | 0.11 | 0.18 | 0.1 | **0.18** | LTBu | OK |
-| R78/K27-K20 | IPE 270 | 5.89 | 21.0 | 15.6 | 0.16 | 0.04 | 0.11 | 0.18 | 0.1 | **0.18** | LTBu | OK |
-| R68/K25-K19 | IPE 270 | 5.89 | 19.2 | 13.1 | 0.14 | 0.04 | 0.07 | 0.16 | 0.06 | **0.16** | LTBu | OK |
-| R68/K8-K6 | IPE 270 | 5.80 | 18.7 | 12.9 | 0.14 | 0.04 | 0.07 | 0.16 | 0.06 | **0.16** | LTBu | OK |
-| P_K5K7/K5-K7 | IPE 330 | 5.69 | 28.9 | 11.0 | 0.13 | 0.02 | 0.12 | 0.14 | 0.07 | **0.14** | LTBu | OK |
-| P_K1K2/K1-K2 | IPE 330 | 5.29 | 28.1 | 11.6 | 0.13 | 0.02 | 0.11 | 0.14 | 0.06 | **0.14** | LTBu | OK |
-| P_K8K9/K8-K9 | IPE 330 | 4.10 | 31.5 | 15.8 | 0.14 | 0.03 | 0.11 | 0.14 | 0.05 | **0.14** | LTBu | OK |
-| R78/K16-K10 | IPE 270 | 4.81 | 16.9 | 14.0 | 0.13 | 0.04 | 0.12 | 0.13 | 0.09 | **0.13** | LTBu | OK |
-| R82/K17-K11 | IPE 270 | 4.81 | 16.3 | 13.7 | 0.12 | 0.04 | 0.12 | 0.13 | 0.09 | **0.13** | LTBu | OK |
-| R82/K11-K3 | IPE 270 | 6.40 | 14.5 | 12.2 | 0.11 | 0.03 | 0.11 | 0.13 | 0.11 | **0.13** | LTBu | OK |
-| R95/K23-K18 | IPE 270 | 4.39 | 14.9 | 13.6 | 0.11 | 0.04 | 0.05 | 0.12 | 0.04 | **0.12** | LTBu | OK |
-| R95/K18-K14 | IPE 270 | 4.81 | 15.5 | 13.2 | 0.12 | 0.04 | 0.06 | 0.12 | 0.05 | **0.12** | LTBu | OK |
-| ST1 | IPE 270 | 5.65 | 0 |  |  |  | 0.11 |  |  | **0.11** | 6.3.1 | OK |
-| R78/K10-K7 | IPE 270 | 5.90 | 13.3 | 11.3 | 0.1 | 0.03 | 0.1 | 0.1 | 0.1 | **0.1** | LTBg | OK |
-| P_K6K5/K6-K5 | IPE 330 | 4.10 | 21.0 | 10.7 | 0.09 | 0.02 | 0.06 | 0.1 | 0.03 | **0.1** | LTBu | OK |
-| 14 further spans (eave beams, trimmers, short edge-beam spans, ST2) | IPE 330 / IPE 270 | 2.7-5.9 | <= 15 | <= 11 | | | | | | <= 0.10 | - | OK |
+| P_K19K20/K19-K20 | IPE 330 | 9.79 | 122.7 | 42.0 | 0.55 | 0.09 | 0.68 | 0.47 | 0.55 | **0.68** | LTBg | OK |
+| R92/P_K22K23-K13 | IPE 270 | 9.20 | 43.4 | 19.0 | 0.33 | 0.05 | 0.34 | 0.39 | 0.37 | **0.39** | LTBu | OK |
+| R85/P_K21K22-P_K11K12 | IPE 270 | 9.20 | 41.2 | 18.0 | 0.31 | 0.05 | 0.32 | 0.21 | 0.36 | **0.36** | defl | OK |
+| R87/P_K21K22-K12 | IPE 270 | 9.20 | 41.7 | 18.2 | 0.31 | 0.05 | 0.32 | 0.24 | 0.36 | **0.36** | defl | OK |
+| R90/P_K22K23-P_K12K13 | IPE 270 | 9.20 | 40.9 | 17.9 | 0.31 | 0.05 | 0.32 | 0.31 | 0.35 | **0.35** | defl | OK |
+| P_K21K22/K21-K22 | IPE 330 | 7.03 | 46.1 | 23.4 | 0.21 | 0.05 | 0.25 | 0.13 | 0.15 | **0.25** | LTBg | OK |
+| P_K22K23/K22-K23 | IPE 330 | 6.67 | 44.1 | 26.6 | 0.2 | 0.05 | 0.23 | 0.17 | 0.13 | **0.23** | LTBg | OK |
+| R75/P_K19K20-P_K9K10 | IPE 270 | 7.51 | 28.6 | 15.5 | 0.21 | 0.04 | 0.22 | 0.2 | 0.21 | **0.22** | LTBg | OK |
+| R92/K13-K2 | IPE 270 | 6.50 | 24.9 | 21.2 | 0.19 | 0.06 | 0.15 | 0.21 | 0.13 | **0.21** | LTBu | OK |
+| P_K11K12/K11-K12 | IPE 330 | 5.34 | 40.6 | 16.2 | 0.18 | 0.03 | 0.2 | 0.15 | 0.09 | **0.2** | LTBg | OK |
+| P_K12K13/K12-K13 | IPE 330 | 5.29 | 40.0 | 16.4 | 0.18 | 0.03 | 0.2 | 0.14 | 0.09 | **0.2** | LTBg | OK |
+| R72/P_K19K20-K9 | IPE 270 | 7.51 | 24.9 | 13.5 | 0.19 | 0.04 | 0.19 | 0.17 | 0.18 | **0.19** | LTBg | OK |
+| R85/P_K11K12-P_K3K1 | IPE 270 | 6.40 | 22.6 | 19.4 | 0.17 | 0.06 | 0.14 | 0.19 | 0.12 | **0.19** | LTBu | OK |
+| R87/K12-K1 | IPE 270 | 6.50 | 22.2 | 17.2 | 0.17 | 0.05 | 0.15 | 0.19 | 0.13 | **0.19** | LTBu | OK |
+| P_K9K10/K9-K10 | IPE 330 | 5.69 | 39.1 | 14.9 | 0.18 | 0.03 | 0.19 | 0.15 | 0.09 | **0.19** | LTBg | OK |
+| R70/P_K19K20-P_K8K9 | IPE 270 | 7.56 | 21.8 | 11.7 | 0.16 | 0.03 | 0.17 | 0.18 | 0.16 | **0.18** | LTBu | OK |
+| R90/P_K12K13-P_K1K2 | IPE 270 | 6.50 | 21.5 | 16.4 | 0.16 | 0.05 | 0.14 | 0.18 | 0.13 | **0.18** | LTBu | OK |
+| R95/K14-K4 | IPE 270 | 6.40 | 19.5 | 12.6 | 0.15 | 0.04 | 0.1 | 0.17 | 0.08 | **0.17** | LTBu | OK |
+| R75/P_K9K10-P_K5K7 | IPE 270 | 5.93 | 19.2 | 15.6 | 0.14 | 0.04 | 0.13 | 0.16 | 0.1 | **0.16** | LTBu | OK |
+| R72/K9-K5 | IPE 270 | 6.00 | 17.8 | 15.7 | 0.13 | 0.04 | 0.11 | 0.15 | 0.09 | **0.15** | LTBu | OK |
+| R75/K24-P_K19K20 | IPE 270 | 5.79 | 17.5 | 12.1 | 0.13 | 0.03 | 0.14 | 0.12 | 0.09 | **0.14** | LTBg | OK |
+| P_K3K1/K3-K1 | IPE 330 | 5.34 | 28.8 | 11.5 | 0.13 | 0.02 | 0.1 | 0.14 | 0.05 | **0.14** | LTBu | OK |
+| R70/P_K8K9-P_K6K5 | IPE 270 | 5.90 | 15.0 | 14.1 | 0.11 | 0.04 | 0.1 | 0.13 | 0.08 | **0.13** | LTBu | OK |
+| R70/P_K25K26-P_K19K20 | IPE 270 | 5.89 | 14.4 | 9.9 | 0.11 | 0.03 | 0.11 | 0.12 | 0.08 | **0.12** | LTBu | OK |
+| R72/K26-P_K19K20 | IPE 270 | 5.89 | 15.8 | 10.7 | 0.12 | 0.03 | 0.12 | 0.1 | 0.09 | **0.12** | LTBg | OK |
+| R78/K27-K20 | IPE 270 | 5.89 | 13.4 | 9.9 | 0.1 | 0.03 | 0.1 | 0.12 | 0.08 | **0.12** | LTBu | OK |
+| P_K5K7/K5-K7 | IPE 330 | 5.69 | 24.2 | 9.4 | 0.11 | 0.02 | 0.1 | 0.12 | 0.05 | **0.12** | LTBu | OK |
+| P_K1K2/K1-K2 | IPE 330 | 5.29 | 23.0 | 9.6 | 0.1 | 0.02 | 0.09 | 0.11 | 0.04 | **0.11** | LTBu | OK |
+| R68/K25-K19 | IPE 270 | 5.89 | 12.0 | 8.4 | 0.09 | 0.02 | 0.06 | 0.1 | 0.05 | **0.1** | LTBu | OK |
+| R68/K8-K6 | IPE 270 | 5.80 | 11.8 | 8.3 | 0.09 | 0.02 | 0.06 | 0.1 | 0.05 | **0.1** | LTBu | OK |
+| R78/K16-K10 | IPE 270 | 4.81 | 13.4 | 11.6 | 0.1 | 0.03 | 0.1 | 0.09 | 0.06 | **0.1** | LTBg | OK |
+| R82/K17-K11 | IPE 270 | 4.81 | 13.2 | 11.3 | 0.1 | 0.03 | 0.1 | 0.09 | 0.06 | **0.1** | LTBg | OK |
+| R82/K11-K3 | IPE 270 | 6.40 | 12.7 | 8.9 | 0.1 | 0.03 | 0.1 | 0.08 | 0.09 | **0.1** | LTBg | OK |
+| P_K8K9/K8-K9 | IPE 330 | 4.10 | 21.4 | 11.1 | 0.1 | 0.02 | 0.1 | 0.09 | 0.04 | **0.1** | LTBg | OK |
+| ST1 | IPE 270 | 5.65 | 0 |  |  |  | 0.1 |  |  | **0.1** | 6.3.1 | OK |
+| 18 further spans (eave beams, trimmers, short edge-beam spans, ST2) | IPE 330 / IPE 270 | 2.7-5.9 | <= 15 | <= 11 | | | | | | <= 0.10 | - | OK |
 
-Governing members: primary **K19-K20 (9.79 m)** at 0.74 (deflection 36 mm = L/271; M_Ed 131 kNm = 0.59 M_pl; LTB 0.73); 9.2 m rafters at 0.49-0.52 (deflection 22-24 mm = L/390-410, M 0.35, LTB uplift 0.51). Max beam utilisation 0.74. Alternatives run with the same scripts: IPE 240 rafters pass strength (M 0.58, LTB uplift 0.71) but give L/265 on the 9.2 m spans with no reserve for a future ceiling, so IPE 270 is kept; IPE 300 primaries put K19-K20 at L/194 (1.03): IPE 330 confirmed.
+Governing members: primary **K19-K20 (9.79 m)** at 0.68 (LTB gravity under the flat-roof pressure case, M_Ed 122.7 kNm = 0.56 M_pl; deflection 26.9 mm = L/364); 9.2 m rafters at 0.55 (M, pressure case; LTB uplift 0.47; deflection L/362). **Sections kept at IPE 330 / IPE 270 / HEA 160.** The critic's lighter set IPE 300 / IPE 240 / HEA 140 was run with the same scripts: it passes (K19-K20 LTB 0.82, L/266; 9.2 m rafters M 0.69, LTB uplift 0.60; K25 0.79) but leaves no margin on the 9.8 m primary LTB and the corner columns for a v_b confirmation at 27 m/s that may still move, and it would re-open the detailing package (S01-S06) for about 2.3 t (4,700 $); the same applies to the single-section swaps (IPE 300 primaries 0.84, HEA 140 columns 0.80).
 
-Rafters as roof-truss posts: N_Ed = 38.6 kN with N_b,Rd = 624 kN (L_y 9.2, L_z 3.07 m) -> 0.06; new posts ST1 (IPE 270, 5.65 m, N 25.2 kN vs 231) and ST2 (4.10 m, 20.3 vs 404); eave primaries as struts <= 57 kN vs N_b,Rd >= 800 kN. Purlins are not used as struts.
+Rafters as roof-truss posts: N_Ed = 44.8 kN with N_b,Rd = 624 kN (L_y 9.2, L_z 3.07 m) -> 0.06; new posts ST1 (IPE 270, 5.65 m, N 24.2 kN vs 231) and ST2 (4.10 m, 19.5 vs 404); eave primaries as struts <= 57 kN vs N_b,Rd >= 800 kN. Purlins are not used as struts.
 
 **Columns** (6.3.1 pinned-pinned, L_cr = L both axes, HEA 160 curve b/c; 6.3.3 Annex B method 2, Table B.2 for the LTB-susceptible member, C_m = C_mLT = 0.95 for the wall-wind UDL, web normal to the wall it supports, corners biaxial). N_b,Rd = 461 kN (L 4.16 m) to 667 kN (L 2.97 m).
 
 | Column | Section | L m | N_Ed,c kN (case) | N_Ed,t kN (case) | M_y,Ed / M_z,Ed kNm | k_zy (B.2) | 6.3.1 N/N_b,Rd | 6.3.3 | Util. | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|
-| K25 | HEA 160 | 4.18 | 48.0 (ULS2E) | 43.1 (ULS3W) | 15.2 / 12.5 | 0.99 | 0.1 | 0.72 | **0.72** | OK |
-| K23 | HEA 160 | 3.93 | 64.2 (ULS2W) | 62.3 (ULS3S) | 14.5 / 12.1 | 0.99 | 0.13 | 0.71 | **0.71** | OK |
-| K22 | HEA 160 | 3.93 | 91.1 (ULS2E) | 56.3 (ULS3S) | 25.8 / 0.0 | 0.97 | 0.18 | 0.64 | **0.64** | OK |
-| K21 | HEA 160 | 3.93 | 39.9 (ULS1) | 19.8 (ULS3S) | 28.9 / 0.0 | 0.99 | 0.08 | 0.59 | **0.59** | OK |
-| K27 | HEA 160 | 4.18 | 39.4 (ULS2N) | 44.2 (ULS3S) | 11.0 / 9.3 | 0.99 | 0.09 | 0.53 | **0.53** | OK |
-| K19 | HEA 160 | 3.83 | 80.0 (ULS2S) | 73.2 (ULS3S) | 18.7 / 0.0 | 0.98 | 0.16 | 0.48 | **0.48** | OK |
-| K6 | HEA 160 | 3.02 | 23.4 (ULS1) | 14.5 (ULS3W) | 8.8 / 6.7 | 1.00 | 0.04 | 0.38 | **0.38** | OK |
-| K26 | HEA 160 | 4.18 | 50.7 (ULS2W) | 30.7 (ULS3E) | 14.7 / 0.0 | 0.98 | 0.11 | 0.38 | **0.38** | OK |
-| K14 | HEA 160 | 3.38 | 57.0 (ULS2S) | 26.7 (ULS3N) | 15.6 / 0.0 | 0.99 | 0.1 | 0.36 | **0.36** | OK |
-| K18 | HEA 160 | 3.66 | 54.5 (ULS2S) | 39.7 (ULS3S) | 15.1 / 0.0 | 0.99 | 0.1 | 0.36 | **0.36** | OK |
+| K25 | HEA 160 | 4.18 | 42.1 (ULS4-x) | 31.1 (ULS3W) | 11.7 / 10.1 | 1.00 | 0.09 | 0.56 | **0.56** | OK |
+| K23 | HEA 160 | 3.93 | 56.5 (ULS4+x) | 43.9 (ULS3E) | 14.9 / 7.3 | 0.99 | 0.11 | 0.54 | **0.54** | OK |
+| K22 | HEA 160 | 3.93 | 71.8 (ULS2E) | 27.1 (ULS4+x) | 20.8 / 0.0 | 0.98 | 0.14 | 0.51 | **0.51** | OK |
+| K19 | HEA 160 | 3.83 | 65.7 (ULS2N) | 40.9 (ULS3W) | 18.0 / 0.0 | 0.98 | 0.13 | 0.44 | **0.44** | OK |
+| K27 | HEA 160 | 4.18 | 26.9 (ULS2N) | 19.2 (ULS3S) | 8.5 / 7.5 | 1.00 | 0.06 | 0.41 | **0.41** | OK |
+| K21 | HEA 160 | 3.93 | 28.2 (ULS2N) | 8.4 (ULS3S) | 16.7 / 0.0 | 0.99 | 0.06 | 0.36 | **0.36** | OK |
+| K6 | HEA 160 | 3.02 | 13.2 (ULS2N) | 15.0 (ULS3N) | 10.8 / 4.8 | 1.00 | 0.02 | 0.34 | **0.34** | OK |
+| K18 | HEA 160 | 3.66 | 28.2 (ULS2S) | 14.3 (ULS3E) | 14.5 / 0.0 | 0.99 | 0.05 | 0.3 | **0.3** | OK |
+| K4 | HEA 160 | 2.99 | 11.0 (ULS2N) | 12.9 (ULS3E) | 10.0 / 3.6 | 1.00 | 0.02 | 0.29 | **0.29** | OK |
+| K24 | HEA 160 | 4.17 | 17.3 (ULS2N) | 9.9 (ULS3E) | 13.9 / 0.0 | 0.99 | 0.04 | 0.29 | **0.29** | OK |
 | other 17 columns | HEA 160 | 2.97-4.16 | <= 58 | <= 58 | <= 15 | 0.98-1.00 | <= 0.12 | <= 0.38 | <= 0.38 | OK |
 
-Max column utilisation 0.72 (K25, SW corner). Wind post WP1 HEA 160, L 4.24 m: M_y 9.4, M_z 9.9 kNm -> 0.48. HEA 140 reaches 1.06 at K25 with Table B.2: **HEA 160 confirmed**.
+Max column utilisation 0.56 (K25, SW corner; wall wind with q_p 1.05). Wind post WP1 HEA 160, L 4.24 m: M_y 9.1, M_z 9.5 kNm -> 0.46. HEA 140 reaches 1.06 at K25 with Table B.2: **HEA 160 confirmed**.
 
-**Purlins Z200x2.0 @ 1.5 m** (basis: M_Rd 12.5 kNm single span, 16 sleeved; I = 3.9e6 mm4): worst gravity M_Ed = 4.3 kNm; worst uplift M_Ed = **8.3 kNm** on the 3.07 m corner spans (x 92.5-95.5, y 35.6, zone F, w = -7.1 kN/m), 0.66 of the single-span gravity value. Purlin cleats (C10): zone-F end reaction 10.8 kN per cleat -> 2 M12 8.8 in tension 0.11, cleat plate 120 x 10 bending 0.66; the panel fastener schedule in zones F/G comes from the panel supplier. Because the free-flange uplift capacity of a Z200x2.0 is typically 55-70 % of the gravity value, **a mid-span anti-sag row is specified on every span and the supplier's uplift capacity (>= 9 kNm single span with one anti-sag row, or sleeved) is required before order** (open item 3). Deflection G + Q on 4.07 m: 6.3 mm < L/150 = 27.1 mm. Girts (wall net 2.15 kN/m2, zone A 2.73 within 2.4 m of a corner): 1.5 m rows single-span for bays <= 5.3 m (<= 11.3 kNm); 1.2 m rows sleeved on K5-K7, K25-K19, K8-K6 (<= 14.2 kNm); 1.0 m rows sleeved on K21-K22, K22-K23, K14-K4 (<= 14.9 kNm, 0.93).
+**Purlins Z200x2.0 @ 1.5 m** (basis: M_Rd 12.5 kNm single span, 16 sleeved; I = 3.9e6 mm4): worst gravity M_Ed = 3.0 kNm; worst uplift M_Ed = **6.3 kNm** on the 3.07 m corner spans (x 92.5-95.5, y 35.6, zone F, N wind, w = -5.4 kN/m), 0.50 of the single-span gravity value; the 1.0 kN maintenance point load gives 0.9 kNm and the panel supplier's walkability statement is required (crawl boards otherwise). Purlin cleats (C10): zone-F end reaction 10.4 kN per cleat -> 2 M12 8.8 in tension 0.11, cleat plate 120 x 10 bending 0.66; the panel fastener schedule in zones F/G comes from the panel supplier. Because the free-flange uplift capacity of a Z200x2.0 is typically 55-70 % of the gravity value, **a mid-span anti-sag row is specified on every span and the supplier's uplift capacity (>= 9 kNm single span with one anti-sag row, or sleeved) is required before order** (open item 3). Deflection G + Q on 4.07 m: 4.4 mm < L/150 = 27.1 mm. Girts (wall net 2.15 kN/m2, zone A 2.73 within 2.4 m of a corner): 1.5 m rows single-span for bays <= 5.3 m (<= 11.3 kNm); 1.2 m rows sleeved on K5-K7, K25-K19, K8-K6 (<= 14.2 kNm); 1.0 m rows sleeved on K21-K22, K22-K23, K14-K4 (<= 14.9 kNm, 0.93).
 
 ## 5. Connections (EN 1993-1-8)
 
-- **Rafter to primary fin plate**, one type: 100 x 150 x 10 S275, 2 M20 8.8 (pitch 70, e1 = e2 = 40), bolt line 50 mm from the primary web, 2 x 6 mm fillets. Max rafter end reaction 35.2 kN (envelope ULS-1 / reversed ULS-3 incl. the gutter): bolt shear incl. eccentricity 0.33, bearing on the 6.6 mm rafter web **0.45** (governs), plate bearing 0.29, plate shear 0.17, plate bending 0.17, weld 0.19, web block tearing 0.31. 9.2 m rafters: 3 bolts, plate 220 (0.14 at 20.4 kN). No copes. T1/T2, ST1/ST2 and the notch eave beam use the same detail.
-- **Primary to column cap plate** 200 x 280 x 20, a = 6 all round, 4 M20 through the primary bottom flange (gauge 90, **pitch 200** so the nuts clear the passing rafter flange; primaries bolted before the rafters). Tension = roof uplift 67.8 kN (K12, ULS-3N; the bracing vertical component enters below the cap through the gusset): bolt tension 0.12, shear + tension interaction with the chord/strut force 61.3 kN 0.25, IPE 330 flange T-stub 0.16, cap plate 0.05, weld 0.07. Chord continuity across a column (<= 61 kN): 10 mm tie plate between the primary bottom flanges on the lines y 29.3 and y 20.1.
-- **Bracing gussets**: 10 mm plates welded to the column web and base plate; each L70x7 with 2 M20 (e1 40, p1 110, e2 30): angle net section 189 kN, bolt shear 188 kN, gusset bearing 2 x 124 kN; max T_Ed 72.2 kN (B8) -> 0.38 angle, 0.57 bolts.
+- **Rafter to primary fin plate**, one type: 100 x 150 x 10 S275, 2 M20 8.8 (pitch 70, e1 = e2 = 40), bolt line 50 mm from the primary web, 2 x 6 mm fillets. Max rafter end reaction 21.2 kN (envelope ULS-1 / reversed ULS-3 incl. the gutter): bolt shear incl. eccentricity 0.20, bearing on the 6.6 mm rafter web **0.27** (governs), plate bearing 0.18, plate shear 0.10, plate bending 0.10, weld 0.11, web block tearing 0.19. 9.2 m rafters: 3 bolts, plate 220 (0.10 at 14.7 kN). No copes. T1/T2, ST1/ST2 and the notch eave beam use the same detail.
+- **Primary to column cap plate** 200 x 280 x 20, a = 6 all round, 4 M20 through the primary bottom flange (gauge 90, **pitch 200** so the nuts clear the passing rafter flange; primaries bolted before the rafters). Tension = roof uplift 43.2 kN (K12, ULS-3N; the bracing vertical component enters below the cap through the gusset): bolt tension 0.08, shear + tension interaction with the chord/strut force 70.9 kN 0.24, IPE 330 flange T-stub 0.10, cap plate 0.05, weld 0.07. Chord continuity across a column (<= 61 kN): 10 mm tie plate between the primary bottom flanges on the lines y 29.3 and y 20.1.
+- **Bracing gussets**: 10 mm plates welded to the column web and base plate; each L70x7 with 2 M20 (e1 40, p1 110, e2 30): angle net section 189 kN, bolt shear 188 kN, gusset bearing 2 x 124 kN; max T_Ed 41.7 kN (B8) -> 0.38 angle, 0.57 bolts.
 - **Roof bracing** M24 rods 8.8 (F_t,Rd 203 kN) with turnbuckles to 8 mm gussets shop-welded to the primary webs and bolted (2 M16) to the rafter webs at the bottom flange level (no site welding, C9; rod hole in the rafter web shown on D5); on the east and west edge trusses the rods span two rafter bays and pass the intermediate rafter (R92 / R70) through a bolted web clip; sag ties to the purlins at the crossing and at 3 m centres.
 - Trimmer T2 (y 24.09) IPE 270 between the rafters x 77.8 / 81.85 carries only the 150 mm upstand (0.3 kN/m, M_Ed 1.8 kNm); upstand framing 100 x 50 x 3 cold-formed C on the trimmers and along the rafters beside the openings, cricket on the south side of the stair well; the well's north edge is the wall itself (header with gutter stop-ends), T1 deleted.
 
-## 6. Bases and anchors, Rev 5a (EN 1992-1-1 8.4 / 8.7 post-installed rebar, EN 1992-4 for the keys, EN 1993-1-8; brief Rev 4: 300 mm slab, no through-bolts) - full note in `bases_C.md`
+## 6. Bases and anchors, Rev 6 (= Rev 5a detail re-run with load basis Rev 3 and the amplified seismic case) - full note in `bases_C.md`
 
-**One base detail at all 27 columns (type E; K21 = E + saddle):** plate 300 x 400 x 25 (key-pair plates per base, 25 mm, no stiffeners) on 25 +/- 5 mm grout, columns cut to the surveyed plate-top level; **4 dia 16 B500 post-installed rebars with M16 threaded ends (EAD 330087 injection system) at 70 x 240 concentric in the column core** (240 along the concrete column's long axis, 26 mm clear to the corner dia14 bars), drilled 20 mm through the 300 mm slab and **300 mm into the column head (250 mm minimum), the top 300 mm debonded by a sleeve and the column part only injected**, so no slab cone is ever loaded. Capacity to EN 1992-1-1 8.4: f_bd = 2.7 MPa (C25, good bond), **4 x 33.9 = 136 kN at 250 mm** (163 kN at 300), steel 4 x 87 = 350 kN, 1:1 lap with the corner dia14 bars (268 kN receiving; l_0 = max(1.5 l_b,rqd, 15 d) = 240 <= 250; d < 20, existing dia6/200 links suffice, splitting by the cover rules). Tension: K19 0.54 (73 kN), K23 0.46, K20 0.47, K10 0.44, K12 0.50, K22 0.41; shear as Rev 4b/5 (Key A under the column at interior bases, Key A + Key B at K3, K4, K6, K8, K14, inboard key pairs at K1, K2, K5, K7, K10, K15, K18, K19, K20, K22, K23, K25, K27; rigid-post key moments): worst key 0.80 (K23), 0.76 (K7, K25); plates <= 0.09; WP1 0.31. Worst base **K23: 0.80 (E key pair bearing, ULS2S)**; all 27 bases <= 1.0.
+**One base detail at all 27 columns (type E; K21 = E + saddle):** plate 300 x 400 x 25 (key-pair plates per base, 25 mm, no stiffeners) on 25 +/- 5 mm grout, columns cut to the surveyed plate-top level; **4 dia 16 B500 post-installed rebars with M16 threaded ends (EAD 330087 injection system) at 70 x 240 concentric in the column core** (240 along the concrete column's long axis, 26 mm clear to the corner dia14 bars), drilled 20 mm through the 300 mm slab and **300 mm into the column head (250 mm minimum), the top 300 mm debonded by a sleeve and the column part only injected**, so no slab cone is ever loaded. Capacity to EN 1992-1-1 8.4: f_bd = 2.7 MPa (C25, good bond), **4 x 33.9 = 136 kN at 250 mm** (163 kN at 300), steel 4 x 87 = 350 kN, 1:1 lap with the corner dia14 bars (268 kN receiving; l_0 = max(1.5 l_b,rqd, 15 d) = 240 <= 250; d < 20, existing dia6/200 links suffice, splitting by the cover rules). Tension (250 mm minimum embedment, 136 kN): worst K23 43.9 kN -> 0.32; K19 0.30, K23 0.32, K12 0.32; shear as Rev 4b/5 (Key A under the column at interior bases, Key A + Key B at K3, K4, K6, K8, K14, inboard key pairs at K1, K2, K5, K7, K10, K15, K18, K19, K20, K22, K23, K25, K27; rigid-post key moments): the E-W bay bases K5, K7, K22, K23 now take the amplified seismic bay shear (64-71 kN): worst key 0.90 (K7), K23 0.53, K22 0.52; plates <= 0.10; WP1 0.31. Key pairs and plate sizes are not simplified: they are dictated by the parallel-edge condition at Key A (18.5 kN at c1 55), not by the force level, and the seismic E-W shears exceed a single key's edge value; a single key everywhere is therefore not possible, and one plate size (the 550 x 800 key-pair plate at all 27 bases) would only add steel at the 13 Key A bases. Worst base **K7: 0.90 (E key pair bearing, ULS4-x)**; all 27 bases <= 1.0.
 
-Site procedure (V3/V4): cover-meter scan of the column faces from below (+/-3-5 mm) projected to the slab top plus GPR from above, 10 mm pilot drill with feed monitoring, relocation within +/-15 mm on steel contact, plate holes 30 mm oversize with 10 mm plate washers (or match-drilled), proof tests of 3 bars to >= 60 kN with displacement <= 1 mm; **108 scanned and drilled holes (27 x 4)** plus 37 key pockets set by the same scan. No solid-zone criterion for the anchorage; the slab must be solid and 300 mm under the plates and around the key pockets (GPR at all heads). Appendix of bases_C.md: the 7 interior columns as B1 (4 M20 h_ef 250 in the slab, 800 x 800 solid zone verified by GPR, K12 0.69) as the client's fewer-holes option (-28 holes).
+Seismic-governed bases: K5, K7, K22, K23 (E-W bays B2, B3) and the N-S bay bases K10, K16, K14, K18, K23, K19, K25 with 1.0 G +/- 1.0 E net per line (reactions_C.csv rows ULS4). Site procedure (V3/V4): cover-meter scan of the column faces from below (+/-3-5 mm) projected to the slab top plus GPR from above, 10 mm pilot drill with feed monitoring, relocation within +/-15 mm on steel contact, plate holes 30 mm oversize with 10 mm plate washers (or match-drilled), proof tests of 3 bars to >= 60 kN with displacement <= 1 mm; **108 scanned and drilled holes (27 x 4)** plus 37 key pockets set by the same scan. No solid-zone criterion for the anchorage; the slab must be solid and 300 mm under the plates and around the key pockets (GPR at all heads). Appendix of bases_C.md: the 7 interior columns as B1 (4 M20 h_ef 250 in the slab, 800 x 800 solid zone verified by GPR, K12 0.69) as the client's fewer-holes option (-28 holes).
 
 ## 7. Deflections and sway
 
 - Roof members SLS G + Q: worst primary K19-K20 36 mm = L/271 (limit 49 mm); 9.2 m rafters 22-24 mm = L/390; 7.5 m rafters L/700-820; purlins L/640.
 - Braced-bay sway under SLS wind (diagonal elongation + 2 mm bolt-slip allowance): 2.8-3.9 mm vs h/150 = 20-28 mm. Column bending under wall wind (K22, 9.8 kN/m on 3.91 m) 8.5 mm = h/460.
-- **Roof diaphragm drift** at the mid-length of the east / west walls (truss deflection by virtual work over the M24 rods, SLS, plus bay sway): **10.5 / 9.5 mm** vs h/150 = 26-28 mm (0.40).
+- **Roof diaphragm drift** at the mid-length of the east / west walls (truss deflection by virtual work over the M24 rods, SLS, plus bay sway): **11.8 / 12.1 mm** vs h/150 = 26-28 mm (0.40).
 
 ## 8. Bracing
 
-Vertical bays (X, one L70x7 per diagonal, tension-only), **final list for the client - these bays must stay door-free**: E-W **B1 K1-K2** (north wall, 5.3 m), **B2 K5-K7** (north wall, 5.7 m), **B3 K22-K23** (notch south wall, 6.6 m), **B4 K25-K26** (south wall, 4.0 m); N-S **B5 K15-K19** and **B10 K19-K25** (west wall, 4.6 + 5.9 m), **B6 K14-K18** and **B9 K18-K23** (east wall, 4.8 + 4.4 m), **B7 K20-K27** (notch west wall / shaft west line, 5.9 m) and **B8 K10-K16** (core west line between the stair well and the shaft, inside the hall, 4.8 m). Max diagonal utilisation 0.38 (B8), gusset bolts 0.57. Reason for the layout: at every braced-bay base the bay shear enters the concrete along the column's long axis or towards the slab interior, never towards a free edge < 0.25 m; the middle columns K19, K18, K20 of the three N-S lines carry no net bracing uplift. Alternates if a bay is not door-free: B1 -> K3-K1, B3 -> K21-K22 (K21 base then needs a supplier-verified edge detail), B5/B10 -> single bay K15-K25 not possible (7.5 m), B8 -> none (K17-K21 and K11-K17 are excluded by the K21 / K11 edge condition).
+Vertical bays (X, one L70x7 per diagonal, tension-only; **every bay is now governed by the amplified seismic case 1.0 E at q 1.5, table below**), **final list for the client - these bays must stay door-free**: E-W **B1 K1-K2** (north wall, 5.3 m), **B2 K5-K7** (north wall, 5.7 m), **B3 K22-K23** (notch south wall, 6.6 m), **B4 K25-K26** (south wall, 4.0 m); N-S **B5 K15-K19** and **B10 K19-K25** (west wall, 4.6 + 5.9 m), **B6 K14-K18** and **B9 K18-K23** (east wall, 4.8 + 4.4 m), **B7 K20-K27** (notch west wall / shaft west line, 5.9 m) and **B8 K10-K16** (core west line between the stair well and the shaft, inside the hall, 4.8 m). Max diagonal utilisation 0.44 (B3, seismic), gusset bolts 0.67. Reason for the layout: at every braced-bay base the bay shear enters the concrete along the column's long axis or towards the slab interior, never towards a free edge < 0.25 m; the middle columns K19, K18, K20 of the three N-S lines carry no net bracing uplift. Alternates if a bay is not door-free: B1 -> K3-K1, B3 -> K21-K22 (K21 base then needs a supplier-verified edge detail), B5/B10 -> single bay K15-K25 not possible (7.5 m), B8 -> none (K17-K21 and K11-K17 are excluded by the K21 / K11 edge condition).
 
-Roof-plane bracing: M24 rods in 24 rafter cells (full rafter depth, primaries as chords, rafters as posts), east/west edge trusses with rods over two bays and posts ST1/ST2 at the wall-column lines; the west-end reaction of the north-band-east truss (38.6 kN) is carried by the single jog panel x 77.8-81.85 / y 24.5-29.3 (rod 50.6 kN, 0.25) into bay B8 (K10-K16), the y 29.3 primary being the continuous chord (tie plates at K10, K11).
+Roof-plane bracing: M24 rods in 24 rafter cells (full rafter depth, primaries as chords, rafters as posts), east/west edge trusses with rods over two bays and posts ST1/ST2 at the wall-column lines; the west-end reaction of the north-band-east truss (25.5 kN) is carried by the single jog panel x 77.8-81.85 / y 24.5-29.3 (rod 33.4 kN, 0.25) into bay B8 (K10-K16), the y 29.3 primary being the continuous chord (tie plates at K10, K11).
 
 | Roof truss | Wind | Span m | Depth m | Panels | Shear V kN | Diagonal T kN (M24, 203) | Chord kN | Post kN | Util. rod | Truss defl. ULS mm |
 |---|---|---|---|---|---|---|---|---|---|---|
-| RT-N-W (N band west, chords y 29.3 / 35.2) | N-S | 9.8 | 5.9 | 4 | 22.0 | 23.3 | 11.4 | 22.0 | 0.11 | 2.8 |
-| RT-N-E (N band east, chords y 29.3 / 35.7) | N-S | 13.7 | 6.4 | 5 | 31.2 | 33.7 | 20.7 | 31.2 | 0.17 | 5.1 |
-| RT-S-E (S band east, chords y 20.1 / 29.3) | N-S | 13.7 | 9.2 | 5 | 37.8 | 39.4 | 17.5 | 37.8 | 0.19 | 7.9 |
-| RT-S-W (S band west, chords y 15.9 / 21.8) | N-S | 9.8 | 5.9 | 4 | 27.8 | 29.4 | 14.4 | 27.8 | 0.14 | 3.6 |
-| RT-W (west edge, chords R68 / R72 (rods over two bays)) | E-W | 19.4 | 4.1 | 3 | 27.9 | 48.9 | 61.3 | 27.9 | 0.24 | 8.3 |
-| RT-E (east edge, chords R90 / R95 (rods over two bays)) | E-W | 15.6 | 5.7 | 2 | 31.5 | 47.8 | 23.4 | 31.5 | 0.24 | 9.8 |
-| RT-JOG (jog panel x 77.8-81.9 / y 24.5-29.3, carries the RT-N-E west reaction into B8) | N-S | 4.1 | 4.8 | 1 | 38.6 | 50.6 | 32.7 | 38.6 | 0.25 | 5.6 |
+| RT-N-W (N band west, chords y 29.3 / 35.2) | N-S | 9.8 | 5.9 | 4 | 14.5 | 15.4 | 7.5 | 14.5 | 0.08 | 1.9 |
+| RT-N-E (N band east, chords y 29.3 / 35.7) | N-S | 13.7 | 6.4 | 5 | 20.6 | 22.3 | 13.7 | 20.6 | 0.11 | 3.4 |
+| RT-S-E (S band east, chords y 20.1 / 29.3) | N-S | 13.7 | 9.2 | 5 | 16.1 | 16.8 | 7.4 | 16.1 | 0.08 | 3.4 |
+| RT-S-W (S band west, chords y 15.9 / 21.8) | N-S | 9.8 | 5.9 | 4 | 11.9 | 12.6 | 6.1 | 11.9 | 0.06 | 1.5 |
+| RT-W (west edge, chords R68 / R72 (rods over two bays)) | E-W | 19.4 | 4.1 | 3 | 44.8 | 78.5 | 37.2 | 44.8 | 0.39 | 13.3 |
+| RT-E (east edge, chords R90 / R95 (rods over two bays)) | E-W | 15.6 | 5.7 | 2 | 41.7 | 63.3 | 14.2 | 41.7 | 0.31 | 12.9 |
+| RT-JOG (jog panel x 77.8-81.9 / y 24.5-29.3, carries the RT-N-E west reaction into B8) | N-S | 4.1 | 4.8 | 1 | 25.5 | 33.4 | 21.6 | 25.5 | 0.16 | 3.7 |
 
 ## 9. Reactions at the column bases (kN, ULS envelope with concurrent values; reactions_C.csv gives every column and case: ULS-1, ULS-2/3 for N, S, E, W wind, ULS-4 +/-x, +/-y, SLS, with N, V_x, V_y, near-edge flags and base utilisation)
 
 | Col | Type | Bays | Near edges | Keys | N_c max kN (case) | N_t max kN (case) | V max kN (case) | N_c SLS | N_t SLS | Base governs | Util. | Min. zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| K1 | E | B1 | +y | A-pair | 60.4 (ULS2E) | 41.7 (ULS3N) | 42.7 (ULS2W) | 30.4 | 18.9 | E key pair outward | **0.46** | head scanned; slab solid at keys |
-| K2 | E | B1 | +y | A-pair | 53.1 (ULS2W) | 41.5 (ULS3E) | 42.8 (ULS2E) | 24.1 | 20.6 | E key pair outward | **0.48** | head scanned; slab solid at keys |
-| K3 | E | - | +y | A | 28.2 (ULS1) | 21.3 (ULS3N) | 17.0 (ULS2W) | 20.2 | 8.1 | Key B outward +y | **0.45** | head scanned; slab solid at keys |
-| K4 | E | - | +x,+y | A | 19.8 (ULS1) | 14.5 (ULS3E) | 14.9 (ULS2N) | 14.3 | 5.3 | Key B outward +x | **0.37** | head scanned; slab solid at keys |
-| K5 | E | B2 | +y | A-pair | 60.0 (ULS2E) | 44.4 (ULS3W) | 51.2 (ULS2W) | 26.9 | 21.6 | E key pair outward | **0.52** | head scanned; slab solid at keys |
-| K6 | E | - | -x,+y | A | 23.4 (ULS1) | 14.5 (ULS3W) | 16.4 (ULS2N) | 16.9 | 4.5 | Key B outward -x | **0.40** | head scanned; slab solid at keys |
-| K7 | E | B2 | +x,+y | A-pair | 52.4 (ULS2W) | 29.4 (ULS3E) | 52.5 (ULS2E) | 20.0 | 13.5 | E key pair bearing | **0.76** | head scanned; slab solid at keys |
-| K8 | E | - | -x | A | 30.1 (ULS1) | 26.7 (ULS3W) | 15.9 (ULS2W) | 21.5 | 11.4 | Key B outward -x | **0.39** | head scanned; slab solid at keys |
-| K9 | E | - | - | A | 57.2 (ULS1) | 53.6 (ULS3N) | 0.0 (ULS1) | 40.2 | 24.6 | E rebar bond in the column head, embed 250 min | **0.40** | head scanned; slab solid at keys |
-| K10 | E | B8 | +y | A-pair | 79.6 (ULS2S) | 60.5 (ULS3N) | 33.8 (ULS2N) | 30.2 | 31.8 | E rebar bond in the column head, embed 250 min | **0.45** | head scanned; slab solid at keys |
-| K11 | E | - | +y | A | 44.4 (ULS1) | 36.4 (ULS3N) | 0.0 (ULS1) | 31.3 | 15.4 | E rebar bond in the column head, embed 250 min | **0.27** | head scanned; slab solid at keys |
-| K12 | E | - | - | A | 70.5 (ULS1) | 67.8 (ULS3N) | 0.0 (ULS1) | 49.5 | 31.5 | E rebar bond in the column head, embed 250 min | **0.50** | head scanned; slab solid at keys |
-| K13 | E | - | - | A | 55.7 (ULS1) | 54.0 (ULS3N) | 0.0 (ULS1) | 39.1 | 25.1 | E rebar bond in the column head, embed 250 min | **0.40** | head scanned; slab solid at keys |
-| K14 | E | B6 | +x | A | 57.0 (ULS2S) | 26.7 (ULS3N) | 31.1 (ULS2N) | 19.6 | 11.9 | Key B outward +x | **0.50** | head scanned; slab solid at keys |
-| K15 | E | B5 | -x | A-pair | 43.7 (ULS2S) | 17.0 (ULS3N) | 23.8 (ULS2N) | 11.4 | 7.8 | E key pair outward | **0.29** | head scanned; slab solid at keys |
-| K16 | E | B8 | - | A | 44.4 (ULS2N) | 58.7 (ULS3S) | 57.3 (ULS2S) | 15.5 | 34.7 | Key A SHS bearing | **0.68** | head scanned; slab solid at keys |
-| K17 | E | - | - | A | 23.3 (ULS1) | 15.7 (ULS3S) | 0.0 (ULS1) | 16.5 | 5.7 | E rebar bond in the column head, embed 250 min | **0.12** | head scanned; slab solid at keys |
-| K18 | E | B6,B9 | +x | A-pair | 54.5 (ULS2S) | 39.7 (ULS3S) | 45.6 (ULS2S) | 16.2 | 21.6 | E key pair outward | **0.49** | head scanned; slab solid at keys |
-| K19 | E | B5,B10 | -x | A-pair | 80.0 (ULS2S) | 73.2 (ULS3S) | 40.2 (ULS2S) | 47.2 | 35.1 | E rebar bond in the column head, embed 250 min | **0.54** | head scanned; slab solid at keys |
-| K20 | E | B7 | +x | A-pair | 82.5 (ULS2S) | 64.4 (ULS3N) | 30.0 (ULS2N) | 39.4 | 31.8 | E rebar bond in the column head, embed 250 min | **0.47** | head scanned; slab solid at keys |
-| K21 | P | - | +y,-y | saddle | 39.9 (ULS1) | 19.8 (ULS3S) | 29.5 (ULS2W) | 28.6 | 4.6 | saddle plates | **0.36** | head scanned; slab solid at keys |
-| K22 | E | B3 | -y | A-pair | 91.1 (ULS2E) | 56.3 (ULS3S) | 59.4 (ULS2W) | 48.0 | 23.6 | E key pair outward | **0.68** | head scanned; slab solid at keys |
-| K23 | E | B3,B9 | +x,-y | A-pair | 64.2 (ULS2W) | 62.3 (ULS3S) | 64.1 (ULS2E) | 25.2 | 34.0 | E key pair bearing | **0.80** | head scanned; slab solid at keys |
-| K24 | E | - | - | A | 23.9 (ULS1) | 23.5 (ULS3S) | 16.5 (ULS2E) | 17.1 | 10.6 | Key A towards edge -y | **0.28** | head scanned; slab solid at keys |
-| K25 | E | B4,B10 | -x | A-pair | 48.0 (ULS2E) | 43.1 (ULS3W) | 47.1 (ULS2S) | 18.4 | 23.1 | E key pair outward | **0.76** | head scanned; slab solid at keys |
-| K26 | E | B4 | - | A | 50.7 (ULS2W) | 30.7 (ULS3E) | 26.8 (ULS2E) | 20.6 | 14.3 | Key A SHS bearing | **0.32** | head scanned; slab solid at keys |
-| K27 | E | B7 | +x | A-pair | 39.4 (ULS2N) | 44.2 (ULS3S) | 59.4 (ULS2S) | 14.2 | 25.1 | E key pair outward | **0.70** | head scanned; slab solid at keys |
-| WP1 (offset 280 inboard) | post | - | +x,-y | B centred | 1.7 (self weight) | 0 | 11.9 (ULS2 E / S) | - | - | key edge breakout c1 250 | 0.28 | - |
+| K1 | E | B1 | +y | A-pair | 49.6 (ULS2E) | 36.7 (ULS3N) | 42.0 (ULS4+x) | 19.3 | 18.6 | E key pair outward | **0.38** | head scanned; slab solid at keys |
+| K2 | E | B1 | +y | A-pair | 43.6 (ULS2W) | 37.6 (ULS3E) | 42.0 (ULS4-x) | 15.3 | 20.4 | E key pair outward | **0.39** | head scanned; slab solid at keys |
+| K3 | E | - | +y | A | 18.2 (ULS2N) | 20.0 (ULS3N) | 14.0 (ULS2N) | 11.8 | 9.7 | Key B outward +y | **0.37** | head scanned; slab solid at keys |
+| K4 | E | - | +x,+y | A | 11.0 (ULS2N) | 12.9 (ULS3E) | 14.2 (ULS2N) | 7.1 | 6.4 | Key B outward +x | **0.36** | head scanned; slab solid at keys |
+| K5 | E | B2 | +y | A-pair | 47.7 (ULS2E) | 39.8 (ULS3W) | 64.4 (ULS4+x) | 17.0 | 21.4 | E key pair outward | **0.47** | head scanned; slab solid at keys |
+| K6 | E | - | -x,+y | A | 13.2 (ULS2N) | 15.0 (ULS3N) | 15.6 (ULS2N) | 8.5 | 7.4 | Key B outward -x | **0.38** | head scanned; slab solid at keys |
+| K7 | E | B2 | +x,+y | A-pair | 44.2 (ULS4+x) | 27.9 (ULS4-x) | 64.4 (ULS4-x) | 13.5 | 11.2 | E key pair bearing | **0.90** | head scanned; slab solid at keys |
+| K8 | E | - | -x | A | 20.3 (ULS2N) | 17.9 (ULS3W) | 13.9 (ULS2N) | 12.7 | 8.5 | Key B outward -x | **0.37** | head scanned; slab solid at keys |
+| K9 | E | - | - | A | 50.0 (ULS2N) | 37.1 (ULS3N) | 0.0 (ULS1) | 30.3 | 16.9 | E rebar bond in the column head, embed 250 min | **0.27** | head scanned; slab solid at keys |
+| K10 | E | B8 | +y | A-pair | 56.2 (ULS2S) | 43.9 (ULS3N) | 33.1 (ULS4-y) | 23.4 | 22.8 | E rebar bond in the column head, embed 250 min | **0.32** | head scanned; slab solid at keys |
+| K11 | E | - | +y | A | 39.3 (ULS2N) | 25.1 (ULS3N) | 0.0 (ULS1) | 24.3 | 10.0 | E rebar bond in the column head, embed 250 min | **0.19** | head scanned; slab solid at keys |
+| K12 | E | - | - | A | 62.2 (ULS2N) | 43.2 (ULS3N) | 0.0 (ULS1) | 37.0 | 19.3 | E rebar bond in the column head, embed 250 min | **0.32** | head scanned; slab solid at keys |
+| K13 | E | - | - | A | 49.1 (ULS2N) | 37.6 (ULS3E) | 0.0 (ULS1) | 29.2 | 17.5 | E rebar bond in the column head, embed 250 min | **0.28** | head scanned; slab solid at keys |
+| K14 | E | B6 | +x | A | 29.8 (ULS2S) | 24.2 (ULS3N) | 28.2 (ULS4-y) | 11.3 | 13.4 | Key B outward +x | **0.48** | head scanned; slab solid at keys |
+| K15 | E | B5 | -x | A-pair | 23.7 (ULS4+y) | 16.6 (ULS4-y) | 24.1 (ULS4-y) | 10.1 | 7.6 | E key pair outward | **0.24** | head scanned; slab solid at keys |
+| K16 | E | B8 | - | A | 39.1 (ULS2N) | 21.0 (ULS3S) | 33.1 (ULS4+y) | 12.9 | 10.6 | Key A SHS bearing | **0.39** | head scanned; slab solid at keys |
+| K17 | E | - | - | A | 21.8 (ULS2N) | 4.3 (ULS3S) | 0.0 (ULS1) | 13.1 | 0.0 | E rebar bond in the column head, embed 250 min | **0.03** | head scanned; slab solid at keys |
+| K18 | E | B6,B9 | +x | A-pair | 28.2 (ULS2S) | 14.3 (ULS3E) | 28.2 (ULS4+y) | 7.9 | 7.4 | E key pair outward | **0.29** | head scanned; slab solid at keys |
+| K19 | E | B5,B10 | -x | A-pair | 65.7 (ULS2N) | 40.9 (ULS3W) | 24.1 (ULS4+y) | 30.6 | 19.2 | E key pair outward | **0.31** | head scanned; slab solid at keys |
+| K20 | E | B7 | +x | A-pair | 67.9 (ULS2S) | 24.4 (ULS3N) | 29.4 (ULS4-y) | 30.4 | 8.1 | E key pair bearing | **0.21** | head scanned; slab solid at keys |
+| K21 | P | - | +y,-y | saddle | 28.2 (ULS2N) | 8.4 (ULS3S) | 17.0 (ULS2E) | 16.9 | 0.9 | saddle plates | **0.21** | head scanned; slab solid at keys |
+| K22 | E | B3 | -y | A-pair | 71.8 (ULS2E) | 27.1 (ULS4+x) | 70.9 (ULS4+x) | 29.3 | 9.5 | E key pair outward | **0.52** | head scanned; slab solid at keys |
+| K23 | E | B3,B9 | +x,-y | A-pair | 56.5 (ULS4+x) | 43.9 (ULS3E) | 71.1 (ULS4-x) | 13.4 | 25.7 | E key pair outward | **0.53** | head scanned; slab solid at keys |
+| K24 | E | - | - | A | 17.3 (ULS2N) | 9.9 (ULS3E) | 13.3 (ULS2E) | 10.1 | 3.8 | Key A towards edge -y | **0.23** | head scanned; slab solid at keys |
+| K25 | E | B4,B10 | -x | A-pair | 42.1 (ULS4-x) | 31.1 (ULS3W) | 31.1 (ULS4+x) | 8.7 | 18.4 | E key pair outward | **0.39** | head scanned; slab solid at keys |
+| K26 | E | B4 | - | A | 41.2 (ULS4+x) | 25.8 (ULS4-x) | 30.8 (ULS4-x) | 12.2 | 12.1 | Key A SHS bearing | **0.37** | head scanned; slab solid at keys |
+| K27 | E | B7 | +x | A-pair | 26.9 (ULS2N) | 19.2 (ULS3S) | 29.4 (ULS4+y) | 12.7 | 10.8 | E key pair outward | **0.35** | head scanned; slab solid at keys |
+| WP1 (offset 280 inboard) | post | - | +x,-y | B centred | 1.7 (self weight) | 0 | 11.4 (ULS2 E / S) | - | - | key edge breakout c1 250 | 0.27 | - |
 
 ## 10. Weight and section list
 
@@ -231,16 +228,16 @@ Roof-plane bracing: M24 rods in 24 rafter cells (full rafter depth, primaries as
 | Calculation take-off | | | 24.1 |
 | **BOM total (S06, for cost)** | | | **25.4 t** (52 kg/m2 of footprint 486 m2, 58 kg/m2 of roofed 439 m2) |
 
-Sections: **IPE 330** (all E-W primaries and eave beams on the column rows, 92.5 m), **IPE 270** (rafters, edge beams, trimmer T2, truss posts ST1/ST2, 208 m), **HEA 160** (27 columns, WP1), plus L70x7 wall bracing, M24 rod roof bracing, Z200x2.0 purlins/girts. Three hot-rolled sections kept. **Weight: 25.4 t per the drawing bill of materials (S06 Rev 4b: includes the sill rail 0.40 t, the well header 0.22 t and the Rev 4b base plates), used for cost**; the calculation take-off above gives 24.1 t with the BOM's plates (3.4 t) and purlin/girt length (571 m), the balance being the sill rail, well header and the BOM's cut-length and connection allowances. Cost basis: 25.4 t fabricated and erected at the indicative MENA rate (about 51,800 $ incl. the heavy base plates, i.e. about 1,000 $ above the 24.9 t figure of the final critique).
+Sections: **IPE 330** (all E-W primaries and eave beams on the column rows, 92.5 m), **IPE 270** (rafters, edge beams, trimmer T2, truss posts ST1/ST2, 208 m), **HEA 160** (27 columns, WP1), plus L70x7 wall bracing, M24 rod roof bracing, Z200x2.0 purlins/girts. Three hot-rolled sections kept at Rev 4 (see section 4 for the lighter set that was not adopted). **Weight: 25.4 t per the drawing bill of materials (S06 Rev 4b: includes the sill rail 0.40 t, the well header 0.22 t and the Rev 4b base plates), used for cost**; the calculation take-off above gives 24.1 t with the BOM's plates (3.4 t) and purlin/girt length (571 m), the balance being the sill rail, well header and the BOM's cut-length and connection allowances. Cost basis: 25.4 t fabricated and erected at the indicative MENA rate (about 51,800 $ incl. the heavy base plates, i.e. about 1,000 $ above the 24.9 t figure of the final critique).
 
 ## 11. Open items / risks
 
 1. **Slab verification** (bases_C.md sections 5-6): face cover-meter scan of every column head (6 dia14, links, cover) and GPR from above (slab solid and 300 mm under the plates and pockets), 3-6 cores for the concrete grade, the 70 x 240 pattern set on site (+/-15 mm), proof tests of 3 bars to >= 60 kN, an EAD 330087 injection system; K21 pier faces accessible for the saddle. A head that cannot be drilled falls back to the appendix B1 detail with its solid-zone condition.
-2. Wind: q_p 1.30 to be confirmed with the Libyan National Meteorological Centre; a 10 % increase raises the worst B1 base (K7) to about 0.95 and the B2 key pair at K25 to 0.91.
+2. Wind: v_b 27 m/s and the terrain sectors (N I, E/W II, S III) to be confirmed with the Libyan National Meteorological Centre and on the map (+/-15 deg sectors); 25 m/s would lower every wind figure by 14 %; the bays and bases are seismic-governed, so wind changes affect members and uplift only.
 3. Purlin uplift capacity (>= 9 kNm single span with one anti-sag row) and the sleeved girt capacities to be confirmed with the supplier before order.
 4. BoardX product data (0.30 kN/m2, girt rows per section 4) and its drift limit (h/150 assumed; diaphragm drift 10 mm, bay sway 4 mm).
-5. Seismic: F_b 77 kN on the roof mass alone is below the wind bay forces; floor amplification through the existing building (S_a up to ~0.6 g / q) could bring the E-W seismic bay forces to the wind level - two-mass check once the building period is known; the bracing has 2.5 x reserve.
-6. Existing structure (C5): the roof adds about 439 kN of characteristic gravity load and 148.5 kN of characteristic roof-level wind (N-S) into the 27 pinned 20 x 40 concrete columns and their foundations; as-builts, a one-page adequacy statement of the existing columns/foundations, a roof survey (screed thickness = datum for the 3.02 m and the base seating) and the slab-top datum on S00 are required before cores.
+5. Seismic: the two-mass check assumes T_1 of the existing building between 0.15 and 0.35 s (the worst, 0.15 s, is used); a measured period (ambient vibration test) could reduce S_a from 0.65 g towards 0.30 g; the design bay forces are on the envelope and the diagonals are at <= 0.44.
+6. Existing structure (C5): the roof adds about 279 kN of characteristic gravity load (no wall weight; + 116 kN if the BoardX walls are counted), 61.9 kN of characteristic roof-level wind (N-S, worst direction) and **145 kN E-W / 136 kN N-S of design seismic force at roof level (two-mass, q 1.5)** into the 27 pinned 20 x 40 concrete columns and their foundations; as-builts, a one-page adequacy statement of the existing columns/foundations, a roof survey (screed thickness = datum for the 3.02 m and the base seating) and the slab-top datum on S00 are required before cores.
 7. Client confirmations: door-free bays B1-B10 (section 8), B8 visible inside the hall along the core line, rafter R82 over the shaft east wall line (x 81.85 vs shaft face 81.99).
 8. Thermal: no slotted holes; the locked-in E-W force is designed for (section 2); the panel supplier confirms the sandwich-panel fastening for +/-30 K. Client option (bases_C.md appendix): the 7 interior columns as B1 slab anchors, saving 28 column-head holes against a GPR-verified 800 x 800 solid zone.
 

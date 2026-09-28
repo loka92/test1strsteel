@@ -4,6 +4,7 @@ import numpy as np, math
 from model import *
 from model import edge_distances, COL_LONG, SADDLE, NEAR_EDGE
 from loads import *
+from loads import QP_DIR
 from sections import sec, Mb_Rd, Nb_Rd, chi, FY, E as ES
 from takedown import build, TYPES, COMBOS, combine
 import bracing
@@ -86,10 +87,10 @@ def wall_loads(cid, d, ft, L):
         corner = f['b'] if d in ('N', 'E') else f['a']
         s = abs(along - corner) if normal[0] != {'N':'y','S':'y','E':'x','W':'x'}[d] else 0.0
         cp = wall_cp_net(normal, d, s)
-        w = abs(cp)*QP*trib; M = w*L**2/8
+        w = abs(cp)*QP_DIR[d]*trib; M = w*L**2/8
         if normal == strong: My += M
         else: Mz += M
-        n = NVEC[normal]; Vx += -n[0]*cp*QP*trib*L/2; Vy += -n[1]*cp*QP*trib*L/2   # pressure pushes inward
+        n = NVEC[normal]; Vx += -n[0]*cp*QP_DIR[d]*trib*L/2; Vy += -n[1]*cp*QP_DIR[d]*trib*L/2   # pressure pushes inward
     return (Vx, Vy), My, Mz
 
 THERMAL_BAYS = ('B1', 'B2')      # E-W north pair restrained through the roof trusses (bracing.thermal_check)
@@ -137,11 +138,11 @@ def column_checks(res, Hchar, H4, thermal=None):
             (Vbx, Vby), Vc, Nt, Nc = brace(Hd, UDIR[d], (0.0, 1.0) if d in 'EW' else None)   # roof-suction component acts northward
             V15 = (1.5*(Vwx + Vbx), 1.5*(Vwy + Vby)); Vc15 = (1.5*Vc[0], 1.5*Vc[1])
             cases.append(dict(case='ULS2' + d, N=1.35*v['G'] + 1.5*v['W_D'] + 1.5*Nc, V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))
-            cases.append(dict(case='ULS3' + d, N=1.0*v['Gmin'] + 1.5*v['W_' + d] - 1.5*Nt, V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))
-            cases.append(dict(case='SLSW' + d, N=v['G'] + v['W_' + d] - Nt, V=(Vwx + Vbx, Vwy + Vby), Vc=Vc, My=My, Mz=Mz))
+            cases.append(dict(case='ULS3' + d, N=1.0*v['Gmin'] + 1.5*v['W_' + d] - 1.5*(Nt - Nc), V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))   # Rev 3: net per braced line (tension of one bay with the compression of its partner)
+            cases.append(dict(case='SLSW' + d, N=v['G'] + v['W_' + d] - (Nt - Nc), V=(Vwx + Vbx, Vwy + Vby), Vc=Vc, My=My, Mz=Mz))
         for ax, ud in (('+x', (1, 0)), ('-x', (-1, 0)), ('+y', (0, 1)), ('-y', (0, -1))):
             (Vbx, Vby), Vc, Nt, Nc = brace(H4[ax[1]], ud)
-            cases.append(dict(case='ULS4' + ax, N=1.0*v['G'] + Nc, V=(Vbx, Vby), Vc=Vc, My=0.0, Mz=0.0, Nt=1.0*v['G'] - Nt))
+            cases.append(dict(case='ULS4' + ax, N=1.0*v['G'] + Nc, V=(Vbx, Vby), Vc=Vc, My=0.0, Mz=0.0, Nt=1.0*v['G'] - (Nt - Nc)))   # amplified seismic (two-mass), net per line
         if thermal and any(b['id'] in THERMAL_BAYS for b in mybays):   # erection state +/-30 K, thermal leading, no wind
             for ax, ud in (('+x', (1, 0)), ('-x', (-1, 0))):
                 (Vbx, Vby), Vc, Nt, Nc = brace({b['id']: (Te if b['id'] in THERMAL_BAYS else 0.0) for b in BAYS}, ud)
@@ -246,8 +247,10 @@ def run(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL):
     bays = {d: bracing.bay_forces({k: 1.5*v for k, v in Hchar[d].items()}) for d in 'NSEW'}
     steel = sum(sec(s['section'])['w']*s['L'] for s in res['spans']) + sum(sec(sec_col)['w']*L_col(COLS[c][1]) for c in COLS)
     seis = bracing.seismic_check(res['roof_area'], 1.1*steel)
+    ks = bracing.bay_stiffness(); kx = sum(v for b in BAYS for i, v in ks.items() if i == b['id'] and b['dir'] == 'x')/1e3; ky = sum(v for b in BAYS for i, v in ks.items() if i == b['id'] and b['dir'] == 'y')/1e3
+    tm = bracing.two_mass_check(res['roof_area'], 1.1*steel, kx, ky); seis.update(two_mass=tm, Fb_x=tm['x']['F'], Fb_y=tm['y']['F'])
     X, Y, R, dx = res['grid']; xc = float((X*R).sum()/R.sum()); yc = float((Y*R).sum()/R.sum())
-    H4 = {'x': bracing.distribute_point(seis['Fb'], xc, yc, 'x'), 'y': bracing.distribute_point(seis['Fb'], xc, yc, 'y')}
+    H4 = {'x': bracing.distribute_point(tm['x']['F'], xc, yc, 'x'), 'y': bracing.distribute_point(tm['y']['F'], xc, yc, 'y')}   # amplified, q = 1.5
     beams = beam_checks(res)
     thermal = bracing.thermal_check()
     cols, cases, base_env = column_checks(res, Hchar, H4, thermal)

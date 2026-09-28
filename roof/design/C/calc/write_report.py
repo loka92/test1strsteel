@@ -39,7 +39,7 @@ def reaction_table():
     return '\n'.join(rows)
 
 def bay_table():
-    rows = ['| Bay | Columns | w m | h m | Wind | H_Ed kN (ULS) | H seismic (1.0 E) | T_Ed diag. kN | N col. +/- kN | T_Rd L70x7 kN | Util. angle | Util. bolts | Sway SLS mm | h/150 mm |', '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|']
+    rows = ['| Bay | Columns | w m | h m | Governing case | H_Ed kN (ULS, governing) | H seismic (1.0 E, amplified) | T_Ed diag. kN | N col. +/- kN | T_Rd L70x7 kN | Util. angle | Util. bolts | Sway SLS mm | h/150 mm |', '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|']
     for k, v in b.items():
         rows.append('| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (k, BAYC[k], f(v['w'], 2), f(v['h'], 2), v['dir'], f(v['H']), f(v['H4']), f(v['T']), f(v['N']), f(v['NtRd']), f(v['util'], 2), f(v['util_bolt'], 2), f(v['sway']), f(v['sway_lim'])))
     return '\n'.join(rows)
@@ -76,13 +76,17 @@ kw = dict(member_table=member_table(), column_table=column_table(), reaction_tab
           worst=worst, wb_u=f(wb['umax'][0], 2), wb_gov=wb['umax'][2], wb_case=wb['umax'][1], Ntmax=f(max(e['Nt'][0] for e in be.values())), Ntmax_col=max(be, key=lambda c: be[c]['Nt'][0]),
           Vmax=f(max(e['Vt'][0] for e in be.values())), Vmax_col=max(be, key=lambda c: be[c]['Vt'][0]),
           Mg=f(pu['Mg']), Mu=f(pu['Mu']), Lp=f(pu['Lmax'], 2), dp=f(pu['d']), dplim=f(pu['dlim']), Mu_where='x %.1f-%.1f, y %.1f' % tuple(pu['Mu_where'][:3]),
-          seisW=f(seis['W'], 0), Fb=f(seis['Fb']), wN=f(wr['N']), wS=f(wr['S']), wE=f(wr['E'] - s['roof_comp'][0]*0.0 - 30.3), wEW_comp='30', roofc=f(s['roof_comp'][0]), roofx=f(s['roof_comp'][1]), roofy=f(s['roof_comp'][2]),
-          wS_uls=f(1.5*wr['S']), wE_uls=f(1.5*(wr['E'] - 30.3)), H4max=f(max(s['H4']['x'].values())), H4maxy=f(max(s['H4']['y'].values())),
+          seisW=f(seis['W'], 0), Fb=f(seis['Fb']), wN=f(wr['N']), wS=f(wr['S']), wE=f(wr['E']), wW=f(wr['W']), wEW_comp='', roofc=f(s['roof_comp'][0]), roofx=f(s['roof_comp'][1]), roofy=f(s['roof_comp'][2]),
+          wS_uls=f(1.5*wr['S']), wE_uls=f(1.5*wr['E']), H4max=f(max(s['H4']['x'].values())), H4maxy=f(max(s['H4']['y'].values())),
           roof_area=f(s['roof_area']), Wtot=f(W['total']/1000, 1), Whot=f(W['hot_rolled_total']/1000, 1), n_panels=s['n_roof_panels'],
           maxbeam=f(s['max_util']['beams'], 2), maxcol=f(s['max_util']['cols'], 2), maxbase=f(s['max_util']['bases'], 2), postN=f(s['post']['N']), postNb=f(s['post']['NbRd'], 0),
           st1=f(s['st']['N1']), st1b=f(s['st']['Nb1'], 0), st2=f(s['st']['N2']), st2b=f(s['st']['Nb2'], 0),
           wpL=f(s['wp1']['L'], 2), wpMy=f(s['wp1']['My']), wpMz=f(s['wp1']['Mz']), wpu=f(s['wp1']['u'], 2), wpV=f(max(s['wp1']['V'])),
           driftE=f(s['drift']['RT-E']), driftW=f(s['drift']['RT-W']), K12=s['colloads']['K12'], K19=s['colloads']['K19'],
+          sumWN=f(s['colsum']['W_N'], 0), SaX=f(s['seismic']['two_mass']['x']['Sa'], 2), SaY=f(s['seismic']['two_mass']['y']['Sa'], 2), FbX=f(s['seismic']['Fb_x'], 0), FbY=f(s['seismic']['Fb_y'], 0), TaX=f(s['seismic']['two_mass']['x']['Ta'], 2), TaY=f(s['seismic']['two_mass']['y']['Ta'], 2), kX=f(s['seismic']['two_mass']['x']['k'], 0), T1X=f(s['seismic']['two_mass']['x']['T1'], 2),
+          B3s=f(s['bay_gov']['B3']['seis']), B3w=f(s['bay_gov']['B3']['wind']), MK19=f(next(m['M_Ed'] for m in mem if m['id'].startswith('P_K19K20'))), dK19=f(s['thermal']['keff']*0 + float(next(m['u_defl'] for m in mem if m['id'].startswith('P_K19K20')))*9790/200, 1), LK19=f(200/float(next(m['u_defl'] for m in mem if m['id'].startswith('P_K19K20'))), 0),
+          uten_max=f(max(e['uten'] for e in be.values()), 2), K19t=f(be['K19']['uten'], 2), K23t=f(be['K23']['uten'], 2), K12t=f(be['K12']['uten'], 2), ukey_max=f(max(e['ukey'] for e in be.values()), 2), ukey_col=max(be, key=lambda c: be[c]['ukey']),
+          udiag_max=f(max(v['util'] for v in b.values()), 2), udiag_bay=max(b, key=lambda k: b[k]['util']), ubolt_max=f(max(v['util_bolt'] for v in b.values()), 2),
           k_eff=f(s['thermal']['keff'], 1), F_s=f(s['thermal']['F_s'], 0), F_e=f(s['thermal']['F_e'], 0), F_uw=f(s['thermal']['F_uls_wind'], 0), F_ue=f(s['thermal']['F_uls_erect'], 0),
           cleatR=f(s['cleat']['R']), jogT=f(t['RT-JOG']['T']), jogV=f(t['RT-JOG']['V']), Lraft=f(L['rafters'], 0),
           sumG=f(sum(v['G'] for v in s['colloads'].values()), 0), sumQ=f(sum(v['Q'] for v in s['colloads'].values()), 0), sumWS=f(sum(v['W_S'] for v in s['colloads'].values()), 0),
