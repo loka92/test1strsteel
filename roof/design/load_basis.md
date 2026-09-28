@@ -1,4 +1,17 @@
-# Common load and design basis (binding for both alternatives A and C) - Rev 2
+# Common load and design basis - Rev 3 (binding; supersedes Rev 2 below)
+
+Adopted by the client on 2026-09-28 from the independent load critique (review/load_critique.md). Where Rev 3 and the Rev 2 text below disagree, Rev 3 governs.
+
+## Rev 3 values
+- Permanent: panel 0.12; purlins 0.05; services 0.10 kN/m2 (permanent); steel from the sections; gutter 0.25 kN/m gravity (0.10 in G_min), -0.50 kN/m uplift; opening upstands 0.30 kN/m. NO wall self-weight in G or G_min (client Rev 5); the wall mass 0.30 kN/m2 stays in the seismic mass. G_min = 0.17 kN/m2 + steel.
+- Imposed, category H: q_k = 0.40 kN/m2 (psi_0 = psi_1 = psi_2 = 0), Q_k = 1.0 kN (purlin and panel-supplier check); never combined with wind.
+- Wind: v_b = 27 m/s (Libyan National Meteorological Centre to confirm; 25 m/s if confirmed), z_e = h = 9 m, c_s c_d = 1.0, e = 18 m. q_p by direction: from N (sea, terrain I) 1.25 kN/m2; from E and W (terrain II) 1.05; from S (urban, terrain III) 0.75. Roof coefficients: FLAT ROOF, EN 1991-1-4 Table 7.2, sharp eaves: F -1.8, G -1.2, H -0.7 (1.8 to 9 m from the windward edge), I -0.2 / +0.2 beyond 9 m. c_pi +0.2 / -0.3. Walls D +0.75, E -0.40, A -1.2, B -0.8, C -0.5. Global horizontal force: 0.85 x (D - E) = 0.98 q_p on the projected wall area (half to roof level), plus the horizontal component of the net roof suction; no friction term.
+- Seismic: a_g = 0.10 g, S = 1.2, q = 1.5, roof + wall mass, 5 % accidental eccentricity; the two-mass (floor amplification) check is MANDATORY because the E-W braced bays are seismic-governed with the Rev 3 wind.
+- Temperature: +/-30 K in service; +45 / -25 K for the erection state.
+- Combinations, EN 1990 eq. 6.10 (6.10a/b with xi = 0.85 at the designer's choice): 1.35 G + 1.5 Q; 1.35 G + 1.5 W (pressure case, zone I +0.2 with c_pi -0.3); 1.0 G_min + 1.5 W (c_pi +0.2, four wind directions, bracing uplift net per braced line: tension of one bay with the compression of its partner); 1.0 G +/- 1.0 E; SLS G + Q (L/200, purlins L/150) and G + W (H/150).
+- Unchanged from Rev 2: materials, purlin capacities, anchorage basis (post-installed rebar into the column heads, bases Rev 5a), slab 300 mm ribbed.
+
+# Rev 2 text (superseded where Rev 3 differs)
 
 Codes: EN 1990, EN 1991-1-1/-1-4, EN 1993-1-1/-1-8, EN 1992-4 (anchors), EN 1998-1 (check only). Units kN, m.
 
