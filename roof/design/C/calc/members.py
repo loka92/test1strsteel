@@ -171,12 +171,14 @@ def column_checks(res, Hchar, H4, thermal=None):
                     env['zreq'] = max(env['zreq'], bc['zreq']); env['Nmax'] = max(env['Nmax'], bc['Nmax']); env['Mkey'] = max(env['Mkey'], bc['M_along'] + bc['M_across'])
                     for k, v in bc['util'].items():
                         if 'Key' in k or 'key' in k or 'saddle' in k: env['ukey'] = max(env['ukey'], v)
-                        elif 'anchor' in k or 'bolt' in k or 'pier' in k: env['uten'] = max(env['uten'], v)
+                        elif 'anchor' in k or 'bolt' in k or 'pier' in k or 'rebar' in k or 'lap' in k: env['uten'] = max(env['uten'], v)
                         elif 'plate' in k or 'bearing' in k: env['uplate'] = max(env['uplate'], v)
             return env
+        env_B1 = run_type('B1') if not any(v < NEAR_EDGE for v in edges.values()) and cid not in SADDLE else None   # appendix option
+        if env_B1: env_B1 = dict(env_B1)
         if cid in SADDLE: env = run_type('P')
-        elif any(v < NEAR_EDGE for v in edges.values()): env = run_type('E')     # Rev 5: every edge / corner base anchored into the column head
-        else: env = run_type('B1')
+        else: env = run_type('E')          # Rev 5a: one base detail at all 27 columns (post-installed rebar into the column head)
+        env['B1_option'] = env_B1
         # cone utilisation of the governing tension case at smaller inboard zones (B1 only; R3 / S4 one-sided criterion)
         env['u_zone'] = {}
         for z in (800, 750, 700, 600):

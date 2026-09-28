@@ -33,7 +33,7 @@ def reaction_table():
         rc = [r for r in rea if r['column'] == c]
         sls_c = max(float(r['N_kN']) for r in rc if r['case'].startswith('SLS')); sls_t = max(-float(r['N_kN']) for r in rc if r['case'].startswith('SLS'))
         rows.append('| %s | %s | %s | %s | %s | %s (%s) | %s (%s) | %s (%s) | %s | %s | %s | **%s** | %s |' % (
-            c, e['btype'], rc[0]['braced_bays'], rc[0]['near_edges'], rc[0]['keys'], f(e['Nc'][0]), e['Nc'][1], f(max(e['Nt'][0], 0)), e['Nt'][1], f(e['Vt'][0]), e['Vt'][1], f(sls_c), f(max(sls_t, 0)), e['umax'][2].split(' (')[0], f(e['umax'][0], 2), (e['zreq'] or '-') if e['btype'] == 'B1' else 'E: keys zone, head scanned'))
+            c, e['btype'], rc[0]['braced_bays'], rc[0]['near_edges'], rc[0]['keys'], f(e['Nc'][0]), e['Nc'][1], f(max(e['Nt'][0], 0)), e['Nt'][1], f(e['Vt'][0]), e['Vt'][1], f(sls_c), f(max(sls_t, 0)), e['umax'][2].split(' (')[0], f(e['umax'][0], 2), (e['zreq'] or '-') if e['btype'] == 'B1' else 'head scanned; slab solid at keys'))
     w = s['wp1']
     rows.append('| WP1 (offset 280 inboard) | post | - | +x,-y | B centred | %s (self weight) | 0 | %s (ULS2 E / S) | - | - | key edge breakout c1 250 | %s | - |' % (f(0.3*w['L']*1.35), f(max(w['V'])), f(max(w['V'])/R['VRd_B_edge250'], 2)))
     return '\n'.join(rows)

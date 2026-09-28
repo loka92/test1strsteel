@@ -182,7 +182,7 @@ write_bases_note(OUT, R, base_env, cases, cols, V_wp, Lwp)
 summary = dict(sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], brace=DIAG['name'], rod=ROD['name']),
                roof_area=res['roof_area'], wind_roof=wind_roof, seismic=seis, H4=H4, bays=bay_env, trusses=trusses, drift=drift,
                fin2=fin2, fin3=fin3, Vfin=Vfin, Vfin_long=Vfin_long, cap=cap, Nt_cap=Nt_cap_roof, Vh_cap=Vh_cap, R=R,
-               base_env={c: dict(Nc=e['Nc'], Nt=e['Nt'], Vt=e['Vt'], umax=e['umax'], keyB=e['keyB'], zreq=e['zreq'], u_zone=e['u_zone'], Nmax=e['Nmax'], Mkey=e['Mkey'], btype=e['btype'], uten=e['uten'], ukey=e['ukey'], uplate=e['uplate']) for c, e in base_env.items()},
+               base_env={c: dict(Nc=e['Nc'], Nt=e['Nt'], Vt=e['Vt'], umax=e['umax'], keyB=e['keyB'], zreq=e['zreq'], u_zone=e['u_zone'], Nmax=e['Nmax'], Mkey=e['Mkey'], btype=e['btype'], uten=e['uten'], ukey=e['ukey'], uplate=e['uplate'], B1_option=(dict(umax=e['B1_option']['umax'], zreq=e['B1_option']['zreq'], uten=e['B1_option']['uten']) if e.get('B1_option') else None)) for c, e in base_env.items()},
                purlins=dict(Mg=pur['worst']['gravity'][0], Mg_where=pur['worst']['gravity'][1], Mu=pur['worst']['uplift'][0], Mu_where=pur['worst']['uplift'][1], Lmax=pur['Lmax'], d=pur['d'], dlim=pur['dlim']),
                post=dict(N=post_N, NbRd=NbR_raft), st=dict(N1=N_st1, Nb1=Nb_st1, N2=N_st2, Nb2=Nb_st2), wp1=dict(L=Lwp, My=My_wp, Mz=Mz_wp, u=u_wp, V=V_wp),
                weight=W, lengths=lengths, n_roof_panels=n_panels, roof_comp=bracing.roof_suction_component()['S'][:3], cleat=cleat, clear=clear, thermal=thermal,

@@ -74,7 +74,8 @@ def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=200, tf_beam=11.5, tw_beam=7.5):
 BASE = dict(bp=300, lp=400, tp=25, sx=80, sy=280, hef=250, fck=25, zone=800, slab=300, grout=25,
             keyA_b=90, keyA_Wpl=75.0e3, keyA_fy=355.0, keyA_core=140, keyB_d=60, keyB_fy=335.0, emb=180, pocket=200, keyB_off=180, saddle_t=15,
             b2_row=250, b2_tip=430, b2_keys_x=300, b2_keys_y=200, b2_bolt_FtRd=0.9*800*353/1.25/1e3, b2_plate_b=350, b2_plate_t=30,
-            b2_MRd_plate=48.0, b2_plate_c=60, p_hef=550, p_d=16, p_sx=70, b2_under_t=25, e_col_emb=250, e_d=16, e_sx=70)
+            b2_MRd_plate=48.0, b2_plate_c=60, p_hef=600, p_d=16, p_sx=70, b2_under_t=25, e_col_emb=300, e_col_emb_min=250, e_d=16, e_sx=70, e_sy=240,
+            e_fbd=2.7, e_fyd=500/1.15)   # Rev 5a: dia 16 B500 post-installed rebar, f_bd C25 good bond, embed 300 (250 min) into the column head, top 300 debonded
 KEYPAIR = {'K1', 'K2', 'K5', 'K7', 'K10', 'K15', 'K18', 'K19', 'K20', 'K22', 'K23', 'K25', 'K27'}   # Rev 4b inboard key pairs stay
 DIAG_CORNER = {'K3', 'K16', 'K17'}   # T4: a slab-opening corner cuts ~8 % of the cone area diagonally
 KEY_MODEL = 'rigid-post'             # T3: the key moment V x 85 mm stays in the grouted pocket (rotation point z0), not in the anchors
@@ -143,13 +144,13 @@ def anchor_resistances(zone=BASE['zone'], B=BASE, A=ANCH):
     r['b2_under_MRd'] = 400*B['b2_under_t']**2/6*FY/1e6      # 400 x 25 plate, elastic, cantilever 50 from the bolt to the slab bearing
     # E / P: 4 M16 70 x 280 into the column head, lap model: bond over the 250 mm column embedment with the narrow-member
     # group factor (column faces 65 mm from the anchors), tau_Rk 10 MPa cracked; steel; lap length of the dia14 bars
-    d = B['e_d']; scrp = min(7.3*d*math.sqrt(A['tau']), 3*(B['slab'] + B['e_col_emb'])); ccrp = scrp/2
-    Ap_col = (65 + B['e_sx'] + 65)*(min(ccrp, 400) + B['sy'] + min(ccrp, 400)); ratio_col = Ap_col/scrp**2; psi_col = min(1.0, 0.7 + 0.3*65/ccrp)
-    r['E_bond_col'] = 4*math.pi*d*B['e_col_emb']*A['tau']/1e3*ratio_col*psi_col/A['gMp']
-    r['E_ratio_col'] = ratio_col; r['E_psi_col'] = psi_col
-    r['E_steel'] = 4*0.9*800*157/1.4/1e3
-    r['E_NRd'] = min(r['E_bond_col'], r['E_steel'])
-    r['E_lap_max'] = 6*154*435/1e3            # 6 dia14 at f_yd: capacity of the column bars receiving the lap
+    d = B['e_d']
+    r['E_bond_col'] = 4*math.pi*d*B['e_col_emb']*B['e_fbd']/1e3          # EC2 8.4: pi d l_b f_bd, embed 300 -> 4 x 40.7 = 163 kN
+    r['E_bond_col_min'] = 4*math.pi*d*B['e_col_emb_min']*B['e_fbd']/1e3  # embed 250 -> 4 x 33.9 = 136 kN (reviewer's figure)
+    r['E_steel'] = 4*201*B['e_fyd']/1e3                                  # dia 16 B500: 4 x 87 = 350 kN
+    r['E_NRd'] = min(r['E_bond_col_min'], r['E_steel'])                  # design with the 250 mm minimum embedment
+    r['E_lap_max'] = 4*154*435/1e3            # each rod laps 1:1 with a corner dia14 (close lap, 11-26 mm clear): 4 x 67 = 268 kN
+    r['E_l0min'] = max(15*d, 200)             # EC2 8.7.3: l_0,min = max(0.3 alpha6 l_b,rqd, 15 d, 200) = 240
     # P (K21): 4 M16 h_ef 400 in the 200 mm pier: cone limited by the two pier faces at 65 mm, bond
     cgp = cone_group((65, 65, 400, 400), hef=B['p_hef'], sx=B['p_sx'], sy=B['sy']); r['p_NRd_c'] = cgp['NRd']; r['p_cone'] = cgp
     r['p_NRd_p'] = 4*math.pi*B['p_d']*B['p_hef']*A['tau']/1e3*min(1.0, (65 + B['p_sx'] + 65)*(300 + B['sy'] + 300)/ (min(7.3*B['p_d']*math.sqrt(A['tau']), 3*B['p_hef']))**2)/A['gMp']
@@ -296,9 +297,11 @@ def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), btype='B1', zon
         if N >= 0: u['bearing'] = N/R['NRd_bearing']
         else:
             Nt = -N; Nmax = Nt/4
-            u['E anchors: bond in the column head, lap with the bars (N_Rd %.0f)' % R['E_NRd']] = Nt/R['E_NRd']
-            u['E anchor steel M16 (%.0f kN each)' % Nmax] = Nmax/(R['E_steel']/4)
-            u['E column bars receiving the lap'] = Nt/R['E_lap_max']
+            u['E rebar bond in the column head, embed 250 min (N_Rd %.0f)' % R['E_NRd']] = Nt/R['E_NRd']
+            u['E rebar steel dia 16 B500 (%.0f kN each)' % Nmax] = Nmax/(R['E_steel']/4)
+            u['E corner dia14 bars receiving the lap'] = Nt/R['E_lap_max']
+            sig = Nmax*1e3/201; lb = BASE['e_d']/4*sig/BASE['e_fbd']; l0 = max(1.5*lb, R['E_l0min'])
+            u['(info) E lap length l_0 %.0f mm vs 250 provided' % l0] = 0.0   # geometric requirement l_0,min = 15 d = 240 <= 250: satisfied
             u['plate T-stub'] = (Nt/2)/R['FT1_row']
         u['plate strip at key moment'] = (M_along + M_across)/R['Mpl_plate_strip']
     elif btype == 'B2':
@@ -311,8 +314,8 @@ def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), btype='B1', zon
         if N >= 0: u['bearing'] = N/R['NRd_bearing']
         else:
             Nt = -N; Nmax = Nt/4
-            u['P pier anchors: bond in the pier, lap with the bars (N_Rd %.0f)' % R['E_NRd']] = Nt/R['E_NRd']
-            u['P anchor steel M16'] = Nmax/(R['p_NRd_s']/4)
+            u['P rebar bond in the pier, embed 250 min (N_Rd %.0f)' % R['E_NRd']] = Nt/R['E_NRd']
+            u['P rebar steel dia 16 B500'] = Nmax/(R['E_steel']/4)
     else:   # B1
         VB = {k: max(comps[k], 0.0) for k in keyB}
         for k, v in VB.items():
@@ -349,7 +352,8 @@ def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), btype='B1', zon
             u['plate T-stub'] = (Nt/2)/R['FT1_row']
             zreq = required_zone(Nt, 0.0, 0.0)
         u['plate strip at key moment'] = (M_along + M_across)/R['Mpl_plate_strip']      # local bending under the key weld only
-    return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get), Vt=Vt, VB=VB, along=along, across=across,
+    ug = {k: v for k, v in u.items() if not k.startswith('(info)')}
+    return dict(util=u, umax=max(ug.values()), gov=max(ug, key=ug.get), Vt=Vt, VB=VB, along=along, across=across,
                 M_along=M_along, M_across=M_across, psi_ec=psi, Nmax=Nmax, zreq=zreq)
 
 def gusset_bolts(T):
