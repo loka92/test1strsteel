@@ -70,6 +70,6 @@ def draw(msp):
     grand = hot + pl_kg + tot['L 70x7'][1] + tot['M24 rod 8.8'][1] + pur*zk*1.05 + girt*zk*1.08 + 31.7*6.9 + 101*4.0 + 360
     sh.note_block(0.5, y2 - 0.8, 'TOTALS', ['Hot-rolled members %.1f t + plates %.1f t = %.1f t' % (hot/1e3, pl_kg/1e3, (hot+pl_kg)/1e3),
         'Wall bracing %.2f t, roof rods %.2f t' % (tot['L 70x7'][1]/1e3, tot['M24 rod 8.8'][1]/1e3), 'Cold-formed Z/C %.1f t' % ((pur*zk*1.05 + girt*zk*1.08 + 31.7*6.9 + 101*4.0 + 360)/1e3),
-        'GRAND TOTAL approx. %.1f t (%.0f kg/m2 of 486 m2 footprint, %.0f kg/m2 of 439 m2 roofed)' % (grand/1e3, grand/486, grand/439), 'Report Rev 3 s.10: 24.9 t (BOM before the Rev 4b base plates, sill rail, header).',
+        'GRAND TOTAL approx. %.1f t (%.0f kg/m2 of 486 m2 footprint, %.0f kg/m2 of 439 m2 roofed)' % (grand/1e3, grand/486, grand/439), 'STEEL WEIGHT 25.4 t (this BOM); design report Rev 3 s.10 aligned to it (closing sign-off X1).',
         'Galvanising: hot-dip all members and plates; Z/C S350GD Z275.', 'Bases per bases_C.md Rev 4b (B1 13, B2 13, P 1).'], 0.16, 0.3)
     return sh

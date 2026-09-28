@@ -94,5 +94,6 @@ def draw(msp):
     sh.note_block(0.5, 17.0, 'ELEVATION NOTES', ['Wall: BoardX panels on Z200x2.0 girts (D9), girts span column to column; rows per bay as noted, sleeved where marked.',
         'Bracing bays B1-B10 must stay door-free (client). B7/B8 on line 5 (x 77.78) are shown on S03 section C-C. North face jogs at x 81.79: N1 at y 35.37 (west), N2 at y 35.87 (east), 0.5 m return on brackets from C3.',
         'Stair well open to the north face: wall header 2 x C200x60x2.5 over x 77.89-81.79 carries the wall, girts and gutter stop ends; no roof, no eave beam. Wall sill / base rail at the slab edge: D11.',
-        'Interior columns C9-C13, C16, C17 not in an elevation: see schedule and S03.', 'Girt bottom row 0.50 m above slab; top row 150 mm below the eave beam. Clear height 3.02 m under the cap-plate nuts at C1/C2, 3.06 m under the eave primary.'], 0.13, 0.22)
+        'Interior columns C9-C13, C16, C17 not in an elevation: see schedule and S03.', 'Girt bottom row 0.50 m above slab; top row 150 mm below the eave beam. Clear height 3.02 m under the cap-plate nuts at C1/C2, 3.06 m under the eave primary.',
+        'COLUMN LENGTHS ARE NOMINAL (TOS - 0.35 B1 / - 0.355 B2). Cut columns to the surveyed plate-top level from the slab-top survey (S00); grout bed 25 +/- 5 mm.'], 0.13, 0.22)
     return sh

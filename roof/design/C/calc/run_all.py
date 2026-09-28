@@ -127,7 +127,7 @@ L_purlin, L_girt = 300.0, 271.0            # BOM take-off 571 m (calc estimate 0
 W['purlins_girts_Z200'] = (L_purlin + L_girt)*5.9
 W['total'] = W['hot_rolled_total'] + W['wall_bracing'] + W['roof_bracing'] + W['purlins_girts_Z200']
 lengths = dict(rafters=L_raft, primaries=L_prim, columns=L_col_tot, wall_bracing=L_wall_brace, roof_bracing=L_roof_brace, purlins=L_purlin, girts=L_girt)
-W['BOM_total'] = 24900.0                    # detailing bill of materials (S06), quoted for cost (C8)
+W['BOM_total'] = 25400.0                    # drawing bill of materials (S06 Rev 4b: incl. sill rail 0.40 t, well header 0.22 t, Rev 4b base plates), quoted for cost (C8, X1)
 
 # ---------------- framing plan coloured by utilisation
 fig, ax = plt.subplots(figsize=(14, 10.5))

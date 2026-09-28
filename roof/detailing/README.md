@@ -12,7 +12,7 @@
 | S03 | Typical sections A-A, B-B, C-C | 160-202 | A-A N-S at x 87.19; B-B E-W along row F with the open stair well beyond; C-C braced line 5 (R5 to y 35.37, B7 + B8); true scale, levels in mm; clear heights printed: 3.02 m under the cap-plate nuts (C1/C2), 3.06 m under the eave primary |
 | S04 | Connection details D1-D11 | 210-252 | 5x details: D1 plain fin plate (no slots), D2 cap plate, D3 chord tie, D4 bracing gusset, D5 rod gusset shop-welded to the primary and bolted 2 M16 to the rafter (web hole at R2 / R10), D6 T2 / well upstand, D7 eave and gutter (two runs), D8 purlin cleat, D9 girt and panel, D10 WP1, **D11 wall sill / base rail**, general connection notes (no site welding, thermal +/-20 K) |
 | S05 | Base details and notes | 260-302 | B1 plan (300x400 / 350x400 edge heads with Key B) and section 1-1; B2 plan (800 x 550 x 30, 100 outboard), section 2-2 across the wall (lever, tip strip, under-slab plate 400x200x25) and 3-3 along it; K21 pier base (anchor pattern fixed by scan) and WP1; base schedule per column with Rev 4b coring zones; coring criterion; pre-installation checks; materials; erection sequence; tolerances / grout note |
-| S06 | Bill of materials | 310-352 | 115 member pieces from members_C.csv Rev 3 + rod panels, cold-formed (purlins, girts, eave rails, well header, sill rail, upstands), plates, bolts and anchors, totals |
+| S06 | Bill of materials | 310-352 | 115 member pieces from members_C.csv Rev 3 + rod panels, cold-formed (purlins, girts, eave rails, well header, sill rail, upstands), plates, bolts and anchors; **steel weight 25.4 t** (design report Rev 3 aligned to it, closing sign-off X1) |
 
 ## Layers
 
@@ -30,7 +30,7 @@ S-COL (columns, blue), S-PRIM (primaries / eave beams / trimmers, red), S-RAFT (
 
 ## Levels (Rev 3)
 
-TOS(y) = 3.33 + 0.06 (35.87 - y); primary top = TOS + 0.05; column top (cap-plate underside) = TOS - 0.30; column length = TOS - 0.35 (B1: 25 grout + 25 plate) / TOS - 0.355 (B2: 30 plate); base plate top +0.050 (B1) / +0.055 (B2). Clear height 3.02 m under the cap-plate nuts at C1/C2 and 3.06 m under the eave primary (the only clear-height figures printed). The slab-top level survey defines the datum for every column length.
+TOS(y) = 3.33 + 0.06 (35.87 - y); primary top = TOS + 0.05; column top (cap-plate underside) = TOS - 0.30; column length = TOS - 0.35 (B1: 25 grout + 25 plate) / TOS - 0.355 (B2: 30 plate); base plate top +0.050 (B1) / +0.055 (B2). Clear height 3.02 m under the cap-plate nuts at C1/C2 and 3.06 m under the eave primary (the only clear-height figures printed). The slab-top level survey defines the datum for every column length; column lengths on S02 are nominal - cut to the surveyed plate-top level, grout bed 25 +/- 5 mm (closing sign-off X2).
 
 ## Bases (bases_C.md Rev 4b)
 
