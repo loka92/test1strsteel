@@ -6,6 +6,7 @@ import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from model import *
 from model import SADDLE, NORTH_JOG_X
+from connections import KEYPAIR
 from loads import *
 from sections import sec, Nb_Rd, Mb_Rd
 import members, bracing, connections
@@ -98,7 +99,7 @@ for c in COLS:
                               Vcross_x=round(cs['Vc'][0], 1), Vcross_y=round(cs['Vc'][1], 1), V_total=round(bc['Vt'], 1) if bc else round(math.hypot(*cs['V']), 1),
                               base_util=round(bc['umax'], 2) if bc else '', base_gov=bc['gov'] if bc else '',
                               near_edges=','.join(k for k, v in ed.items() if v < NEAR_EDGE) or '-',
-                      base_type=base_env[c]['btype'], keys=('saddle' if c in SADDLE else ('A-pair' if base_env[c]['btype'] == 'B2' else 'A' + (',B' + ','.join(base_env[c]['keyB']) if base_env[c]['keyB'] else ''))),
+                      base_type=base_env[c]['btype'], keys=('saddle' if c in SADDLE else ('A-pair' if c in KEYPAIR else 'A' + (',B' + ','.join(base_env[c]['keyB']) if base_env[c]['keyB'] else ''))),
                       psi_ec=round(bc['psi_ec'], 2) if bc else '', max_anchor_kN=round(bc['Nmax'], 1) if bc else '', min_zone_mm=bc['zreq'] if bc else ''))
 rrows.append(dict(column='WP1', x=POSTS['WP1'][0] - 0.28, y=POSTS['WP1'][1] + 0.28, braced_bays='-', case='ULS2 (wind post, shear only, no uplift)', N_kN=round(SC['w']*Lwp*1.35, 1), base_type='post', keys='B (centred)', psi_ec='', max_anchor_kN=0, min_zone_mm='',
                   Vx_kN=round(V_wp[1], 1), Vy_kN=round(V_wp[0], 1), Vcross_x=0, Vcross_y=0, V_total=round(max(V_wp), 1), base_util=round(max(V_wp)/R['VRd_B_edge250'], 2), base_gov='centred 60 mm key, c1 250 (post offset 280 inboard)', near_edges='+x,-y'))
@@ -127,7 +128,7 @@ L_purlin, L_girt = 300.0, 271.0            # BOM take-off 571 m (calc estimate 0
 W['purlins_girts_Z200'] = (L_purlin + L_girt)*5.9
 W['total'] = W['hot_rolled_total'] + W['wall_bracing'] + W['roof_bracing'] + W['purlins_girts_Z200']
 lengths = dict(rafters=L_raft, primaries=L_prim, columns=L_col_tot, wall_bracing=L_wall_brace, roof_bracing=L_roof_brace, purlins=L_purlin, girts=L_girt)
-W['BOM_total'] = 25400.0                    # drawing bill of materials (S06 Rev 4b: incl. sill rail 0.40 t, well header 0.22 t, Rev 4b base plates), quoted for cost (C8, X1)
+W['BOM_total'] = 25400.0                    # drawing BOM (S06 Rev 4b, X1); Rev 5 bases are lighter (25 mm plates, no stiffeners, no under-slab plates: about -0.4 t) - BOM to be updated by detailing
 
 # ---------------- framing plan coloured by utilisation
 fig, ax = plt.subplots(figsize=(14, 10.5))

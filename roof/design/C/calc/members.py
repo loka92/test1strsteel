@@ -175,10 +175,8 @@ def column_checks(res, Hchar, H4, thermal=None):
                         elif 'plate' in k or 'bearing' in k: env['uplate'] = max(env['uplate'], v)
             return env
         if cid in SADDLE: env = run_type('P')
-        elif cid in FORCE_B2: env = run_type('B2')
-        else:
-            env = run_type('B1')
-            if env['umax'][0] > 0.90: env = run_type('B2')
+        elif any(v < NEAR_EDGE for v in edges.values()): env = run_type('E')     # Rev 5: every edge / corner base anchored into the column head
+        else: env = run_type('B1')
         # cone utilisation of the governing tension case at smaller inboard zones (B1 only; R3 / S4 one-sided criterion)
         env['u_zone'] = {}
         for z in (800, 750, 700, 600):
