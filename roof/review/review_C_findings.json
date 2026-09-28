@@ -9,7 +9,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F2",
@@ -21,7 +24,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F3",
@@ -33,7 +39,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F4",
@@ -45,7 +54,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F5",
@@ -57,7 +69,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F6",
@@ -69,7 +84,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F7",
@@ -81,7 +99,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F8",
@@ -93,7 +114,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F9",
@@ -105,7 +129,10 @@
   "rev3_status": "open",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "open",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "open",
+  "rev4b_status": "open",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F10",
@@ -117,7 +144,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F11",
@@ -129,7 +159,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F12",
@@ -141,7 +174,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F13",
@@ -153,7 +189,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F14",
@@ -165,7 +204,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "F15",
@@ -177,7 +219,10 @@
   "rev3_status": "closed",
   "rev3_note": "unchanged from Rev 2",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "R1",
@@ -189,7 +234,10 @@
   "rev3_status": "closed",
   "rev3_note": "cage claim withdrawn; Key B / saddle; but parallel-edge shear at Key A remains (S2)",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "R2",
@@ -201,7 +249,10 @@
   "rev3_status": "closed",
   "rev3_note": "psi_ec,N and max-anchor check applied, lever 85 mm",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "R3",
@@ -213,7 +264,10 @@
   "rev3_status": "open",
   "rev3_note": "criterion and min-zone table exist but assume a centred 800 zone; impossible at perimeter columns (S1)",
   "rev4_status": "closed",
-  "rev4_note": "per-base criterion and fallback replaced by per-base type selection"
+  "rev4_note": "per-base criterion and fallback replaced by per-base type selection",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "R4",
@@ -225,7 +279,10 @@
   "rev3_status": "closed",
   "rev3_note": "h_ef 200 in the slab only, no drilling into column heads",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "R5",
@@ -237,7 +294,10 @@
   "rev3_status": "closed",
   "rev3_note": "f_y 335; Key A edge check 0.25-0.6 m",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "R6",
@@ -249,7 +309,10 @@
   "rev3_status": "closed",
   "rev3_note": "WP1 moved 280 mm inboard",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "R7",
@@ -261,7 +324,10 @@
   "rev3_status": "closed",
   "rev3_note": "orientation, keys, psi_ec, max anchor, min zone columns added",
   "rev4_status": "closed",
-  "rev4_note": "unchanged"
+  "rev4_note": "unchanged",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "S1",
@@ -273,7 +339,10 @@
   "rev3_status": "new",
   "rev3_note": "raised at Rev 3 sign-off",
   "rev4_status": "closed",
-  "rev4_note": "real slab edges per base; B2 through-bolts at 11 perimeter bases"
+  "rev4_note": "real slab edges per base; B2 through-bolts at 11 perimeter bases",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "S2",
@@ -285,7 +354,10 @@
   "rev3_status": "new",
   "rev3_note": "raised at Rev 3 sign-off",
   "rev4_status": "closed",
-  "rev4_note": "B2 key pair >= 300 from edges; B1 parallel-edge check applied"
+  "rev4_note": "B2 key pair >= 300 from edges; B1 parallel-edge check applied",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "S3",
@@ -297,7 +369,10 @@
   "rev3_status": "new",
   "rev3_note": "raised at Rev 3 sign-off",
   "rev4_status": "closed",
-  "rev4_note": "lever T = N_t b/(b-c) with tip bearing; K19 93 kN per M24"
+  "rev4_note": "lever T = N_t b/(b-c) with tip bearing; K19 93 kN per M24",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "unchanged"
  },
  {
   "id": "S4",
@@ -309,7 +384,10 @@
   "rev3_status": "new",
   "rev3_note": "raised at Rev 3 sign-off",
   "rev4_status": "open",
-  "rev4_note": "criterion now one-sided but its extents (300 / +-300) are smaller than those used in the cone (340 / +-400) - see T2"
+  "rev4_note": "criterion now one-sided but its extents (300 / +-300) are smaller than those used in the cone (340 / +-400) - see T2",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "criterion aligned with the calculation (T2)"
  },
  {
   "id": "T1",
@@ -321,7 +399,10 @@
   "rev3_status": "n/a",
   "rev3_note": "",
   "rev4_status": "new",
-  "rev4_note": "raised at Rev 4 sign-off"
+  "rev4_note": "raised at Rev 4 sign-off",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "per-base B2 plates and coring zones (Rev 4a)"
  },
  {
   "id": "T2",
@@ -333,7 +414,10 @@
   "rev3_status": "n/a",
   "rev3_note": "",
   "rev4_status": "new",
-  "rev4_note": "raised at Rev 4 sign-off"
+  "rev4_note": "raised at Rev 4 sign-off",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "criterion = extents used, 340 / +-400 (Rev 4a)"
  },
  {
   "id": "T3",
@@ -345,7 +429,10 @@
   "rev3_status": "n/a",
   "rev3_note": "",
   "rev4_status": "new",
-  "rev4_note": "raised at Rev 4 sign-off"
+  "rev4_note": "raised at Rev 4 sign-off",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "rigid-post model for every key; K7 B2 (Rev 4b)"
  },
  {
   "id": "T4",
@@ -357,7 +444,10 @@
   "rev3_status": "n/a",
   "rev3_note": "",
   "rev4_status": "new",
-  "rev4_note": "raised at Rev 4 sign-off"
+  "rev4_note": "raised at Rev 4 sign-off",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "0.92 cone factor at K3, K16, K17"
  },
  {
   "id": "T5",
@@ -369,7 +459,10 @@
   "rev3_status": "n/a",
   "rev3_note": "",
   "rev4_status": "new",
-  "rev4_note": "raised at Rev 4 sign-off"
+  "rev4_note": "raised at Rev 4 sign-off",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "under-slab plate 25, class-3 stiffeners, skewed levers, slab couple listed"
  },
  {
   "id": "T6",
@@ -381,6 +474,205 @@
   "rev3_status": "n/a",
   "rev3_note": "",
   "rev4_status": "new",
-  "rev4_note": "raised at Rev 4 sign-off"
+  "rev4_note": "raised at Rev 4 sign-off",
+  "rev4a_status": "closed",
+  "rev4b_status": "closed",
+  "rev4b_note": "bond with real extents"
+ },
+ {
+  "id": "C1",
+  "severity": "final critique",
+  "item": "final critique item C1",
+  "fix": "north jog modelled, 439.3 m2, T1 deleted, S01/S02/S06",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "north jog modelled, 439.3 m2, T1 deleted, S01/S02/S06"
+ },
+ {
+  "id": "C2",
+  "severity": "final critique",
+  "item": "final critique item C2",
+  "fix": "L = TOS - 0.35 / 0.355, schedule agrees",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "L = TOS - 0.35 / 0.355, schedule agrees"
+ },
+ {
+  "id": "C3",
+  "severity": "final critique",
+  "item": "final critique item C3",
+  "fix": "plane +30 mm, 3.02 m under cap nuts",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "plane +30 mm, 3.02 m under cap nuts"
+ },
+ {
+  "id": "C4",
+  "severity": "final critique",
+  "item": "final critique item C4",
+  "fix": "no slots; 15 kN at +-30 K; K5, K7 B2",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "no slots; 15 kN at +-30 K; K5, K7 B2"
+ },
+ {
+  "id": "C6",
+  "severity": "final critique",
+  "item": "final critique item C6",
+  "fix": "Rev 4a/4b lines and closing sign-off",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "Rev 4a/4b lines and closing sign-off"
+ },
+ {
+  "id": "C7",
+  "severity": "final critique",
+  "item": "final critique item C7",
+  "fix": "100 outboard / 450 inboard, one standard 800",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "100 outboard / 450 inboard, one standard 800"
+ },
+ {
+  "id": "C8",
+  "severity": "final critique",
+  "item": "final critique item C8",
+  "fix": "report 24.9 t vs BOM 25.4 t (X1)",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed with correction",
+  "rev4b_note": "report 24.9 t vs BOM 25.4 t (X1)"
+ },
+ {
+  "id": "C10",
+  "severity": "final critique",
+  "item": "final critique item C10",
+  "fix": "cleat 0.66; fasteners from supplier",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "cleat 0.66; fasteners from supplier"
+ },
+ {
+  "id": "C11",
+  "severity": "final critique",
+  "item": "final critique item C11",
+  "fix": "RT-JOG 50.6 kN rod, 0.25",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "RT-JOG 50.6 kN rod, 0.25"
+ },
+ {
+  "id": "C13",
+  "severity": "final critique",
+  "item": "final critique item C13",
+  "fix": "K21 pattern by scan; K7 B2",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "K21 pattern by scan; K7 B2"
+ },
+ {
+  "id": "C14",
+  "severity": "final critique",
+  "item": "final critique item C14",
+  "fix": "superseded figures removed",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "open",
+  "rev4b_status": "closed",
+  "rev4b_note": "superseded figures removed"
+ },
+ {
+  "id": "X1",
+  "severity": "MINOR",
+  "item": "Closing: report s.10 quotes 24.9 t, BOM S06 25.4 t (sill rail, well header, Rev 4b base plates)",
+  "fix": "Quote 25.4 t; cost +~1,000 $",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "new",
+  "rev4b_note": "raised at closing sign-off"
+ },
+ {
+  "id": "X2",
+  "severity": "MINOR",
+  "item": "Closing: column length fixed at TOS - 0.35 while the grout bed may be 25-40 mm (up to 15 mm lift vs +-5 mm primary tolerance)",
+  "fix": "Cut columns to the surveyed plate-top level; bed 25 +- 5 mm on S02",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "new",
+  "rev4b_note": "raised at closing sign-off"
+ },
+ {
+  "id": "X3",
+  "severity": "MINOR",
+  "item": "Closing: thermal model is an elastic upper bound (panels in parallel, 4.07 m chord)",
+  "fix": "None",
+  "rev2_status": "n/a",
+  "rev2_note": "",
+  "rev3_status": "n/a",
+  "rev3_note": "",
+  "rev4_status": "n/a",
+  "rev4a_status": "n/a",
+  "rev4b_status": "new",
+  "rev4b_note": "raised at closing sign-off"
  }
 ]
