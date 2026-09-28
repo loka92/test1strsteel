@@ -46,21 +46,22 @@ def bay_table():
 
 def truss_table():
     rows = ['| Roof truss | Wind | Span m | Depth m | Panels | Shear V kN | Diagonal T kN (M24, 203) | Chord kN | Post kN | Util. rod | Truss defl. ULS mm |', '|---|---|---|---|---|---|---|---|---|---|---|']
-    desc = {'RT-N-W': 'N band west, chords y 29.3 / 35.2', 'RT-N-E': 'N band east, chords y 29.3 / 35.7', 'RT-S-E': 'S band east, chords y 20.1 / 29.3', 'RT-S-W': 'S band west, chords y 15.9 / 21.8', 'RT-W': 'west edge, chords R68 / R72 (rods over two bays)', 'RT-E': 'east edge, chords R90 / R95 (rods over two bays)', 'RT-JOG': 'jog panel x 77.8-81.9 / y 24.5-29.3'}
+    desc = {'RT-N-W': 'N band west, chords y 29.3 / 35.2', 'RT-N-E': 'N band east, chords y 29.3 / 35.7', 'RT-S-E': 'S band east, chords y 20.1 / 29.3', 'RT-S-W': 'S band west, chords y 15.9 / 21.8', 'RT-W': 'west edge, chords R68 / R72 (rods over two bays)', 'RT-E': 'east edge, chords R90 / R95 (rods over two bays)', 'RT-JOG': 'jog panel x 77.8-81.9 / y 24.5-29.3, carries the RT-N-E west reaction into B8'}
     for k, v in t.items():
-        rows.append('| %s (%s) | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (k, desc[k], 'N-S' if k not in ('RT-W', 'RT-E') else 'E-W', f(v['L']), f(v['D']), v['npanels'], f(v['V']), f(v['T']), f(v['chord']), f(v['post']), f(v['util'], 2), f(v['delta'])))
+        rows.append('| %s (%s) | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (k, desc[k], 'N-S' if k not in ('RT-W', 'RT-E') else 'E-W', f(v['L']), f(v['D']), v.get('npanels', 1), f(v['V']), f(v['T']), f(v['chord']), f(v.get('post', v['V'])), f(v['util'], 2), f(v['delta'])))
     return '\n'.join(rows)
 
 def weight_table():
     rows = ['| Item | Section | Length m | Weight t |', '|---|---|---|---|']
     for k, sec_, ln in (('Rafters / edge beams / trimmers / posts ST1-ST2', 'IPE 270', 'rafters'), ('Primaries / eave beams', 'IPE 330', 'primaries'), ('Columns (27) + wind post WP1', 'HEA 160', 'columns')):
         rows.append('| %s | %s | %s | %s |' % (k, sec_, f(L[ln]), f(W[ln]/1000, 2)))
-    rows.append('| Plates, fin/cap/base plates, shear keys, bolts (10 %%) | S275 / S355 keys | - | %s |' % f(W['plates_bolts_keys']/1000, 2))
+    rows.append('| Plates, stiffeners, keys, bolts (BOM take-off) | S275 / S355 keys | - | %s |' % f(W['plates_bolts_keys']/1000, 2))
     rows.append('| **Hot-rolled total** | | | **%s** |' % f(W['hot_rolled_total']/1000, 1))
     rows.append('| Wall bracing, 10 bays x 2 diagonals | L 70x7 | %s | %s |' % (f(L['wall_bracing']), f(W['wall_bracing']/1000, 2)))
     rows.append('| Roof bracing, %d panels x 2 diagonals | M24 rods 8.8 | %s | %s |' % (s['n_roof_panels'], f(L['roof_bracing']), f(W['roof_bracing']/1000, 2)))
-    rows.append('| Purlins %s m + girts %s m | Z 200x2.0 S350GD | %s | %s |' % (f(L['purlins'], 0), f(L['girts'], 0), f(L['purlins'] + L['girts'], 0), f(W['purlins_girts_Z200']/1000, 2)))
-    rows.append('| **Total** | | | **%s** (%s kg/m2 of footprint 486 m2, %s kg/m2 of roofed 446 m2) |' % (f(W['total']/1000, 1), f(W['total']/486, 0), f(W['total']/446, 0)))
+    rows.append('| Purlins %s m + girts %s m (BOM lengths) | Z 200x2.0 S350GD | %s | %s |' % (f(L['purlins'], 0), f(L['girts'], 0), f(L['purlins'] + L['girts'], 0), f(W['purlins_girts_Z200']/1000, 2)))
+    rows.append('| Calculation take-off | | | %s |' % f(W['total']/1000, 1))
+    rows.append('| **BOM total (S06, for cost)** | | | **%s t** (%s kg/m2 of footprint 486 m2, %s kg/m2 of roofed %s m2) |' % (f(W['BOM_total']/1000, 1), f(W['BOM_total']/486, 0), f(W['BOM_total']/float(s['roof_area']), 0), f(s['roof_area'], 0)))
     return '\n'.join(rows)
 
 cap, fin2, fin3, R, pu, seis, wr = s['cap'], s['fin2'], s['fin3'], s['R'], s['purlins'], s['seismic'], s['wind_roof']
@@ -82,6 +83,9 @@ kw = dict(member_table=member_table(), column_table=column_table(), reaction_tab
           st1=f(s['st']['N1']), st1b=f(s['st']['Nb1'], 0), st2=f(s['st']['N2']), st2b=f(s['st']['Nb2'], 0),
           wpL=f(s['wp1']['L'], 2), wpMy=f(s['wp1']['My']), wpMz=f(s['wp1']['Mz']), wpu=f(s['wp1']['u'], 2), wpV=f(max(s['wp1']['V'])),
           driftE=f(s['drift']['RT-E']), driftW=f(s['drift']['RT-W']), K12=s['colloads']['K12'], K19=s['colloads']['K19'],
+          k_eff=f(s['thermal']['keff'], 1), F_s=f(s['thermal']['F_s'], 0), F_e=f(s['thermal']['F_e'], 0), F_uw=f(s['thermal']['F_uls_wind'], 0), F_ue=f(s['thermal']['F_uls_erect'], 0),
+          cleatR=f(s['cleat']['R']), jogT=f(t['RT-JOG']['T']), jogV=f(t['RT-JOG']['V']), Lraft=f(L['rafters'], 0),
+          sumG=f(sum(v['G'] for v in s['colloads'].values()), 0), sumQ=f(sum(v['Q'] for v in s['colloads'].values()), 0), sumWS=f(sum(v['W_S'] for v in s['colloads'].values()), 0),
           B8H=f(b['B8']['H']), B8T=f(b['B8']['T']), B8N=f(b['B8']['N']), B3H=f(b['B3']['H']), K25c=f(s['cols']['K25']['umax'], 2), K23c=f(s['cols']['K23']['umax'], 2), K22c=f(s['cols']['K22']['umax'], 2))
 report = open(os.path.join(HERE, 'report_text.md')).read().format(**kw)
 open(os.path.join(OUT, 'design_report_C.md'), 'w').write(report)

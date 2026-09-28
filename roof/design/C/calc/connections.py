@@ -164,7 +164,7 @@ def group_extents(edges, orient, zone=BASE['zone']):
 def b2_layout(edges, orient):
     """Rev 4 B2 geometry from the real edges (m). Bolts and keys >= 300 mm from every slab edge. Returns dict with
     bolts [(x,y)], keys [(x,y)] (mm from the column centre), lever c (bolt centroid distance), tip b, plate extents."""
-    lim = {k: edges[k]*1000 for k in edges}
+    lim = {k: round(edges[k]*1000) for k in edges}
     lo_x, hi_x = -(lim['-x'] - 300), lim['+x'] - 300; lo_y, hi_y = -(lim['-y'] - 300), lim['+y'] - 300
     def place(lo, hi, want):        # two points 'want' = (p1, p2) shifted into [lo, hi]
         p1, p2 = want; s = p2 - p1
@@ -192,10 +192,10 @@ def b2_layout(edges, orient):
     ext = {}
     for ax, i, lo_k, hi_k in (('x', 0, '-x', '+x'), ('y', 1, '-y', '+y')):
         lo = min([-200] + [p[i] - (75 if p in keys else 50) for p in pts]); hi = max([200] + [p[i] + (75 if p in keys else 50) for p in pts])
-        tip = (cx if i == 0 else cy) + (180 + 60)*(cx/cc if i == 0 else cy/cc)
+        tip = (cx if i == 0 else cy) + (180 + 20)*(cx/cc if i == 0 else cy/cc)     # tip bearing strip ends 20 mm past b
         lo = min(lo, tip); hi = max(hi, tip)
-        lo = max(lo, -(lim[lo_k] - 50)); hi = min(hi, lim[hi_k] - 50)
-        ext[ax] = (math.floor(lo/50)*50, math.ceil(hi/50)*50)
+        lo = max(math.floor(lo/50)*50, -math.floor(lim[lo_k]/50)*50); hi = min(math.ceil(hi/50)*50, math.floor(lim[hi_k]/50)*50)   # to the slab face (C7)
+        ext[ax] = (lo, hi)
     # coring zone: key breakout bodies (1.5 c1 = 383 beyond each key) and the bolts + under-slab plate (+150)
     zone = {}
     for ax, i, lo_k, hi_k in (('x', 0, '-x', '+x'), ('y', 1, '-y', '+y')):

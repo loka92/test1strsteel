@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from model import *
-from model import SADDLE
+from model import SADDLE, NORTH_JOG_X
 from loads import *
 from sections import sec, Nb_Rd, Mb_Rd
 import members, bracing, connections
@@ -121,17 +121,19 @@ for f in FACES:
     L_girt += (pos[0] - f['a'] + f['b'] - pos[-1])*math.ceil(hw/1.5)
 W = dict(rafters=L_raft*SR['g'], primaries=L_prim*SP['g'], columns=L_col_tot*SC['g'],
          wall_bracing=L_wall_brace*7.38, roof_bracing=L_roof_brace*ROD['kg'])
-W['plates_bolts_keys'] = 0.10*(W['rafters'] + W['primaries'] + W['columns'])
+W['plates_bolts_keys'] = 3400.0          # BOM take-off (detailing, S06): base plates incl. B2 30 mm + stiffeners + under-slab, cap and fin plates, gussets, keys, bolts
 W['hot_rolled_total'] = W['rafters'] + W['primaries'] + W['columns'] + W['plates_bolts_keys']
+L_purlin, L_girt = 300.0, 271.0            # BOM take-off 571 m (calc estimate 0 m)
 W['purlins_girts_Z200'] = (L_purlin + L_girt)*5.9
 W['total'] = W['hot_rolled_total'] + W['wall_bracing'] + W['roof_bracing'] + W['purlins_girts_Z200']
 lengths = dict(rafters=L_raft, primaries=L_prim, columns=L_col_tot, wall_bracing=L_wall_brace, roof_bracing=L_roof_brace, purlins=L_purlin, girts=L_girt)
+W['BOM_total'] = 24900.0                    # detailing bill of materials (S06), quoted for cost (C8)
 
 # ---------------- framing plan coloured by utilisation
 fig, ax = plt.subplots(figsize=(14, 10.5))
 cmap = plt.get_cmap('RdYlGn_r'); norm = plt.Normalize(0, 1)
-bx = [ENV['x0'], ENV['x1'], ENV['x1'], NOTCH['x0'], NOTCH['x0'], ENV['x0'], ENV['x0']]
-by = [ENV['y1'], ENV['y1'], NOTCH['y1'], NOTCH['y1'], ENV['y0'], ENV['y0'], ENV['y1']]
+bx = [ENV['x0'], NORTH_JOG_X, NORTH_JOG_X, ENV['x1'], ENV['x1'], NOTCH['x0'], NOTCH['x0'], ENV['x0'], ENV['x0']]
+by = [35.37, 35.37, ENV['y1'], ENV['y1'], NOTCH['y1'], NOTCH['y1'], ENV['y0'], ENV['y0'], 35.37]
 ax.plot(bx, by, 'k--', lw=0.8)
 for k, op in OPEN.items():
     ax.add_patch(plt.Rectangle((op['x0'], op['y0']), op['x1'] - op['x0'], op['y1'] - op['y0'], fc='0.9', ec='k', hatch='//', lw=0.8))
@@ -159,10 +161,18 @@ for t in bracing.ROOF_TRUSSES:
         ax.plot([x0, x1], [y0, y1], 'g--', lw=0.7, alpha=0.7); ax.plot([x0, x1], [y1, y0], 'g--', lw=0.7, alpha=0.7)
 sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm); sm.set_array([]); cb = plt.colorbar(sm, ax=ax, fraction=0.03, pad=0.01); cb.set_label('utilisation (governing check)')
 ax.set_aspect('equal'); ax.set_xlim(66.5, 99.0); ax.set_ylim(14, 37.5); ax.set_xlabel('x (m)'); ax.set_ylabel('y (m)'); ax.grid(alpha=0.25)
-ax.set_title('Alternative C Rev 2 - framing plan coloured by utilisation: %s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns;\n'
+ax.set_title('Alternative C Rev 3 - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79): %s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns;\n'
              'red = wall X-bracing bays B1-B10 (L70x7, utilisation), green dashed = roof-plane X bracing (M24 rods); column label = member / base utilisation' % (SP['name'], SR['name'], SC['name']), fontsize=9.5)
 fig.tight_layout(); fig.savefig(os.path.join(OUT, 'framing_C.png'), dpi=150); plt.close(fig)
 
+# purlin cleat under zone-F uplift (C10): reaction of a 3.07 m span at w = (0.17 - 1.5 x 3.25) x 1.5 = -7.06 kN/m
+w_F = (G_MIN - 1.5*(2.3 + 0.2)*QP)*1.5; R_cleat = abs(w_F)*3.07/2
+cleat = dict(R=R_cleat, bolts_FtRd=2*0.9*800*84.3/1.25/1e3, M=R_cleat*0.05, MRd=120*10**2/4*275/1e6, u_bolt=R_cleat/(2*0.9*800*84.3/1.25/1e3))
+cleat['u_plate'] = cleat['M']/cleat['MRd']
+# clear heights (C3): under the rafter at the north edge, under the eave primary and under the cap-plate nuts at y 35.77
+clear = dict(rafter_N=TOS(35.87) - 0.27, primary_bottom=TOS(35.77) + 0.05 - 0.33, cap_underside=TOS(35.77) + 0.05 - 0.33 - 0.02, cap_nuts=TOS(35.77) + 0.05 - 0.33 - 0.02 - 0.02,
+             west_cap_nuts=TOS(35.27) + 0.05 - 0.33 - 0.04)
+thermal = o['thermal']
 # ---------------- bases_C.md (self-contained base and anchor note)
 from bases_note import write_bases_note
 write_bases_note(OUT, R, base_env, cases, cols, V_wp, Lwp)
@@ -174,7 +184,8 @@ summary = dict(sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], b
                base_env={c: dict(Nc=e['Nc'], Nt=e['Nt'], Vt=e['Vt'], umax=e['umax'], keyB=e['keyB'], zreq=e['zreq'], u_zone=e['u_zone'], Nmax=e['Nmax'], Mkey=e['Mkey'], btype=e['btype'], uten=e['uten'], ukey=e['ukey'], uplate=e['uplate']) for c, e in base_env.items()},
                purlins=dict(Mg=pur['worst']['gravity'][0], Mg_where=pur['worst']['gravity'][1], Mu=pur['worst']['uplift'][0], Mu_where=pur['worst']['uplift'][1], Lmax=pur['Lmax'], d=pur['d'], dlim=pur['dlim']),
                post=dict(N=post_N, NbRd=NbR_raft), st=dict(N1=N_st1, Nb1=Nb_st1, N2=N_st2, Nb2=Nb_st2), wp1=dict(L=Lwp, My=My_wp, Mz=Mz_wp, u=u_wp, V=V_wp),
-               weight=W, lengths=lengths, n_roof_panels=n_panels, roof_comp=bracing.roof_suction_component()['S'][:3],
+               weight=W, lengths=lengths, n_roof_panels=n_panels, roof_comp=bracing.roof_suction_component()['S'][:3], cleat=cleat, clear=clear, thermal=thermal,
+               tos={y: TOS(y) for y in (35.87, 35.77, 35.37, 35.27, 35.17, 29.27, 24.46, 21.76, 20.07, 15.87, 15.57)},
                max_util=dict(beams=max(r['umax'] for r in beams), cols=max(r['umax'] for r in cols), bases=max(e['umax'][0] for e in base_env.values())),
                colloads=res['colloads'], Fr={d: dict(Ftot=Fr[d][0], rigid=Fr[d][1], trib=Fr[d][2]) for d in 'NSEW'},
                cols={r['id']: dict(kzy=r['kzy'], umax=r['umax'], My=r['My'], Mz=r['Mz'], case=r['case'], util=r['util']) for r in cols})

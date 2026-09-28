@@ -145,9 +145,9 @@ def bay_forces(H):
 # east and west edge trusses whose diagonals span TWO rafter bays (R90-R95 and R68-R72, passing the intermediate rafter
 # through a slotted web clip) so that the truss depth is 5.65 / 4.10 m (review F10).
 ROOF_TRUSSES = [
- dict(id='RT-N-W', dirs='NS', span=(67.99, 77.78), D=5.90, face='N',  a=[2.05, 2.05, 2.81, 2.88],
+ dict(id='RT-N-W', dirs='NS', span=(67.99, 77.78), D=5.90, face='N1',  a=[2.05, 2.05, 2.81, 2.88],
       panels=[(67.99,70.04,29.32,35.22),(70.04,72.09,29.32,35.22),(72.09,74.90,29.27,35.22),(74.90,77.78,29.27,35.17)]),
- dict(id='RT-N-E', dirs='NS', span=(81.85, 95.55), D=6.40, face='N',  a=[2.65, 2.69, 2.71, 2.58, 3.07],
+ dict(id='RT-N-E', dirs='NS', span=(81.85, 95.55), D=6.40, face='N2',  a=[2.65, 2.69, 2.71, 2.58, 3.07],
       panels=[(81.85,84.50,29.27,35.67),(84.50,87.19,29.27,35.72),(87.19,89.90,29.27,35.77),(89.90,92.48,29.27,35.77),(92.48,95.55,29.27,35.67)]),
  dict(id='RT-S-E', dirs='NS', span=(81.85, 95.55), D=9.20, face='S2', a=[2.65, 2.69, 2.71, 2.58, 3.07],
       panels=[(81.85,84.50,20.07,29.27),(84.50,87.19,20.07,29.27),(87.19,89.90,20.07,29.27),(89.90,92.48,20.07,29.27),(92.48,95.55,20.07,29.27)]),
@@ -157,7 +157,7 @@ ROOF_TRUSSES = [
       panels=[(67.99,72.09,15.87,21.76),(67.99,72.09,21.76,29.32),(67.99,72.09,29.32,35.22)]),
  dict(id='RT-E',   dirs='EW', span=(20.07, 35.72), D=5.65, face='E',  a=[9.20, 6.45],
       panels=[(89.90,95.55,20.07,29.27),(89.90,95.55,29.27,35.72)]),
- dict(id='RT-JOG', dirs='NS', span=(77.78, 81.85), D=4.81, face='N',  a=[4.07], panels=[(77.78,81.85,24.46,29.27)]),
+ dict(id='RT-JOG', dirs='NS', span=(77.78, 81.85), D=4.81, face='N2', a=[4.07], panels=[(77.78,81.85,24.46,29.27)]),   # single panel: carries the west-end reaction of RT-N-E into B8 (K10-K16)
 ]
 def truss_analysis(t, w, V_end=None):
     """Simply supported horizontal truss, uniform load w (kN/m) over the span, panels a_i, depth D, X diagonals
@@ -188,7 +188,10 @@ def roof_truss_forces(H_bays_uls):
         r = truss_analysis(t, w)
         if t['id'] == 'RT-E': r = truss_analysis(t, w, V_end=max(H_bays_uls.get('B3', 0), H_bays_uls.get('B1', 0)))
         if t['id'] == 'RT-W': r = truss_analysis(t, w, V_end=max(H_bays_uls.get('B2', 0), H_bays_uls.get('B4', 0)))
-        if t['id'] == 'RT-JOG': r = truss_analysis(t, w, V_end=H_bays_uls.get('B8', 0))
+        if t['id'] == 'RT-JOG':      # one panel: end shear = west-end reaction of RT-N-E, T = V L_d/D, chord = V a/D
+            Vj = next(x for x in out if x['id'] == 'RT-N-E')['w']*13.7/2
+            Ld = (4.07**2 + 4.81**2)**0.5
+            r = dict(T=Vj*Ld/4.81, chord=Vj*4.07/4.81, V=Vj, Ld=Ld, delta=Vj*Ld/4.81*Ld/(E*ROD['As']/1e3)*(Ld/4.81)*1000, L=4.07)
         r.update(id=t['id'], D=t['D'], w=w, util=r['T']/ROD['FtRd'], npanels=len(t['panels']), post=r['V'])
         out.append(r)
     return out
@@ -207,3 +210,26 @@ if __name__ == '__main__':
         print('   rigid', {k: round(v, 1) for k, v in Hr.items()}); print('   trib ', {k: round(v, 1) for k, v in Ht.items()})
     print('roof comp', {d: (round(v[0], 1), round(v[1], 1), round(v[2], 1)) for d, v in roof_suction_component().items()})
     for t in roof_truss_forces({k: 1.5*v for k, v in distribute('E')[0].items()}): print({k: (round(v, 1) if isinstance(v, float) else v) for k, v in t.items()})
+
+# ---------------- thermal restraint (Rev 3, C4) -------------------------------------------------------------------
+ALPHA_T = 12e-6
+def thermal_check(dT_service=20.0, dT_erection=30.0):
+    """Locked-in E-W force between the two north E-W bays B2 (K5-K7, y 35.2) and B1 (K1-K2, y 35.8). Path: B2 -
+    RT-N-W rods - y 29.3 primary chord (P_K10K11, tie plates) - RT-N-E rods - B1. Elastic upper bound, no bolt-slip
+    credit. The south pair B4-B3 is linked only through the weak-axis bending of R78 (k ~ 0.3 kN/mm) and the N-S lines
+    through three fin-plated rafter spans each (2 mm hole clearance per joint): both are released and not checked."""
+    ks = bay_stiffness()
+    def k_truss(tid):
+        t = next(x for x in ROOF_TRUSSES if x['id'] == tid); k = 0.0
+        for a in t['a']:
+            Ld = (a**2 + t['D']**2)**0.5; cos2 = (a/Ld)**2
+            k += E*ROD['As']/(Ld*1e3)*cos2/1e3      # one tension rod per panel, kN/mm
+        return k
+    kB2, kB1 = ks['B2']/1e3, ks['B1']/1e3            # kN/mm
+    kW, kE = k_truss('RT-N-W'), k_truss('RT-N-E')
+    Lch = 4.07; kch = E*62.6e2/(Lch*1e3)/1e3        # IPE 330 chord between the trusses, kN/mm
+    keff = 1/(1/kB2 + 1/kW + 1/kch + 1/kE + 1/kB1)
+    Lbay = 0.5*(87.19 + 92.48) - 0.5*(72.09 + 77.78)  # bay centres, m
+    dL_s = ALPHA_T*dT_service*Lbay*1e3; dL_e = ALPHA_T*dT_erection*Lbay*1e3
+    return dict(kB1=kB1, kB2=kB2, kW=kW, kE=kE, kch=kch, keff=keff, Lbay=Lbay, dL_s=dL_s, dL_e=dL_e,
+                F_s=keff*dL_s, F_e=keff*dL_e, F_uls_wind=1.5*0.6*keff*dL_s, F_uls_erect=1.5*keff*dL_e)

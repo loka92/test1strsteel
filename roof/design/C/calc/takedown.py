@@ -25,9 +25,13 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
                   W_D=np.where(R, W_DOWN, 0.0))
     for d, f in wind_fields(X, Y, R).items(): fields['W_'+d] = f
     # gutter and fascia on the north eave (Rev 2, review F6): line loads spread over the northmost cell row
-    jn = X.shape[1] - 1
-    for t in ('G', 'Gmin'): fields[t][:, jn] += np.where(R[:, jn], GUTTER_G/dx, 0.0)
-    for d in 'NSEW': fields['W_'+d][:, jn] += np.where(R[:, jn], GUTTER_W/dx, 0.0)
+    # gutter G-W at y 35.37 (x < 81.79) and G-E at y 35.87: the northmost roofed cell of each column of cells (Rev 3, C1)
+    for i in range(X.shape[0]):
+        js = np.where(R[i, :])[0]
+        if len(js) == 0: continue
+        jn = js.max()
+        for t in ('G', 'Gmin'): fields[t][i, jn] += GUTTER_G/dx
+        for d in 'NSEW': fields['W_'+d][i, jn] += GUTTER_W/dx
     # --- purlin tributary: each cell to the adjacent N-S beams left/right (purlins = simple spans)
     ybins = {r['id']: np.arange(r['y0'], r['y1']+1e-9, dx) for r in RAFTERS}
     line = {r['id']: {t: np.zeros(len(ybins[r['id']])-1) for t in TYPES} for r in RAFTERS}

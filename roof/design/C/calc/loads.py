@@ -1,6 +1,6 @@
 """Loads per design/load_basis.md (binding). kN, m."""
 import numpy as np
-from model import ENV, NOTCH, roofed
+from model import ENV, NOTCH, roofed, north_edge, NORTH_JOG_X
 
 G_ROOF  = 0.12 + 0.05 + 0.20     # panel + purlins + services (kN/m2), + steel self weight from sections
 G_MIN   = 0.17                   # panel + purlins only (uplift), + steel self weight
@@ -24,7 +24,7 @@ def cpe_roof(x, y, d):
     e10, e4, e2 = E_ZONE/10, E_ZONE/4, E_ZONE/2
     if d in ('N', 'S'):
         # windward edge: N: y=35.87 ; S: y=15.57 (x<77.89) and y=19.97 (x>=77.89)
-        if d == 'N': dist = ENV['y1'] - y; corners = [ENV['x0'], ENV['x1']]
+        if d == 'N': dist = north_edge(x) - y; corners = [ENV['x0'], NORTH_JOG_X, ENV['x1']]
         else:
             if x < NOTCH['x0']: dist = y - ENV['y0']; corners = [ENV['x0'], NOTCH['x0']]
             else:               dist = y - NOTCH['y1']; corners = [NOTCH['x0'], ENV['x1']]
@@ -32,7 +32,7 @@ def cpe_roof(x, y, d):
             return CPE_NS['F'] if min(abs(x-c) for c in corners) <= e4 else CPE_NS['G']
         return CPE_NS['H']
     else:
-        if d == 'W': dist = x - ENV['x0']; corners = [ENV['y0'], ENV['y1']]
+        if d == 'W': dist = x - ENV['x0']; corners = [ENV['y0'], north_edge(x)]
         else:
             if y >= NOTCH['y1']: dist = ENV['x1'] - x; corners = [NOTCH['y1'], ENV['y1']]
             else:                dist = NOTCH['x0'] - x; corners = [ENV['y0'], NOTCH['y1']]

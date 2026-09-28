@@ -92,7 +92,10 @@ def wall_loads(cid, d, ft, L):
         n = NVEC[normal]; Vx += -n[0]*cp*QP*trib*L/2; Vy += -n[1]*cp*QP*trib*L/2   # pressure pushes inward
     return (Vx, Vy), My, Mz
 
-def column_checks(res, Hchar, H4):
+THERMAL_BAYS = ('B1', 'B2')      # E-W north pair restrained through the roof trusses (bracing.thermal_check)
+FORCE_B2 = {'K7'}                # Rev 3 (C4/C13): K7 built as B2 regardless of the B1 result
+
+def column_checks(res, Hchar, H4, thermal=None):
     """Hchar: {d: {bay: H char}} wind; H4: {'x': {bay: H}, 'y': {...}} seismic (1.0 E). Returns member rows, the
     per-case base actions {col: [case dicts]} and the base-check envelope."""
     import connections
@@ -125,9 +128,13 @@ def column_checks(res, Hchar, H4):
         cases = []
         cases.append(dict(case='ULS1', N=1.35*v['G'] + 1.5*v['Q'], V=(0.0, 0.0), Vc=(0.0, 0.0), My=0.0, Mz=0.0))
         cases.append(dict(case='SLS', N=v['G'] + v['Q'], V=(0.0, 0.0), Vc=(0.0, 0.0), My=0.0, Mz=0.0))
+        Tw = (thermal['F_uls_wind'] if thermal else 0.0); Te = (thermal['F_uls_erect'] if thermal else 0.0)
         for d in 'NSEW':
             (Vwx, Vwy), My, Mz = wall_loads(cid, d, ft, L)
-            (Vbx, Vby), Vc, Nt, Nc = brace(Hchar[d], UDIR[d], (0.0, 1.0) if d in 'EW' else None)   # roof-suction component acts northward
+            Hd = dict(Hchar[d])
+            if d in 'EW':      # locked-in thermal force on the north E-W pair, wind leading (psi_0 0.6, already in F_uls_wind)
+                for bid in THERMAL_BAYS: Hd[bid] = Hd[bid] + Tw/1.5
+            (Vbx, Vby), Vc, Nt, Nc = brace(Hd, UDIR[d], (0.0, 1.0) if d in 'EW' else None)   # roof-suction component acts northward
             V15 = (1.5*(Vwx + Vbx), 1.5*(Vwy + Vby)); Vc15 = (1.5*Vc[0], 1.5*Vc[1])
             cases.append(dict(case='ULS2' + d, N=1.35*v['G'] + 1.5*v['W_D'] + 1.5*Nc, V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))
             cases.append(dict(case='ULS3' + d, N=1.0*v['Gmin'] + 1.5*v['W_' + d] - 1.5*Nt, V=V15, Vc=Vc15, My=1.5*My, Mz=1.5*Mz))
@@ -135,6 +142,10 @@ def column_checks(res, Hchar, H4):
         for ax, ud in (('+x', (1, 0)), ('-x', (-1, 0)), ('+y', (0, 1)), ('-y', (0, -1))):
             (Vbx, Vby), Vc, Nt, Nc = brace(H4[ax[1]], ud)
             cases.append(dict(case='ULS4' + ax, N=1.0*v['G'] + Nc, V=(Vbx, Vby), Vc=Vc, My=0.0, Mz=0.0, Nt=1.0*v['G'] - Nt))
+        if thermal and any(b['id'] in THERMAL_BAYS for b in mybays):   # erection state +/-30 K, thermal leading, no wind
+            for ax, ud in (('+x', (1, 0)), ('-x', (-1, 0))):
+                (Vbx, Vby), Vc, Nt, Nc = brace({b['id']: (Te if b['id'] in THERMAL_BAYS else 0.0) for b in BAYS}, ud)
+                cases.append(dict(case='ULST' + ax, N=1.0*v['G'] + Nc, V=(Vbx, Vby), Vc=Vc, My=0.0, Mz=0.0, Nt=1.0*v['G'] - Nt))
         # base checks per case (ULS only). Key B directions = near-edge directions with an outward demand in any case
         keyB = []
         for k in ('+x', '-x', '+y', '-y'):
@@ -164,6 +175,7 @@ def column_checks(res, Hchar, H4):
                         elif 'plate' in k or 'bearing' in k: env['uplate'] = max(env['uplate'], v)
             return env
         if cid in SADDLE: env = run_type('P')
+        elif cid in FORCE_B2: env = run_type('B2')
         else:
             env = run_type('B1')
             if env['umax'][0] > 0.90: env = run_type('B2')
@@ -205,7 +217,7 @@ def column_checks(res, Hchar, H4):
 def purlin_checks(res):
     """Worst purlin span: integrate the field along each purlin span (trib 1.5 m) for gravity and uplift."""
     X, Y, R, dx = res['grid']; f = res['fields']
-    ys = np.arange(ENV['y1'] - 0.3, ENV['y0'], -PURLIN_S)
+    ys = np.arange(ENV['y1'] - 0.3, ENV['y0'], -PURLIN_S)      # rows from the east north edge; west rows exist only where roofed
     worst = dict(gravity=(0, None), uplift=(0, None))
     for y in ys:
         act = sorted([r['x'] for r in RAFTERS if r['y0'] <= y <= r['y1']])
@@ -237,9 +249,10 @@ def run(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL):
     X, Y, R, dx = res['grid']; xc = float((X*R).sum()/R.sum()); yc = float((Y*R).sum()/R.sum())
     H4 = {'x': bracing.distribute_point(seis['Fb'], xc, yc, 'x'), 'y': bracing.distribute_point(seis['Fb'], xc, yc, 'y')}
     beams = beam_checks(res)
-    cols, cases, base_env = column_checks(res, Hchar, H4)
+    thermal = bracing.thermal_check()
+    cols, cases, base_env = column_checks(res, Hchar, H4, thermal)
     pur = purlin_checks(res)
-    return dict(res=res, bays=bays, Fr=Fr, Hchar=Hchar, H4=H4, seis=seis, beams=beams, cols=cols, cases=cases, base_env=base_env, purlins=pur)
+    return dict(res=res, bays=bays, Fr=Fr, Hchar=Hchar, H4=H4, seis=seis, beams=beams, cols=cols, cases=cases, base_env=base_env, purlins=pur, thermal=thermal)
 
 if __name__ == '__main__':
     out = run()
