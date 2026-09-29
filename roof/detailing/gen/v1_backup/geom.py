@@ -1,26 +1,28 @@
-"""Design C Rev 6 geometry (calc/model.py Rev 6, calc/bracing.py Rev 5a, bases_C.md Rev 8), units m."""
-import json, csv, math, re
+"""Rev 3 geometry for alternative C (from design/C/calc/model.py Rev 3 + bracing.py), units m. North face jogs: y 35.37 west of x 81.79, 35.87 east."""
+import json, csv, math
 ROOT = '/home/user/test1strsteel/roof'
 GEO = json.load(open(ROOT + '/geometry.json'))
-COLS = {c['id']: c for c in GEO['columns']}
+COLS = {c['id']: c for c in GEO['columns']}          # K1..K27 -> dict(cx, cy, bx, by, orientation)
 KXY = {k: (c['cx'], c['cy']) for k, c in COLS.items()}
 ENV = dict(x0=67.89, x1=95.69, y0=15.57, y1=35.87)
 NOTCH = dict(x0=77.89, x1=95.69, y0=15.57, y1=19.97)
 OPEN = {'STAIR': dict(x0=77.89, x1=81.79, y0=29.37, y1=35.37), 'ELEV': dict(x0=77.89, x1=81.99, y0=20.17, y1=24.16)}
-PITCH = 0.06; NORTH_JOG_X = 81.79
+PITCH = 0.06
+NORTH_JOG_X = 81.79
 def north_edge(x): return 35.37 if x < NORTH_JOG_X else 35.87
-def TOS(y): return 3.33 + PITCH*(35.87 - y)
+def TOS(y): return 3.33 + PITCH*(35.87 - y)          # Rev 3 (C3): 3.33 at y 35.87
 def prim_top(y): return TOS(y) + 0.05
-def cap_top(y): return TOS(y) - 0.25            # cap-plate top = primary underside (IPE 300)
-def col_top(y): return TOS(y) - 0.27            # cap-plate underside
-def L_col(y): return TOS(y) - 0.32              # 25 grout + 20 plate
-BASE_TOP, GROUT, PLATE_T = 0.045, 0.025, 0.020
-CLEAR_NUTS, CLEAR_EAVE = 3.05, 3.09
-SEC_PRIM, SEC_RAFT, SEC_COL = 'IPE 300', 'IPE 240', 'HEA 140'
-SEC = {'IPE 240': dict(h=0.240, b=0.120, tw=0.0062, tf=0.0098, kg=30.7),
-       'IPE 300': dict(h=0.300, b=0.150, tw=0.0071, tf=0.0107, kg=42.2),
-       'HEA 140': dict(h=0.133, b=0.140, tw=0.0055, tf=0.0085, kg=24.7),
-       'L 70x7': dict(kg=7.38), 'M24 rod 8.8': dict(kg=3.55), 'Z200x2.0': dict(kg=5.9), 'C200x60x2.5': dict(kg=6.9), 'C100x50x3': dict(kg=4.0)}
+def cap_top(y): return TOS(y) - 0.28                 # cap-plate top; column top (cap underside) = TOS - 0.30
+def col_top(y): return TOS(y) - 0.30
+def L_col(y, b2=False): return TOS(y) - (0.355 if b2 else 0.35)   # Rev 3 (C2): 25 grout + 25 plate (B2: 30 plate)
+BASE_TOP = 0.050        # top of base plate, B1 (25 grout + 25 plate); B2 0.055
+GROUT = 0.025
+CLEAR_NUTS, CLEAR_EAVE = 3.02, 3.06   # the only clear-height figures printed (C3)
+SEC = {'IPE 270': dict(h=0.270, b=0.135, tw=0.0066, tf=0.0102, kg=36.1),
+       'IPE 330': dict(h=0.330, b=0.160, tw=0.0075, tf=0.0115, kg=49.1),
+       'HEA 160': dict(h=0.152, b=0.160, tw=0.006, tf=0.009, kg=30.4),
+       'L 70x7': dict(kg=7.38), 'M24 rod 8.8': dict(kg=3.55), 'Z200x2.0': dict(kg=5.9), 'C200x60x2.5': dict(kg=6.9)}
+# N-S rafter lines (11), mark R1..R11 west to east
 RAFTERS = [
  dict(id='R68', mark='R1',  x=67.99, y0=15.57, y1=35.37, sup=[(15.87,'K25'),(21.76,'K19'),(26.37,'K15'),(29.37,'K8'),(35.17,'K6')]),
  dict(id='R70', mark='R2',  x=70.04, y0=15.57, y1=35.37, sup=[(15.87,'P17'),(21.76,'P13'),(29.32,'P6'),(35.22,'P1')]),
@@ -34,7 +36,8 @@ RAFTERS = [
  dict(id='R92', mark='R10', x=92.48, y0=19.97, y1=35.87, sup=[(20.07,'P16'),(29.27,'K13'),(35.77,'K2')]),
  dict(id='R95', mark='R11', x=95.55, y0=19.97, y1=35.87, sup=[(20.07,'K23'),(24.46,'K18'),(29.27,'K14'),(35.67,'K4')]),
 ]
-RMARK = {r['id']: r['mark'] for r in RAFTERS}; RX = {r['mark']: r['x'] for r in RAFTERS}
+RMARK = {r['id']: r['mark'] for r in RAFTERS}
+# E-W primaries / eave beams (level, on cap plates) and trimmers, mark P1..P19, T1, T2
 PRIMARIES = [
  dict(id='P_K6K5',   mark='P1',  y=35.22, x0=67.99, x1=72.09, sup=('K6','K5'),  kind='eave'),
  dict(id='P_K5K7',   mark='P2',  y=35.22, x0=72.09, x1=77.78, sup=('K5','K7'),  kind='prim'),
@@ -58,48 +61,53 @@ PRIMARIES = [
  dict(id='T2',       mark='T2',  y=24.09, x0=77.78, x1=81.85, sup=('R5','R6'),  kind='trim'),
 ]
 PMARK = {p['id']: p['mark'] for p in PRIMARIES}
-POSTS = [dict(id='ST1', y=24.46, x0=89.90, x1=95.55), dict(id='ST2', y=26.37, x0=67.99, x1=72.09)]
-WP1 = (77.61, 20.25)
+POSTS = [dict(id='ST1', y=24.46, x0=89.90, x1=95.55), dict(id='ST2', y=26.37, x0=67.99, x1=72.09)]   # IPE 270 roof-truss posts
+WP1 = (77.61, 20.25)   # Rev 3: post moved 280 mm inboard on both axes from the notch corner (77.89, 19.97)
 BAYS = [('B1','x',('K1','K2')), ('B2','x',('K5','K7')), ('B3','x',('K22','K23')), ('B4','x',('K25','K26')),
-        ('B5','y',('K15','K19')), ('B6','y',('K14','K18')), ('B7','y',('K20','K27')), ('B9','y',('K18','K23'))]
+        ('B5','y',('K15','K19')), ('B6','y',('K14','K18')), ('B7','y',('K20','K27')), ('B8','y',('K10','K16')),
+        ('B9','y',('K18','K23')), ('B10','y',('K19','K25'))]
 BAY_OF = {}
 for b, d, (a, c) in BAYS:
     BAY_OF.setdefault(a, []).append(b); BAY_OF.setdefault(c, []).append(b)
-ROOF_TRUSSES = [   # Rev 5a: 13 panels in 5 strips (calc/bracing.py ROOF_TRUSSES)
- ('RT-N-W', [(67.99,72.09,29.32,35.22),(72.09,77.78,29.27,35.20)]),
- ('RT-N-E', [(81.85,87.19,29.27,35.72),(87.19,92.48,29.27,35.77),(92.48,95.55,29.27,35.67)]),
+ROOF_TRUSSES = [
+ ('RT-N-W', [(67.99,70.04,29.32,35.22),(70.04,72.09,29.32,35.22),(72.09,74.90,29.27,35.22),(74.90,77.78,29.27,35.17)]),
+ ('RT-N-E', [(81.85,84.50,29.27,35.67),(84.50,87.19,29.27,35.72),(87.19,89.90,29.27,35.77),(89.90,92.48,29.27,35.77),(92.48,95.55,29.27,35.67)]),
+ ('RT-S-E', [(81.85,84.50,20.07,29.27),(84.50,87.19,20.07,29.27),(87.19,89.90,20.07,29.27),(89.90,92.48,20.07,29.27),(92.48,95.55,20.07,29.27)]),
+ ('RT-S-W', [(67.99,70.04,15.87,21.76),(70.04,72.09,15.87,21.76),(72.09,74.90,15.92,21.76),(74.90,77.78,15.92,21.76)]),
+ ('RT-W',   [(67.99,72.09,15.87,21.76),(67.99,72.09,21.76,29.32),(67.99,72.09,29.32,35.22)]),
+ ('RT-E',   [(89.90,95.55,20.07,29.27),(89.90,95.55,29.27,35.72)]),
  ('RT-JOG', [(77.78,81.85,24.46,29.27)]),
- ('RT-W',   [(67.99,72.09,15.87,21.76),(67.99,72.09,21.76,26.37),(67.99,72.09,26.37,29.32),(67.99,72.09,29.32,35.22)]),
- ('RT-E',   [(89.90,95.55,20.07,24.46),(89.90,95.55,24.46,29.27),(89.90,95.55,29.27,35.72)]),
 ]
-def rod_gusset_nodes():
-    """Corner nodes that carry rod gussets (union of panel corners); NE corner cell K2/K4/K13/K14 gets combined gussets."""
-    nodes = set()
-    for tid, panels in ROOF_TRUSSES:
-        for (x0, x1, y0, y1) in panels:
-            for x in (x0, x1):
-                for y in (y0, y1): nodes.add((round(x, 2), round(y, 2)))
-    return sorted(nodes)
-COMBINED_GUSSETS = ['K2', 'K4', 'K13', 'K14']
-FIN2 = {'R1': 'FP2', 'R3': 'FP2', 'R9': 'FP2', 'R11': 'FP2'}     # 2 x 2 M20 chord-splice fin plates 160 x 150 x 10 (R68/R72/R90/R95)
+# grids: numbered X grids on the rafter lines (+8a at K22), lettered Y grids on the primary rows
 XGRID = [('1',67.99),('2',70.04),('3',72.09),('4',74.90),('5',77.78),('6',81.85),('7',84.50),('8',87.19),('8a',88.88),('9',89.90),('10',92.48),('11',95.55)]
 YGRID = [('A',15.87),('B',20.07),('C',21.76),('D',24.46),('E',26.37),('F',29.27),('G',35.22),('H',35.72)]
+# wall faces: (id, normal, fixed coord, from, to, posts in order)
 FACES = [
- dict(id='N1', normal='y+', c=35.37, a=67.89, b=81.79, posts=['K6','K5','K7','RET'], title='NORTH ELEVATION N1 - WEST BLOCK (y 35.37, gutter G-W)'),
- dict(id='N2', normal='y+', c=35.87, a=81.79, b=95.69, posts=['K3','K1','K2','K4'], title='NORTH ELEVATION N2 - EAST BLOCK (y 35.87, gutter G-E)'),
- dict(id='S1', normal='y-', c=15.57, a=67.89, b=77.89, posts=['K25','K26','K24','K27'], title='SOUTH ELEVATION S1 - WEST WING (y 15.57)'),
- dict(id='S2', normal='y-', c=19.97, a=77.89, b=95.69, posts=['WP1','K21','K22','K23'], title='SOUTH ELEVATION S2 - EAST BLOCK (y 19.97)'),
+ dict(id='N1', normal='y+', c=35.37, a=67.89, b=81.79, posts=['K6','K5','K7','RET'], title='NORTH ELEVATION N1 - WEST BLOCK (y 35.37, low eave, gutter G-W)'),
+ dict(id='N2', normal='y+', c=35.87, a=81.79, b=95.69, posts=['K3','K1','K2','K4'], title='NORTH ELEVATION N2 - EAST BLOCK (y 35.87, low eave, gutter G-E)'),
+ dict(id='S1', normal='y-', c=15.57, a=67.89, b=77.89, posts=['K25','K26','K24','K27'], title='SOUTH ELEVATION - WEST WING (y 15.57)'),
+ dict(id='S2', normal='y-', c=19.97, a=77.89, b=95.69, posts=['WP1','K21','K22','K23'], title='SOUTH ELEVATION - EAST BLOCK (y 19.97)'),
  dict(id='E',  normal='x+', c=95.69, a=19.97, b=35.87, posts=['K23','K18','K14','K4'], title='EAST ELEVATION (x 95.69)'),
  dict(id='W',  normal='x-', c=67.89, a=15.57, b=35.87, posts=['K25','K19','K15','K8','K6'], title='WEST ELEVATION (x 67.89)'),
  dict(id='EN', normal='x+', c=77.89, a=15.57, b=19.97, posts=['K27','WP1'], title='NOTCH FACE (x 77.89, faces east)'),
 ]
-POSTXY = dict(KXY); POSTXY['WP1'] = WP1; POSTXY['RET'] = (81.79, 35.37)
+POSTXY = dict(KXY); POSTXY['WP1'] = WP1; POSTXY['RET'] = (81.79, 35.37)   # RET: wall-return post at the jog, bracketed from K3
+B1_COLS = ['K3','K4','K6','K8','K9','K11','K12','K13','K14','K16','K17','K24','K26']      # bases_C.md Rev 4b s.3
+B2_COLS = ['K1','K2','K5','K7','K10','K15','K18','K19','K20','K22','K23','K25','K27']
+def base_type(k): return 'B1' if k in B1_COLS else ('B2' if k in B2_COLS else 'P')
+def base_top(k): return 0.055 if k in B2_COLS else 0.050
+# girt row spacing per bay (report section 4): 1.5 m default, 1.2 sleeved, 1.0 sleeved
 GIRT_S = {('K5','K7'):1.2, ('K25','K19'):1.2, ('K8','K6'):1.2, ('K21','K22'):1.0, ('K22','K23'):1.0, ('K14','K4'):1.0}
-def girt_spacing(a, b): return GIRT_S.get((a, b), GIRT_S.get((b, a), 1.5))
-GUTTERS = [dict(id='G-W', y=35.37, x0=67.89, x1=77.89, hp=73.0), dict(id='G-E', y=35.87, x0=81.79, x1=95.69, hp=88.65)]
+def girt_spacing(a, b):
+    return GIRT_S.get((a, b), GIRT_S.get((b, a), 1.5))
+# drainage
+GUTTERS = [dict(id='G-W', y=35.37, x0=67.89, x1=77.89, hp=73.0), dict(id='G-E', y=35.87, x0=81.79, x1=95.69, hp=88.65)]   # box 150 x 100
 SPOUTS = [67.89, 77.89, 81.79, 95.69]
+WELL_HEADER = (77.89, 81.79, 35.37)      # stair well open to the north face: wall header only, no roof / eave beam
+RETURN = (81.79, 35.37, 35.87)          # 0.5 m wall return at the jog, on brackets from K3
 DOWNPIPES = [('DP1',68.7),('DP2',77.3),('DP3',85.3),('DP4',92.0)]
-PURLIN_Y = [round(35.57 - 1.5*k, 2) for k in range(14)]
+# purlins: E-W lines @ 1.5 m from the north eave, first line 0.30 m inside the edge
+PURLIN_Y = [round(35.57 - 1.5*k, 2) for k in range(14)]   # 35.57 ... 16.07
 def roofed(x, y):
     if not (ENV['x0'] <= x <= ENV['x1'] and ENV['y0'] <= y <= north_edge(x)): return False
     if NOTCH['x0'] < x and y < NOTCH['y1']: return False
@@ -107,25 +115,12 @@ def roofed(x, y):
         if o['x0'] < x < o['x1'] and o['y0'] < y < o['y1']: return False
     return True
 def purlin_segments():
+    """(y, x0, x1) purlin pieces between adjacent rafter lines, omitting cells that are not roofed."""
     xs = [r['x'] for r in RAFTERS]; segs = []
     for y in PURLIN_Y:
         for a, b in zip(xs[:-1], xs[1:]):
-            if roofed(0.5*(a+b), y): segs.append((y, a, b))
+            xm = 0.5*(a+b)
+            if roofed(xm, y): segs.append((y, a, b))
     return segs
-def members_csv(): return list(csv.DictReader(open(ROOT + '/design/C/members_C.csv')))
-# ---- bases Rev 8: all type E (P at K21); key layouts per bases_C.md section 3
-EW_COLS = {'K1','K2','K5','K9','K10','K11','K12','K13','K14','K21','K22','K23'}     # 240 rebar spacing along E-W
-KEYB = {'K3':'+y','K4':'+x,+y','K6':'-x,+y','K8':'-x','K14':'+x'}
-KEYPAIR = {'K1':'(-300,-200)/(300,-200)','K2':'(-300,-200)/(300,-200)','K5':'(-300,-200)/(300,-200)','K7':'(-200,-700)/(-200,-100)','K10':'(-300,-200)/(300,-200)',
-           'K15':'(200,-300)/(200,300)','K18':'(-200,-300)/(-200,300)','K19':'(200,-300)/(200,300)','K20':'(-200,-300)/(-200,300)','K22':'(-300,200)/(300,200)',
-           'K23':'(-700,200)/(-100,200)','K25':'(200,0)/(200,600)','K27':'(-200,0)/(-200,600)'}
-PLATE = {'K1':'800x400x20 (x -400..400, y -300..100)','K2':'800x400x20 (x -400..400, y -300..100)','K5':'800x400x20 (x -400..400, y -300..100)','K7':'400x950x20 (x -300..100, y -800..150)',
-         'K10':'800x400x20 (x -400..400, y -300..100)','K15':'400x800x20 (x -100..300, y -400..400)','K18':'400x800x20 (x -300..100, y -400..400)','K19':'400x800x20 (x -100..300, y -400..400)',
-         'K20':'400x800x20 (x -300..100, y -400..400)','K22':'800x400x20 (x -400..400, y -100..300)','K23':'1000x400x20 (x -800..200, y -100..300)','K25':'400x850x20 (x -100..300, y -150..700)','K27':'400x850x20 (x -300..100, y -150..700)'}
-def base_util():
-    u = {}
-    for ln in open(ROOT + '/design/C/bases_C.md'):
-        m = re.match(r'\| (K\d+|WP1) \|', ln); g = re.search(r'\*\*(\d\.\d\d)\*\* \(([^)]*)\)', ln)
-        if m and g and m.group(1) not in u: u[m.group(1)] = (float(g.group(1)), g.group(2))
-    return u
-def base_type(k): return 'P' if k == 'K21' else 'E'
+def members_csv():
+    return list(csv.DictReader(open(ROOT + '/design/C/members_C.csv')))
