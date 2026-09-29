@@ -3,8 +3,9 @@
 x 77.89-95.69 / y 24.36-35.87 (south face on the K16-K17-K18 column line); the SW terrace, the south strip with the
 light well (pyramid skylight) and the shaft opening stay open. 20 steel columns K1-K20 on the concrete columns,
 3 wind posts on the slab (WP2, WP3 on the 13.7 m south eave of the east block, WP4 on the K19-K20 eave). Roof plane,
-levels and the section set are unchanged from Rev 6a: TOS(y) = 3.33 + 0.06 (35.87 - y), primary top TOS + 0.03,
-column length L = TOS - 0.335 (30 mm lower under an IPE 330 primary). Units m, kN."""
+levels are unchanged from Rev 6a: TOS(y) = 3.33 + 0.06 (35.87 - y). Rev 7b section set (shorter spans): IPE 240 primaries,
+IPE 200 rafters nested 10 mm clear inside the primary flanges (primary top TOS + 0.02), the two long eave beams IPE 330, HEA 140
+columns; column length L = TOS + 0.02 - h_primary - 0.065 (90 mm lower under an IPE 330). Units m, kN."""
 import json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 GEO = json.load(open(os.path.join(HERE, '..', '..', '..', 'geometry.json')))
@@ -25,17 +26,19 @@ PITCH = 0.06
 NORTH_JOG_X = 81.79
 def north_edge(x): return 35.37 if x < NORTH_JOG_X else 35.87
 def TOS(y): return 3.33 + PITCH*(35.87 - y)
-PRIM_TOP_OFFSET = 0.03
-SPAN_SECTION = {'P_K17K18': 'IPE 330'}          # the 13.7 m south eave of the east block (deflection); P13 K19-K20 back to IPE 300 (one-sided load now)
+SEC_PRIM = os.environ.get('SEC_PRIM', 'IPE 240'); SEC_RAFT = os.environ.get('SEC_RAFT', 'IPE 200'); SEC_COL = os.environ.get('SEC_COL', 'HEA 140')
+# Rev 7b: lighter set on the shorter spans (heavy Rev 7 set: SEC_PRIM='IPE 300' SEC_RAFT='IPE 240' PRIM_TOP_OFFSET=0.03 SPAN_SECTION='{"P_K17K18": "IPE 330"}')
+SPAN_SECTION = json.loads(os.environ.get('SPAN_SECTION', '{"P_K17K18": "IPE 330", "P_K19K20": "IPE 330"}'))   # the two long eave beams (13.7 m and 9.8 m) stay IPE 330: deflection
+_H = {'IPE 200': 0.200, 'IPE 220': 0.220, 'IPE 240': 0.240, 'IPE 270': 0.270, 'IPE 300': 0.300, 'IPE 330': 0.330, 'IPE 360': 0.360}
+H_PRIM = _H[SEC_PRIM]
+PRIM_TOP_OFFSET = float(os.environ.get('PRIM_TOP_OFFSET', '0.02'))   # primary top above TOS: the rafter nests between the primary flanges
 COL_DROP = {}
 for _p, _s in SPAN_SECTION.items():
-    if _s == 'IPE 330':
-        for _c in _p[2:].replace('K', ' K').split():
-            COL_DROP[_c] = 0.03
-def cap_top(y, cid=None): return TOS(y) + PRIM_TOP_OFFSET - 0.300 - COL_DROP.get(cid, 0.0)
-def L_col(y, cid=None): return TOS(y) - 0.335 - COL_DROP.get(cid, 0.0)
+    for _c in _p[2:].replace('K', ' K').split():
+        COL_DROP[_c] = _H[_s] - H_PRIM          # column top lower under a deeper primary
+def cap_top(y, cid=None): return TOS(y) + PRIM_TOP_OFFSET - H_PRIM - COL_DROP.get(cid, 0.0)
+def L_col(y, cid=None): return TOS(y) + PRIM_TOP_OFFSET - H_PRIM - 0.02 - 0.045 - COL_DROP.get(cid, 0.0)   # cap 20, grout 25 + plate 20
 def wall_h(y): return TOS(y) + 0.30
-SEC_PRIM, SEC_RAFT, SEC_COL = 'IPE 300', 'IPE 240', 'HEA 140'
 
 def roofed(x, y):
     if not (ENV['x0'] <= x <= ENV['x1'] and ENV['y0'] <= y <= north_edge(x)): return False
