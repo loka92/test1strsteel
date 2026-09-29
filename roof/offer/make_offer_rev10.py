@@ -91,14 +91,14 @@ story.append(tbl(para_rows([
     ['Bases', '4 post-installed dia 16 rebars per column into the existing column head, grouted shear keys, 20 mm plates, 25 mm grout bed'],
     ['Roof cladding', 'PIR sandwich panels 50 mm, colour-coated steel both faces, with ridge, eave and verge flashings and well upstands'],
     ['Rainwater', 'Two box gutters 150 x 100 with overflows, four 100 mm downpipes on the north facade'],
-    ['Steel weight', 'about %d tonnes, all steel hot-dip galvanised or shop-primed and painted as agreed' % round(t_total)],
+    ['Steel weight', 'about %d tonnes, delivered blast-cleaned; corrosion protection is not included (see sections 3 and 7)' % round(t_total)],
 ]), [40*mm, 130*mm]))
 
 # ---- page 2: scope, exclusions, programme, price ----
 story += [PageBreak(), Paragraph('2. Scope of supply and works', h2)]
 for s in ['Detailed fabrication drawings and the bill of materials based on the approved design (Rev 8a, reduced roof area).',
           'Supply of all structural steel sections, plates, bolts, rebars, anchors and cold-formed purlins and girts.',
-          'Workshop fabrication, surface protection, transport to site and offloading.',
+          'Workshop fabrication, blast cleaning of the steel, transport to site and offloading.',
           'Site survey of the slab top, scanning of the 23 column heads, drilling and injection of the anchors, coring and grouting of the shear keys, and proof tests on three bars.',
           'Erection of columns, beams, rafters, bracing and purlins with all connections, including the temporary bracing needed during erection.',
           'Supply and fixing of the roof sandwich panels with all flashings, well upstands, sealants and fasteners.',
@@ -106,7 +106,8 @@ for s in ['Detailed fabrication drawings and the bill of materials based on the 
           'Site management, safety measures, cleaning of the site and handover with as-built drawings.']:
     story.append(Paragraph(s, bul, bulletText='-'))
 story += [Paragraph('3. Not included', h2)]
-for s in ['Wall cladding of any kind and its girts or fixings (the architect\'s drawings show 20 cm gypsum walls; to be offered separately once the wall system is selected).',
+for s in ['Corrosion protection of the steelwork (paint system or galvanising) is not within the scope of this offer; the recommended Jotun system is given in section 7 and can be offered separately.',
+          'Wall cladding of any kind and its girts or fixings (the architect\'s drawings show 20 cm gypsum walls; to be offered separately once the wall system is selected).',
           'Verification of the existing building (as-built drawings, slab-top survey drawing, adequacy statement of the existing columns and foundations) and any strengthening it may require.',
           'Building permits, authority fees, independent checking and any works to the existing slab or facade beyond the anchors, keys and downpipe fixings.',
           'Electrical, mechanical, lighting, ceilings, floors and finishes under the new roof.']:
@@ -133,7 +134,8 @@ story.append(tbl(para_rows([
 # ---- page 3: terms, signature ----
 story += [PageBreak(), Paragraph('7. Conditions', h2)]
 for s in ['Validity: this offer is valid for 15 days from its date, until %s, because of the movement of steel prices.' % VALID,
-          'Warranty: 12 months from handover on the steel structure, panel fixings and workmanship; panel and coating warranties as per the manufacturer.',
+          'Warranty: 12 months from handover on the steel structure, panel fixings and workmanship; panel warranties as per the manufacturer.',
+          'Corrosion protection (recommendation, not included): the site is 0.3-2 km from the sea, corrosivity category C5 (ISO 12944-2). We recommend a Jotun three-coat system applied in the workshop over Sa 2 1/2 blast cleaning: Barrier 80 zinc-rich epoxy primer 60 microns, Jotamastic 90 epoxy mastic 150 microns, Hardtop XP polyurethane topcoat 60 microns, total 270 microns dry film, ISO 12944-5 high durability (over 15 years); site touch-up of bolts, welds and damage with Jotamastic 90 and Hardtop XP. Hot-dip galvanising to EN ISO 1461 plus Hardtop XP is the alternative. This can be priced on request.',
           'The design is based on the assumptions listed in the design report (Rev 8a) and the load basis Rev 3. The client provides as-built information on the existing building and free access to the roof and to the north facade for the downpipes; anything found at the column heads that differs from the assumptions (bar positions, concrete quality, slab thickness) is dealt with by the fallback base details of the design set and, if it changes the scope, by a written variation before work continues.',
           'The client confirms that the six braced wall bays shown on the framing plan (K1-K2, K5-K7, K16-K17, K15-K19, K4-K14, K16-K20) remain free of doors and windows, and that the architect adjusts the 2nd-level wall lines to the roof edges shown.',
           'Materials: structural steel S275 to EN 10025, bolts 8.8, cold-formed purlins S350GD, PIR panels with a manufacturer\'s certificate; anchor system with a European Technical Assessment for post-installed rebar.',
@@ -179,7 +181,7 @@ md = ["# Internal pricing of offer RTV-2026-01 Rev D (design Rev 8a, client cost
       "| Roof sandwich panels %d m2, supply and assembly | client figure | %s |" % (area_roof, '{:,.0f}'.format(cost_panels)),
       "| **Total cost** | | **%s** |" % '{:,.0f}'.format(cost_total), "| Profit margin | %d %% of the total cost | %s |" % (MARGIN*100, '{:,.0f}'.format(margin)),
       "| **Offer price (rounded)** | | **%s LYD** |" % P, "",
-      "Not priced separately in this basis (covered by the lump sum and the margin): gutters and downpipes, base works (scans, 80 rebar holes, key pockets, grout, pull-out tests), coating, transport. Earlier allowances were 12,000 and 18,500 LYD.",
+      "Not priced separately in this basis (covered by the lump sum and the margin): gutters and downpipes, base works (scans, 92 rebar holes, key pockets, grout, pull-out tests), transport. Earlier allowances were 12,000 and 18,500 LYD. Corrosion protection is excluded from the scope (Jotun Barrier 80 / Jotamastic 90 / Hardtop XP recommended, to be priced on request).",
       "Superseded: Rev A 284,000 LYD (Rev 7, 6,950 LYD/t all-in, 50 %%), Rev B 343,000 LYD (Rev 7, quotation-based, 25 %%), Rev C 217,000 LYD (Rev 8, client basis with material 106,600). Payment: %s advance / %s at erection start / %s at handover. Valid 15 days to %s. Warranty 12 months." % (ADV, MID, MID, VALID),
       "Generated by make_offer_rev10.py (pricing_internal_RevD.json holds the same numbers)."]
 open(OUT + '/pricing_internal_RevD.md', 'w').write('\n'.join(md) + '\n')
