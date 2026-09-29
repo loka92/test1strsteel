@@ -1,0 +1,88 @@
+{
+ "invoice_total": 142379.0,
+ "rows": [
+  {
+   "section": "HEA 140",
+   "net_m": 79.18279999999997,
+   "bars": 8,
+   "bar_m": 96,
+   "kg": 2371.2,
+   "rate_m": 281.25,
+   "rate_t": 11386.63967611336,
+   "cost": 27000.0,
+   "note": "23 pieces, longest 4.14 m"
+  },
+  {
+   "section": "IPE 300",
+   "net_m": 64.91000000000001,
+   "bars": 6,
+   "bar_m": 72,
+   "kg": 3038.4,
+   "rate_m": 312.5,
+   "rate_t": 7405.21327014218,
+   "cost": 22500.0,
+   "note": "13 pieces, longest 9.79 m"
+  },
+  {
+   "section": "IPE 330",
+   "net_m": 13.700000000000003,
+   "bars": 2,
+   "bar_m": 24,
+   "kg": 1178.4,
+   "rate_m": 387.5,
+   "rate_t": 7892.057026476578,
+   "cost": 9300.0,
+   "note": "13.7 m beam: 12 m bar + 1.7 m piece (splice) or one 14 m special length"
+  },
+  {
+   "section": "IPE 240",
+   "net_m": 144.58999999999992,
+   "bars": 14,
+   "bar_m": 168,
+   "kg": 5157.599999999999,
+   "rate_m": 227.08333333333334,
+   "rate_t": 7396.85124864278,
+   "cost": 38150.0,
+   "note": "26 pieces, longest 7.66 m"
+  },
+  {
+   "section": "L75x7",
+   "net_m": 73.08368883973768,
+   "bars": 8,
+   "bar_m": 96,
+   "kg": 762.24,
+   "rate_m": 60.0,
+   "rate_t": 7556.675062972292,
+   "cost": 5760.0,
+   "note": "12 pieces, longest 7.26 m"
+  },
+  {
+   "section": "Z200 purlin, 6 m bars",
+   "net_m": 217.0,
+   "bars": 37,
+   "bar_m": 222,
+   "kg": 1309.8000000000002,
+   "rate_m": 47.5,
+   "rate_t": 8050.847457627118,
+   "cost": 10545.0,
+   "note": "gauge 2.0 mm S350GD to confirm with the supplier"
+  },
+  {
+   "section": "M24 threaded rod",
+   "net_m": 167.8,
+   "bars": null,
+   "bar_m": 167.8,
+   "kg": 595.69,
+   "rate_m": 48.333333333333336,
+   "rate_t": 13615.023474178404,
+   "cost": 8110.333333333334,
+   "note": "priced from the 60 cm bolt (29 LYD); ask for rod in 3 m lengths"
+  }
+ ],
+ "sections_cost": 121365.33333333333,
+ "sections_kg": 14413.33,
+ "plates_kg": 2471.3615496125967,
+ "plate_rate": 7500.0,
+ "plates_cost": 18535.211622094474,
+ "avg_rate_t": 8420.353473717269
+}
