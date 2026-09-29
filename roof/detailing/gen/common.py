@@ -3,7 +3,7 @@ with collision avoidance and leaders, registered dimensions and tables, and the 
 import math, textwrap, ezdxf
 from ezdxf import bbox as _bbox
 from ezdxf.enums import TextEntityAlignment as TA
-PROJECT = 'Steel roof over existing slab - Tripoli'
+PROJECT = 'Steel roof - Administration Building, Regatta Tourist Village, Tripoli'
 SUBTITLE = 'ALTERNATIVE C - POST-AND-BEAM BRACED STEEL ROOF, SANDWICH PANELS'
 REV = 'Rev 6a superstructure / Rev 8 bases / bracing Rev 5a'
 DATE = '2026-09-29'
@@ -219,7 +219,7 @@ class Sheet:
         self.line(0, S, W, S, 'S-TITLE', owner=o)
         for x in (12, 24, 34, 38): self.line(x, 0, x, S, 'S-TITLE', owner=o)
         T = lambda x, y, s, h=TH_DIM, al='LEFT': self.text(x, y, s, h, 'S-TEXT-NOTE', al, allowed=(o,), owner=o)
-        T(0.3, 2.45, 'PROJECT', 0.16); T(0.3, 1.75, PROJECT, 0.3); T(0.3, 1.1, SUBTITLE, 0.16); T(0.3, 0.6, 'Client: restaurant owner, Tripoli   Engineer: structural design team   Units: m (details 5x / 2x, mm text)', 0.14)
+        T(0.3, 2.45, 'PROJECT', 0.16); T(0.3, 1.75, PROJECT, 0.22); T(0.3, 1.1, SUBTITLE, 0.16); T(0.3, 0.6, 'Client: Regatta Tourist Village, Tripoli   Issued by: Eng. MALEK ABOZRAIG (malek.abozraig@gmail.com)   Units: m', 0.14)
         T(12.3, 2.45, 'SHEET TITLE', 0.16); T(12.3, 1.75, self.title, 0.3); T(12.3, 1.1, scale_note, 0.16); T(12.3, 0.6, 'Status: ISSUED FOR CONSTRUCTION subject to the site verification of S00 section 9', 0.14)
         # revision table
         T(24.3, 2.45, 'REVISIONS', 0.16); ys = 2.2
@@ -227,8 +227,8 @@ class Sheet:
         for r, dte, desc in REVISIONS[::-1]:
             T(24.3, ys-0.32, r, 0.14); T(24.9, ys-0.32, dte, 0.14); T(26.6, ys-0.32, desc, 0.14); ys -= 0.42
             self.line(24, ys, 34, ys, 'S-TITLE', owner=o)
-        T(34.3, 2.45, 'CURRENT REVISION', 0.16); T(34.3, 2.05, 'Rev 6a superstructure', 0.14); T(34.3, 1.75, 'Rev 8 bases / bracing Rev 5a', 0.14); T(34.3, 1.35, 'DATE ' + DATE, 0.16); T(34.3, 0.85, 'Drawn: generator gen/main.py', 0.14); T(34.3, 0.45, 'Checked: overlap checker (README)', 0.14)
-        T(38.3, 2.45, 'SHEET', 0.16); T(38.3, 0.7, self.no, 1.0)
+        T(34.3, 2.45, 'CURRENT REVISION', 0.16); T(34.3, 2.05, 'Rev 6a superstructure', 0.14); T(34.3, 1.75, 'Rev 8 bases / bracing Rev 5a', 0.14); T(34.3, 1.35, 'DATE ' + DATE, 0.16); T(34.3, 0.85, 'Drawn: ............   Designed: ............', 0.14); T(34.3, 0.45, 'Checked: ............   Approved: ............', 0.14)
+        T(38.3, 2.45, 'DRAWING No.', 0.16); T(38.3, 2.05, 'RTV-ST-' + self.no, 0.2); T(38.3, 0.7, self.no, 1.0)
     def legend_block(self, items, x=None, y=None, w=9.0):
         """items: list of (layer, sample kind, text). Fixed at the bottom-right above the title strip unless given."""
         x = SHEET_W - w - 0.4 if x is None else x; y = STRIP + 0.4 if y is None else y

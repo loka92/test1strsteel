@@ -1,11 +1,11 @@
 {
  "audit_errors": 0,
  "audit_fixes": 0,
- "entities": 4953,
+ "entities": 4962,
  "by_type": {
   "LWPOLYLINE": 611,
   "LINE": 1403,
-  "TEXT": 2568,
+  "TEXT": 2577,
   "HATCH": 106,
   "CIRCLE": 104,
   "DIMENSION": 161
@@ -15,7 +15,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 84,
+   "texts": 85,
    "tt": [],
    "tl": []
   },
@@ -23,7 +23,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 263,
+   "texts": 264,
    "tt": [],
    "tl": []
   },
@@ -31,7 +31,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 116,
+   "texts": 117,
    "tt": [],
    "tl": []
   },
@@ -39,7 +39,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 501,
+   "texts": 502,
    "tt": [],
    "tl": []
   },
@@ -47,7 +47,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 114,
+   "texts": 115,
    "tt": [],
    "tl": []
   },
@@ -55,7 +55,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 188,
+   "texts": 189,
    "tt": [],
    "tl": []
   },
@@ -63,7 +63,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 109,
+   "texts": 110,
    "tt": [],
    "tl": []
   },
@@ -71,7 +71,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 389,
+   "texts": 390,
    "tt": [],
    "tl": []
   },
@@ -79,7 +79,7 @@
    "text_text": 0,
    "text_line": 0,
    "unplaced": 0,
-   "texts": 804,
+   "texts": 805,
    "tt": [],
    "tl": []
   }
