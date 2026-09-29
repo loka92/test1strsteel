@@ -56,12 +56,12 @@ def beam_checks(res):
         uG, wG = ltb_segments(sp, S, rg, ('ULS1', 'ULS2'))
         uU, wU = ltb_segments(sp, S, ru, ('ULS3N', 'ULS3S', 'ULS3E', 'ULS3W'))
         MbG = wG[3] if wG[3] else Mb_Rd(S, Lg)[0]; MbU = wU[3] if wU[3] else Mb_Rd(S, Lu)[0]
-        d = sp['d']['SLS']; dlim = L*1000/200
+        d = max(sp['d']['SLS'], sp['d'].get('SLSW', 0.0)); dcase = 'G+Q' if sp['d']['SLS'] >= sp['d'].get('SLSW', 0.0) else 'G+W_D'; dlim = L*1000/200
         u = dict(M=Mg/S['Mpl_y'], V=V/S['Vpl'], LTBg=uG, LTBu=uU, defl=d/dlim, Mu=Mu/S['Mpl_y'])
         gov = max(u, key=u.get)
         rows.append(dict(id=sp['id'], span='%s-%s' % (sp['sa'], sp['sb']), section=S['name'], L=L, kind=sp['kind'],
                          M_Ed=Mg, Mu_Ed=Mu, V_Ed=V, N_Ed=0.0, Mpl=S['Mpl_y'], Vpl=S['Vpl'], MbG=MbG, MbU=MbU, Lg=Lg, Lu=Lu, nfly=nseg-1 if nseg else 0,
-                         d=d, dlim=dlim, util=u, umax=u[gov], gov=gov, C1g=wG[1], C1u=wU[1], a=sp['a'], b=sp['b'], axis=sp['axis'],
+                         d=d, dcase=dcase, dlim=dlim, util=u, umax=u[gov], gov=gov, C1g=wG[1], C1u=wU[1], a=sp['a'], b=sp['b'], axis=sp['axis'],
                          RA=sp['RA'], RB=sp['RB']))
     return rows
 

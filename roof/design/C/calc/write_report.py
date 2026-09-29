@@ -16,7 +16,7 @@ def member_table():
     for m in sorted(keep, key=lambda m: -float(m['utilisation'])):
         if float(m['utilisation']) < 0.10 and float(m['length']) < 6: n += 1; continue
         rows.append('| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | **%s** | %s | %s |' % (m['id'], m['section'], f(m['length'], 2), m['M_Ed'], m['V_Ed'], m['u_M'], m['u_V'], m['u_LTB_g'], m['u_LTB_up'], m['u_defl'], m['utilisation'], m['governing'], m['verdict']))
-    rows.append('| %d further spans (eave beams, trimmers, short edge-beam spans, ST2) | IPE 330 / IPE 270 | 2.7-5.9 | <= 15 | <= 11 | | | | | | <= 0.10 | - | OK |' % n)
+    rows.append(('| %d further spans (eave beams, trimmers, short edge-beam spans, ST2) | ' + s['secs']['prim'] + ' / ' + s['secs']['raft'] + ' | 2.7-5.9 | <= 15 | <= 11 | | | | | | <= 0.10 | - | OK |') % n)
     return '\n'.join(rows)
 
 def column_table():
@@ -25,7 +25,8 @@ def column_table():
     for m in sorted(cols, key=lambda m: -float(m['utilisation']))[:10]:
         e = be[m['id']]; c = s['cols'][m['id']]
         rows.append('| %s | %s | %s | %s (%s) | %s (%s) | %s | %s | %s | %s | **%s** | %s |' % (m['id'], m['section'], f(m['length'], 2), f(e['Nc'][0]), e['Nc'][1], f(max(e['Nt'][0], 0)), e['Nt'][1], m['M_Ed'], f(c['kzy'], 2), m['u_LTB_g'], m['u_LTB_up'], m['utilisation'], m['verdict']))
-    rows.append('| other 17 columns | HEA 160 | 2.97-4.16 | <= 58 | <= 58 | <= 15 | 0.98-1.00 | <= 0.12 | <= 0.38 | <= 0.38 | OK |')
+    rest = sorted(cols, key=lambda m: -float(m['utilisation']))[10:]
+    rows.append('| other %d columns | %s | %s-%s | <= %s | <= %s | <= %s | 0.97-1.00 | <= %s | <= %s | <= %s | OK |' % (len(rest), s['secs']['col'], f(min(float(m['length']) for m in rest), 2), f(max(float(m['length']) for m in rest), 2), f(max(be[m['id']]['Nc'][0] for m in rest), 0), f(max(max(be[m['id']]['Nt'][0], 0) for m in rest), 0), f(max(max(float(v) for v in str(m['M_Ed']).split('/')) for m in rest), 0), f(max(float(m['u_LTB_g']) for m in rest), 2), f(max(float(m['u_LTB_up']) for m in rest), 2), f(max(float(m['utilisation']) for m in rest), 2)))
     return '\n'.join(rows)
 
 def reaction_table():
@@ -54,7 +55,7 @@ def truss_table():
 
 def weight_table():
     rows = ['| Item | Section | Length m | Weight t |', '|---|---|---|---|']
-    for k, sec_, ln in (('Rafters / edge beams / trimmers / posts ST1-ST2', 'IPE 270', 'rafters'), ('Primaries / eave beams', 'IPE 330', 'primaries'), ('Columns (27) + wind post WP1', 'HEA 160', 'columns')):
+    for k, sec_, ln in (('Rafters / edge beams / trimmers / posts ST1-ST2', s['secs']['raft'], 'rafters'), ('Primaries / eave beams', s['secs']['prim'], 'primaries'), ('Columns (27) + wind post WP1', s['secs']['col'], 'columns')):
         rows.append('| %s | %s | %s | %s |' % (k, sec_, f(L[ln]), f(W[ln]/1000, 2)))
     rows.append('| Plates, stiffeners, keys, bolts (BOM take-off) | S275 / S355 keys | - | %s |' % f(W['plates_bolts_keys']/1000, 2))
     rows.append('| **Hot-rolled total** | | | **%s** |' % f(W['hot_rolled_total']/1000, 1))
@@ -94,6 +95,19 @@ kw = dict(member_table=member_table(), column_table=column_table(), reaction_tab
           uR78f=f(next(v['umax'] for v in s['fins'] if v['member'] == 'R78'), 2), uR82f=f(next(v['umax'] for v in s['fins'] if v['member'] == 'R82'), 2), NR68f=f(next(v['N'] for v in s['fins'] if v['member'] == 'R68')), NR95f=f(next(v['N'] for v in s['fins'] if v['member'] == 'R95')),
           drW=f(s['drift_eq']['west wall (RT-W + B4/B2)']['dr_nu']), drWl=f(s['drift_eq']['west wall (RT-W + B4/B2)']['lim']), drE=f(s['drift_eq']['east wall (RT-E + B3/B1)']['dr_nu']), drEl=f(s['drift_eq']['east wall (RT-E + B3/B1)']['lim']), dr778=f(s['drift_eq']['x 77.8 line (jog + R78 + B7)']['dr_nu']), dr778l=f(s['drift_eq']['x 77.8 line (jog + R78 + B7)']['lim']),
           sNWa=f(s['split']['actual']['RT_N_W'][0]), sNWb=f(s['split']['actual']['RT_N_W'][1]), sJ=f(s['split']['actual']['RT_JOG']), sNEa=f(s['split']['actual']['RT_N_E'][0]), sNEb=f(s['split']['actual']['RT_N_E'][1]),
+          SP=s['secs']['prim'], SR=s['secs']['raft'], SC=s['secs']['col'], twR=f(s['secs']['tw_raft']), tfP=f(s['secs']['tf_prim']),
+          MplR=f(next(x['Mpl'] for x in s['beam_top'] if x['section'] == s['secs']['raft']), 0), MplP=f(next(x['Mpl'] for x in s['beam_top'] if x['section'] == s['secs']['prim']), 0),
+          B19u=f(next(x['umax'] for x in s['beam_top'] if x['id'] == 'P_K19K20'), 2), K19gov=next(x['gov'] for x in s['beam_top'] if x['id'] == 'P_K19K20'), K19ltb=f(next(x['u']['LTBg'] for x in s['beam_top'] if x['id'] == 'P_K19K20'), 2),
+          K19d=f(next(x['d'] for x in s['beam_top'] if x['id'] == 'P_K19K20')), K19dc=next(x['dcase'] for x in s['beam_top'] if x['id'] == 'P_K19K20'), K19L=f(9790/next(x['d'] for x in s['beam_top'] if x['id'] == 'P_K19K20'), 0), K19M=f(next(x['M'] for x in s['beam_top'] if x['id'] == 'P_K19K20')),
+          R92u=f(max(x['umax'] for x in s['beam_top'] if x['L'] > 9 and x['section'] == s['secs']['raft']), 2), R92gov=max((x for x in s['beam_top'] if x['L'] > 9 and x['section'] == s['secs']['raft']), key=lambda x: x['umax'])['gov'], R92M=f(max(x['u']['M'] for x in s['beam_top'] if x['L'] > 9 and x['section'] == s['secs']['raft']), 2), R92ltb=f(max(x['u']['LTBu'] for x in s['beam_top'] if x['L'] > 9 and x['section'] == s['secs']['raft']), 2),
+          R92d=f(max(x['d'] for x in s['beam_top'] if x['L'] > 9 and x['section'] == s['secs']['raft'])), R92L=f(9200/max(x['d'] for x in s['beam_top'] if x['L'] > 9 and x['section'] == s['secs']['raft']), 0), R92dc=max((x for x in s['beam_top'] if x['L'] > 9 and x['section'] == s['secs']['raft']), key=lambda x: x['d'])['dcase'],
+          NbMin=f(min(c['NbRd'] for c in s['cols'].values()), 0), NbMax=f(max(c['NbRd'] for c in s['cols'].values()), 0), LcMin=f(min(c['L'] for c in s['cols'].values()), 2), LcMax=f(max(c['L'] for c in s['cols'].values()), 2),
+          K25case=s['cols']['K25']['case'], K25My=f(s['cols']['K25']['My']), K25Mz=f(s['cols']['K25']['Mz']), K25N=f(s['cols']['K25']['N_Ed']), K25kzy=f(s['cols']['K25']['kzy'], 2),
+          clN=f(s['clear']['cap_nuts'], 2), clP=f(s['clear']['primary_bottom'], 2), clR=f(s['clear']['rafter_N'], 2), clW=f(s['clear']['west_cap_nuts'], 2),
+          FbRd2=f(next(x['FbRd'] for x in s['fins'] if x['cols'] == 1)), FbRd4=f(next(x['FbRd'] for x in s['fins'] if x['cols'] == 2)), capCant=f(s['cap']['util']['cap plate cantilever'], 2), tpB=str(int(s['R'].get('tp', 20))) if isinstance(s['R'], dict) and 'tp' in s['R'] else '20',
+          Wbom6=f(W['BOM_total']/1000, 1), Wcol=f(W['columns']/1000, 2), Wraf=f(W['rafters']/1000, 2), Wpri=f(W['primaries']/1000, 2), Wplates=f(W['plates_bolts_keys']/1000, 2),
+          st1u=f(s['st']['N1']/s['st']['Nb1'], 2), st2u=f(s['st']['N2']/s['st']['Nb2'], 2), uplate_max=f(max(e['uplate'] for e in be.values()), 2),
+          Wcost='{:,.0f}'.format(W['BOM_total']/1000*2040), ustrip=f(max([e['umax'][0] for e in be.values() if 'plate strip' in e['umax'][2]] + [0.0]), 2),
           k_eff=f(s['thermal']['keff'], 1), F_s=f(s['thermal']['F_s'], 0), F_e=f(s['thermal']['F_e'], 0), F_uw=f(s['thermal']['F_uls_wind'], 0), F_ue=f(s['thermal']['F_uls_erect'], 0),
           cleatR=f(s['cleat']['R']), jogT=f(t['RT-JOG']['T']), jogV=f(t['RT-JOG']['V']), Lraft=f(L['rafters'], 0),
           sumG=f(sum(v['G'] for v in s['colloads'].values()), 0), sumQ=f(sum(v['Q'] for v in s['colloads'].values()), 0), sumWS=f(sum(v['W_S'] for v in s['colloads'].values()), 0),

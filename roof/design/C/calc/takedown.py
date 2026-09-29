@@ -12,6 +12,7 @@ COMBOS = {  # factors per load type
  'ULS1': dict(G=1.35, Q=1.5),
  'ULS2': dict(G=1.35, W_D=1.5),
  'SLS':  dict(G=1.0, Q=1.0),
+ 'SLSW': dict(G=1.0, W_D=1.0),   # Rev 6: flat-roof pressure case (0.5 q_p > Q) for the L/200 check
  'ULS3N': dict(Gmin=1.0, W_N=1.5), 'ULS3S': dict(Gmin=1.0, W_S=1.5),
  'ULS3E': dict(Gmin=1.0, W_E=1.5), 'ULS3W': dict(Gmin=1.0, W_W=1.5),
 }
@@ -89,8 +90,8 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
                 span['M'][c] = (float(M.max()), float(M.min())); span['V'][c] = float(np.abs(V).max())
                 span.setdefault('Marr', {})[c] = M; span['s'] = per_type['G']['s']
                 span['RA'][c] = combine({t: per_type[t]['RA'] for t in TYPES}, c); span['RB'][c] = combine({t: per_type[t]['RB'] for t in TYPES}, c)
-                if c == 'SLS':
-                    dsum = sum(per_type[t]['d'] for t in ('G', 'Q'))
+                if c in ('SLS', 'SLSW'):
+                    dsum = sum(COMBOS[c][t]*per_type[t]['d'] for t in COMBOS[c])
                     span['d'][c] = float(np.abs(dsum).max())*1000  # mm (d computed with EI passed above)
             span['w_G'] = float(np.mean([wline_fun('G', a + s) for s in np.linspace(0, L, 21)]) + sw)
             span['w_Q'] = float(np.mean([wline_fun('Q', a + s) for s in np.linspace(0, L, 21)]))

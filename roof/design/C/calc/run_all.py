@@ -38,7 +38,7 @@ split = struts_rev5a.line_split(seis['Fb_y'], {i: H4['y'][i] for i in H4['y']})
 seg_V = {}
 for rr in beams:
     if rr['kind'] == 'raft': seg_V[rr['id']] = max(seg_V.get(rr['id'], 0.0), float(rr['RA']['SLS']), float(rr['RB']['SLS']))
-fins = struts_rev5a.strut_table({i: H4['y'][i] for i in H4['y']}, trusses, seg_V, split)
+fins = struts_rev5a.strut_table({i: H4['y'][i] for i in H4['y']}, trusses, seg_V, split, tw=SR['tw'])
 drift_eq = struts_rev5a.drift_check(trusses, bay_env)
 wind_roof = {d: Fr[d][0] for d in 'NSEW'}
 # diaphragm drift at the east / west wall mid-length = truss deflection + bay sway (SLS = ULS/1.5)
@@ -47,10 +47,10 @@ drift = {t['id']: t['delta']/1.5 + max(bay_env[i]['sway'] for i in bay_env) for 
 # ---------------- connections
 Vfin = max(max(r['RA']['ULS1'], r['RB']['ULS1'], -min(r['RA'][c] for c in r['RA']), -min(r['RB'][c] for c in r['RB'])) for r in beams if r['kind'] == 'raft')
 Vfin_long = max(max(r['RA']['ULS1'], r['RB']['ULS1']) for r in beams if r['kind'] == 'raft' and r['L'] > 8)
-fin2 = connections.fin_plate(Vfin, 2, SR['tw']); fin3 = connections.fin_plate(Vfin_long, 3, SR['tw'], e1=35)   # Rev 5a: plate 210 fits the IPE 270 web (clear 219.6)
+fin2 = connections.fin_plate(Vfin, 2, SR['tw']); fin3 = connections.fin_plate(Vfin_long, 2, SR['tw'])   # Rev 6: IPE 240 web (clear 190): one 2 M20 plate for every gravity rafter end
 Nt_cap_roof = max(-(res['colloads'][c]['Gmin'] + 1.5*min(res['colloads'][c]['W_'+d] for d in 'NSEW')) for c in COLS)
 Vh_cap = max(max(t['chord'] for t in trusses), max(bay_env[i]['H'] for i in bay_env))
-cap = connections.cap_plate(Nt_cap_roof, Vh_cap)
+cap = connections.cap_plate(Nt_cap_roof, Vh_cap, tf_beam=SP['tf'], tw_beam=SP['tw'], col_h=SC['h'], col_b=SC['b'])
 R = connections.anchor_resistances()
 post_N = max(t['post'] for t in trusses); NbR_raft = Nb_Rd(SR, 9.2, 3.07)[0]
 # roof-truss posts ST1 (y 24.46, R90-R95, 5.65 m) and ST2 (y 26.37, R68-R72, 4.10 m): IPE 270 struts, N = wall load at K18 / K15 top
@@ -94,10 +94,10 @@ for t in trusses:
     krow(id=t['id'], type='roof X-brace', section=ROD['name'], length=round(t['Ld'], 2), frm='', to='', N_Ed=round(t['T'], 1), M_Ed=0, V_Ed='',
          u_M='', u_V='', u_LTB_g='', u_LTB_up='', u_defl='', utilisation=round(t['util'], 2), governing='rod tension (seismic)', verdict='OK')
 for k, v in struts.items():
-    krow(id='strut ' + k, type='diaphragm strut/chord', section={'purlin': 'Z200x2.0', 'rafter_chord': 'IPE 270', 'rafter_strut': 'IPE 270', 'R78_strut': 'IPE 270'}.get(k, 'IPE 330'), length='', frm='', to='', N_Ed=round(v['N'], 1), M_Ed='', V_Ed='',
+    krow(id='strut ' + k, type='diaphragm strut/chord', section={'purlin': 'Z200x2.0', 'rafter_chord': SR['name'], 'rafter_strut': SR['name'], 'R78_strut': SR['name']}.get(k, SP['name']), length='', frm='', to='', N_Ed=round(v['N'], 1), M_Ed='', V_Ed='',
          u_M='', u_V='', u_LTB_g='', u_LTB_up='', u_defl='', utilisation=round(v['u'], 2), governing='N + M interaction', verdict='OK' if v['u'] <= 1 else 'NO')
 for v in fins:
-    krow(id='fin ' + v['member'], type='strut/chord fin plates', section='%d M20 on IPE 270 web' % v['n'], length='', frm=v['where'], to='', N_Ed=round(v['N'], 1), M_Ed='', V_Ed=round(v['V'], 1),
+    krow(id='fin ' + v['member'], type='strut/chord fin plates', section='%s on %s web' % (v['bolts'], SR['name']), length='', frm=v['where'], to='', N_Ed=round(v['N'], 1), M_Ed='', V_Ed=round(v['V'], 1),
          u_M='', u_V=round(v['u_bolt'], 2), u_LTB_g='', u_LTB_up='', u_defl='', utilisation=round(v['umax'], 2), governing='web bearing %.2f' % v['u_bearing'], verdict='OK' if v['umax'] <= 1 else 'NO')
 with open(os.path.join(OUT, 'members_C.csv'), 'w', newline='') as f:
     w = csv.DictWriter(f, fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
@@ -140,13 +140,14 @@ for f in FACES:
     L_girt += (pos[0] - f['a'] + f['b'] - pos[-1])*math.ceil(hw/1.5)
 W = dict(rafters=L_raft*SR['g'], primaries=L_prim*SP['g'], columns=L_col_tot*SC['g'],
          wall_bracing=L_wall_brace*7.38, roof_bracing=L_roof_brace*ROD['kg'])
-W['plates_bolts_keys'] = 3400.0          # BOM take-off (detailing, S06): base plates incl. B2 30 mm + stiffeners + under-slab, cap and fin plates, gussets, keys, bolts
+W['plates_bolts_keys'] = 3400.0 - 130.0  # Rev 6: base plates 20 mm (-130 kg); BOM take-off (detailing, S06): base plates incl. B2 30 mm + stiffeners + under-slab, cap and fin plates, gussets, keys, bolts
 W['hot_rolled_total'] = W['rafters'] + W['primaries'] + W['columns'] + W['plates_bolts_keys']
 L_purlin, L_girt = 300.0, 271.0            # BOM take-off 571 m (calc estimate 0 m)
 W['purlins_girts_Z200'] = (L_purlin + L_girt)*5.9
 W['total'] = W['hot_rolled_total'] + W['wall_bracing'] + W['roof_bracing'] + W['purlins_girts_Z200']
 lengths = dict(rafters=L_raft, primaries=L_prim, columns=L_col_tot, wall_bracing=L_wall_brace, roof_bracing=L_roof_brace, purlins=L_purlin, girts=L_girt)
-W['BOM_total'] = 25400.0                    # drawing BOM (S06 Rev 4b, X1); Rev 5 bases are lighter (25 mm plates, no stiffeners, no under-slab plates: about -0.4 t) - BOM to be updated by detailing
+_b5 = json.load(open(os.path.join(HERE, 'summary_rev5_baseline.json')))['weight']   # Rev 6: BOM 25.4 t (S06 Rev 4b) less the section change, the Rev 5 bracing saving and the 20 mm base plates
+W['BOM_total'] = 25400.0 - ((_b5['rafters'] + _b5['primaries'] + _b5['columns']) - (W['rafters'] + W['primaries'] + W['columns'])) - (2260.0 - W['wall_bracing'] - W['roof_bracing']) - 130.0
 
 # ---------------- framing plan coloured by utilisation
 fig, ax = plt.subplots(figsize=(14, 10.5))
@@ -180,8 +181,8 @@ for t in bracing.ROOF_TRUSSES:
         ax.plot([x0, x1], [y0, y1], 'g--', lw=0.7, alpha=0.7); ax.plot([x0, x1], [y1, y0], 'g--', lw=0.7, alpha=0.7)
 sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm); sm.set_array([]); cb = plt.colorbar(sm, ax=ax, fraction=0.03, pad=0.01); cb.set_label('utilisation (governing check)')
 ax.set_aspect('equal'); ax.set_xlim(66.5, 99.0); ax.set_ylim(14, 37.5); ax.set_xlabel('x (m)'); ax.set_ylabel('y (m)'); ax.grid(alpha=0.25)
-ax.set_title('Alternative C Rev 5 (load basis Rev 3, bracing rationalised, Rev 5a) - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79): %s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns;\n'
-             'red = wall X-bracing bays B1-B7, B9 (L70x7, utilisation), green dashed = roof-plane X bracing, %d panels of M24 rods; column label = member / base utilisation' % (SP['name'], SR['name'], SC['name'], n_panels), fontsize=9.5)
+ax.set_title('Alternative C Rev 6 (load basis Rev 3, sections %s / %s / %s, bases Rev 8) - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79)\n%s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns; '
+             'red = wall X-bracing bays B1-B7, B9 (L70x7, utilisation), green dashed = roof-plane X bracing, %d panels of M24 rods\ncolumn label = member / base utilisation' % (SP['name'], SR['name'], SC['name'], SP['name'], SR['name'], SC['name'], n_panels), fontsize=8.6)
 fig.tight_layout(); fig.savefig(os.path.join(OUT, 'framing_C.png'), dpi=150); plt.close(fig)
 
 # purlin cleat under zone-F uplift (C10): reaction of a 3.07 m span at w = (0.17 - 1.5 x 3.25) x 1.5 = -7.06 kN/m
@@ -189,28 +190,29 @@ w_F = (G_MIN - 1.5*(2.3 + 0.2)*QP)*1.5; R_cleat = abs(w_F)*3.07/2
 cleat = dict(R=R_cleat, bolts_FtRd=2*0.9*800*84.3/1.25/1e3, M=R_cleat*0.05, MRd=120*10**2/4*275/1e6, u_bolt=R_cleat/(2*0.9*800*84.3/1.25/1e3))
 cleat['u_plate'] = cleat['M']/cleat['MRd']
 # clear heights (C3): under the rafter at the north edge, under the eave primary and under the cap-plate nuts at y 35.77
-clear = dict(rafter_N=TOS(35.87) - 0.27, primary_bottom=TOS(35.77) + 0.05 - 0.33, cap_underside=TOS(35.77) + 0.05 - 0.33 - 0.02, cap_nuts=TOS(35.77) + 0.05 - 0.33 - 0.02 - 0.02,
-             west_cap_nuts=TOS(35.27) + 0.05 - 0.33 - 0.04)
+clear = dict(rafter_N=TOS(35.87) - SR['h']/1000, primary_bottom=TOS(35.77) + 0.05 - SP['h']/1000, cap_underside=TOS(35.77) + 0.05 - SP['h']/1000 - 0.02, cap_nuts=TOS(35.77) + 0.05 - SP['h']/1000 - 0.02 - 0.02,
+             west_cap_nuts=TOS(35.27) + 0.05 - SP['h']/1000 - 0.04, col_top_offset=0.05 - SP['h']/1000 - 0.02, prim_top_offset=0.05)   # Rev 6: IPE 300 -> column top TOS - 0.27, 3.05 m under the nuts
 thermal = o['thermal']
 # ---------------- bases_C.md (self-contained base and anchor note)
 from bases_note import write_bases_note
 write_bases_note(OUT, R, base_env, cases, cols, V_wp, Lwp)
 
 # ---------------- summary JSON
-summary = dict(sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], brace=DIAG['name'], rod=ROD['name']),
+beam_top = [dict(id=x['id'], span=x['span'], section=x['section'], L=x['L'], umax=x['umax'], gov=x['gov'], d=x['d'], dcase=x.get('dcase', ''), dlim=x['dlim'], u=x['util'], M=x['M_Ed'], Mpl=x['Mpl']) for x in sorted(beams, key=lambda x: -x['umax'])[:14]]
+summary = dict(sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], brace=DIAG['name'], rod=ROD['name']), beam_top=beam_top,
                roof_area=res['roof_area'], wind_roof=wind_roof, seismic=seis, H4=H4, bays=bay_env, trusses=trusses, drift=drift,
                fin2=fin2, fin3=fin3, Vfin=Vfin, Vfin_long=Vfin_long, cap=cap, Nt_cap=Nt_cap_roof, Vh_cap=Vh_cap, R=R,
                base_env={c: dict(Nc=e['Nc'], Nt=e['Nt'], Vt=e['Vt'], umax=e['umax'], keyB=e['keyB'], zreq=e['zreq'], u_zone=e['u_zone'], Nmax=e['Nmax'], Mkey=e['Mkey'], btype=e['btype'], uten=e['uten'], ukey=e['ukey'], uplate=e['uplate'], B1_option=(dict(umax=e['B1_option']['umax'], zreq=e['B1_option']['zreq'], uten=e['B1_option']['uten']) if e.get('B1_option') else None)) for c, e in base_env.items()},
                purlins=dict(Mg=pur['worst']['gravity'][0], Mg_where=pur['worst']['gravity'][1], Mu=pur['worst']['uplift'][0], Mu_where=pur['worst']['uplift'][1], Lmax=pur['Lmax'], d=pur['d'], dlim=pur['dlim']),
                post=dict(N=post_N, NbRd=NbR_raft), st=dict(N1=N_st1, Nb1=Nb_st1, N2=N_st2, Nb2=Nb_st2), wp1=dict(L=Lwp, My=My_wp, Mz=Mz_wp, u=u_wp, V=V_wp),
                weight=W, lengths=lengths, n_roof_panels=n_panels, roof_comp=bracing.roof_suction_component()['S'][:3], cleat=cleat, clear=clear, thermal=thermal,
-               struts=struts, split=split, fins=fins, drift_eq=drift_eq, seg_V=seg_V,
+               struts=struts, split=split, secs=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], tw_raft=SR['tw'], tf_prim=SP['tf'], tw_prim=SP['tw']), fins=fins, drift_eq=drift_eq, seg_V=seg_V,
                bay_gov={i: dict(wind=max(bays[d][i]['H'] for d in 'NSEW'), seis=max(H4['x'][i], H4['y'][i]), gov=('seismic' if max(H4['x'][i], H4['y'][i]) > max(bays[d][i]['H'] for d in 'NSEW') else 'wind')) for i in bay_env},
                colsum={t: float(sum(v[t] for v in res['colloads'].values())) for t in ('G', 'Gmin', 'Q', 'W_N', 'W_S', 'W_E', 'W_W', 'W_D')},
                tos={y: TOS(y) for y in (35.87, 35.77, 35.37, 35.27, 35.17, 29.27, 24.46, 21.76, 20.07, 15.87, 15.57)},
                max_util=dict(beams=max(r['umax'] for r in beams), cols=max(r['umax'] for r in cols), bases=max(e['umax'][0] for e in base_env.values())),
                colloads=res['colloads'], Fr={d: dict(Ftot=Fr[d][0], rigid=Fr[d][1], trib=Fr[d][2]) for d in 'NSEW'},
-               cols={r['id']: dict(kzy=r['kzy'], umax=r['umax'], My=r['My'], Mz=r['Mz'], case=r['case'], util=r['util']) for r in cols})
+               cols={r['id']: dict(NbRd=r['NbRd'], N_Ed=r['N_Ed'], L=r['L'], kzy=r['kzy'], umax=r['umax'], My=r['My'], Mz=r['Mz'], case=r['case'], util=r['util']) for r in cols})
 def conv(x):
     if isinstance(x, dict): return {str(k): conv(v) for k, v in x.items()}
     if isinstance(x, (list, tuple)): return [conv(v) for v in x]

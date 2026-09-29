@@ -16,10 +16,10 @@ PITCH = 0.06
 NORTH_JOG_X = 81.79                      # Rev 3 (C1): the north face is at y 35.37 west of x 81.79 and 35.87 east of it
 def north_edge(x): return 35.37 if x < NORTH_JOG_X else 35.87
 def TOS(y): return 3.33 + PITCH*(35.87 - y)   # Rev 3 (C3): plane raised 30 mm -> 3.02 m clear under the cap-plate nuts at y 35.77
-def cap_top(y): return TOS(y) - 0.28           # column top = cap-plate underside = TOS + 0.05 - 0.33 - 0.02 = TOS - 0.30
-def L_col(y): return TOS(y) - 0.35             # B1: 25 grout + 25 plate (B2: 30 plate -> TOS - 0.355, used for the schedule only)
+def cap_top(y): return TOS(y) - 0.25           # Rev 6: primary IPE 300 top at TOS + 0.05 -> underside / cap-plate top = TOS - 0.25; column top (cap underside) = TOS - 0.27
+def L_col(y): return TOS(y) - 0.32             # Rev 6: column top TOS - 0.27 less 25 grout + 20 plate (Rev 4 with IPE 330 / 25 plate: TOS - 0.35)
 def wall_h(y): return TOS(y) + 0.30          # panel top + flashing, above slab
-SEC_PRIM, SEC_RAFT, SEC_COL = 'IPE 330', 'IPE 270', 'HEA 160'   # scheme sections (checked / revised in run)
+SEC_PRIM, SEC_RAFT, SEC_COL = 'IPE 300', 'IPE 240', 'HEA 140'   # Rev 6 (brief Rev 7): lighter set adopted by the client; every check re-run
 
 def roofed(x, y):
     if not (ENV['x0'] <= x <= ENV['x1'] and ENV['y0'] <= y <= north_edge(x)): return False
@@ -110,7 +110,7 @@ BAYS = [
 def bay_geom(b):
     (x1,y1),(x2,y2) = COLS[b['c'][0]], COLS[b['c'][1]]
     w = abs(x2-x1) if b['dir']=='x' else abs(y2-y1)
-    ym = 0.5*(y1+y2); h = L_col(ym) + 0.17     # base plate to primary centre line
+    ym = 0.5*(y1+y2); h = L_col(ym) + 0.22     # base plate to primary centre line (grout + plate 0.05, cap 0.02, IPE 300 / 2)
     return w, h, (h**2+w**2)**0.5, 0.5*(x1+x2), ym
 
 # ---- free slab edges near a column base (Rev 2 anchorage basis): distance from the column centre to the nearest

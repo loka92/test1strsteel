@@ -221,7 +221,8 @@ def thermal_check(dT_service=30.0, dT_erection=45.0):   # Rev 3: +/-30 K service
         return k
     kB2, kB1 = ks['B2']/1e3, ks['B1']/1e3            # kN/mm
     kW, kE = k_truss('RT-N-W'), k_truss('RT-N-E')
-    Lch = 4.07; kch = E*62.6e2/(Lch*1e3)/1e3        # IPE 330 chord between the trusses, kN/mm
+    from sections import sec as _sec; from model import SEC_PRIM as _SP
+    Lch = 4.07; kch = E*_sec(_SP)['A']*1e2/(Lch*1e3)/1e3        # primary chord between the trusses (IPE 300: 53.8 cm2), kN/mm
     keff = 1/(1/kB2 + 1/kW + 1/kch + 1/kE + 1/kB1)
     Lbay = 0.5*(87.19 + 92.48) - 0.5*(72.09 + 77.78)  # bay centres, m
     dL_s = ALPHA_T*dT_service*Lbay*1e3; dL_e = ALPHA_T*dT_erection*Lbay*1e3
@@ -251,6 +252,7 @@ def strut_checks(F_ew, F_ns, roof_area, trusses):
     """Purlin lines as E-W struts (seismic inertia of their 1.5 m strip over half the block width), eave primaries and
     rafter chords: axial + bending interaction, simple. F_ew/F_ns = design roof-level forces (kN)."""
     from sections import sec, Nb_Rd, FY
+    from model import SEC_RAFT, SEC_PRIM
     a_roof = F_ew/roof_area                       # kN/m2 of roof plan area, E-W
     out = {}
     # Z200x2.0: A 7.4 cm2, i_min 2.0 cm (assumed, supplier to confirm), single span 3.07 m between rafters, f_y 350
@@ -261,18 +263,18 @@ def strut_checks(F_ew, F_ns, roof_area, trusses):
     out['purlin'] = dict(N=N_purlin, NbRd=NbRd_Z, u=N_purlin/NbRd_Z + 4.35/12.5)   # + gravity bending 4.35 kNm / 12.5
     # rafter chords of RT-W (R68/R72, IPE 270): chord force + gravity moment (7.5 m span, M 31 kNm ULS)
     ch = max(t['chord'] for t in trusses if t['id'] in ('RT-W', 'RT-E'))
-    S = sec('IPE 270'); Nb = Nb_Rd(S, 7.56, 3.0)[0]
-    out['rafter_chord'] = dict(N=ch, NbRd=Nb, u=ch/Nb + 31.4/128.0)
+    S = sec(SEC_RAFT); Nb = Nb_Rd(S, 7.56, 3.0)[0]; MR = S['Mpl_y']
+    out['rafter_chord'] = dict(N=ch, NbRd=Nb, u=ch/Nb + 31.4/MR)
     # primaries as chords/struts of the north strips and eave struts (IPE 330): chord force + gravity moment (K11-K12, 46 kNm)
     chn = max(t['chord'] for t in trusses if t['id'] in ('RT-N-W', 'RT-N-E', 'RT-JOG'))
-    S3 = sec('IPE 330'); Nb3 = Nb_Rd(S3, 5.7, 5.7)[0]
+    S3 = sec(SEC_PRIM); Nb3 = Nb_Rd(S3, 5.7, 5.7)[0]; MP = S3['Mpl_y']
     eave = max(F_ew/2, 0.0)                       # eave primary strut: half the E-W force reaching one bay line
-    out['primary_chord'] = dict(N=chn, NbRd=Nb3, u=chn/Nb3 + 46.1/221.0)
-    out['eave_strut'] = dict(N=eave, NbRd=Nb3, u=eave/Nb3 + 2.0/221.0)
+    out['primary_chord'] = dict(N=chn, NbRd=Nb3, u=chn/Nb3 + 46.1/MP)
+    out['eave_strut'] = dict(N=eave, NbRd=Nb3, u=eave/Nb3 + 2.0/MP)
     # rafters as N-S struts (south half inertia to the y 29.3 chord): 9.2 m rafter, IPE 270
     N_raft = F_ns/roof_area*9.2*2.7
-    out['rafter_strut'] = dict(N=N_raft, NbRd=Nb_Rd(S, 9.2, 3.07)[0], u=N_raft/Nb_Rd(S, 9.2, 3.07)[0] + 46.9/128.0)
+    out['rafter_strut'] = dict(N=N_raft, NbRd=Nb_Rd(S, 9.2, 3.07)[0], u=N_raft/Nb_Rd(S, 9.2, 3.07)[0] + 46.9/MR)
     # R78 as N-S strut from the jog panel / RT-N-W east end down to B7 (K10 -> K16 -> K20): full B7 line force
     out['R78_strut'] = dict(N=max(t['V'] for t in trusses if t['id'] == 'RT-JOG'), NbRd=Nb_Rd(S, 4.81, 2.4)[0])   # Rev 5a (Z1): the x 77.8 line force, not the sum of the strip end shears
-    out['R78_strut']['u'] = out['R78_strut']['N']/out['R78_strut']['NbRd'] + 15.4/128.0
+    out['R78_strut']['u'] = out['R78_strut']['N']/out['R78_strut']['NbRd'] + 15.4/MR
     return out

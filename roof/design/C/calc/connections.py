@@ -38,7 +38,7 @@ def fin_plate(V_Ed, n, tw_beam, tp=10, e=50, p1=70, e1=40, e2=40, hp=None):
     u['web block tearing'] = V_Ed/Veff2
     return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get), n=n, tp=tp, hp=hp, V_Ed=V_Ed)
 
-def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=200, tf_beam=11.5, tw_beam=7.5):
+def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=200, tf_beam=10.7, tw_beam=7.1, r_beam=15.0, col_h=133.0, col_b=140.0):
     """Column cap plate 200x280x20 welded to HEA 160 (a=6 all round); primary bolted with 4 M20 through its
     bottom flange at pitch 200 so the nuts clear the passing rafter flange (review F12). Tension from uplift N_t (kN) and horizontal chord/strut force V_h (kN)."""
     u = {}
@@ -46,14 +46,16 @@ def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=200, tf_beam=11.5, tw_beam=7.5):
     u['bolt shear'] = V_h/4/BOLT['FvRd']
     u['bolt interaction'] = V_h/4/BOLT['FvRd'] + N_t/4/(1.4*BOLT['FtRd'])
     # T-stub of the IPE 330 bottom flange (mode 1, both rows): m = gauge/2 - tw/2 - 0.8 r (r=18)
-    m = gauge/2 - tw_beam/2 - 0.8*18; leff = min(2*math.pi*m, 4*m + 1.25*40, pitch)
+    m = gauge/2 - tw_beam/2 - 0.8*r_beam; leff = min(2*math.pi*m, 4*m + 1.25*40, pitch)
     Mpl = 0.25*leff*tf_beam**2*FY/1e3      # kNmm
     FT1 = 2*4*Mpl/m                         # two rows
     u['beam flange T-stub'] = N_t/FT1
     m2 = m; Mpl2 = 0.25*leff*tp**2*FY/1e3; FT1p = 2*4*Mpl2/m2
     u['cap plate T-stub'] = N_t/FT1p
     # weld cap plate to column: perimeter of HEA 160 (2 x 160 flanges x 2 faces + web) ~ 2*(2*160)+2*134 = 908 mm, a=6
-    Lw = 908; u['weld'] = ((N_t*1e3/(Lw*6))**2 + (V_h*1e3/(Lw*6))**2)**0.5/(weld_res(6)*1e3/6)
+    Lw = 2*(2*col_b) + 2*(col_h - 2*8.5); u['weld'] = ((N_t*1e3/(Lw*6))**2 + (V_h*1e3/(Lw*6))**2)**0.5/(weld_res(6)*1e3/6)   # column perimeter (HEA 140: 792 mm)
+    # cap-plate cantilever: with pitch 200 the bolt rows are outside the column depth; m_x from the column flange face (fillet 6)
+    mx = max(pitch/2 - min(col_h, col_b)/2 - 0.8*6*2**0.5, 5.0); u['cap plate cantilever'] = (N_t/2*mx)/(200*tp**2/4*FY/1e3)
     return dict(util=u, umax=max(u.values()), gov=max(u, key=u.get))
 
 # ---- base plate and anchors, Rev 4 (sign-off S1-S4) ---------------------------------------------------------------
@@ -71,7 +73,7 @@ def cap_plate(N_t, V_h, tp=20, gauge=90, pitch=200, tf_beam=11.5, tw_beam=7.5):
 # Rev 5 (brief Rev 4): slab 300 mm, NO through-bolts. B1 interior: 4 M20 h_ef 250 in the slab. E (every base with a free edge
 # < 0.25 m, incl. corners) and P (K21): 4 M16 resin anchors 70 x 280 concentric in the column core, h_ef 550 = 300 slab + 250 into
 # the column head (rebar scan), designed as a lap with the column bars: bond in the column part with the narrow-member group factor.
-BASE = dict(bp=300, lp=400, tp=25, sx=80, sy=280, hef=250, fck=25, zone=800, slab=300, grout=25,
+BASE = dict(bp=300, lp=400, tp=20, sx=80, sy=280, hef=250, fck=25, zone=800, slab=300, grout=25,
             keyA_b=90, keyA_Wpl=75.0e3, keyA_fy=355.0, keyA_core=140, keyB_d=60, keyB_fy=335.0, emb=180, pocket=200, keyB_off=180, saddle_t=15,
             b2_row=250, b2_tip=430, b2_keys_x=300, b2_keys_y=200, b2_bolt_FtRd=0.9*800*353/1.25/1e3, b2_plate_b=350, b2_plate_t=30,
             b2_MRd_plate=48.0, b2_plate_c=60, p_hef=600, p_d=16, p_sx=70, b2_under_t=25, e_col_emb=300, e_col_emb_min=250, e_d=16, e_sx=70, e_sy=240,
@@ -129,7 +131,8 @@ def anchor_resistances(zone=BASE['zone'], B=BASE, A=ANCH):
     r['VRd_B_edge250'] = V_edge_key(250, B['keyB_d']); r['VRd_B'] = min(r['VRd_B_bearing'], r['VRd_B_bending'], r['VRd_B_weld'], r['VRd_B_edge250'])
     r['VRd_A_par55'] = 2*V_edge_key(55, B['keyA_b'])               # Key A parallel to an edge 100 mm from the column centre
     r['VRd_A_edge255'] = V_edge_key(255, B['keyA_b'])              # B2 key pair outward, c1 = 300 - 45
-    col = sec('HEA 160'); cc = B['tp']*math.sqrt(FY/(3*FJD)); r['c'] = cc
+    from model import SEC_COL
+    col = sec(SEC_COL); cc = B['tp']*math.sqrt(FY/(3*FJD)); r['c'] = cc
     r['Aeff'] = min(B['bp'], col['h'] + 2*cc)*min(B['lp'], col['b'] + 2*cc) - max(0, col['h'] - 2*col['tf'] - 2*cc)*max(0, col['b'] - col['tw'] - 2*cc)
     r['NRd_bearing'] = r['Aeff']*FJD/1e3
     mm = B['sy']/2 - col['b']/2 - 0.8*6; leff = min(2*math.pi*mm, B['sx'] + 4*mm, B['bp'])
