@@ -31,6 +31,7 @@ class Plan:
         return self.sh.rect(*self.L(xa, ya), *self.L(xb, yb), layer, owner, **kw)
     def label(self, s, x, y, **kw):
         if not inside(x, y, self.R): return None
+        if self.R and 'bounds' not in kw: kw['bounds'] = (self.lx0, self.ly0, self.lx0 + (self.R[2]-self.R[0])*self.s, self.ly0 + (self.R[3]-self.R[1])*self.s)
         return self.sh.label(s, *self.L(x, y), **kw)
     # ---- content
     def existing(self):
@@ -49,7 +50,7 @@ class Plan:
             if self.R and (op['x1'] < self.R[0] or op['x0'] > self.R[2] or op['y1'] < self.R[1] or op['y0'] > self.R[3]): continue
             self.rect(op['x0'], op['y0'], op['x1'], op['y1'], 'S-OPEN', owner='open' + name, lineweight=25)
             xa, ya, xb, yb = (max(op['x0'], self.R[0]), max(op['y0'], self.R[1]), min(op['x1'], self.R[2]), min(op['y1'], self.R[3])) if self.R else (op['x0'], op['y0'], op['x1'], op['y1'])
-            sh.hatch([self.L(xa, ya), self.L(xb, ya), self.L(xb, yb), self.L(xa, yb)], 'S-OPEN', 'ANSI31', 0.3*self.s, 8, 45)
+            sh.hatch([self.L(xa, ya), self.L(xb, ya), self.L(xb, yb), self.L(xa, yb)], 'S-OPEN', 'ANSI31', 0.3*self.s, 8, 45, owner='open' + name)
             if label:
                 cx, cy = 0.5*(xa+xb), 0.5*(ya+yb)
                 sh.text(*self.L(cx, cy+0.35), name + ' WELL', TH_MARK, 'S-TEXT-NOTE', 'CENTER', allowed=('open' + name,), owner='open' + name)
@@ -113,19 +114,21 @@ class Plan:
         for st in POSTS:
             self.label(st['id'] + (' IPE 240' if with_sections else ''), 0.5*(st['x0']+st['x1']), st['y'], cands=[(0, 0.12, 'CENTER'), (0, -0.37, 'CENTER'), (-1, 0.12, 'CENTER'), (1, 0.12, 'CENTER'), (0, 0.6, 'CENTER'), (0, -0.85, 'CENTER')], allowed=(st['id'],))
         for r in RAFTERS:
-            ys = [r['y0'] + 0.6 + 0.9*i for i in range(6)] + [r['y1'] - 0.8]
-            s = r['mark'] + (' IPE 240' if with_sections else '')
-            for y in ys:
-                if not inside(r['x'], y, self.R): continue
-                e = self.label(s, r['x'], y, rot=90, cands=[(0.12, 0, 'LEFT'), (-0.12, 0, 'RIGHT'), (0.12, 0.5, 'LEFT'), (-0.12, 0.5, 'RIGHT'), (0.12, -0.5, 'LEFT'), (-0.12, -0.5, 'RIGHT')], allowed=(r['mark'],), leader=False)
-                if e is not None and not self.sh.reg.hits(self.sh.tbox(e), self.sh.reg.allowed[e.dxf.handle], 0.03): break
+            ya = max(r['y0'], self.R[1]) if self.R else r['y0']; yb = min(r['y1'], self.R[3]) if self.R else r['y1']
+            if yb - ya < 0.3: continue
+            s = r['mark'] + (' IPE 240' if (with_sections and (yb - ya)*self.s > 5.0) else '')
+            y0 = ya + 0.5; S = self.s
+            offs = [k*0.45*S for k in range(0, int((yb-ya-0.6)/0.45*S) + 1)] if False else [k*0.45 for k in range(0, int((yb - ya - 0.5)*S/0.45) + 1)]
+            cands = [(sx*0.12, dy, al) for dy in offs for sx, al in ((1, 'LEFT'), (-1, 'RIGHT'))]
+            self.label(s, r['x'], y0, rot=90, cands=cands, allowed=(r['mark'],), leader=False)
         if columns:
             for k, c in COLS.items():
                 self.label('C%s/%s' % (k[1:], k), c['cx'], c['cy'], allowed=('C' + k[1:],))
             self.label('WP1', WP1[0], WP1[1], allowed=('WP1',))
     def mark_bracing(self, sections=False):
         for b, d, (a, c) in BAYS:
-            (x1, y1), (x2, y2) = KXY[a], KXY[c]; xm, ym = 0.5*(x1+x2), 0.5*(y1+y2); s = b + (' 2 L70x7 X' if sections else '')
+            (x1, y1), (x2, y2) = KXY[a], KXY[c]; xm, ym = 0.5*(x1+x2), 0.5*(y1+y2); s = b + (' 2 L70x7 X' if (sections and self.s < 1.5) else '')
+            if self.R and not inside(xm, ym, self.R): continue
             out = 1 if (d == 'x' and ym > 30) else -1
             if d == 'x': cands = [(0, out*0.55 if out > 0 else -0.8, 'CENTER'), (0, -out*0.55 if out > 0 else 0.55, 'CENTER'), (1.5, 0.55, 'CENTER'), (-1.5, 0.55, 'CENTER')]
             else:

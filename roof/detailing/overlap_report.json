@@ -1,0 +1,87 @@
+{
+ "audit_errors": 0,
+ "audit_fixes": 0,
+ "entities": 4953,
+ "by_type": {
+  "LWPOLYLINE": 611,
+  "LINE": 1403,
+  "TEXT": 2568,
+  "HATCH": 106,
+  "CIRCLE": 104,
+  "DIMENSION": 161
+ },
+ "sheets": {
+  "S00": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 84,
+   "tt": [],
+   "tl": []
+  },
+  "S01": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 263,
+   "tt": [],
+   "tl": []
+  },
+  "S01a": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 116,
+   "tt": [],
+   "tl": []
+  },
+  "S02": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 501,
+   "tt": [],
+   "tl": []
+  },
+  "S03": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 114,
+   "tt": [],
+   "tl": []
+  },
+  "S04": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 188,
+   "tt": [],
+   "tl": []
+  },
+  "S04a": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 109,
+   "tt": [],
+   "tl": []
+  },
+  "S05": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 389,
+   "tt": [],
+   "tl": []
+  },
+  "S06": {
+   "text_text": 0,
+   "text_line": 0,
+   "unplaced": 0,
+   "texts": 804,
+   "tt": [],
+   "tl": []
+  }
+ }
+}

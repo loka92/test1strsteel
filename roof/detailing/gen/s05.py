@@ -1,213 +1,103 @@
-"""S05 base details per bases_C.md Rev 4: B1 (concentric anchors + Key A [+ Key B]), B2 (through-bolts + inboard key pair), P (K21 pier), WP1."""
-import math
+"""S05 base details per bases_C.md Rev 8: type E (post-installed rebars + keys) at all 27 columns, P at K21, WP1."""
+import math, textwrap
 from common import *
 from geom import *
-from s04 import D, K
+from s04 import D, K, prep
 OX, OY = 260.0, 8.0
-B1 = B1_COLS; B2 = B2_COLS
-EW = {'K1','K2','K5','K9','K10','K11','K12','K13','K14','K21','K22','K23','K24'}
-KEYB = {'K3':'+y','K4':'+x,+y','K6':'-x,+y','K8':'-x','K14':'+x'}
-EDGE_B1 = {'K3','K4','K6','K8','K11','K14'}                # one-sided coring zone (edge heads)
-PL350 = {'K3','K4','K6','K8','K11','K14'}                    # 350 x 400 plates (near-edge B1 bases)
-B2GEO = {  # keys pair, bolts, lever, plate, coring zone (mm from the column centre, x along E-W / y along N-S)
- 'K1': ('(-300,-200)/(300,-200)', '(-140,-250)/(140,-250)', 2.39, '800x550x30', 'x -700..700, y -600..100'), 'K2': ('(-300,-200)/(300,-200)', '(-140,-250)/(140,-250)', 2.39, '800x550x30', 'x -700..700, y -600..100'),
- 'K5': ('(-300,-200)/(300,-200)', '(-140,-250)/(140,-250)', 2.39, '800x550x30', 'x -700..700, y -600..100'), 'K7': ('(-200,-700)/(-200,-100)', '(-250,-380)/(-250,-100)', 2.93, '500x1000x30 skewed', 'x -600..100, y -1100..200'),
- 'K10': ('(-300,-200)/(300,-200)', '(-140,-250)/(140,-250)', 2.39, '800x550x30', 'x -700..700, y -600..150'),
- 'K15': ('(200,-300)/(200,300)', '(250,-140)/(250,140)', 2.39, '800x550x30', 'x -100..600, y -700..700'), 'K19': ('(200,-300)/(200,300)', '(250,-140)/(250,140)', 2.39, '800x550x30', 'x -100..600, y -700..700'),
- 'K18': ('(-200,-300)/(-200,300)', '(-250,-140)/(-250,140)', 2.39, '800x550x30', 'x -600..100, y -700..700'), 'K20': ('(-200,-300)/(-200,300)', '(-250,-140)/(-250,140)', 2.39, '800x550x30', 'x -600..150, y -700..700'),
- 'K22': ('(-300,200)/(300,200)', '(-140,250)/(140,250)', 2.39, '800x550x30', 'x -700..700, y -100..600'), 'K23': ('(-700,200)/(-100,200)', '(-380,250)/(-100,250)', 2.93, '1000x550x30 skewed', 'x -1100..200, y -100..600'),
- 'K25': ('(200,0)/(200,600)', '(250,0)/(250,280)', 2.59, '550x900x30', 'x -100..600, y -300..1000'), 'K27': ('(-200,0)/(-200,600)', '(-250,0)/(-250,280)', 2.59, '600x900x30', 'x -600..150, y -300..1000')}
-UTIL = {}   # utilisations per column from bases_C.md Rev 4b section 3 (read at run time)
-import re as _re
-for _ln in open(ROOT + '/design/C/bases_C.md'):
-    _m = _re.match(r'\| (K\d+|WP1) \|', _ln)
-    if _m:
-        _c = [x.strip() for x in _ln.strip().strip('|').split('|')]
-        _g = _re.search(r'\*\*(\d\.\d\d)\*\*', _ln)
-        if _g: UTIL[_m.group(1)] = float(_g.group(1))
-ZONE_INT = {'K9':600,'K12':650,'K13':600,'K16':650,'K17':400,'K24':450,'K26':500}
-def conc_col(d, cx, cy, ew, layer='S-EXIST', label=True):
+def conc_col(d, cx, cy, ew, label=True):
     a, b = (200, 100) if ew else (100, 200)
-    d.rect(cx-a, cy-b, cx+a, cy+b, layer, linetype='DASHED'); d.rect(cx-a+30, cy-b+30, cx+a-30, cy+b-30, layer, linetype='DASHED')
+    d.rect(cx-a, cy-b, cx+a, cy+b, 'S-EXIST', linetype='DASHED'); d.rect(cx-a+30, cy-b+30, cx+a-30, cy+b-30, 'S-EXIST', linetype='DASHED')
     pts = [(-157, -57), (157, -57), (157, 57), (-157, 57), (0, -57), (0, 57)] if ew else [(-57, -157), (57, -157), (57, 157), (-57, 157), (-57, 0), (57, 0)]
-    for x, y in pts: d.sh.circle(*d.P(cx+x, cy+y), 7*K, layer)
-    if label: d.text(cx-a, cy+b+15, 'existing column 200 x 400, 6 dia14 + dia6/200 (scan)', 0.12, layer=layer)
+    for x, y in pts: d.circle(cx+x, cy+y, 7, 'S-EXIST')
+    if label: d.label(cx-a, cy+b, 'existing column 200x400 (scan)', 0.16, prefer='L')
 def hea_plan(d, cx, cy, ew):
-    if ew: d.iprof(cx, cy-76, 152, 160, 6, 9, 'S-COL', rot=0)
-    else: d.iprof(cx, cy-80, 160, 152, 9, 6, 'S-COL', rot=1)
-def keyA(d, x, y): d.rect(x-45, y-45, x+45, y+45, 'S-DETAIL', lineweight=35); d.sh.circle(*d.P(x, y), 70*K, 'S-DETAIL', linetype='DASHED')
-def keyB(d, x, y): d.sh.circle(*d.P(x, y), 30*K, 'S-DETAIL', lineweight=35); d.sh.circle(*d.P(x, y), 55*K, 'S-DETAIL', linetype='DASHED')
-def slab_section(d, x0, x1, edge=None):
-    d.line(x0, 0, x1, 0, 'S-EXIST', lineweight=35); d.line(x0, -250, x1, -250, 'S-EXIST', lineweight=35)
-    d.hatch([(x0, -250), (x1, -250), (x1, 0), (x0, 0)], 0.12, 8, 45)
-    d.text(x0+10, -240, 'existing slab 250 (solid zone per coring criterion)', 0.12)
-    if edge is not None: d.line(edge, 0, edge, -250, 'S-EXIST', lineweight=50); d.text(edge-30, -230, 'building face / slab edge', 0.12, rot=90)
-# ---------------------------------------------------------------- B1
-def f_B1_plan(sh, fx, fy):
-    d = D(sh, fx, fy, 'B1', 'BASE B1 PLAN', '13 bases: plate 300x400x25 (K9, K12, K13, K16, K17, K24, K26) or 350x400x25 at the edge heads (K3, K4, K6, K8, K11, K14; Key B dia 60 at K3, K4, K6, K8, K14); 4 M20 resin anchors 80 x 280 h_ef 200, Key A SHS 90x90x8', sheet='S05')
-    d.title(-50, 1010, 'B1 300 x 400 x 25 (K9, K12, K13, K16, K17, K24, K26): example K9, long axis E-W, plate 400 (E-W) x 300')
-    cx, cy = 200, 760
-    conc_col(d, cx, cy, True); d.rect(cx-200, cy-150, cx+200, cy+150, 'S-DETAIL', lineweight=50); hea_plan(d, cx, cy, True)
+    if ew: d.iprof(cx, cy-66.5, 133, 140, 5.5, 8.5, 'S-COL', rot=0)
+    else: d.iprof(cx, cy-70, 140, 133, 8.5, 5.5, 'S-COL', rot=1)
+def keyA(d, x, y): d.rect(x-45, y-45, x+45, y+45, 'S-DETAIL', lineweight=35); d.circle(x, y, 70, linetype='DASHED')
+def keyB(d, x, y): d.circle(x, y, 30, lineweight=35); d.circle(x, y, 55, linetype='DASHED')
+def rebars(d, cx, cy, ew):
+    ax, ay = (120, 35) if ew else (35, 120)
     for sx in (-1, 1):
-        for sy in (-1, 1): d.hole(cx+sx*140, cy+sy*40, 26)
-    keyA(d, cx, cy); d.text(cx+215, cy-15, 'KEY A SHS 90x90x8 in a 140 pocket', 0.12)
-    d.dimh(cx-140, cx+140, cy-150, -60); d.dimh(cx-200, cx+200, cy-150, -100); d.dimv(cy-40, cy+40, cx-200, -60); d.dimv(cy-150, cy+150, cx-200, -100)
-    d.title(-50, 470, 'B1 350 x 400 x 25 edge heads (K3, K4, K6, K8, K11, K14; Key B: K3 +y, K4 +x +y, K6 -x +y, K8 -x, K14 +x): example K3, N-S, edge +y')
-    cx, cy = 200, 130
-    d.line(-80, cy+100, 520, cy+100, 'S-EXIST', lineweight=50); d.text(530, cy+90, 'building face', 0.12)
-    conc_col(d, cx, cy, False, label=False); d.rect(cx-150, cy-250, cx+150, cy+100, 'S-DETAIL', lineweight=50); hea_plan(d, cx, cy, False)
-    for sx in (-1, 1):
-        for sy in (-1, 1): d.hole(cx+sx*40, cy+sy*140, 26)
+        for sy in (-1, 1): d.hole(cx+sx*ax, cy+sy*ay, 30)
+def f_E_plan(sh, fx, fy):
+    d = D(sh, fx, fy, 'E', 'BASE E PLAN', 'All 27 columns: plate 300x400x20 (key-pair plates per schedule), 4 dia 16 B500 post-installed bars at 70 x 240 (240 along the concrete long axis), Key A SHS 90x90x8 (+ Key B / key pair)', sheet='S05')
+    d.title(1, 'Key A base, long axis E-W: K9, K11, K12, K13'); cx, cy = 200, 760
+    conc_col(d, cx, cy, True); d.rect(cx-200, cy-150, cx+200, cy+150, 'S-DETAIL', lineweight=50); hea_plan(d, cx, cy, True); rebars(d, cx, cy, True); keyA(d, cx, cy)
+    d.label(cx+45, cy, 'Key A SHS 90x90x8, pocket 140'); d.label(cx+120, cy+35, 'dia 16 bar, hole 30')
+    d.dimh(cx-120, cx+120, cy-150, -60); d.dimh(cx-200, cx+200, cy-150, -100); d.dimv(cy-150, cy+150, cx+200, 60)
+    d.title(2, 'Key A + B edge base, N-S: K3, K4, K6, K8 (K14 E-W)', y=310); cx, cy = 200, 80
+    d.line(-80, cy+100, 520, cy+100, 'S-EXIST', lineweight=50); d.label(520, cy+100, 'building face', prefer='R')
+    conc_col(d, cx, cy, False, label=False); d.rect(cx-150, cy-200, cx+150, cy+100, 'S-DETAIL', lineweight=50); hea_plan(d, cx, cy, False); rebars(d, cx, cy, False)
     keyA(d, cx, cy); d.rect(cx-45, cy+45, cx+45, cy+70, 'S-HATCH'); keyB(d, cx, cy-180)
-    d.text(cx+165, cy-190, 'KEY B dia 60 S355 in a 110 pocket, 180 inboard (c1 250)', 0.12); d.text(cx+165, cy+50, 'compressible strip 25 on the outboard face of pocket A', 0.12)
-    d.dimv(cy-140, cy+140, cx-210, -60); d.dimv(cy-250, cy+100, cx-210, -100); d.dimv(cy-180, cy, cx+160, 60); d.dimh(cx-40, cx+40, cy-250, -60); d.dimh(cx-150, cx+150, cy-250, -100)
-    d.notes(-50, -200, ['Anchors 26 clearance holes (tension only), 280 spacing along the concrete long axis (E-W or N-S per schedule); anchors 60 inside the head faces, h_ef 200 in the slab, nothing drilled into the column head.',
-        'Key B only where the schedule says so (outward shear > 3 kN towards an edge < 0.25 m); corners K4 / K6: two Key B. HEA web across the concrete short axis, weld a6 all round. Grout 25 (bed 25-40 permitted).'], 22)
-def f_B1_sec(sh, fx, fy):
-    d = D(sh, fx, fy, 'B1', 'BASE B1 SECTION 1-1', 'Section along the concrete long axis: anchors at 280, Key A SHS 90x90x8 stub 180 embedded in a 140 cored pocket 200 deep, Key B beyond (dashed) at edge heads', sheet='S05')
-    d.title(-50, 1010, 'SECTION 1-1 along the 400 axis of the concrete column')
-    slab_section(d, -350, 550)
-    d.rect(-200, -250, 200, -900, 'S-EXIST', linetype='DASHED'); d.text(0, -880, 'existing column 400 x 200 (not drilled)', 0.12, 'CENTER')
-    for x in (-157, 0, 157): d.line(x, -260, x, -900, 'S-EXIST', linetype='DASHED')
-    d.rect(-200, 0, 200, 25, 'S-HATCH'); d.text(210, -5, 'non-shrink grout 25 (bed 25-40 permitted)', 0.12)
-    d.rect(-200, 25, 200, 50, 'S-DETAIL', lineweight=50); d.text(210, 50, 'plate 300 x 400 x 25 S275, top +0.050', 0.12)
-    d.rect(-80, 50, 80, 600, 'S-COL', lineweight=35); d.line(0, 50, 0, 600, 'S-COL'); d.text(0, 350, 'HEA 160', 0.16, 'CENTER', 90); d.weld(80, 50, 6, 1, 'a6')
-    for x in (-140, 140):
-        d.rect(x-10, -200, x+10, 50, 'S-DETAIL', lineweight=35); d.rect(x-13, -200, x+13, 0, 'S-DETAIL', linetype='DASHED')
-        d.rect(x-16, 50, x+16, 63, 'S-DETAIL'); d.rect(x-16, 63, x+16, 80, 'S-DETAIL')
-    d.text(-330, 110, 'M20 8.8 resin anchor h_ef 200 (ETA, cracked C25)', 0.12)
+    d.label(cx+30, cy-180, 'Key B dia 60, 180 inboard'); d.label(cx+45, cy+58, 'compressible strip 25')
+    d.dimv(cy-120, cy+120, cx-210, -60); d.dimv(cy-200, cy+100, cx-210, -100); d.dimv(cy-180, cy, cx+160, 60); d.dimh(cx-150, cx+150, cy-200, -60)
+    d.notes(['Bars 4 dia 16 B500 threaded M16, 70 x 240 centred on the column (35 / 120 from the centre), 26 nominal clear to the corner dia14; pattern set on site +/-15 from the scan. Plate holes 30 with 10 mm washers. Key B only where the schedule says so (K3 +y, K4 +x +y, K6 -x +y, K8 -x, K14 +x).'])
+def f_E_sec(sh, fx, fy):
+    d = D(sh, fx, fy, 'E', 'BASE E SECTION', 'Section along the concrete long axis: bars at 240, hole 20 x 600 (300 slab + 300 head, 250 min), top 300 debonded (sleeve), resin in the head only; Key A stub 180 in a 140 pocket', sheet='S05')
+    d.title(1, 'SECTION 1-1 along the concrete long axis')
+    d.line(-280, 0, 520, 0, 'S-EXIST', lineweight=35); d.line(-280, -300, 520, -300, 'S-EXIST', lineweight=35); d.hatch([(-280,-300),(520,-300),(520,0),(-280,0)], 0.12, 8, 45); d.label(-280, -300, 'slab 300 (GPR)', prefer='R')
+    d.rect(-200, -300, 200, -950, 'S-EXIST', linetype='DASHED'); d.label(0, -950, 'column head 400x200, 6 dia14', prefer='C')
+    for x in (-157, 0, 157): d.line(x, -310, x, -950, 'S-EXIST', linetype='DASHED')
+    d.rect(-200, 0, 200, 25, 'S-HATCH'); d.label(200, 12, 'grout 25', prefer='R'); d.rect(-200, 25, 200, 45, 'S-DETAIL', lineweight=50); d.label(-200, 40, 'plate 300x400x20', prefer='L')
+    d.rect(-70, 45, 70, 600, 'S-COL', lineweight=35); d.line(0, 330, 0, 600, 'S-COL'); d.label(70, 350, 'HEA 140, a6'); d.weld(70, 45, 6, 1)
+    for x in (-120, 120):
+        d.rect(x-8, -600, x+8, 45, 'S-DETAIL', lineweight=35); d.rect(x-10, -600, x+10, 0, 'S-DETAIL', linetype='DASHED')
+        d.rect(x-13, -300, x+13, 0, 'S-DETAIL'); d.rect(x-14, 45, x+14, 57, 'S-DETAIL'); d.rect(x-14, 57, x+14, 72, 'S-DETAIL')
+    d.label(-120, 60, 'dia 16 bar, M16 nut', prefer='L'); d.label(128, -150, 'sleeve, top 300 debonded', prefer='R'); d.label(128, -450, 'resin 300 into the head', prefer='R')
     d.rect(-70, -200, 70, 25, 'S-HATCH'); d.rect(-45, -180, 45, 25, 'S-DETAIL', lineweight=50); d.line(-37, -180, -37, 25, 'S-DETAIL'); d.line(37, -180, 37, 25, 'S-DETAIL')
-    d.text(170, -95, 'KEY A SHS 90x90x8 S355, welded a8, 180 embedded, 20 grout under the toe', 0.12); d.text(170, -150, 'pocket cored 140 x 200 deep (by scan, <= 1 top bar cut)', 0.12); d.text(170, -205, 'anchors stop >= 50 above the column top', 0.12)
-    d.rect(-240, -200, -180, 40, 'S-DETAIL', linetype='DASHED'); d.text(-330, -120, 'Key B beyond (edge heads), 180 inboard', 0.11, 'LEFT', 90) if False else d.text(-345, -190, 'Key B beyond', 0.11)
-    d.dimh(-140, 140, 100, 60); d.dimh(-200, 200, 100, 100); d.dimv(0, 25, -260, -60); d.dimv(25, 50, -260, -60); d.dimv(-200, 0, -260, -100); d.dimv(-250, 0, 260, 60)
-    d.dimh(-70, 70, -250, -60); d.dimh(-45, 45, -250, -100)
-    d.notes(-350, -900, ['Uplift -> 4 anchors (cone with real edges: 98.5 interior / 50.4 one edge / 37.8 corner kN; rigid-post key moment V x 85 mm into the group); shear -> Key A (83.8 kN); outward at edges -> Key B (38.2 kN).',
-        'Level on shims, grout pockets and bed, then set the resin anchors through the plate; nuts snug + 1/4 turn. Worst B1: K14 %.2f.' % max(UTIL.get(k, 0) for k in B1)], 22)
-# ---------------------------------------------------------------- B2
-def f_B2_plan(sh, fx, fy):
-    d = D(sh, fx, fy, 'B2', 'BASE B2 PLAN', '13 bases: standard 800 x 550 x 30 + 2 stiffeners at K1, K2, K5, K10, K15, K18, K19, K20, K22; K7 500 x 1000 skewed, K23 1000 x 550 skewed, K25 550 x 900, K27 600 x 900; 2 M24 through-bolts 250 inboard @ 280, SHS 90x90x8 key pair 200 inboard', sheet='S05')
-    d.title(-50, 1010, 'PLAN, building face at the top (example K1, long axis E-W, edge +y, plate 800 along x 550 across, 100 outboard); K7 / K23 / K25 / K27 per schedule')
-    cx, cy = 230, 560
-    d.line(-150, cy+100, 620, cy+100, 'S-EXIST', lineweight=50); d.text(630, cy+90, 'building face', 0.12)
-    conc_col(d, cx, cy, True, label=False); d.text(cx-200, cy-250+ -10, '', 0.1)
-    d.rect(cx-400, cy-450, cx+400, cy+100, 'S-DETAIL', lineweight=50)
-    hea_plan(d, cx, cy, True)
-    for sx in (-1, 1): d.rect(cx+sx*80-5, cy-450, cx+sx*80+5, cy-76, 'S-DETAIL', lineweight=35)
-    d.text(cx+95, cy-330, 'stiffeners 2 x 120 x 10, flange tips to the inboard end', 0.11)
-    for sx in (-1, 1): d.hole(cx+sx*140, cy-250, 26)
-    d.text(cx+170, cy-262, 'M24 8.8 through-bolts (26 holes)', 0.12)
+    d.label(-45, -120, 'Key A SHS 90, pocket 140, a8', prefer='L')
+    d.dimv(-300, 0, -260, -60); d.dimv(-600, -300, -260, -60)
+    d.notes(['Load path: uplift -> 4 bars lapped with the column-head bars (bond 4 x 33.9 kN per 250 mm, no slab cone); shear -> Key A (83.8 kN, rigid-post key moment V x 85 into the group); outward shear at edges -> Key B or the inboard key pair.',
+             'Procedure (bases_C.md s.1, V3): cover-meter on 4 faces, GPR from above, mark the pattern, 10 mm pilot 600 deep with feed monitoring (steel contact: relocate +/-15, re-pilot), 20 mm hole, clean x2, sleeve the top 300, inject the head part, set the bar; proof test 3 bars >= 60 kN, 2 min, <= 1 mm.'])
+def f_pair(sh, fx, fy):
+    d = D(sh, fx, fy, 'E', 'KEY-PAIR PLAN', 'Edge / braced bases K1, K2, K5, K7, K10, K15, K18, K19, K20, K22, K23, K25, K27: plate 800 x 400 x 20 standard (K7 / K23 / K25 / K27 / K15-K20 per schedule), inboard SHS 90 key pair, same 4 bars', sheet='S05')
+    d.title(1, 'PLAN, building face at the top (K1: E-W, edge +y)'); cx, cy = 230, 560
+    d.line(-150, cy+100, 620, cy+100, 'S-EXIST', lineweight=50); d.label(620, cy+100, 'building face', prefer='R')
+    conc_col(d, cx, cy, True, label=False); d.rect(cx-400, cy-300, cx+400, cy+100, 'S-DETAIL', lineweight=50); hea_plan(d, cx, cy, True); rebars(d, cx, cy, True)
     for sx in (-1, 1): keyA(d, cx+sx*300, cy-200)
-    d.text(cx-400, cy-140, 'KEY A pair SHS 90x90x8 in 140 pockets, y -200', 0.12)
-    d.rect(cx-175, cy-450, cx+175, cy-390, 'S-HATCH'); d.text(cx+185, cy-440, 'tip bearing strip 350 x 60 (grout pad)', 0.11)
-    d.rect(cx-200, cy-350, cx+200, cy-150, 'S-DETAIL', linetype='DASHDOT'); d.text(cx-200, cy-370, 'under-slab plate 400 x 200 x 25 (dash-dot)', 0.11)
-    d.dimv(cy, cy+100, cx-420, -60); d.dimv(cy-250, cy, cx-420, -60); d.dimv(cy-450, cy, cx-420, -100); d.dimv(cy-200, cy, cx+420, 60); d.dimv(cy-450, cy-390, cx+420, 60)
-    d.dimh(cx-140, cx+140, cy-450, -60); d.dimh(cx-300, cx+300, cy-450, -100); d.dimh(cx-400, cx+400, cy-450, -140)
-    d.notes(-50, -20, ['Bolt row and key pair >= 300 mm from every slab edge: K7 plate 500 x 1000 skewed (bolts (-250, -380) / (-250, -100), keys (-200, -700) / (-200, -100)); K23 1000 x 550 skewed (bolts (-380, 250) / (-100, 250), keys (-700, 200) / (-100, 200)); K25 550 x 900 (bolts (250, 0) / (250, 280), keys (200, 0) / (200, 600)); K27 600 x 900 mirrored; N-S walls (K15, K18-K20): row 250 inboard on x, 280 apart on y, keys x +200 / -200.',
-        'Bolts in clearance holes carry no shear; keys carry no tension. Ceiling opening ~600 x 600 under each of the 13 B2 bases for the under-slab plate (dry-pack seated). Grout 25 (bed 25-40); plate top +0.055.'], 22)
-def f_B2_sec2(sh, fx, fy):
-    d = D(sh, fx, fy, 'B2', 'BASE B2 SECTION 2-2', 'Across the wall: lever action - bolt row at c = 250 holds the plate down, inboard tip strip at b = 430 bears (T = N_t b/(b-c)); under-slab plate 400x200x25; keys at 200 inboard', sheet='S05')
-    d.title(-50, 1010, 'SECTION 2-2 across the wall (building face left, column flush with the face)')
-    slab_section(d, -100, 700, edge=-100)
-    d.rect(-100, -250, 100, -900, 'S-EXIST', linetype='DASHED'); d.text(0, -880, 'existing column (200 across)', 0.12, 'CENTER')
-    d.rect(-100, 0, 450, 25, 'S-HATCH'); d.rect(-100, 25, 450, 55, 'S-DETAIL', lineweight=50); d.text(460, 40, 'plate 800 x 550 x 30, top +0.055; grout 25', 0.12)
-    d.rect(80, 55, 90, 400, 'S-DETAIL', lineweight=35); d.line(90, 400, 450, 55, 'S-DETAIL', lineweight=35); d.text(200, 300, 'stiffener 120 x 10 (2)', 0.12)
-    d.rect(-76, 55, 76, 600, 'S-COL', lineweight=35); d.line(-76, 64, 76, 64, 'S-COL'); d.line(-76, 591, 76, 591, 'S-COL'); d.text(-60, 350, 'HEA 160', 0.14, 'LEFT', 90)
-    x = 250
-    d.rect(x-12, -330, x+12, 55, 'S-DETAIL', lineweight=35); d.rect(x-19, 55, x+19, 90, 'S-DETAIL'); d.rect(x-19, -330, x+19, -295, 'S-DETAIL'); d.rect(x-13, -250, x+13, 0, 'S-DETAIL', linetype='DASHED')
-    d.text(x+30, 120, 'M24 8.8 through-bolt (2 @ 280 along the wall), 26 holes, snug + 1/4 turn after grout cure', 0.11)
-    d.rect(150, -275, 350, -250, 'S-DETAIL', lineweight=50); d.text(360, -290, 'under-slab plate 400 (along) x 200 x 25 on the solid soffit, dry-packed; ceiling opening ~600 x 600', 0.11)
-    d.rect(390, 0, 450, 25, 'S-HATCH'); d.hatch([(390,0),(450,0),(450,25),(390,25)], 0.03, 7, 135); d.text(300, -60, 'tip bearing strip 350 x 60 at 10 MPa (210 kN)', 0.11)
-    d.rect(155, -200, 245, 25, 'S-DETAIL', linetype='DASHED'); d.text(-95, -60, 'keys SHS 90 beyond, pair at 200 inboard, +/-300 along', 0.11, rot=90)
-    d.dimh(-100, 0, 110, 60); d.dimh(0, 250, 110, 60); d.dimh(0, 430, 110, 100); d.dimh(-100, 450, 110, 140); d.dimv(-250, 0, 480, 60); d.dimv(0, 55, 480, 60)
-    d.text(-95, 400, 'c = 250, b = 430: T = N_t b/(b - c) = 2.39 N_t (2.59 / 2.93 at shifted rows)', 0.11)
-    d.notes(-100, -840, ['Lever action: bolts T = 2.39 N_t (K19: 175 kN vs 2 M24 = 407 kN), tip compression C = T - N_t on the strip; plate checked for N_t c + M_key (M_Rd 48 kNm). Worst B2 per the schedule.',
-        'Coring zone per schedule (key breakout bodies + under-slab plate: standard +/- 700 along, to 600 from the face), soffit accessible; else Rev 2 concept (anchors into the head, h_ef >= 300) at that head, agreed with the reviewer.'], 22)
-def f_B2_sec3(sh, fx, fy):
-    d = D(sh, fx, fy, 'B2', 'BASE B2 SECTION 3-3', 'Along the wall through the bolt row (250 inboard): 2 M24 at 280, under-slab plate 400 x 200 x 25, keys SHS 90x90x8 at +/-300 beyond; plate 800 along (1000 K23, 900 K25/K27)', sheet='S05')
-    d.title(-50, 1010, 'SECTION 3-3 along the wall, cut 250 mm inboard (through the bolt row and the under-slab plate)')
-    slab_section(d, -450, 550)
-    d.rect(-200, -250, 200, -900, 'S-EXIST', linetype='DASHED'); d.text(0, -880, 'existing column 400 x 200 beyond (not drilled)', 0.12, 'CENTER')
-    d.rect(-400, 0, 400, 25, 'S-HATCH'); d.rect(-400, 25, 400, 55, 'S-DETAIL', lineweight=50); d.text(410, 40, 'plate 800 x 550 x 30 (K7 500 x 1000, K23 1000 x 550, K25 / K27 900 long)', 0.12)
-    d.rect(-80, 55, 80, 600, 'S-COL', linetype='DASHED'); d.text(0, 350, 'HEA 160 beyond', 0.14, 'CENTER', 90)
-    d.rect(-85, 55, -75, 400, 'S-DETAIL', lineweight=35); d.rect(75, 55, 85, 400, 'S-DETAIL', lineweight=35); d.text(95, 380, 'stiffeners 120 x 10 (cut)', 0.11)
-    for x in (-140, 140):
-        d.rect(x-12, -330, x+12, 55, 'S-DETAIL', lineweight=35); d.rect(x-19, 55, x+19, 90, 'S-DETAIL'); d.rect(x-19, -330, x+19, -295, 'S-DETAIL'); d.rect(x-13, -250, x+13, 0, 'S-DETAIL', linetype='DASHED')
-    d.rect(-200, -275, 200, -250, 'S-DETAIL', lineweight=50); d.text(210, -285, 'under-slab plate 400 x 200 x 25', 0.11)
-    for x in (-300, 300):
-        d.rect(x-70, -200, x+70, 25, 'S-HATCH'); d.rect(x-45, -180, x+45, 25, 'S-DETAIL', lineweight=50)
-    d.text(-440, -110, 'KEY A pair SHS 90x90x8, 180 embedded, 140 pockets (beyond, at 200 inboard)', 0.11)
-    d.dimh(-140, 140, 110, 60); d.dimh(-300, 300, 110, 100); d.dimh(-400, 400, 110, 140); d.dimv(-250, 0, 430, 60); d.dimv(-330, 55, -430, -60)
-    d.notes(-450, -860, ['Bolts M24 8.8 x 420 in 26 holes cored beside the column head after the rebar scan (<= 1 top bar cut), >= 300 mm to every slab edge; seal the holes; no coring into a column head.',
-        'Keys take the whole base shear (bearing 83.8 kN each; outward: edge breakout 41.5 kN each at c1 255); bolts and anchors take none.'], 22)
-# ---------------------------------------------------------------- P and WP1
+    d.label(cx-300, cy-245, 'Key A pair SHS 90x90x8', prefer='L'); d.label(cx+120, cy+35, '4 dia 16 at 70 x 240')
+    d.dimv(cy, cy+100, cx-420, -60); d.dimv(cy-300, cy, cx-420, -60); d.dimv(cy-200, cy, cx+420, 60); d.dimh(cx-120, cx+120, cy-300, -60); d.dimh(cx-300, cx+300, cy-300, -100); d.dimh(cx-400, cx+400, cy-300, -140)
+    d.notes(['Key pair >= 300 from every slab edge: K7 plate 400 x 950 keys (-200, -700) / (-200, -100); K23 1000 x 400 keys (-700, 200) / (-100, 200); K25 400 x 850 keys (200, 0) / (200, 600); K27 mirrored; N-S walls K15 / K19 keys (200, +/-300), K18 / K20 (-200, +/-300); K22 (+/-300, 200); K5 / K10 as K1. No stiffeners (concentric uplift, no lever).',
+             'Slab solid 300 over the key bodies (schedule) - GPR; bars unchanged; plate strip under the key moment governs at the E-W bay bases (K23 0.68, K22 0.67, K20 0.64, K27 0.64).'])
 def f_P_WP(sh, fx, fy):
-    d = D(sh, fx, fy, 'P', 'K21 PIER BASE, WP1 BASE', 'K21: plate 300x400x25, 4 M16 resin anchors 70 x 280 h_ef 400 into the 200 pier (lap with the pier bars; PATTERN FIXED ON SITE FROM THE REBAR SCAN) + saddle 2 x 400x150x15; WP1: plate 250x250x15, one centred 60 key', sheet='S05')
-    d.title(-50, 1010, 'K21 - SECTION N-S across the pier (notch edge y 19.97 left, shaft opening y 20.17 right)')
+    d = D(sh, fx, fy, 'P', 'K21 PIER, WP1', 'K21: plate 300x400x20, 4 dia 16 bars into the 200 pier (pattern fixed on site from the scan) + saddle 2 x 400x150x15; WP1: plate 250x250x15, one centred dia 60 key, 280 inboard', sheet='S05')
+    d.title(1, 'K21 - SECTION N-S across the pier', y=560)
     d.line(-300, 0, 450, 0, 'S-EXIST', linetype='DASHED'); d.rect(-100, -560, 100, 0, 'S-EXIST', lineweight=35); d.hatch([(-100,-560),(100,-560),(100,0),(-100,0)], 0.12)
     for x in (-57, 57): d.line(x, -560, x, -10, 'S-EXIST', linetype='DASHED')
     for y in (-100, -300, -500): d.rect(-70, y-3, 70, y+3, 'S-EXIST')
-    d.text(0, -550, 'pier 200 (K21): 6 dia14 + dia6 links <= 200 (scan)', 0.11, 'CENTER'); d.text(-290, -80, 'notch (outside)', 0.12); d.text(120, -80, 'shaft well', 0.12)
-    d.rect(-150, 0, 150, 40, 'S-HATCH'); d.rect(-150, 40, 150, 65, 'S-DETAIL', lineweight=50); d.text(160, 50, 'plate 300 x 400 x 25', 0.12)
-    d.rect(-76, 65, 76, 480, 'S-COL', lineweight=35); d.text(0, 280, 'HEA 160', 0.14, 'CENTER', 90)
-    for x in (-35, 35): d.rect(x-8, -400, x+8, 65, 'S-DETAIL', lineweight=35); d.rect(x-13, 65, x+13, 90, 'S-DETAIL')
-    d.text(-290, 100, 'M16 8.8 resin anchors, 4 at 70 x 280 nominal, h_ef 400 into the pier (lap with the pier bars); pattern fixed on site from the rebar scan, clear of the 6 dia14', 0.11)
+    d.label(0, -560, 'pier 200: 6 dia14 + links (scan)', 0.16, prefer='C'); d.label(-300, -60, 'notch', prefer='L'); d.label(300, -60, 'shaft well', prefer='R')
+    d.rect(-150, 0, 150, 25, 'S-HATCH'); d.rect(-150, 25, 150, 45, 'S-DETAIL', lineweight=50); d.label(150, 35, 'plate 300x400x20')
+    d.rect(-66.5, 45, 66.5, 480, 'S-COL', lineweight=35); d.label(66.5, 300, 'HEA 140')
+    for x in (-35, 35): d.rect(x-8, -400, x+8, 45, 'S-DETAIL', lineweight=35); d.rect(x-14, 45, x+14, 70, 'S-DETAIL')
+    d.label(-43, -400, 'dia 16 bars, 300 into the pier', prefer='L')
     for s in (-1, 1):
-        d.rect(s*100 + (0 if s > 0 else -15), -150, s*100 + (15 if s > 0 else 0), 40, 'S-DETAIL', lineweight=50)
-        d.rect(s*100 + (15 if s > 0 else -40), -150, s*100 + (40 if s > 0 else -15), 0, 'S-HATCH')
-    d.text(-290, -230, 'saddle 2 x 15 S275, 400 long x 150 deep, welded a6 to the plate, grouted 25 against the pier faces: N-S shear 82.5 kN', 0.11)
-    d.dimh(-100, 100, -280, -60); d.dimh(-35, 35, 100, 60); d.dimv(-400, 0, 200, 60); d.dimv(-150, 40, 200, 100)
-    d.title(-50, -560, 'WP1 - PLAN at the notch corner (77.89, 19.97); post centre at (77.61, 20.25)')
-    y0 = -1040
-    d.line(-450, y0, 350, y0, 'S-EXIST', lineweight=50); d.line(-450, y0, -450, y0+400, 'S-EXIST', lineweight=50); d.text(-460, y0+60, 'slab edges', 0.12, 'RIGHT')
-    cx, cy = -450+280, y0+280
-    d.rect(cx-125, cy-125, cx+125, cy+125, 'S-DETAIL', lineweight=50); d.text(cx+135, cy+100, 'plate 250 x 250 x 15', 0.12)
-    d.iprof(cx, cy-76, 152, 160, 6, 9, 'S-COL'); keyB(d, cx, cy); d.text(cx+135, cy+40, 'key dia 60, pocket 110 x 200, c1 250 both ways', 0.11)
+        d.rect(s*100 + (0 if s > 0 else -15), -150, s*100 + (15 if s > 0 else 0), 25, 'S-DETAIL', lineweight=50); d.rect(s*100 + (15 if s > 0 else -40), -150, s*100 + (40 if s > 0 else -15), 0, 'S-HATCH')
+    d.label(140, -150, 'saddle 2 x 15, grouted', prefer='R')
+    d.dimh(-100, 100, -560, -60); d.dimv(-400, 0, 200, 60)
+    d.title(2, 'WP1 - PLAN at the notch corner', y=-760); y0 = -1250
+    d.line(-450, y0, 350, y0, 'S-EXIST', lineweight=50); d.line(-450, y0, -450, y0+400, 'S-EXIST', lineweight=50); d.label(-450, y0+350, 'slab edges', prefer='L')
+    cx, cy = -170, y0+280
+    d.rect(cx-125, cy-125, cx+125, cy+125, 'S-DETAIL', lineweight=50); d.label(cx+125, cy+100, 'plate 250x250x15')
+    d.iprof(cx, cy-66.5, 133, 140, 5.5, 8.5, 'S-COL'); keyB(d, cx, cy); d.label(cx+30, cy, 'key dia 60, c1 250')
     for x in (cx-100, cx+100): d.hole(x, cy-100, 14)
-    d.text(cx+135, cy-110, '2 M12 for location (no uplift)', 0.11)
-    d.dimh(-450, cx, y0, -60); d.dimv(y0, cy, -450, -60)
-    d.text(-440, y0-70, 'Demand 11.8 / 8.8 kN vs 38.2 kN edge breakout (0.31); corner girts cantilever 280 to the wall line (D9). Notch edge beam: core to confirm.', 0.11)
-# ---------------------------------------------------------------- sheet
+    d.label(cx+100, cy-100, '2 M12 location'); d.dimh(-450, cx, y0, -60); d.dimv(y0, cy, -450, -60)
+    d.notes(['WP1: 11.4 / 8.5 kN vs 41.9 kN edge breakout (0.27); corner girts cantilever 280 to the wall line (D9); notch edge beam by GPR. K21: saddle 82.5 kN N-S; pier faces accessible from the notch and the shaft top (client).'])
 def draw(msp):
-    sh = Sheet(msp, OX, OY, 'S05', 'BASE DETAILS B1 / B2 / P / WP1 AND NOTES', 'Details drawn 5x in model space (1 m = 200 mm); DIMENSION text = true mm (dimlfac 200)')
-    f_B1_plan(sh, 0.4, 16.2); f_B1_sec(sh, 8.7, 16.2); f_B2_plan(sh, 17.0, 16.2)
-    f_B2_sec2(sh, 0.4, 2.9); f_B2_sec3(sh, 8.7, 2.9); f_P_WP(sh, 17.0, 2.9)
-    rows = []
+    sh = Sheet(msp, OX, OY, 'S05', 'BASE DETAILS TYPE E / P / WP1 AND SCHEDULE', 'Details drawn 4x or 5x in model space (scale in each frame); DIMENSION text = true mm (dimlfac 250 / 200)')
+    for f, fx in ((f_E_plan, 0.3), (f_E_sec, 10.65), (f_pair, 21.0), (f_P_WP, 31.35)): prep(f); f(sh, fx, 16.4)
+    u = base_util(); rows = []
     for k in COLS:
-        ew = k in EW; ax = 'E-W' if ew else 'N-S'
-        if k in B1:
-            keys = 'A centre' + (' + B ' + KEYB[k] if k in KEYB else ''); bolts = '4 M20 h_ef 200, 80 x 280 (280 %s)' % ax
-            plate = '350x400x25' if k in PL350 else '300x400x25'
-            zone = 'face / >=340 in / +/-400 along' if k in EDGE_B1 else '>= %d x %d centred' % (ZONE_INT[k], ZONE_INT[k])
-            typ = 'B1'
-        elif k in B2:
-            kp, bp, lev, pl, zn = B2GEO[k]; keys = 'A pair ' + kp; bolts = '2 M24 through ' + bp + ', lever %.2f' % lev; plate = pl + ' + 2 stiff.'; zone = zn + ', soffit'; typ = 'B2'
-        else:
-            keys = 'saddle N-S'; bolts = '4 M16 h_ef 400 in the pier, 70 x 280'; plate = '300x400x25 + saddle'; zone = 'pier 200 x >= 800, top 500, scan'; typ = 'P'
-        rows.append(['C' + k[1:], k, typ, ax, keys, bolts, plate, '%.2f' % UTIL.get(k, 0), zone])
-    rows.append(['WP1', '-', 'post', '-', 'one dia 60 centred', '2 M12 location', '250x250x15', '0.31', 'edge beam, 600 x 600 round the post'])
-    yb = sh.table(25.7, 29.0, [('Mark',0.8),('K',0.6),('Type',0.7),('Axis',0.7),('Keys (mm from col. centre)',3.1),('Bolts / anchors (mm from col. centre)',4.2),('Plate',2.3),('Util.',0.7),('Coring zone (solid concrete)',2.6)], rows, 0.33, 0.105,
-                  title='BASE SCHEDULE (bases_C.md Rev 4b s.3): B1 x 13, B2 x 13, P at K21 (x = E-W, y = N-S, mm)')
-    yb = sh.note_block(25.7, yb - 0.45, 'CORING ACCEPTANCE CRITERION (Rev 4b section 5: identical to the concrete the checks use)', [
-        'B1 heads: solid concrete (no blocks, no voids, full depth >= 250, C25 by rebound + core) over the zone in the schedule = the cone extent used: edge heads one-sided - outboard to the building face, inboard >= 340 from the column centre (40 + c_cr 300), +/- 400 along the wall; interior heads centred at the tabulated minimum (K12 / K16 650, K9 / K13 600, others <= 550). A B1 head that fails is built as B2 (no cone).',
-        'B2 heads: solid concrete over the tabulated x / y zone = key breakout bodies (383 beyond each key: +/- 700 along the wall standard) plus bolts and under-slab plate to 600 from the face (K7 -1100..+200, K23 -1100..+200 along, K25 / K27 -300..+1000), soffit accessible (ceiling opening ~600 x 600 at each of the 13 bases). Not accessible: Rev 2 concept (anchors into the column head, h_ef >= 300, scan) at that head only, agreed with the reviewer. GPR of all 27 heads plus 3-6 cores (critique).',
-        'Slab designer: each B2 base applies T down at the bolt row (under-slab plate) and C up at the plate tip 180 further inboard, e.g. K19 175 / 102, K23 182 / 120, K20 153 / 89 kN (ULS, concurrent with the column uplift); K7 / K23 / K25 / K27 plates bend about a skewed axis. Thermal (C4): +9 kN on the B1 / B2 bay shear with wind, 23 kN thermal-leading; K1, K2, K5, K7 are B2.',
-        'K21: rebar scan confirming 6 dia14 and links <= 200 in the top 500 mm of the pier; the 70 x 280 anchor pattern is fixed on site from the scan; pier faces accessible for the saddle. WP1: notch edge beam by core.',
-        'Sequence: cores at 3 heads first (one B1 interior, one B1 edge, one B2), then every head by 60 mm core or GPR against its own line of the schedule. No coring or drilling into a column head except the K21 pier anchors.'], 0.13, 0.22, 128)
-    yb = sh.note_block(25.7, yb - 0.4, 'BEFORE ANCHOR / BOLT INSTALLATION (Rev 4b section 6)', [
-        '1. Rebar scan of the slab top bars at every head; place the 140 / 110 pockets and the through-bolt holes to cut at most one top bar; anchors 20 mm clear of slab bars.',
-        '2. Pull-out test on 3 sacrificial M20 resin anchors (h_ef 200) to 1.3 x max B1 anchor = 45 kN before production drilling; supplier ETA group verification.',
-        '3. B2: torque the M24 through-bolts to snug + 1/4 turn after the grout has cured; check the under-slab plate seating (dry-pack). B1: nuts snug + 1/4 turn, no preload relied upon.'], 0.13, 0.22, 128)
-    yb = sh.note_block(25.7, yb - 0.4, 'MATERIALS', [
-        'Structural steel S275 J0 (EN 10025-2); keys SHS 90x90x8 and Key B bar S355 (bar f_y 335); plates S275. Bolts 8.8 (EN 15048 / ISO 4014-4032), hot-dip galvanised; through-bolts M24 8.8 x 420 with 60 x 6 washers.',
-        'Resin anchors M20 8.8 (M16 at K21, M12 at WP1) with an ETA for cracked concrete C25; installed per the ETA (hole cleaning, cure at 40 C+). Non-shrink cementitious grout C50 class for the bed, pockets, saddle and tip strip; dry-pack under the B2 under-slab plates.',
-        'Hot-dip galvanising EN ISO 1461 (85 um) all steel; site touch-up zinc-rich. Cold-formed Z200x2.0 / C sections S350GD+Z275. PIR panel 50 mm, BoardX walls (product data to be confirmed).'], 0.13, 0.22, 128)
-    yb = sh.note_block(25.7, yb - 0.4, 'ERECTION SEQUENCE', [
-        '1 Slab-top survey (datum), cores, scans, pull-out tests, acceptance per head (B1 / B2 / P).  2 Core the key pockets and B2 bolt holes; open the ceiling at the 13 B2 bases; set shims and level (plate top +0.050 B1 / +0.055 B2).',
-        '3 Erect columns C1-C27 and WP1 with keys in the pockets; grout pockets and beds; B1: drill and set the resin anchors through the plate; B2: fit the under-slab plates and through-bolts, torque after cure.',
-        '4 Primaries P1-P19 on the cap plates (4 M20 each, tie plates at rows F and B); temporary guys.  5 Rafters R1-R11, trimmer T2, posts ST1/ST2 (fin plates).',
-        '6 Wall bracing B1-B10 and roof rods RT-* (turnbuckles snug, lock nuts); release guys.  7 Purlins, fly braces, eave rail, girts, anti-sag rows.',
-        '8 Roof panels from the south (high) edge north, well upstands and flashings, gutter and downpipes, wall panels. No panel before all bracing is in.'], 0.13, 0.22, 128)
-    yb = sh.note_block(25.7, yb - 0.4, 'TOLERANCES (EN 1090-2 class 1 unless noted) AND GROUT NOTE', [
-        'Column base position +/- 10 mm, plumb h/300 (max 10 mm); primary level +/- 5 mm at the cap; rafter TOS +/- 10 mm; anchor / bolt pattern +/- 20 mm (cone / lever change < 3 %) but never closer than 20 mm to a slab bar and never < 300 mm to a slab edge (B2); pocket positions set by scan.',
-        'Grout bed 25 mm nominal (25-40 permitted, bases_C.md checks valid over that range); column top = TOS - 0.30, length TOS - 0.35 (B1) / TOS - 0.355 (B2); slab-top level survey defines the datum for every column length.'], 0.13, 0.22, 128)
+        ew = k in EW_COLS; typ = base_type(k)
+        keys = 'saddle' if k == 'K21' else ('A pair ' + KEYPAIR[k] if k in KEYPAIR else 'A centre' + (' + B ' + KEYB[k] if k in KEYB else ''))
+        plate = '300x400x20 + saddle' if k == 'K21' else PLATE.get(k, '300x400x20')
+        rows.append(['C' + k[1:], k, typ, 'E-W' if ew else 'N-S', '4 d16 (+/-%d, +/-%d)' % ((120, 35) if ew else (35, 120)), keys, plate, '%.2f' % u.get(k, (0, ''))[0], u.get(k, (0, ''))[1][:38]])
+    rows.append(['WP1', '-', 'post', '-', '2 M12', 'one dia 60 centred', '250x250x15', '0.27', 'key edge breakout'])
+    yb = sh.table(0.3, 15.6, [('Mark',0.8),('K',0.6),('Type',0.6),('Axis',0.7),('Bars (mm from centre)',2.4),('Keys (mm from centre)',3.2),('Plate (extents from centre)',4.2),('Util.',0.7),('Governing check',3.9)], rows, 0.33, 0.14,
+                  title='BASE SCHEDULE (bases_C.md Rev 8 s.3): x E-W, y N-S; all type E, P at K21; worst K7 0.83')
+    sh.note_block(18.2, 15.6, 'SLAB AND COLUMN-HEAD VERIFICATION (bases_C.md Rev 8 s.5-6)', [
+        'No solid-zone criterion for the anchorage: the bars depend on the column head only (6 dia14, dia6 links, C25) - confirmed by the face cover-meter scan of every head and 3-6 cores for the grade. The slab must be solid (no blocks) and 300 mm thick under each base plate and around the key pockets (Key A +/- 400; key pairs: the key breakout bodies, +/- 700 along the wall for the standard pair) - GPR from above at all 27 heads, also for the slab top bars at the pockets.',
+        'A head with fewer than 4 sound corner bars or links > 200: embedment 300-350 (bond alone 4 x 33.9 kN per 250) and the lap re-checked with the scanned bars before drilling; a head that cannot be drilled: appendix B1 detail (4 M20 resin anchors h_ef 250 in the slab, GPR-verified 800 x 800 solid zone) at that head - client option for the 7 interior columns K9, K12, K13, K16, K17, K24, K26.',
+        'Before installation: scan sequence (faces from below, GPR from above, pilot drill); pockets 140 / 110 placed to cut at most one slab top bar; proof tests of 3 production bars (interior, edge, corner) to >= 60 kN held 2 min, displacement <= 1 mm; EAD 330087 injection system, certified installer; nuts snug + 1/4 turn after the grout has cured; scan sheet with the final pattern filed per head.',
+        'No through-bolts, no ceiling access, no under-slab plates (Rev 8). Grout bed 25 +/- 5 mm; columns cut to the surveyed plate-top level (S00 s.9).'], 0.16, 23.2)
+    sh.legend_block([('S-COL','box','HEA 140 column'), ('S-DETAIL','box','Base plate / keys'), ('S-EXIST','hatch','Existing slab / column head'), ('S-HATCH','hatch','Grout / pockets')], 0.3, 3.4, 8.4)
     return sh
