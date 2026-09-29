@@ -75,3 +75,9 @@ Agreed with the client in interview on 2026-09-27.
 - **Adopt the lighter section set**: IPE 300 primaries / IPE 240 rafters / HEA 140 columns (design Rev 6), to save steel.
 - **Detailing to be updated** to the final design, with a professional layout: no text overlapping drawings or other text.
 - **Cost**: steel priced at **6,950 LYD per tonne** (client's rate, taken as supplied, fabricated and erected).
+
+## Revision 8 (client, 2026-09-29)
+- **Roofed area reduced** to the architect's enclosed 2nd level (ALWATD sheet A_103): the SW terrace, the south strip of the east wing with the pyramid skylight (the former "elevator" opening is a light well) and the stair well stay open. Design Rev 7 puts the roof edges on the existing column lines: west block south face on K19-K20 (y 21.66), east block south face on K16-K17-K18 (y 24.36); 20 steel columns K1-K20, 3 wind posts, roofed area 316 m2.
+- **Drainage unchanged**: the roof still falls 6 % north to the north gutters and the four downpipes on the north facade.
+- Redesign without detailing; the offer is updated (Rev A). Wall system still open (the architect shows 20 cm gypsum walls); girts are out of the offer.
+- Two new lifts in a 13.65 m tower east of the building (architect): separate structure, movement joint and flashing against the east roof edge; braced bay B6 moved off the lift lobby (K4-K14).
