@@ -10,14 +10,14 @@ OPEN = {'STAIR': dict(x0=77.89, x1=81.79, y0=29.37, y1=35.37), 'ELEV': dict(x0=7
 PITCH = 0.06; NORTH_JOG_X = 81.79
 def north_edge(x): return 35.37 if x < NORTH_JOG_X else 35.87
 def TOS(y): return 3.33 + PITCH*(35.87 - y)
-def prim_top(y): return TOS(y) + 0.05
-def cap_top(y): return TOS(y) - 0.25            # cap-plate top = primary underside (IPE 300)
-def col_top(y): return TOS(y) - 0.27            # cap-plate underside
-def L_col(y): return TOS(y) - 0.32              # 25 grout + 20 plate
+def prim_top(y): return TOS(y) + 0.03           # Rev 6a: + 0.03 (IPE 240 bottom flange clear of the IPE 300 bottom flange)
+def cap_top(y): return TOS(y) - 0.27            # cap-plate top = primary underside (IPE 300: 0.03 + 0.30)
+def col_top(y): return TOS(y) - 0.29            # cap-plate underside
+def L_col(y): return TOS(y) - 0.335             # 25 grout + 20 plate
 BASE_TOP, GROUT, PLATE_T = 0.045, 0.025, 0.020
-CLEAR_NUTS, CLEAR_EAVE = 3.05, 3.09
+CLEAR_NUTS, CLEAR_EAVE = 3.03, 3.07
 SEC_PRIM, SEC_RAFT, SEC_COL = 'IPE 300', 'IPE 240', 'HEA 140'
-SEC = {'IPE 240': dict(h=0.240, b=0.120, tw=0.0062, tf=0.0098, kg=30.7),
+SEC = {'IPE 240': dict(h=0.240, b=0.120, tw=0.0062, tf=0.0098, kg=30.7), 'IPE 330': dict(h=0.330, b=0.160, tw=0.0075, tf=0.0115, kg=49.1),
        'IPE 300': dict(h=0.300, b=0.150, tw=0.0071, tf=0.0107, kg=42.2),
        'HEA 140': dict(h=0.133, b=0.140, tw=0.0055, tf=0.0085, kg=24.7),
        'L 70x7': dict(kg=7.38), 'M24 rod 8.8': dict(kg=3.55), 'Z200x2.0': dict(kg=5.9), 'C200x60x2.5': dict(kg=6.9), 'C100x50x3': dict(kg=4.0)}
@@ -48,7 +48,7 @@ PRIMARIES = [
  dict(id='P_K12K13', mark='P10', y=29.27, x0=87.19, x1=92.48, sup=('K12','K13'),kind='prim'),
  dict(id='P_K13K14', mark='P11', y=29.27, x0=92.48, x1=95.55, sup=('K13','K14'),kind='prim'),
  dict(id='P_K16K17', mark='P12', y=24.46, x0=77.78, x1=81.85, sup=('K16','K17'),kind='prim'),
- dict(id='P_K19K20', mark='P13', y=21.76, x0=67.99, x1=77.78, sup=('K19','K20'),kind='prim'),
+ dict(id='P_K19K20', mark='P13', y=21.76, x0=67.99, x1=77.78, sup=('K19','K20'),kind='prim', sec='IPE 330'),
  dict(id='P_NOTCH',  mark='P14', y=20.07, x0=77.78, x1=81.85, sup=('R5','K21'), kind='eave'),
  dict(id='P_K21K22', mark='P15', y=20.07, x0=81.85, x1=88.88, sup=('K21','K22'),kind='prim'),
  dict(id='P_K22K23', mark='P16', y=20.07, x0=88.88, x1=95.55, sup=('K22','K23'),kind='prim'),
@@ -58,6 +58,7 @@ PRIMARIES = [
  dict(id='T2',       mark='T2',  y=24.09, x0=77.78, x1=81.85, sup=('R5','R6'),  kind='trim'),
 ]
 PMARK = {p['id']: p['mark'] for p in PRIMARIES}
+def prim_sec(p): return p.get('sec', 'IPE 240' if p['kind'] == 'trim' else 'IPE 300')
 POSTS = [dict(id='ST1', y=24.46, x0=89.90, x1=95.55), dict(id='ST2', y=26.37, x0=67.99, x1=72.09)]
 WP1 = (77.61, 20.25)
 BAYS = [('B1','x',('K1','K2')), ('B2','x',('K5','K7')), ('B3','x',('K22','K23')), ('B4','x',('K25','K26')),

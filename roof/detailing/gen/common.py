@@ -1,105 +1,281 @@
-import math, ezdxf
+"""Drawing framework v2: layers with lineweights, sheet frame with title block / revision table / legend, label placer
+with collision avoidance and leaders, registered dimensions and tables, and the overlap checker."""
+import math, textwrap, ezdxf
+from ezdxf import bbox as _bbox
 from ezdxf.enums import TextEntityAlignment as TA
 PROJECT = 'Steel roof over existing slab - Tripoli'
-REV = 'Rev 3 superstructure / Rev 4b bases'
-DATE = '2026-09-28'
-SHEET_W, SHEET_H = 42.0, 30.0
-TH, TH_TITLE, TH_SMALL = 0.25, 0.4, 0.18
-LAYERS = [('S-COL',5,'CONTINUOUS'),('S-PRIM',1,'CONTINUOUS'),('S-RAFT',3,'CONTINUOUS'),('S-PURL',4,'CONTINUOUS'),
-          ('S-BRACE',6,'DASHED'),('S-OPEN',8,'CONTINUOUS'),('S-GRID',9,'CENTER'),('S-DIM',2,'CONTINUOUS'),
-          ('S-TEXT',7,'CONTINUOUS'),('S-TITLE',7,'CONTINUOUS'),('S-DETAIL',7,'CONTINUOUS'),('S-HATCH',8,'CONTINUOUS'),
-          ('S-DRAIN',4,'DASHDOT'),('S-EXIST',8,'CONTINUOUS')]
+SUBTITLE = 'ALTERNATIVE C - POST-AND-BEAM BRACED STEEL ROOF, SANDWICH PANELS'
+REV = 'Rev 6a superstructure / Rev 8 bases / bracing Rev 5a'
+DATE = '2026-09-29'
+REVISIONS = [('1', '2026-09-27', 'First issue: design Rev 2, bases Rev 3'), ('2', '2026-09-28', 'Design Rev 3 / bases Rev 4b (critique C1-C15)'), ('3', DATE, 'Design Rev 6a (IPE 300/240, HEA 140, P13 IPE 330), bases Rev 8, bracing Rev 5a')]
+SHEET_W, SHEET_H, STRIP = 42.0, 30.0, 3.0
+TH_MARK, TH_DIM, TH_NOTE, TH_TITLE = 0.25, 0.2, 0.25, 0.5
+LAYERS = [('S-COL',5,'CONTINUOUS',35),('S-PRIM',1,'CONTINUOUS',50),('S-RAFT',3,'CONTINUOUS',35),('S-PURL',4,'CONTINUOUS',15),
+          ('S-BRACE',6,'DASHED',35),('S-OPEN',8,'CONTINUOUS',25),('S-GRID',9,'CENTER',13),('S-DIM',2,'CONTINUOUS',13),
+          ('S-TEXT-MEMBER',7,'CONTINUOUS',18),('S-TEXT-DIM',7,'CONTINUOUS',18),('S-TEXT-NOTE',7,'CONTINUOUS',18),
+          ('S-TITLE',7,'CONTINUOUS',35),('S-DETAIL',7,'CONTINUOUS',25),('S-HATCH',8,'CONTINUOUS',9),
+          ('S-DRAIN',4,'DASHDOT',18),('S-EXIST',8,'CONTINUOUS',15),('S-LEADER',7,'CONTINUOUS',13)]
 def new_doc():
     doc = ezdxf.new('R2013', setup=True)
-    doc.header['$INSUNITS'] = 6
-    doc.header['$LTSCALE'] = 0.5
-    for n, c, lt in LAYERS: doc.layers.add(n, color=c, linetype=lt)
-    common = dict(dimtxt=TH, dimasz=0.2, dimexo=0.08, dimexe=0.12, dimgap=0.06, dimtad=1, dimtih=0, dimtoh=0, dimclrt=7, dimclrd=2, dimclre=2, dimtxsty='Standard', dimlwd=-3)
-    doc.dimstyles.new('S-M', dxfattribs=dict(common, dimdec=2, dimlfac=1.0, dimzin=0))      # plans: metres, 2 decimals
-    doc.dimstyles.new('S-MM', dxfattribs=dict(common, dimdec=0, dimlfac=200.0, dimzin=8))  # details drawn 5x: text = true mm
-    doc.dimstyles.new('S-MM1', dxfattribs=dict(common, dimdec=0, dimlfac=1000.0, dimzin=8))  # sections at 1:1: text in mm
+    doc.header['$INSUNITS'] = 6; doc.header['$LTSCALE'] = 0.5; doc.header['$LWDISPLAY'] = 1
+    for n, c, lt, lw in LAYERS: doc.layers.add(n, color=c, linetype=lt, lineweight=lw)
+    common = dict(dimtxt=TH_DIM, dimasz=0.18, dimexo=0.08, dimexe=0.12, dimgap=0.05, dimtad=1, dimtih=0, dimtoh=0, dimclrt=7, dimclrd=2, dimclre=2, dimtxsty='Standard', dimlwd=-3)
+    doc.dimstyles.new('S-M', dxfattribs=dict(common, dimdec=2, dimlfac=1.0, dimzin=0))
+    doc.dimstyles.new('S-MM', dxfattribs=dict(common, dimdec=0, dimlfac=200.0, dimzin=8))
+    doc.dimstyles.new('S-MM1', dxfattribs=dict(common, dimdec=0, dimlfac=1000.0, dimzin=8))
+    doc.dimstyles.new('S-MM2', dxfattribs=dict(common, dimdec=0, dimlfac=500.0, dimzin=8))     # partial plans at 2x
     return doc
+# ---------------------------------------------------------------- geometry helpers
+def seg_box(seg, box):
+    """Segment (x1,y1,x2,y2) intersects axis-aligned box (x0,y0,x1,y1)? Liang-Barsky."""
+    x1, y1, x2, y2 = seg; bx0, by0, bx1, by1 = box
+    if max(x1, x2) < bx0 or min(x1, x2) > bx1 or max(y1, y2) < by0 or min(y1, y2) > by1: return False
+    dx, dy = x2 - x1, y2 - y1; t0, t1 = 0.0, 1.0
+    for p, q in ((-dx, x1 - bx0), (dx, bx1 - x1), (-dy, y1 - by0), (dy, by1 - y1)):
+        if p == 0:
+            if q < 0: return False
+        else:
+            t = q / p
+            if p < 0: t0 = max(t0, t)
+            else: t1 = min(t1, t)
+            if t0 > t1: return False
+    return True
+def box_box(a, b): return not (a[2] <= b[0] or b[2] <= a[0] or a[3] <= b[1] or b[3] <= a[1])
+def grow(b, m): return (b[0]-m, b[1]-m, b[2]+m, b[3]+m)
+class Registry:
+    """Per-sheet index of linework segments and text boxes with owner ids (entity handles or logical ids)."""
+    def __init__(self, cell=2.0):
+        self.cell = cell; self.segs = {}; self.boxes = {}; self.allowed = {}; self.text_owner = {}
+    def _cells(self, b):
+        c = self.cell
+        for i in range(int(math.floor(b[0]/c)), int(math.floor(b[2]/c)) + 1):
+            for j in range(int(math.floor(b[1]/c)), int(math.floor(b[3]/c)) + 1): yield (i, j)
+    def add_seg(self, seg, owner):
+        b = (min(seg[0], seg[2]), min(seg[1], seg[3]), max(seg[0], seg[2]), max(seg[1], seg[3]))
+        for cl in self._cells(b): self.segs.setdefault(cl, []).append((seg, owner))
+    def add_box(self, box, owner):
+        for cl in self._cells(box): self.boxes.setdefault(cl, []).append((box, owner))
+    def hits(self, box, allowed=(), margin=0.03):
+        gb = grow(box, margin); out = []; seen = set()
+        for cl in self._cells(gb):
+            for seg, o in self.segs.get(cl, []):
+                if o in allowed or (seg, o) in seen: continue
+                if seg_box(seg, gb): out.append(('seg', o)); seen.add((seg, o))
+            for bx, o in self.boxes.get(cl, []):
+                if o in allowed or (bx, o) in seen: continue
+                if box_box(gb, bx): out.append(('box', o)); seen.add((bx, o))
+        return out
 class Sheet:
-    """A 42 x 30 sheet frame at model-space origin (ox, oy); helpers draw in sheet-local coordinates."""
-    def __init__(self, msp, ox, oy, no, title, scale_note):
+    def __init__(self, msp, ox, oy, no, title, scale_note, legend=None):
         self.msp, self.ox, self.oy, self.no, self.title = msp, ox, oy, no, title
+        self.reg = Registry(); self.texts = []; self._nid = 0
         self.frame(scale_note)
+        if legend: self.legend_block(legend)
+    def nid(self, tag='g'):
+        self._nid += 1; return '%s%d' % (tag, self._nid)
     def P(self, x, y): return (self.ox + x, self.oy + y)
-    def frame(self, scale_note):
-        m = self.msp; L = {'layer': 'S-TITLE'}
-        m.add_lwpolyline([self.P(0,0), self.P(SHEET_W,0), self.P(SHEET_W,SHEET_H), self.P(0,SHEET_H)], close=True, dxfattribs=dict(L, lineweight=50))
-        m.add_line(self.P(0,2.5), self.P(SHEET_W,2.5), dxfattribs=L)
-        for x in (14, 28, 36): m.add_line(self.P(x,0), self.P(x,2.5), dxfattribs=L)
-        self.text(0.4, 1.9, 'PROJECT', TH_SMALL, layer='S-TITLE'); self.text(0.4, 1.2, PROJECT, 0.32, layer='S-TITLE')
-        self.text(0.4, 0.5, 'ALTERNATIVE C - POST-AND-BEAM BRACED STEEL ROOF, SANDWICH PANELS', TH_SMALL, layer='S-TITLE')
-        self.text(14.4, 1.9, 'SHEET TITLE', TH_SMALL, layer='S-TITLE'); self.text(14.4, 1.2, self.title, 0.32, layer='S-TITLE')
-        self.text(14.4, 0.5, scale_note, TH_SMALL, layer='S-TITLE')
-        self.text(28.4, 1.9, 'REVISION', TH_SMALL, layer='S-TITLE'); self.text(28.4, 1.2, REV, 0.22, layer='S-TITLE')
-        self.text(28.4, 0.5, 'DATE ' + DATE + '   UNITS m ($INSUNITS 6), dim text mm where noted', TH_SMALL, layer='S-TITLE')
-        self.text(36.4, 1.9, 'SHEET NO.', TH_SMALL, layer='S-TITLE'); self.text(36.4, 0.7, self.no, 0.9, layer='S-TITLE')
-    def text(self, x, y, s, h=TH, layer='S-TEXT', align='LEFT', rot=0, color=None):
-        a = {'LEFT': TA.LEFT, 'CENTER': TA.CENTER, 'RIGHT': TA.RIGHT, 'MIDDLE_CENTER': TA.MIDDLE_CENTER, 'MIDDLE_LEFT': TA.MIDDLE_LEFT, 'MIDDLE_RIGHT': TA.MIDDLE_RIGHT}[align]
-        d = {'layer': layer, 'style': 'Standard', 'rotation': rot}
-        if color is not None: d['color'] = color
-        return self.msp.add_text(s, height=h, dxfattribs=d).set_placement(self.P(x, y), align=a)
-    def line(self, x0, y0, x1, y1, layer='S-DETAIL', **kw):
-        return self.msp.add_line(self.P(x0,y0), self.P(x1,y1), dxfattribs=dict(layer=layer, **kw))
-    def pline(self, pts, layer='S-DETAIL', close=False, **kw):
-        return self.msp.add_lwpolyline([self.P(*p) for p in pts], close=close, dxfattribs=dict(layer=layer, **kw))
-    def rect(self, x0, y0, x1, y1, layer='S-DETAIL', **kw):
-        return self.pline([(x0,y0),(x1,y0),(x1,y1),(x0,y1)], layer, True, **kw)
-    def circle(self, x, y, r, layer='S-DETAIL', **kw):
-        return self.msp.add_circle(self.P(x,y), r, dxfattribs=dict(layer=layer, **kw))
+    # ---- primitives: every linework call registers its segments under an owner id
+    def line(self, x0, y0, x1, y1, layer='S-DETAIL', owner=None, **kw):
+        e = self.msp.add_line(self.P(x0, y0), self.P(x1, y1), dxfattribs=dict(layer=layer, **kw))
+        self.reg.add_seg((self.ox+x0, self.oy+y0, self.ox+x1, self.oy+y1), owner or e.dxf.handle); return e
+    def pline(self, pts, layer='S-DETAIL', close=False, owner=None, **kw):
+        e = self.msp.add_lwpolyline([self.P(*p) for p in pts], close=close, dxfattribs=dict(layer=layer, **kw))
+        o = owner or e.dxf.handle; P = [self.P(*p) for p in pts]
+        if close: P = P + [P[0]]
+        for a, b in zip(P[:-1], P[1:]): self.reg.add_seg((a[0], a[1], b[0], b[1]), o)
+        return e
+    def rect(self, x0, y0, x1, y1, layer='S-DETAIL', owner=None, **kw): return self.pline([(x0,y0),(x1,y0),(x1,y1),(x0,y1)], layer, True, owner, **kw)
+    def circle(self, x, y, r, layer='S-DETAIL', owner=None, **kw):
+        e = self.msp.add_circle(self.P(x, y), r, dxfattribs=dict(layer=layer, **kw)); o = owner or e.dxf.handle
+        cx, cy = self.P(x, y); pts = [(cx + r*math.cos(2*math.pi*i/12), cy + r*math.sin(2*math.pi*i/12)) for i in range(13)]
+        for a, b in zip(pts[:-1], pts[1:]): self.reg.add_seg((a[0], a[1], b[0], b[1]), o)
+        return e
     def hatch(self, pts, layer='S-HATCH', pattern='ANSI31', scale=0.15, color=8, angle=0):
         h = self.msp.add_hatch(color=color, dxfattribs={'layer': layer})
         if pattern == 'SOLID': h.set_solid_fill(color=color)
         else: h.set_pattern_fill(pattern, scale=scale, angle=angle)
-        h.paths.add_polyline_path([self.P(*p) for p in pts], is_closed=True)
-        return h
-    def dim(self, x0, y0, x1, y1, off, style='S-M', angle=0, text=None):
-        """Aligned linear dimension between two local points; off = distance of the dimension line from p1 (signed, normal)."""
-        p1, p2 = self.P(x0,y0), self.P(x1,y1)
-        if angle == 0: base = (p1[0], p1[1] + off)
-        else: base = (p1[0] + off, p1[1])
-        d = self.msp.add_linear_dim(base=base, p1=p1, p2=p2, angle=angle, dimstyle=style, override={'dimtxt': TH}, dxfattribs={'layer': 'S-DIM'}, text=text or '<>')
-        d.render(); return d
-    def dimh(self, x0, x1, y, off, style='S-M', text=None): return self.dim(x0, y, x1, y, off, style, 0, text)
-    def dimv(self, y0, y1, x, off, style='S-M', text=None): return self.dim(x, y0, x, y1, off, style, 90, text)
-    def bubble(self, x, y, top, bottom='', r=0.55, layer='S-TEXT'):
-        self.circle(x, y, r, layer)
+        h.paths.add_polyline_path([self.P(*p) for p in pts], is_closed=True); return h
+    # ---- text
+    def raw_text(self, x, y, s, h, layer, align='LEFT', rot=0):
+        a = {'LEFT': TA.LEFT, 'CENTER': TA.CENTER, 'RIGHT': TA.RIGHT, 'MIDDLE_CENTER': TA.MIDDLE_CENTER, 'MIDDLE_LEFT': TA.MIDDLE_LEFT, 'MIDDLE_RIGHT': TA.MIDDLE_RIGHT}[align]
+        return self.msp.add_text(s, height=h, dxfattribs={'layer': layer, 'style': 'Standard', 'rotation': rot}).set_placement(self.P(x, y), align=a)
+    def tbox(self, e):
+        b = _bbox.extents([e]); return (b.extmin.x, b.extmin.y, b.extmax.x, b.extmax.y)
+    def text(self, x, y, s, h=TH_NOTE, layer='S-TEXT-NOTE', align='LEFT', rot=0, allowed=(), owner=None):
+        """Fixed-position text (notes, tables, titles); registered with its allowed owners."""
+        e = self.raw_text(x, y, s, h, layer, align, rot); b = self.tbox(e); o = owner or e.dxf.handle
+        self.reg.add_box(b, o); self.reg.allowed[e.dxf.handle] = set(allowed) | {o}; self.texts.append(e); return e
+    def label(self, s, ax, ay, h=TH_MARK, layer='S-TEXT-MEMBER', rot=0, cands=None, allowed=(), leader=True, margin=0.05, align=None):
+        """Place a label near anchor (ax, ay) at the first collision-free candidate; draw a leader if it had to move away.
+        cands: list of (dx, dy, align) in sheet units; default ring around the anchor."""
+        if cands is None:
+            cands = [(0.15, 0.12, 'LEFT'), (-0.15, 0.12, 'RIGHT'), (0.15, -0.37, 'LEFT'), (-0.15, -0.37, 'RIGHT'), (0.0, 0.25, 'CENTER'), (0.0, -0.5, 'CENTER'),
+                     (0.6, 0.3, 'LEFT'), (-0.6, 0.3, 'RIGHT'), (0.6, -0.55, 'LEFT'), (-0.6, -0.55, 'RIGHT'), (1.2, 0.5, 'LEFT'), (-1.2, 0.5, 'RIGHT'), (1.2, -0.8, 'LEFT'), (-1.2, -0.8, 'RIGHT'),
+                     (0.0, 0.9, 'CENTER'), (0.0, -1.15, 'CENTER'), (1.8, 0.9, 'LEFT'), (-1.8, 0.9, 'RIGHT'), (1.8, -1.2, 'LEFT'), (-1.8, -1.2, 'RIGHT'), (2.4, 1.4, 'LEFT'), (-2.4, 1.4, 'RIGHT'), (0.0, 1.6, 'CENTER'), (0.0, -1.85, 'CENTER')]
+        e = self.raw_text(ax, ay, s, h, layer, 'LEFT', rot); own = e.dxf.handle; allowed = set(allowed) | {own}
+        best = None
+        for i, (dx, dy, al) in enumerate(cands):
+            al = align or al
+            a = {'LEFT': TA.LEFT, 'CENTER': TA.CENTER, 'RIGHT': TA.RIGHT}[al]
+            e.set_placement(self.P(ax + dx, ay + dy), align=a); b = self.tbox(e)
+            if self.reg.hits(b, allowed, margin): continue
+            far = math.hypot(dx, dy) > 0.45
+            if far and leader:
+                cx, cy = self.ox + ax, self.oy + ay; tx = min(max(cx, b[0]), b[2]); ty = min(max(cy, b[1]), b[3])
+                seg = (cx, cy, tx, ty)
+                # leader must not cross other text boxes
+                bad = any(seg_box(seg, bx) for cl in self.reg._cells((min(cx,tx), min(cy,ty), max(cx,tx), max(cy,ty))) for bx, o in self.reg.boxes.get(cl, []))
+                if bad: continue
+                best = (b, seg); break
+            best = (b, None); break
+        if best is None:      # give up: last candidate, flagged
+            dx, dy, al = cands[-1]; e.set_placement(self.P(ax + dx, ay + dy), align=TA.CENTER); b = self.tbox(e); best = (b, None); self.unplaced = getattr(self, 'unplaced', 0) + 1
+        b, seg = best
+        self.reg.add_box(b, own); self.reg.allowed[own] = allowed; self.texts.append(e)
+        if seg:
+            l = self.msp.add_line((seg[0], seg[1]), (seg[2], seg[3]), dxfattribs={'layer': 'S-LEADER'})
+            self.reg.add_seg(seg, l.dxf.handle); self.reg.allowed[own].add(l.dxf.handle); self.reg.text_owner[l.dxf.handle] = own
+        return e
+    # ---- dimensions: rendered, then registered (lines as segments, text as a box allowed over its own lines)
+    def dim(self, x0, y0, x1, y1, off, style='S-M', angle=0, text=None, loc=None):
+        p1, p2 = self.P(x0, y0), self.P(x1, y1)
+        base = (p1[0], p1[1] + off) if angle == 0 else (p1[0] + off, p1[1])
+        kw = dict(base=base, p1=p1, p2=p2, angle=angle, dimstyle=style, override={'dimtxt': TH_DIM}, dxfattribs={'layer': 'S-DIM'}, text=text or '<>')
+        if loc is not None: kw['location'] = self.P(*loc)
+        d = self.msp.add_linear_dim(**kw); d.render(); o = 'dim' + d.dimension.dxf.handle
+        for v in d.dimension.virtual_entities():
+            t = v.dxftype()
+            if t == 'LINE': self.reg.add_seg((v.dxf.start.x, v.dxf.start.y, v.dxf.end.x, v.dxf.end.y), o)
+            elif t == 'TEXT' or t == 'MTEXT':
+                b = self.tbox(v); self.reg.add_box(b, o); self.reg.allowed[o + 'T'] = {o}
+        return d
+    def dimh(self, x0, x1, y, off, style='S-M', text=None, loc=None): return self.dim(x0, y, x1, y, off, style, 0, text, loc)
+    def dimv(self, y0, y1, x, off, style='S-M', text=None, loc=None): return self.dim(x, y0, x, y1, off, style, 90, text, loc)
+    # ---- symbols
+    def bubble(self, x, y, top, bottom='', r=0.5, layer='S-TEXT-DIM'):
+        o = self.nid('bub'); self.circle(x, y, r, 'S-DIM', owner=o)
         if bottom:
-            self.line(x-r, y, x+r, y, layer)
-            self.text(x, y+0.08, top, TH, layer, 'CENTER'); self.text(x, y-r*0.5-0.1, bottom, TH_SMALL, layer, 'CENTER')
-        else: self.text(x, y, top, TH, layer, 'MIDDLE_CENTER')
-    def leader(self, pts, s, h=TH, layer='S-TEXT'):
-        self.pline(pts, layer); x, y = pts[-1]; dx = 0.15 if pts[-1][0] >= pts[-2][0] else -0.15
-        self.text(x+dx, y+0.05, s, h, layer, 'LEFT' if dx > 0 else 'RIGHT')
-    def table(self, x, y, cols, rows, rh=0.42, h=TH_SMALL, header=True, layer='S-TEXT', title=None):
-        """cols = [(name, width)], rows = list of lists. Draws grid + text; returns bottom y."""
-        if title: self.text(x, y+0.15, title, TH, layer); 
+            self.line(x-r, y, x+r, y, 'S-DIM', owner=o)
+            self.text(x, y+0.07, top, TH_DIM, layer, 'CENTER', allowed=(o,), owner=o); self.text(x, y-r*0.5-0.1, bottom, 0.16, layer, 'CENTER', allowed=(o,), owner=o)
+        else: self.text(x, y, top, TH_DIM, layer, 'MIDDLE_CENTER', allowed=(o,), owner=o)
+        return o
+    def north_arrow(self, x, y, s=1.4):
+        o = self.nid('na'); self.pline([(x, y), (x-0.25*s, y-0.35*s), (x, y+s), (x+0.25*s, y-0.35*s)], 'S-TITLE', True, owner=o)
+        self.hatch([(x, y), (x, y+s), (x+0.25*s, y-0.35*s)], pattern='SOLID', color=7); self.text(x, y+s+0.15, 'N', TH_TITLE, 'S-TEXT-NOTE', 'CENTER', allowed=(o,), owner=o)
+    def scale_bar(self, x, y, unit=1.0, n=5, label='m'):
+        o = self.nid('sb')
+        for i in range(n):
+            self.rect(x+i*unit, y, x+(i+1)*unit, y+0.25, 'S-TITLE', owner=o)
+            if i % 2 == 0: self.hatch([(x+i*unit, y), (x+(i+1)*unit, y), (x+(i+1)*unit, y+0.25), (x+i*unit, y+0.25)], pattern='SOLID', color=7)
+            self.text(x+i*unit, y-0.32, str(int(i*unit)) if unit >= 1 else '%g' % (i*unit), TH_DIM, 'S-TEXT-DIM', 'CENTER', allowed=(o,), owner=o)
+        self.text(x+n*unit, y-0.32, '%g %s' % (n*unit, label), TH_DIM, 'S-TEXT-DIM', 'CENTER', allowed=(o,), owner=o)
+    def frame(self, scale_note):
+        o = 'frame'; W, H, S = SHEET_W, SHEET_H, STRIP
+        self.pline([(0,0), (W,0), (W,H), (0,H)], 'S-TITLE', True, owner=o, lineweight=70)
+        self.line(0, S, W, S, 'S-TITLE', owner=o)
+        for x in (12, 24, 34, 38): self.line(x, 0, x, S, 'S-TITLE', owner=o)
+        T = lambda x, y, s, h=TH_DIM, al='LEFT': self.text(x, y, s, h, 'S-TEXT-NOTE', al, allowed=(o,), owner=o)
+        T(0.3, 2.45, 'PROJECT', 0.16); T(0.3, 1.75, PROJECT, 0.3); T(0.3, 1.1, SUBTITLE, 0.16); T(0.3, 0.6, 'Client: restaurant owner, Tripoli   Engineer: structural design team   Units: m (details 5x / 2x, mm text)', 0.14)
+        T(12.3, 2.45, 'SHEET TITLE', 0.16); T(12.3, 1.75, self.title, 0.3); T(12.3, 1.1, scale_note, 0.16); T(12.3, 0.6, 'Status: ISSUED FOR CONSTRUCTION subject to the site verification of S00 section 9', 0.14)
+        # revision table
+        T(24.3, 2.45, 'REVISIONS', 0.16); ys = 2.2
+        self.line(24, 2.25, 34, 2.25, 'S-TITLE', owner=o)
+        for r, dte, desc in REVISIONS[::-1]:
+            T(24.3, ys-0.32, r, 0.14); T(24.9, ys-0.32, dte, 0.14); T(26.6, ys-0.32, desc, 0.14); ys -= 0.42
+            self.line(24, ys, 34, ys, 'S-TITLE', owner=o)
+        T(34.3, 2.45, 'CURRENT REVISION', 0.16); T(34.3, 2.05, 'Rev 6a superstructure', 0.14); T(34.3, 1.75, 'Rev 8 bases / bracing Rev 5a', 0.14); T(34.3, 1.35, 'DATE ' + DATE, 0.16); T(34.3, 0.85, 'Drawn: generator gen/main.py', 0.14); T(34.3, 0.45, 'Checked: overlap checker (README)', 0.14)
+        T(38.3, 2.45, 'SHEET', 0.16); T(38.3, 0.7, self.no, 1.0)
+    def legend_block(self, items, x=None, y=None, w=9.0):
+        """items: list of (layer, sample kind, text). Fixed at the bottom-right above the title strip unless given."""
+        x = SHEET_W - w - 0.4 if x is None else x; y = STRIP + 0.4 if y is None else y
+        n = len(items); h = 0.45*n + 0.7; o = self.nid('leg')
+        self.rect(x, y, x+w, y+h, 'S-TITLE', owner=o); self.text(x+0.2, y+h-0.45, 'LEGEND', TH_NOTE, 'S-TEXT-NOTE', allowed=(o,), owner=o)
+        yy = y + h - 0.95
+        for layer, kind, txt in items:
+            if kind == 'line': self.line(x+0.2, yy+0.1, x+1.6, yy+0.1, layer, owner=o)
+            elif kind == 'dash': self.line(x+0.2, yy+0.1, x+1.6, yy+0.1, layer, owner=o, linetype='DASHED')
+            elif kind == 'box': self.rect(x+0.4, yy-0.05, x+1.4, yy+0.25, layer, owner=o)
+            elif kind == 'x': self.line(x+0.4, yy-0.05, x+1.4, yy+0.25, layer, owner=o); self.line(x+0.4, yy+0.25, x+1.4, yy-0.05, layer, owner=o)
+            elif kind == 'hatch': self.rect(x+0.4, yy-0.05, x+1.4, yy+0.25, layer, owner=o); self.hatch([(x+0.4, yy-0.05), (x+1.4, yy-0.05), (x+1.4, yy+0.25), (x+0.4, yy+0.25)], scale=0.08)
+            elif kind == 'bubble': self.circle(x+0.9, yy+0.1, 0.18, 'S-DIM', owner=o)
+            self.text(x+1.9, yy, txt, TH_DIM, 'S-TEXT-NOTE', allowed=(o,), owner=o); yy -= 0.45
+        return (x, y, x+w, y+h)
+    # ---- tables with fitted text
+    def table(self, x, y, cols, rows, rh=0.42, h=TH_DIM, header=True, title=None):
+        o = self.nid('tab')
+        if title: self.text(x, y+0.15, title, TH_NOTE, 'S-TEXT-NOTE', allowed=(o,), owner=o)
         W = sum(w for _, w in cols); n = len(rows) + (1 if header else 0)
-        self.rect(x, y-n*rh, x+W, y, layer)
-        for i in range(1, n): self.line(x, y-i*rh, x+W, y-i*rh, layer)
+        self.rect(x, y-n*rh, x+W, y, 'S-TITLE', owner=o)
+        for i in range(1, n): self.line(x, y-i*rh, x+W, y-i*rh, 'S-TITLE', owner=o)
         cx = x
-        for _, w in cols[:-1]:
-            cx += w; self.line(cx, y-n*rh, cx, y, layer)
+        for _, w in cols[:-1]: cx += w; self.line(cx, y-n*rh, cx, y, 'S-TITLE', owner=o)
+        def cell(cx, cy, w, s, hh):
+            e = self.raw_text(cx+0.1, cy, str(s), hh, 'S-TEXT-DIM'); b = self.tbox(e); avail = w - 0.2
+            if b[2] - b[0] > avail:
+                f = avail / (b[2] - b[0]); hh2 = max(0.12, hh*f); e.dxf.height = hh2; b = self.tbox(e)
+                s2 = str(s)
+                while b[2] - b[0] > avail and len(s2) > 3:
+                    s2 = s2[:-2]; e.dxf.text = s2 + '.'; b = self.tbox(e)
+            self.reg.add_box(b, o); self.reg.allowed[e.dxf.handle] = {o}; self.texts.append(e)
         yy = y
         if header:
             cx = x
-            for name, w in cols: self.text(cx+0.1, yy-rh*0.68, name, h, layer); cx += w
+            for name, w in cols: cell(cx, yy-rh*0.7, w, name, h); cx += w
             yy -= rh
         for r in rows:
             cx = x
-            for (name, w), v in zip(cols, r): self.text(cx+0.1, yy-rh*0.68, str(v), h, layer); cx += w
+            for (name, w), v in zip(cols, r): cell(cx, yy-rh*0.7, w, v, h); cx += w
             yy -= rh
         return y - n*rh
-    def north_arrow(self, x, y, s=1.2):
-        self.pline([(x, y), (x-0.25*s, y-0.35*s), (x, y+s), (x+0.25*s, y-0.35*s)], 'S-TEXT', True)
-        self.hatch([(x, y), (x, y+s), (x+0.25*s, y-0.35*s)], pattern='SOLID', color=7)
-        self.text(x, y+s+0.15, 'N', 0.4, 'S-TEXT', 'CENTER')
-    def note_block(self, x, y, title, lines, h=TH_SMALL, dy=0.3, wrap=None):
-        import textwrap
-        self.text(x, y, title, TH); yy = y - 0.15
-        for s in lines:
-            for ln in (textwrap.wrap(s, wrap) if wrap else [s]): yy -= dy; self.text(x, yy, ln, h)
-        return yy
+    def note_block(self, x, y, title, lines, h=TH_NOTE, width=None, numbered=False):
+        """Wrapped note paragraphs; width in sheet units (default to the frame edge). Returns the bottom y."""
+        width = width or (SHEET_W - 0.4 - x); o = self.nid('note'); dy = 1.45*h; cpl = max(20, int(width / (0.68*h)))
+        if title: self.text(x, y, title, h, 'S-TEXT-NOTE', allowed=(o,), owner=o); y -= dy*1.15
+        for i, s in enumerate(lines):
+            pre = '%d. ' % (i+1) if numbered else ''
+            for j, ln in enumerate(textwrap.wrap(s, cpl - len(pre))):
+                self.text(x, y, (pre if j == 0 else ' '*len(pre)) + ln, h, 'S-TEXT-NOTE', allowed=(o,), owner=o); y -= dy
+            y -= 0.25*dy
+        return y
+# ---------------------------------------------------------------- overlap checker
+def check_sheet(doc, sh, ox, oy):
+    """Independent pass over the DXF: every TEXT (and dimension text) box against every other text box and against
+    LINE / LWPOLYLINE / CIRCLE / DIMENSION linework inside the sheet frame; the generator's allowed-owner sets exclude
+    a text's own bubble / dimension / table grid / leader. Returns (text_text, text_line, details)."""
+    msp = doc.modelspace(); x0, x1, y0, y1 = ox - 0.5, ox + SHEET_W + 0.5, oy - 0.5, oy + SHEET_H + 0.5
+    inside = lambda b: b[0] >= x0 and b[2] <= x1 and b[1] >= y0 and b[3] <= y1
+    boxes = []; segs = Registry(cell=2.0)
+    def add_e(e, owner):
+        t = e.dxftype()
+        if t == 'LINE': segs.add_seg((e.dxf.start.x, e.dxf.start.y, e.dxf.end.x, e.dxf.end.y), owner)
+        elif t == 'LWPOLYLINE':
+            P = [(p[0], p[1]) for p in e.get_points()]
+            if e.closed: P = P + [P[0]]
+            for a, b in zip(P[:-1], P[1:]): segs.add_seg((a[0], a[1], b[0], b[1]), owner)
+        elif t == 'CIRCLE':
+            c, r = e.dxf.center, e.dxf.radius; pts = [(c.x + r*math.cos(2*math.pi*i/12), c.y + r*math.sin(2*math.pi*i/12)) for i in range(13)]
+            for a, b in zip(pts[:-1], pts[1:]): segs.add_seg((a[0], a[1], b[0], b[1]), owner)
+    for e in msp:
+        t = e.dxftype()
+        try: b = _bbox.extents([e]); bb = (b.extmin.x, b.extmin.y, b.extmax.x, b.extmax.y)
+        except Exception: continue
+        if not (bb[0] <= x1 and bb[2] >= x0 and bb[1] <= y1 and bb[3] >= y0): continue
+        if t == 'TEXT': boxes.append((bb, e.dxf.handle, e.dxf.text))
+        elif t == 'DIMENSION':
+            o = 'dim' + e.dxf.handle
+            for v in e.virtual_entities():
+                if v.dxftype() == 'TEXT':
+                    vb = _bbox.extents([v]); boxes.append(((vb.extmin.x, vb.extmin.y, vb.extmax.x, vb.extmax.y), o + 'T', v.dxf.text))
+                else: add_e(v, o)
+        elif t in ('LINE', 'LWPOLYLINE', 'CIRCLE'): add_e(e, sh.reg.text_owner.get(e.dxf.handle, e.dxf.handle))
+    allowed = sh.reg.allowed; tt = []; tl = []
+    breg = Registry(cell=2.0)
+    for i, (bb, hd, s) in enumerate(boxes): breg.add_box(bb, i)
+    for i, (bb, hd, s) in enumerate(boxes):
+        al = allowed.get(hd, set())
+        for kind, o in breg.hits(bb, (i,), 0.0):
+            if o > i and box_box(bb, boxes[o][0]): tt.append((s, boxes[o][2]))
+        for kind, o in segs.hits(bb, al, 0.0):
+            if o == hd: continue
+            tl.append((s, o))
+    return len(tt), len(tl), tt, tl

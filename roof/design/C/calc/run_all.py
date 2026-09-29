@@ -126,8 +126,9 @@ with open(os.path.join(OUT, 'reactions_C.csv'), 'w', newline='') as f:
 
 # ---------------- weight
 L_raft = sum(s['L'] for s in res['spans'] if s['section'] == SR['name']) + sum((r['y1'] - r['sup'][-1][0]) + (r['sup'][0][0] - r['y0']) for r in RAFTERS) + 5.65 + 4.10
-L_prim = sum(s['L'] for s in res['spans'] if s['section'] == SP['name'])
-L_col_tot = sum(L_col(COLS[c][1]) for c in COLS) + Lwp
+L_prim = sum(s['L'] for s in res['spans'] if s['kind'] in ('prim', 'eave'))
+L_p13 = sum(s['L'] for s in res['spans'] if s['id'] == 'P_K19K20')
+L_col_tot = sum(L_col(COLS[c][1], c) for c in COLS) + Lwp
 L_wall_brace = sum(2*bay_env[i]['Ld'] for i in bay_env)
 L_roof_brace, n_panels = bracing.roof_bracing_length()
 L_purlin = res['roof_area']/1.5*1.25
@@ -138,7 +139,7 @@ for f in FACES:
     hw = wall_h(f['c'] if f['normal'][0] == 'y' else 0.5*(f['a'] + f['b']))
     for a, bb in zip(pos, pos[1:]): L_girt += (bb - a)*math.ceil(hw/girt_rows(bb - a))
     L_girt += (pos[0] - f['a'] + f['b'] - pos[-1])*math.ceil(hw/1.5)
-W = dict(rafters=L_raft*SR['g'], primaries=L_prim*SP['g'], columns=L_col_tot*SC['g'],
+W = dict(rafters=L_raft*SR['g'], primaries=(L_prim - L_p13)*SP['g'] + L_p13*sec('IPE 330')['g'], columns=L_col_tot*SC['g'],   # Rev 6a: P13 IPE 330
          wall_bracing=L_wall_brace*7.38, roof_bracing=L_roof_brace*ROD['kg'])
 W['plates_bolts_keys'] = 3400.0 - 130.0  # Rev 6: base plates 20 mm (-130 kg); BOM take-off (detailing, S06): base plates incl. B2 30 mm + stiffeners + under-slab, cap and fin plates, gussets, keys, bolts
 W['hot_rolled_total'] = W['rafters'] + W['primaries'] + W['columns'] + W['plates_bolts_keys']
@@ -147,6 +148,7 @@ W['purlins_girts_Z200'] = (L_purlin + L_girt)*5.9
 W['total'] = W['hot_rolled_total'] + W['wall_bracing'] + W['roof_bracing'] + W['purlins_girts_Z200']
 lengths = dict(rafters=L_raft, primaries=L_prim, columns=L_col_tot, wall_bracing=L_wall_brace, roof_bracing=L_roof_brace, purlins=L_purlin, girts=L_girt)
 _b5 = json.load(open(os.path.join(HERE, 'summary_rev5_baseline.json')))['weight']   # Rev 6: BOM 25.4 t (S06 Rev 4b) less the section change, the Rev 5 bracing saving and the 20 mm base plates
+W['P13'] = L_p13*sec('IPE 330')['g']; W['L_p13'] = L_p13
 W['BOM_total'] = 25400.0 - ((_b5['rafters'] + _b5['primaries'] + _b5['columns']) - (W['rafters'] + W['primaries'] + W['columns'])) - (2260.0 - W['wall_bracing'] - W['roof_bracing']) - 130.0
 
 # ---------------- framing plan coloured by utilisation
@@ -181,7 +183,7 @@ for t in bracing.ROOF_TRUSSES:
         ax.plot([x0, x1], [y0, y1], 'g--', lw=0.7, alpha=0.7); ax.plot([x0, x1], [y1, y0], 'g--', lw=0.7, alpha=0.7)
 sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm); sm.set_array([]); cb = plt.colorbar(sm, ax=ax, fraction=0.03, pad=0.01); cb.set_label('utilisation (governing check)')
 ax.set_aspect('equal'); ax.set_xlim(66.5, 99.0); ax.set_ylim(14, 37.5); ax.set_xlabel('x (m)'); ax.set_ylabel('y (m)'); ax.grid(alpha=0.25)
-ax.set_title('Alternative C Rev 6 (load basis Rev 3, sections %s / %s / %s, bases Rev 8) - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79)\n%s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns; '
+ax.set_title('Alternative C Rev 6 (load basis Rev 3, sections %s / %s / %s + P13 IPE 330, bases Rev 8) - framing plan coloured by utilisation (north face at y 35.37 west of x 81.79)\n%s primaries (E-W), %s rafters (N-S, 11 lines) + posts ST1/ST2, %s columns; '
              'red = wall X-bracing bays B1-B7, B9 (L70x7, utilisation), green dashed = roof-plane X bracing, %d panels of M24 rods\ncolumn label = member / base utilisation' % (SP['name'], SR['name'], SC['name'], SP['name'], SR['name'], SC['name'], n_panels), fontsize=8.6)
 fig.tight_layout(); fig.savefig(os.path.join(OUT, 'framing_C.png'), dpi=150); plt.close(fig)
 
@@ -190,15 +192,18 @@ w_F = (G_MIN - 1.5*(2.3 + 0.2)*QP)*1.5; R_cleat = abs(w_F)*3.07/2
 cleat = dict(R=R_cleat, bolts_FtRd=2*0.9*800*84.3/1.25/1e3, M=R_cleat*0.05, MRd=120*10**2/4*275/1e6, u_bolt=R_cleat/(2*0.9*800*84.3/1.25/1e3))
 cleat['u_plate'] = cleat['M']/cleat['MRd']
 # clear heights (C3): under the rafter at the north edge, under the eave primary and under the cap-plate nuts at y 35.77
-clear = dict(rafter_N=TOS(35.87) - SR['h']/1000, primary_bottom=TOS(35.77) + 0.05 - SP['h']/1000, cap_underside=TOS(35.77) + 0.05 - SP['h']/1000 - 0.02, cap_nuts=TOS(35.77) + 0.05 - SP['h']/1000 - 0.02 - 0.02,
-             west_cap_nuts=TOS(35.27) + 0.05 - SP['h']/1000 - 0.04, col_top_offset=0.05 - SP['h']/1000 - 0.02, prim_top_offset=0.05)   # Rev 6: IPE 300 -> column top TOS - 0.27, 3.05 m under the nuts
+PT = PRIM_TOP_OFFSET
+clear = dict(rafter_N=TOS(35.87) - SR['h']/1000, primary_bottom=TOS(35.77) + PT - SP['h']/1000, cap_underside=TOS(35.77) + PT - SP['h']/1000 - 0.02, cap_nuts=TOS(35.77) + PT - SP['h']/1000 - 0.02 - 0.02,
+             west_cap_nuts=TOS(35.27) + PT - SP['h']/1000 - 0.04, col_top_offset=PT - SP['h']/1000 - 0.02, prim_top_offset=PT, cap_top_offset=PT - SP['h']/1000, L_offset=PT - SP['h']/1000 - 0.02 - 0.045,
+             flange_clear=SP['h']/1000 - PT - SR['h']/1000 - SP['tf']/1000, flange_clear_tip=SP['h']/1000 - PT - SR['h']/1000 - SP['tf']/1000 - 0.06*SP['b']/2/1000,
+             fin_margin_raft=(SR['h'] - 2*SR['tf'] - 2*15 - 150)/2, fin_margin_prim=(SP['h'] - 2*SP['tf'] - 2*15 - 150)/2 - abs(SP['h']/2 - PT*1000 - SR['h']/2), L_K19=L_col(COLS['K19'][1], 'K19'), L_K6=L_col(COLS['K6'][1], 'K6'), L_K1=L_col(COLS['K1'][1], 'K1'), L_K25=L_col(COLS['K25'][1], 'K25'))   # Rev 6a (A1): primary top TOS + 0.03
 thermal = o['thermal']
 # ---------------- bases_C.md (self-contained base and anchor note)
 from bases_note import write_bases_note
 write_bases_note(OUT, R, base_env, cases, cols, V_wp, Lwp)
 
 # ---------------- summary JSON
-beam_top = [dict(id=x['id'], span=x['span'], section=x['section'], L=x['L'], umax=x['umax'], gov=x['gov'], d=x['d'], dcase=x.get('dcase', ''), dlim=x['dlim'], u=x['util'], M=x['M_Ed'], Mpl=x['Mpl']) for x in sorted(beams, key=lambda x: -x['umax'])[:14]]
+beam_top = [dict(id=x['id'], span=x['span'], section=x['section'], L=x['L'], umax=x['umax'], gov=x['gov'], d=x['d'], dq=x.get('d_q', x['d']), dcase=x.get('dcase', ''), dlim=x['dlim'], u=x['util'], M=x['M_Ed'], Mpl=x['Mpl']) for x in sorted(beams, key=lambda x: -x['umax'])[:14]]
 summary = dict(sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], brace=DIAG['name'], rod=ROD['name']), beam_top=beam_top,
                roof_area=res['roof_area'], wind_roof=wind_roof, seismic=seis, H4=H4, bays=bay_env, trusses=trusses, drift=drift,
                fin2=fin2, fin3=fin3, Vfin=Vfin, Vfin_long=Vfin_long, cap=cap, Nt_cap=Nt_cap_roof, Vh_cap=Vh_cap, R=R,

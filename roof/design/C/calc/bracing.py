@@ -244,6 +244,7 @@ def two_mass_check(roof_area, steel_kN, kx_bays, ky_bays):
         for T1 in [0.15 + 0.01*i for i in range(21)]:
             Sa = ag*S*max(3*(1 + 1.0)/(1 + (1 - Ta/T1)**2) - 0.5, 1.0)
             if Sa > Sa_max: Sa_max, T1_worst = Sa, T1
+        Sa_max = max(Sa_max, 5.5*ag*S)                    # Rev 6a (Y2): resonance bound T_a = T_1 -> 5.5 alpha S = 0.66 g
         out[dirn] = dict(k=k, Ta=Ta, Sa=Sa_max, T1=T1_worst, F=Sa_max*Wa/1.5, F_unamplified=ag*S*2.5/1.5*Wa)
     return out
 

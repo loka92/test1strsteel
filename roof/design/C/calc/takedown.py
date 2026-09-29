@@ -126,7 +126,8 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
         if p['kind'] == 'trim' or p['id'] == 'P_NOTCH': continue
         up = UPSTAND_ON.get(p['id'])
         wl = lambda t, s, up=up: (UPSTAND if (t in ('G', 'Gmin') and up and up[0] <= s <= up[1]) else 0.0)
-        analyse_beam(p['id'], SP, p['x0'], p['x1'], [(x, i) for x, i in p['sup']], wl, ptloads.get(p['id'], []), p['kind'], 'x')
+        from model import SPAN_SECTION
+        analyse_beam(p['id'], sec(SPAN_SECTION[p['id']]) if p['id'] in SPAN_SECTION else SP, p['x0'], p['x1'], [(x, i) for x, i in p['sup']], wl, ptloads.get(p['id'], []), p['kind'], 'x')   # Rev 6a: P13 IPE 330
     # 4) columns: add wall weight and self weight (G and Gmin)
     ft = face_tribs()
     res['wall_trib'] = ft
@@ -134,8 +135,8 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
         y = COLS[cid][1]
         # Rev 3 / brief Rev 5: no wall self-weight in G or G_min (G_WALL = 0); column self-weight only
         wall = sum(G_WALL*wall_h(y)*L for _, L, _ in ft.get(cid, []))
-        res['colloads'][cid]['G'] += wall + SC['w']*L_col(y)
-        res['colloads'][cid]['Gmin'] += wall + SC['w']*L_col(y)
+        res['colloads'][cid]['G'] += wall + SC['w']*L_col(y, cid)
+        res['colloads'][cid]['Gmin'] += wall + SC['w']*L_col(y, cid)
     res['roof_area'] = float(R.sum()*dx*dx)
     res['line'] = line; res['ybins'] = ybins; res['fields'] = fields; res['grid'] = (X, Y, R, dx)
     return res

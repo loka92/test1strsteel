@@ -1,7 +1,9 @@
 """Geometry model for alternative C (post-and-beam, all pinned). Units m, kN.
-Rev 2. Roof plane: TOS(y) = 3.30 + 0.06 (35.87 - y) (raised 20 mm, review F11). Primary top = TOS + 0.05 (rafter bottom
-flange 30 mm above the primary bottom flange -> no cope, 13 mm clearance at the down-slope flange tip).
-Cap plate top = TOS - 0.28, column length = TOS - 0.34 (grout 40 + plate 25 -> 65 mm, rounded)."""
+Rev 6a (review A1). Roof plane: TOS(y) = 3.33 + 0.06 (35.87 - y). Primary (IPE 300) top = TOS + 0.03: the IPE 240 rafter
+sits 19.3 mm clear of the primary flanges top and bottom (15.7 mm at the down-slope tip), no cope. Primary underside =
+cap-plate top = TOS - 0.27, column top (cap underside, 20 mm cap) = TOS - 0.29, column length L = TOS - 0.335 exactly
+(grout 25 + base plate 20 = 45 mm). P13 (K19-K20) is IPE 330: its cap tops and the K19 / K20 column tops are 30 mm lower
+(TOS - 0.30 / TOS - 0.32, L = TOS - 0.365); columns are cut to the surveyed plate-top level in any case."""
 import json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 GEO = json.load(open(os.path.join(HERE, '..', '..', '..', 'geometry.json')))
@@ -16,8 +18,11 @@ PITCH = 0.06
 NORTH_JOG_X = 81.79                      # Rev 3 (C1): the north face is at y 35.37 west of x 81.79 and 35.87 east of it
 def north_edge(x): return 35.37 if x < NORTH_JOG_X else 35.87
 def TOS(y): return 3.33 + PITCH*(35.87 - y)   # Rev 3 (C3): plane raised 30 mm -> 3.02 m clear under the cap-plate nuts at y 35.77
-def cap_top(y): return TOS(y) - 0.25           # Rev 6: primary IPE 300 top at TOS + 0.05 -> underside / cap-plate top = TOS - 0.25; column top (cap underside) = TOS - 0.27
-def L_col(y): return TOS(y) - 0.32             # Rev 6: column top TOS - 0.27 less 25 grout + 20 plate (Rev 4 with IPE 330 / 25 plate: TOS - 0.35)
+PRIM_TOP_OFFSET = 0.03                          # Rev 6a (A1): primary top = TOS + 0.03
+SPAN_SECTION = {'P_K19K20': 'IPE 330'}          # Rev 6a (A2): the single 9.8 m primary P13 stays IPE 330
+COL_DROP = {'K19': 0.03, 'K20': 0.03}           # cap / column top 30 mm lower under the IPE 330 primary
+def cap_top(y, cid=None): return TOS(y) + PRIM_TOP_OFFSET - 0.300 - COL_DROP.get(cid, 0.0)   # cap-plate top = primary underside = TOS - 0.27 (K19 / K20: - 0.30)
+def L_col(y, cid=None): return TOS(y) - 0.335 - COL_DROP.get(cid, 0.0)   # column top TOS - 0.29 (cap 20) less grout 25 + plate 20: exact, no rounding
 def wall_h(y): return TOS(y) + 0.30          # panel top + flashing, above slab
 SEC_PRIM, SEC_RAFT, SEC_COL = 'IPE 300', 'IPE 240', 'HEA 140'   # Rev 6 (brief Rev 7): lighter set adopted by the client; every check re-run
 

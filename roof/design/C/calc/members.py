@@ -61,7 +61,7 @@ def beam_checks(res):
         gov = max(u, key=u.get)
         rows.append(dict(id=sp['id'], span='%s-%s' % (sp['sa'], sp['sb']), section=S['name'], L=L, kind=sp['kind'],
                          M_Ed=Mg, Mu_Ed=Mu, V_Ed=V, N_Ed=0.0, Mpl=S['Mpl_y'], Vpl=S['Vpl'], MbG=MbG, MbU=MbU, Lg=Lg, Lu=Lu, nfly=nseg-1 if nseg else 0,
-                         d=d, dcase=dcase, dlim=dlim, util=u, umax=u[gov], gov=gov, C1g=wG[1], C1u=wU[1], a=sp['a'], b=sp['b'], axis=sp['axis'],
+                         d=d, dcase=dcase, d_q=sp['d']['SLS'], dlim=dlim, util=u, umax=u[gov], gov=gov, C1g=wG[1], C1u=wU[1], a=sp['a'], b=sp['b'], axis=sp['axis'],
                          RA=sp['RA'], RB=sp['RB']))
     return rows
 
@@ -103,7 +103,7 @@ def column_checks(res, Hchar, H4, thermal=None):
     SC = res['sections']['col']; ft = res['wall_trib']; R = connections.anchor_resistances()
     rows, cases_all, base_env = [], {}, {}
     for cid, (cx, cy) in COLS.items():
-        L = L_col(cy); v = res['colloads'][cid]; edges = edge_distances(cx, cy)
+        L = L_col(cy, cid); v = res['colloads'][cid]; edges = edge_distances(cx, cy)
         NbR, xy, xz, ly, lz = Nb_Rd(SC, L, L); MbR, xlt, llt = Mb_Rd(SC, L)
         mybays = [b for b in BAYS if cid in b['c']]
         def brace(Hd, ud, ud2=None):
@@ -142,7 +142,11 @@ def column_checks(res, Hchar, H4, thermal=None):
             cases.append(dict(case='SLSW' + d, N=v['G'] + v['W_' + d] - (Nt - Nc), V=(Vwx + Vbx, Vwy + Vby), Vc=Vc, My=My, Mz=Mz))
         for ax, ud in (('+x', (1, 0)), ('-x', (-1, 0)), ('+y', (0, 1)), ('-y', (0, -1))):
             (Vbx, Vby), Vc, Nt, Nc = brace(H4[ax[1]], ud)
-            cases.append(dict(case='ULS4' + ax, N=1.0*v['G'] + Nc, V=(Vbx, Vby), Vc=Vc, My=0.0, Mz=0.0, Nt=1.0*v['G'] - (Nt - Nc)))   # amplified seismic (two-mass), net per line
+            # Rev 6a (Y1): E_x + 0.3 E_y (EN 1998-1 4.3.3.5.1): the orthogonal bay forces at a column shared by an x-bay and a y-bay
+            ort = [brace(H4['y' if ax[1] == 'x' else 'x'], u2) for u2 in (((0, 1), (0, -1)) if ax[1] == 'x' else ((1, 0), (-1, 0)))]
+            o = max(ort, key=lambda r: r[2] + r[3])
+            Vbx += 0.3*o[0][0]; Vby += 0.3*o[0][1]; Vc = (Vc[0] + 0.3*o[1][0], Vc[1] + 0.3*o[1][1]); Nt += 0.3*o[2]; Nc += 0.3*o[3]
+            cases.append(dict(case='ULS4' + ax, N=1.0*v['G'] + Nc, V=(Vbx, Vby), Vc=Vc, My=0.0, Mz=0.0, Nt=1.0*v['G'] - (Nt - Nc)))   # amplified seismic (two-mass), net per line, + 0.3 orthogonal
         if thermal and any(b['id'] in THERMAL_BAYS for b in mybays):   # erection state +/-30 K, thermal leading, no wind
             for ax, ud in (('+x', (1, 0)), ('-x', (-1, 0))):
                 (Vbx, Vby), Vc, Nt, Nc = brace({b['id']: (Te if b['id'] in THERMAL_BAYS else 0.0) for b in BAYS}, ud)
@@ -245,7 +249,7 @@ def run(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL):
     for d in 'NSEW':
         H, Ftot, Hr, Ht = bracing.distribute(d); Hchar[d] = H; Fr[d] = (Ftot, Hr, Ht, H)
     bays = {d: bracing.bay_forces({k: 1.5*v for k, v in Hchar[d].items()}) for d in 'NSEW'}
-    steel = sum(sec(s['section'])['w']*s['L'] for s in res['spans']) + sum(sec(sec_col)['w']*L_col(COLS[c][1]) for c in COLS)
+    steel = sum(sec(s['section'])['w']*s['L'] for s in res['spans']) + sum(sec(sec_col)['w']*L_col(COLS[c][1], c) for c in COLS)
     seis = bracing.seismic_check(res['roof_area'], 1.1*steel)
     ks = bracing.bay_stiffness(); kx = sum(v for b in BAYS for i, v in ks.items() if i == b['id'] and b['dir'] == 'x')/1e3; ky = sum(v for b in BAYS for i, v in ks.items() if i == b['id'] and b['dir'] == 'y')/1e3
     tm = bracing.two_mass_check(res['roof_area'], 1.1*steel, kx, ky); seis.update(two_mass=tm, Fb_x=tm['x']['F'], Fb_y=tm['y']['F'])
