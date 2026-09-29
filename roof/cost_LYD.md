@@ -1,4 +1,6 @@
-# Cost estimate - design C Rev 8 (economic scheme) and Rev 7, reduced roofed area (2026-09-29)
+# Cost estimate - design C Rev 8a (economic scheme, 23 columns), Rev 8 and Rev 7, reduced roofed area (2026-09-29)
+
+**Rev 8a (offer/cost_sections_invoice_rev8a.md): sections 84,700 LYD (9.7 t bought), plates and small items 18,500 LYD, material 103,200 LYD. Offer Rev D: material 103,200 + assembly 20,000 + panels 47,000 = 170,200; margin 25 %; price 213,000 LYD.**
 
 **Rev 8 at the supplier's quotation prices (offer/cost_sections_invoice_rev8.md): sections 88,068 LYD (10.1 t bought), plates and small items 18,499 LYD, material 106,567 LYD; Rev 7 was 139,901 LYD material. The 6,950 LYD/t all-in rate below is superseded: it is lower than the bare material price of the quotation.**
 
@@ -49,4 +51,5 @@ Steel 102,165 + assembly 10 % of sections 6,811 + panels 49,770 + gutters 12,000
 | Rev 6a (lighter sections, P13 IPE 330) | 22.2 (incl. 1.6 t girts) | 154,300 LYD |
 | Rev 7 (reduced roofed area 316 m2, girts excluded) | 14.7 | 102,165 LYD at 6,950/t; material 139,900 LYD at quotation prices |
 | Rev 7b (IPE 200 rafters, IPE 240 primaries) | 13.0 | material 120,800 LYD at quotation prices |
-| **Rev 8 (continuous IPE 180 on IPE 200, L60x6, M20 rods)** | **11.6** | **material 106,567 LYD at quotation prices** |
+| Rev 8 (continuous IPE 180 on IPE 200, L60x6, M20 rods) | 11.6 | material 106,600 LYD at quotation prices |
+| **Rev 8a (Rev 8 + existing columns K28-K30 under the south eaves, all primaries IPE 200)** | **11.0** | **material 103,200 LYD at quotation prices** |

@@ -81,10 +81,10 @@ md += ['| **Sections total** | | | | **%s** | | **%s** | average %s LYD/t on bou
        '| **Material total** | | | | **%s** | | **%s** | |' % (f(tot_kg + plates_kg), f(total + plates_cost)), '',
        'Waste: bought %.0f kg against a net take-off of %.0f kg (%.0f %% offcuts); the offcuts of the rafter and column bars are usable for T3, ST2, the wind posts and stiffeners.\n' % (tot_kg, _net, (tot_kg/_net - 1)*100),
        '## 3. Notes on the quotation\n',
-       '- The IPE 330 eave beam K17-K18 is 13.7 m; the stock length is 12 m. Either a 14 m bar is ordered (ask the supplier) or the beam is spliced with a bolted end-plate splice near a rafter, about 3 m from K18.',
+       '- The IPE 330 eave beam K17-K18 is 13.7 m; the stock length is 12 m. Either a 14 m bar is ordered (ask the supplier) or the beam is spliced with a bolted end-plate splice near a rafter, about 3 m from K18.' if 'IPE 330' in pieces else '- No IPE 330: the eave beams bear on the existing columns K28, K29 and K30 (Rev 8a), all primaries in one section.',
        '- The angle offered is 75 x 75 x 7 (7.94 kg/m); the design uses %s (priced by weight at the same rate).' % ANG,
        '- Purlin "galvanised 200, 6 m": confirm Z (not C) profile, 2.0 mm, S350GD, Z275; the design needs sleeved laps at the rafters, so 6 m bars suit the 2.6-4.1 m rafter spacing with one lap per two bays.',
-       '- HEA 140 columns: 20 columns of about 3.0-3.8 m and 3 posts of about 4.0 m cut from 8 x 12 m bars (three pieces per bar); the 6 m bar is not needed.',
+       '- HEA 140 columns: %d columns of about 3.0-3.8 m cut from %d x 12 m bars (three pieces per bar); the 6 m bar is not needed.' % (len(pieces[SEC_C]), rows[0]['bars']),
        '- The M24 item is a 60 cm bolt; the roof rods need about 168 m of threaded rod with turnbuckles, to be quoted as rod.',
        '- Prices are dated 29/09/2026 and imported stock; keep the 15-day offer validity.']
 open(OUT + '/cost_sections_invoice%s.md' % ('_rev' + REV if REV != '7' else ''), 'w').write('\n'.join(md) + '\n')

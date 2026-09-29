@@ -1,6 +1,6 @@
 {
  "units": "m",
- "source": "Drawing 3.dxf (structural plan, layer 0 hatches = columns)",
+ "source": "Drawing 3.dxf (structural plan, layer 0 hatches = columns); re-issued Drawing 3 (29 Sep 2026) adds K28, K29 (C1) and K30 (C2 60x60) under the south eaves of the reduced roof",
  "column_section_cm": [
   20,
   40
@@ -249,6 +249,36 @@
    "bx": 0.2,
    "by": 0.4,
    "orientation": "long axis N-S"
+  },
+  {
+   "id": "K28",
+   "label": "C1",
+   "cx": 72.09,
+   "cy": 21.82,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W",
+   "note": "added 29 Sep 2026 from the re-issued Drawing 3 (client)"
+  },
+  {
+   "id": "K29",
+   "label": "C1",
+   "cx": 75.09,
+   "cy": 21.82,
+   "bx": 0.4,
+   "by": 0.2,
+   "orientation": "long axis E-W",
+   "note": "added 29 Sep 2026 from the re-issued Drawing 3 (client)"
+  },
+  {
+   "id": "K30",
+   "label": "C2",
+   "cx": 88.88,
+   "cy": 24.46,
+   "bx": 0.6,
+   "by": 0.6,
+   "orientation": "square 60 x 60",
+   "note": "added 29 Sep 2026 from the re-issued Drawing 3 (client); C2 = 12 dia14"
   }
  ],
  "envelope_outer_faces": {

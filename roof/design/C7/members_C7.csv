@@ -3,24 +3,24 @@ T3/R75-K16,trimmer/chord,IPE 180,2.88,R75,K16,0.0,0.3,0.4,0.01,0.0,0.01,0.01,0.0
 R68/K19-K15,rafter,IPE 180,4.61,K19,K15,0.0,6.3,7.9,0.14,0.04,0.08,0.16,0.07,0.16,LTBu,OK
 R68/K15-K8,rafter,IPE 180,3.0,K15,K8,0.0,-0.2,9.0,-0.0,0.05,0.1,0.19,0.04,0.19,LTBu,OK
 R68/K8-K6,rafter,IPE 180,5.8,K8,K6,0.0,9.1,9.0,0.2,0.05,0.11,0.31,0.12,0.31,LTBu,OK
-R70/P_K19K20-P_K8K9,rafter,IPE 180,7.56,P_K19K20,P_K8K9,0.0,15.5,14.5,0.34,0.08,0.4,0.44,0.42,0.44,LTBu,OK
+R70/P_K19K28-P_K8K9,rafter,IPE 180,7.56,P_K19K28,P_K8K9,0.0,15.5,14.5,0.34,0.08,0.4,0.44,0.42,0.44,LTBu,OK
 R70/P_K8K9-P_K6K5,rafter,IPE 180,5.9,P_K8K9,P_K6K5,0.0,10.8,13.0,0.24,0.07,0.43,0.45,0.07,0.45,LTBu,OK
-R72/P_K19K20-K9,rafter,IPE 180,7.51,P_K19K20,K9,0.0,15.0,14.4,0.33,0.08,0.47,0.39,0.47,0.47,defl,OK
+R72/K28-K9,rafter,IPE 180,7.51,K28,K9,0.0,15.0,14.4,0.33,0.08,0.47,0.39,0.47,0.47,defl,OK
 R72/K9-K5,rafter,IPE 180,6.0,K9,K5,0.0,12.4,14.1,0.27,0.08,0.5,0.44,0.09,0.5,LTBg,OK
-R75/P_K19K20-P_K9K10,rafter,IPE 180,7.51,P_K19K20,P_K9K10,0.0,17.9,16.8,0.39,0.09,0.55,0.44,0.57,0.57,defl,OK
+R75/P_K28K29-P_K9K10,rafter,IPE 180,7.51,P_K28K29,P_K9K10,0.0,17.9,16.8,0.39,0.09,0.55,0.44,0.57,0.57,defl,OK
 R75/P_K9K10-P_K5K7,rafter,IPE 180,5.93,P_K9K10,P_K5K7,0.0,12.6,15.9,0.28,0.09,0.58,0.44,0.09,0.58,LTBg,OK
 R78/K20-K16,rafter,IPE 180,2.7,K20,K16,0.0,2.1,10.6,0.05,0.06,0.13,0.14,0.02,0.14,LTBu,OK
 R78/K16-K10,rafter,IPE 180,4.81,K16,K10,0.0,5.0,12.0,0.11,0.07,0.25,0.2,0.08,0.25,LTBg,OK
 R78/K10-K7,rafter,IPE 180,5.9,K10,K7,0.0,6.4,9.7,0.14,0.05,0.27,0.21,0.14,0.27,LTBg,OK
 R82/K17-K11,rafter,IPE 180,4.81,K17,K11,0.0,8.4,12.5,0.18,0.07,0.29,0.25,0.14,0.29,LTBg,OK
 R82/K11-K3,rafter,IPE 180,6.4,K11,K3,0.0,6.8,9.9,0.15,0.05,0.32,0.25,0.16,0.32,LTBg,OK
-R85/P_K17K18-P_K11K12,rafter,IPE 180,4.81,P_K17K18,P_K11K12,0.0,4.6,16.0,0.1,0.09,0.34,0.35,0.06,0.35,LTBu,OK
+R85/P_K17K30-P_K11K12,rafter,IPE 180,4.81,P_K17K30,P_K11K12,0.0,4.6,16.0,0.1,0.09,0.34,0.35,0.06,0.35,LTBu,OK
 R85/P_K11K12-P_K3K1,rafter,IPE 180,6.4,P_K11K12,P_K3K1,0.0,17.0,17.1,0.37,0.1,0.38,0.63,0.29,0.63,LTBu,OK
-R87/P_K17K18-K12,rafter,IPE 180,4.81,P_K17K18,K12,0.0,4.5,16.0,0.1,0.09,0.35,0.35,0.05,0.35,LTBg,OK
+R87/P_K17K30-K12,rafter,IPE 180,4.81,P_K17K30,K12,0.0,4.5,16.0,0.1,0.09,0.35,0.35,0.05,0.35,LTBg,OK
 R87/K12-K1,rafter,IPE 180,6.5,K12,K1,0.0,16.6,16.0,0.36,0.09,0.39,0.62,0.31,0.62,LTBu,OK
-R90/P_K17K18-P_K12K13,rafter,IPE 180,4.81,P_K17K18,P_K12K13,0.0,4.4,15.6,0.1,0.09,0.35,0.34,0.05,0.35,LTBg,OK
+R90/P_K30K18-P_K12K13,rafter,IPE 180,4.81,P_K30K18,P_K12K13,0.0,4.4,15.6,0.1,0.09,0.35,0.34,0.05,0.35,LTBg,OK
 R90/P_K12K13-P_K1K2,rafter,IPE 180,6.5,P_K12K13,P_K1K2,0.0,16.0,15.6,0.35,0.09,0.38,0.6,0.31,0.6,LTBu,OK
-R92/P_K17K18-K13,rafter,IPE 180,4.81,P_K17K18,K13,0.0,5.9,17.4,0.13,0.1,0.37,0.39,0.05,0.39,LTBu,OK
+R92/P_K30K18-K13,rafter,IPE 180,4.81,P_K30K18,K13,0.0,5.9,17.4,0.13,0.1,0.37,0.39,0.05,0.39,LTBu,OK
 R92/K13-K2,rafter,IPE 180,6.5,K13,K2,0.0,19.1,18.6,0.42,0.1,0.41,0.71,0.32,0.71,LTBu,OK
 R95/K18-K14,rafter,IPE 180,4.81,K18,K14,0.0,5.5,13.9,0.12,0.08,0.22,0.35,0.04,0.35,LTBu,OK
 R95/K14-K4,rafter,IPE 180,6.4,K14,K4,0.0,13.6,13.9,0.3,0.08,0.25,0.5,0.19,0.5,LTBu,OK
@@ -36,56 +36,59 @@ P_K11K12/K11-K12,primary,IPE 200,5.34,K11,K12,0.0,35.5,13.7,0.58,0.06,0.63,0.68,
 P_K12K13/K12-K13,primary,IPE 200,5.29,K12,K13,0.0,34.3,13.6,0.56,0.06,0.63,0.66,0.5,0.66,LTBu,OK
 P_K13K14/K13-K14,primary,IPE 200,3.07,K13,K14,0.0,0.3,0.5,0.01,0.0,0.01,0.01,0.0,0.01,LTBg,OK
 P_K16K17/K16-K17,eave beam,IPE 200,4.07,K16,K17,0.0,0.6,0.6,0.01,0.0,0.02,0.01,0.01,0.02,LTBg,OK
-P_K17K18/K17-K18,eave beam,IPE 330,13.7,K17,K18,0.0,66.7,17.1,0.3,0.04,0.37,0.24,0.54,0.54,defl,OK
-P_K19K20/K19-K20,eave beam,IPE 330,9.79,K19,K20,0.0,57.7,20.0,0.26,0.04,0.32,0.24,0.33,0.33,defl,OK
-K1,column,HEA 140,2.98,base,cap,37.7,11.6 / 0.0,31.6,,,0.08,0.33,,0.33,6.3.3,OK
-K2,column,HEA 140,2.98,base,cap,33.1,10.3 / 0.0,31.6,,,0.07,0.28,,0.28,6.3.3,OK
+P_K17K30/K17-K30,eave beam,IPE 200,7.03,K17,K30,0.0,15.9,8.1,0.26,0.04,0.36,0.27,0.39,0.39,defl,OK
+P_K30K18/K30-K18,eave beam,IPE 200,6.67,K30,K18,0.0,15.6,9.1,0.26,0.04,0.32,0.33,0.32,0.33,LTBu,OK
+P_K19K28/K19-K28,eave beam,IPE 200,4.1,K19,K28,0.0,10.7,5.4,0.18,0.02,0.18,0.19,0.12,0.19,LTBu,OK
+P_K28K29/K28-K29,eave beam,IPE 200,3.0,K28,K29,0.0,2.3,12.0,0.04,0.05,0.06,0.05,0.02,0.06,LTBg,OK
+P_K29K20/K29-K20,eave beam,IPE 200,2.69,K29,K20,0.0,0.3,0.4,0.0,0.0,0.01,0.0,0.0,0.01,LTBg,OK
+K1,column,HEA 140,2.98,base,cap,37.7,11.6 / 0.0,31.1,,,0.08,0.33,,0.33,6.3.3,OK
+K2,column,HEA 140,2.98,base,cap,33.1,10.3 / 0.0,31.1,,,0.07,0.28,,0.28,6.3.3,OK
 K3,column,HEA 140,2.99,base,cap,12.9,10.3 / 1.5,14.0,,,0.03,0.34,,0.34,6.3.3,OK
 K4,column,HEA 140,2.99,base,cap,26.6,10.0 / 3.6,45.9,,,0.06,0.41,,0.41,6.3.3,OK
-K5,column,HEA 140,3.01,base,cap,32.5,10.9 / 0.0,40.6,,,0.07,0.3,,0.3,6.3.3,OK
+K5,column,HEA 140,3.01,base,cap,32.5,10.9 / 0.0,39.9,,,0.07,0.3,,0.3,6.3.3,OK
 K6,column,HEA 140,3.02,base,cap,9.2,9.3 / 4.8,13.8,,,0.02,0.44,,0.44,6.3.3,OK
-K7,column,HEA 140,3.02,base,cap,28.1,11.0 / 0.0,40.6,,,0.06,0.29,,0.29,6.3.3,OK
+K7,column,HEA 140,3.02,base,cap,28.0,11.0 / 0.0,39.9,,,0.06,0.29,,0.29,6.3.3,OK
 K8,column,HEA 140,3.36,base,cap,21.3,11.7 / 0.0,13.9,,,0.05,0.34,,0.34,6.3.3,OK
 K9,column,HEA 140,3.37,base,cap,56.4,0.0 / 0.0,0.0,,,0.14,0.14,,0.14,6.3.1,OK
 K10,column,HEA 140,3.37,base,cap,39.7,0.0 / 0.0,0.0,,,0.1,0.1,,0.1,6.3.1,OK
 K11,column,HEA 140,3.37,base,cap,38.0,0.0 / 0.0,0.0,,,0.09,0.09,,0.09,6.3.1,OK
 K12,column,HEA 140,3.37,base,cap,50.8,0.0 / 0.0,0.0,,,0.12,0.12,,0.12,6.3.1,OK
 K13,column,HEA 140,3.37,base,cap,40.2,0.0 / 0.0,0.0,,,0.1,0.1,,0.1,6.3.1,OK
-K14,column,HEA 140,3.37,base,cap,37.6,14.9 / 0.0,43.8,,,0.09,0.46,,0.46,6.3.3,OK
-K15,column,HEA 140,3.54,base,cap,35.2,11.2 / 0.0,39.0,,,0.09,0.3,,0.3,6.3.3,OK
+K14,column,HEA 140,3.37,base,cap,37.6,14.9 / 0.0,43.0,,,0.09,0.46,,0.46,6.3.3,OK
+K15,column,HEA 140,3.54,base,cap,34.6,11.2 / 0.0,38.3,,,0.09,0.3,,0.3,6.3.3,OK
 K16,column,HEA 140,3.66,base,cap,80.3,3.8 / 3.3,51.7,,,0.21,0.48,,0.48,6.3.3,OK
-K17,column,HEA 140,3.53,base,cap,56.6,10.6 / 0.0,50.5,,,0.14,0.4,,0.4,6.3.3,OK
-K18,column,HEA 140,3.53,base,cap,21.8,6.5 / 8.2,11.8,,,0.06,0.58,,0.58,6.3.3,OK
-K19,column,HEA 140,3.69,base,cap,52.1,4.9 / 7.7,39.0,,,0.14,0.64,,0.64,6.3.3,OK
-K20,column,HEA 140,3.69,base,cap,88.9,4.9 / 6.5,48.8,,,0.24,0.71,,0.71,6.3.3,OK
-WP2,wind post,HEA 140,4.07,slab,eave,0,14.9,14.6,,,,0.4,,0.4,6.3.2 LTB / base key 0.35,OK
-WP3,wind post,HEA 140,4.07,slab,eave,0,14.9,14.6,,,,0.4,,0.4,6.3.2 LTB / base key 0.35,OK
-WP4,wind post,HEA 140,4.23,slab,eave,0,17.3,16.3,,,,0.47,,0.47,6.3.2 LTB / base key 0.39,OK
+K17,column,HEA 140,3.66,base,cap,51.5,14.6 / 0.0,49.6,,,0.14,0.48,,0.48,6.3.3,OK
+K18,column,HEA 140,3.66,base,cap,10.6,12.8 / 6.9,15.9,,,0.03,0.65,,0.65,6.3.3,OK
+K19,column,HEA 140,3.82,base,cap,37.3,7.3 / 8.7,38.3,,,0.11,0.58,,0.58,6.3.3,OK
+K20,column,HEA 140,3.82,base,cap,71.2,3.0 / 6.9,46.6,,,0.2,0.64,,0.64,6.3.3,OK
+K28,column,HEA 140,3.82,base,cap,18.0,10.2 / 0.0,10.7,,,0.05,0.32,,0.32,6.3.3,OK
+K29,column,HEA 140,3.82,base,cap,13.6,11.4 / 0.0,12.0,,,0.04,0.34,,0.34,6.3.3,OK
+K30,column,HEA 140,3.66,base,cap,18.3,18.1 / 0.0,19.7,,,0.05,0.51,,0.51,6.3.3,OK
 ST2,roof truss post,IPE 180,4.1,K15,R72,19.9,0,,,,0.19,,,0.19,6.3.1,OK
-B1,wall X-brace,L 60x6,6.15,K1,K2,36.4,0,,,,,,0.12,0.39,gusset bolts (seismic),OK
-B2,wall X-brace,L 60x6,6.53,K5,K7,46.2,0,,,,,,0.13,0.49,gusset bolts (seismic),OK
-B3,wall X-brace,L 60x6,5.61,K16,K17,68.1,0,,,,,,0.13,0.73,gusset bolts (seismic),OK
-B5,wall X-brace,L 60x6,6.01,K15,K19,47.1,0,,,,,,0.14,0.5,gusset bolts (seismic),OK
-B6,wall X-brace,L 60x6,7.22,K4,K14,45.6,0,,,,,,0.16,0.49,gusset bolts (seismic),OK
+B1,wall X-brace,L 60x6,6.15,K1,K2,35.8,0,,,,,,0.12,0.38,gusset bolts (seismic),OK
+B2,wall X-brace,L 60x6,6.53,K5,K7,45.4,0,,,,,,0.13,0.48,gusset bolts (seismic),OK
+B3,wall X-brace,L 60x6,5.61,K16,K17,66.9,0,,,,,,0.13,0.71,gusset bolts (seismic),OK
+B5,wall X-brace,L 60x6,6.01,K15,K19,46.3,0,,,,,,0.14,0.49,gusset bolts (seismic),OK
+B6,wall X-brace,L 60x6,7.22,K4,K14,44.8,0,,,,,,0.16,0.48,gusset bolts (seismic),OK
 B7,wall X-brace,L 60x6,4.75,K16,K20,83.2,0,,,,,,0.2,0.89,gusset bolts (N),OK
 RT-N-W,roof X-brace,M20 rod 8.8,8.2,,,33.5,0,,,,,,,0.24,rod tension (seismic),OK
 RT-N-E,roof X-brace,M20 rod 8.8,8.34,,,40.7,0,,,,,,,0.29,rod tension (seismic),OK
 RT-JOG,roof X-brace,M20 rod 8.8,6.3,,,61.9,0,,,,,,,0.44,rod tension (seismic),OK
-RT-W,roof X-brace,M20 rod 8.8,7.18,,,49.3,0,,,,,,,0.35,rod tension (seismic),OK
-RT-SW,roof X-brace,M20 rod 8.8,3.95,,,68.4,0,,,,,,,0.48,rod tension (seismic),OK
-RT-E,roof X-brace,M20 rod 8.8,8.57,,,37.5,0,,,,,,,0.27,rod tension (seismic),OK
-strut purlin,diaphragm strut/chord,Z200x2.0,,,,3.0,,,,,,,,0.29,N + M interaction,OK
-strut rafter_chord,diaphragm strut/chord,IPE 180,,,,40.9,,,,,,,,0.33,N + M interaction,OK
+RT-W,roof X-brace,M20 rod 8.8,7.18,,,48.5,0,,,,,,,0.34,rod tension (seismic),OK
+RT-SW,roof X-brace,M20 rod 8.8,3.95,,,67.2,0,,,,,,,0.48,rod tension (seismic),OK
+RT-E,roof X-brace,M20 rod 8.8,8.57,,,36.9,0,,,,,,,0.26,rod tension (seismic),OK
+strut purlin,diaphragm strut/chord,Z200x2.0,,,,2.9,,,,,,,,0.29,N + M interaction,OK
+strut rafter_chord,diaphragm strut/chord,IPE 180,,,,40.2,,,,,,,,0.32,N + M interaction,OK
 strut primary_chord,diaphragm strut/chord,IPE 200,,,,25.3,,,,,,,,0.52,N + M interaction,OK
-strut eave_strut,diaphragm strut/chord,IPE 200,,,,45.9,,,,,,,,0.61,N + M interaction,OK
-strut rafter_strut,diaphragm strut/chord,IPE 180,,,,6.4,,,,,,,,0.16,N + M interaction,OK
+strut eave_strut,diaphragm strut/chord,IPE 200,,,,45.1,,,,,,,,0.63,N + M interaction,OK
+strut rafter_strut,diaphragm strut/chord,IPE 180,,,,6.3,,,,,,,,0.16,N + M interaction,OK
 strut R78_strut,diaphragm strut/chord,IPE 180,,,,47.3,,,,,,,,0.25,N + M interaction,OK
-strut eave_strut_P_K17K18,diaphragm strut/chord,IPE 330,,,,49.9,,,,,,,,0.35,N + M interaction,OK
-strut T3_chord,diaphragm strut/chord,IPE 180,,,,49.9,,,,,,,,0.27,N + M interaction,OK
-fin R68,strut/chord fin plates,2x2 M16 on IPE 180 web,,"K6, K8, K15, K19 (x 68 line)",,51.8,,0.0,,0.25,,,,0.25,web bearing 0.24,OK
-fin R72,strut/chord fin plates,2x2 M16 on IPE 180 web,,"K5, K9, ST2 (RT-W chord)",,43.4,,0.0,,0.3,,,,0.35,web bearing 0.30,OK
-fin R78,strut/chord fin plates,2 M16 on IPE 180 web,,"K7, K10, K16, K20 (x 77.8 line)",,42.7,,0.0,,0.54,,,,0.54,web bearing 0.53,OK
-fin R82,strut/chord fin plates,2 M16 on IPE 180 web,,"K3, K11, K17 (RT-N-E west post)",,19.7,,0.0,,0.37,,,,0.37,web bearing 0.36,OK
-fin R90,strut/chord fin plates,2x2 M16 on IPE 180 web,,RT-E chord (R90),,27.3,,0.0,,0.23,,,,0.31,web bearing 0.23,OK
-fin R95,strut/chord fin plates,2x2 M16 on IPE 180 web,,"K4, K14, K18 (x 95.5 line)",,47.9,,0.0,,0.27,,,,0.27,web bearing 0.26,OK
+strut eave_strut_y24.46,diaphragm strut/chord,IPE 200,,,,49.0,,,,,,,,0.44,N + M interaction,OK
+strut T3_chord,diaphragm strut/chord,IPE 180,,,,49.0,,,,,,,,0.27,N + M interaction,OK
+fin R68,strut/chord fin plates,2x2 M16 on IPE 180 web,,"K6, K8, K15, K19 (x 68 line)",,50.9,,0.0,,0.24,,,,0.24,web bearing 0.24,OK
+fin R72,strut/chord fin plates,2x2 M16 on IPE 180 web,,"K5, K9, ST2 (RT-W chord)",,42.7,,0.0,,0.3,,,,0.35,web bearing 0.30,OK
+fin R78,strut/chord fin plates,2 M16 on IPE 180 web,,"K7, K10, K16, K20 (x 77.8 line)",,41.9,,0.0,,0.54,,,,0.54,web bearing 0.53,OK
+fin R82,strut/chord fin plates,2 M16 on IPE 180 web,,"K3, K11, K17 (RT-N-E west post)",,19.4,,0.0,,0.37,,,,0.37,web bearing 0.36,OK
+fin R90,strut/chord fin plates,2x2 M16 on IPE 180 web,,RT-E chord (R90),,26.9,,0.0,,0.23,,,,0.31,web bearing 0.23,OK
+fin R95,strut/chord fin plates,2x2 M16 on IPE 180 web,,"K4, K14, K18 (x 95.5 line)",,47.1,,0.0,,0.26,,,,0.26,web bearing 0.26,OK
 fin R70/R75/R85/R87/R92,strut/chord fin plates,2 M16 on IPE 180 web,,y 29.3 primary (N-S struts),,8.2,,0.0,,0.35,,,,0.35,web bearing 0.34,OK

@@ -13,14 +13,14 @@ K1,87.19,35.77,B1,SLSWE,5.1,0.0,8.3,0.0,0.0,8.3,,,+y,E,A-pair,
 K1,87.19,35.77,B1,ULS2W,22.3,25.9,12.4,0.0,0.0,28.8,0.33,E key pair outward (c1 >= 255),+y,E,A-pair,0.0
 K1,87.19,35.77,B1,ULS3W,-22.8,25.9,12.4,0.0,0.0,28.8,0.33,E key pair outward (c1 >= 255),+y,E,A-pair,5.7
 K1,87.19,35.77,B1,SLSWW,-11.0,17.3,8.3,0.0,0.0,19.2,,,+y,E,A-pair,
-K1,87.19,35.77,B1,ULS4+x,8.4,31.3,0.0,0.3,0.0,31.6,0.33,plate strip at key moment,+y,E,A-pair,0.0
-K1,87.19,35.77,B1,ULS4+x (uplift side),-10.4,31.3,0.0,0.3,0.0,31.6,0.33,plate strip at key moment,+y,E,A-pair,2.6
-K1,87.19,35.77,B1,ULS4-x,27.0,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
-K1,87.19,35.77,B1,ULS4-x (uplift side),26.8,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
-K1,87.19,35.77,B1,ULS4+y,8.8,9.4,0.0,1.1,0.0,10.5,0.11,plate strip at key moment,+y,E,A-pair,0.0
-K1,87.19,35.77,B1,ULS4+y (uplift side),2.6,9.4,0.0,1.1,0.0,10.5,0.11,plate strip at key moment,+y,E,A-pair,0.0
-K1,87.19,35.77,B1,ULS4-y,8.8,9.4,0.0,1.1,0.0,10.5,0.11,plate strip at key moment,+y,E,A-pair,0.0
-K1,87.19,35.77,B1,ULS4-y (uplift side),2.6,9.4,0.0,1.1,0.0,10.5,0.11,plate strip at key moment,+y,E,A-pair,0.0
+K1,87.19,35.77,B1,ULS4+x,8.4,30.7,0.0,0.3,0.0,31.1,0.32,plate strip at key moment,+y,E,A-pair,0.0
+K1,87.19,35.77,B1,ULS4+x (uplift side),-10.1,30.7,0.0,0.3,0.0,31.1,0.32,plate strip at key moment,+y,E,A-pair,2.5
+K1,87.19,35.77,B1,ULS4-x,26.7,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
+K1,87.19,35.77,B1,ULS4-x (uplift side),26.5,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
+K1,87.19,35.77,B1,ULS4+y,8.8,9.2,0.0,1.1,0.0,10.3,0.11,plate strip at key moment,+y,E,A-pair,0.0
+K1,87.19,35.77,B1,ULS4+y (uplift side),2.7,9.2,0.0,1.1,0.0,10.3,0.11,plate strip at key moment,+y,E,A-pair,0.0
+K1,87.19,35.77,B1,ULS4-y,8.8,9.2,0.0,1.1,0.0,10.3,0.11,plate strip at key moment,+y,E,A-pair,0.0
+K1,87.19,35.77,B1,ULS4-y (uplift side),2.7,9.2,0.0,1.1,0.0,10.3,0.11,plate strip at key moment,+y,E,A-pair,0.0
 K1,87.19,35.77,B1,ULST+x,8.2,25.9,0.0,0.0,0.0,25.9,0.27,plate strip at key moment,+y,E,A-pair,0.0
 K1,87.19,35.77,B1,ULST+x (uplift side),-7.2,25.9,0.0,0.0,0.0,25.9,0.27,plate strip at key moment,+y,E,A-pair,1.8
 K1,87.19,35.77,B1,ULST-x,23.6,0.0,0.0,0.0,0.0,0.0,0.04,bearing,+y,E,A-pair,0.0
@@ -39,13 +39,13 @@ K2,92.48,35.77,B1,SLSWE,-17.9,-17.2,9.2,0.0,0.0,19.5,,,+y,E,A-pair,
 K2,92.48,35.77,B1,ULS2W,33.1,0.0,9.9,0.0,0.0,9.9,0.11,E key pair outward (c1 >= 255),+y,E,A-pair,0.0
 K2,92.48,35.77,B1,ULS3W,9.7,0.0,9.9,0.0,0.0,9.9,0.11,E key pair outward (c1 >= 255),+y,E,A-pair,0.0
 K2,92.48,35.77,B1,SLSWW,9.8,0.0,6.6,0.0,0.0,6.6,,,+y,E,A-pair,
-K2,92.48,35.77,B1,ULS4+x,25.4,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
-K2,92.48,35.77,B1,ULS4+x (uplift side),25.2,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
-K2,92.48,35.77,B1,ULS4-x,6.8,-31.3,0.0,0.3,0.0,31.6,0.33,plate strip at key moment,+y,E,A-pair,0.0
-K2,92.48,35.77,B1,ULS4-x (uplift side),-12.0,-31.3,0.0,0.3,0.0,31.6,0.33,plate strip at key moment,+y,E,A-pair,3.0
-K2,92.48,35.77,B1,ULS4+y,12.8,0.0,0.0,1.1,0.0,1.1,0.02,bearing,+y,E,A-pair,0.0
+K2,92.48,35.77,B1,ULS4+x,25.0,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
+K2,92.48,35.77,B1,ULS4+x (uplift side),24.8,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
+K2,92.48,35.77,B1,ULS4-x,6.8,-30.7,0.0,0.3,0.0,31.1,0.32,plate strip at key moment,+y,E,A-pair,0.0
+K2,92.48,35.77,B1,ULS4-x (uplift side),-11.7,-30.7,0.0,0.3,0.0,31.1,0.32,plate strip at key moment,+y,E,A-pair,2.9
+K2,92.48,35.77,B1,ULS4+y,12.7,0.0,0.0,1.1,0.0,1.1,0.02,bearing,+y,E,A-pair,0.0
 K2,92.48,35.77,B1,ULS4+y (uplift side),12.1,0.0,0.0,1.1,0.0,1.1,0.02,bearing,+y,E,A-pair,0.0
-K2,92.48,35.77,B1,ULS4-y,12.8,0.0,0.0,1.1,0.0,1.1,0.02,bearing,+y,E,A-pair,0.0
+K2,92.48,35.77,B1,ULS4-y,12.7,0.0,0.0,1.1,0.0,1.1,0.02,bearing,+y,E,A-pair,0.0
 K2,92.48,35.77,B1,ULS4-y (uplift side),12.1,0.0,0.0,1.1,0.0,1.1,0.02,bearing,+y,E,A-pair,0.0
 K2,92.48,35.77,B1,ULST+x,22.0,0.0,0.0,0.0,0.0,0.0,0.03,bearing,+y,E,A-pair,0.0
 K2,92.48,35.77,B1,ULST+x (uplift side),6.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+y,E,A-pair,0.0
@@ -87,14 +87,14 @@ K4,95.59,35.67,B6,SLSWE,-2.8,-5.6,3.6,0.0,0.0,6.7,,,"+x,+y",E,A-pair,
 K4,95.59,35.67,B6,ULS2W,13.6,4.8,3.9,0.0,0.0,6.2,0.09,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
 K4,95.59,35.67,B6,ULS3W,4.0,4.8,3.9,0.0,0.0,6.2,0.09,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
 K4,95.59,35.67,B6,SLSWW,4.2,3.2,2.6,0.0,0.0,4.1,,,"+x,+y",E,A-pair,
-K4,95.59,35.67,B6,ULS4+x,15.4,0.0,0.0,0.0,11.2,11.2,0.12,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
-K4,95.59,35.67,B6,ULS4+x (uplift side),9.6,0.0,0.0,0.0,11.2,11.2,0.12,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
-K4,95.59,35.67,B6,ULS4-x,15.4,0.0,0.0,0.0,11.2,11.2,0.12,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
-K4,95.59,35.67,B6,ULS4-x (uplift side),9.6,0.0,0.0,0.0,11.2,11.2,0.12,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
-K4,95.59,35.67,B6,ULS4+y,26.1,0.0,0.0,0.0,3.4,3.4,0.04,bearing,"+x,+y",E,A-pair,0.0
-K4,95.59,35.67,B6,ULS4+y (uplift side),24.4,0.0,0.0,0.0,3.4,3.4,0.04,bearing,"+x,+y",E,A-pair,0.0
-K4,95.59,35.67,B6,ULS4-y,5.0,0.0,-40.4,0.0,3.4,43.8,0.45,plate strip at key moment,"+x,+y",E,A-pair,0.0
-K4,95.59,35.67,B6,ULS4-y (uplift side),-17.9,0.0,-40.4,0.0,3.4,43.8,0.45,plate strip at key moment,"+x,+y",E,A-pair,4.5
+K4,95.59,35.67,B6,ULS4+x,15.2,0.0,0.0,0.0,11.0,11.0,0.12,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
+K4,95.59,35.67,B6,ULS4+x (uplift side),9.5,0.0,0.0,0.0,11.0,11.0,0.12,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
+K4,95.59,35.67,B6,ULS4-x,15.2,0.0,0.0,0.0,11.0,11.0,0.12,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
+K4,95.59,35.67,B6,ULS4-x (uplift side),9.5,0.0,0.0,0.0,11.0,11.0,0.12,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
+K4,95.59,35.67,B6,ULS4+y,25.7,0.0,0.0,0.0,3.3,3.3,0.04,bearing,"+x,+y",E,A-pair,0.0
+K4,95.59,35.67,B6,ULS4+y (uplift side),24.0,0.0,0.0,0.0,3.3,3.3,0.04,bearing,"+x,+y",E,A-pair,0.0
+K4,95.59,35.67,B6,ULS4-y,4.9,0.0,-39.7,0.0,3.3,43.0,0.44,plate strip at key moment,"+x,+y",E,A-pair,0.0
+K4,95.59,35.67,B6,ULS4-y (uplift side),-17.5,0.0,-39.7,0.0,3.3,43.0,0.44,plate strip at key moment,"+x,+y",E,A-pair,4.4
 K5,72.09,35.27,B2,ULS1,15.4,0.0,0.0,0.0,0.0,0.0,0.02,bearing,+y,E,A-pair,0.0
 K5,72.09,35.27,B2,SLS,11.0,0.0,0.0,0.0,0.0,0.0,,,+y,E,A-pair,
 K5,72.09,35.27,B2,ULS2N,17.3,0.0,-14.5,0.3,0.0,14.5,0.15,plate strip at key moment,+y,E,A-pair,0.0
@@ -109,14 +109,14 @@ K5,72.09,35.27,B2,SLSWE,10.3,0.0,7.7,0.0,0.0,7.7,,,+y,E,A-pair,
 K5,72.09,35.27,B2,ULS2W,17.1,27.7,11.6,0.0,0.0,30.0,0.33,E key pair outward (c1 >= 255),+y,E,A-pair,0.0
 K5,72.09,35.27,B2,ULS3W,-30.8,27.7,11.6,0.0,0.0,30.0,0.33,E key pair outward (c1 >= 255),+y,E,A-pair,7.7
 K5,72.09,35.27,B2,SLSWW,-17.0,18.4,7.7,0.0,0.0,20.0,,,+y,E,A-pair,
-K5,72.09,35.27,B2,ULS4+x,7.0,40.3,0.0,0.3,0.0,40.6,0.42,plate strip at key moment,+y,E,A-pair,0.0
-K5,72.09,35.27,B2,ULS4+x (uplift side),-15.7,40.3,0.0,0.3,0.0,40.6,0.42,plate strip at key moment,+y,E,A-pair,3.9
-K5,72.09,35.27,B2,ULS4-x,29.5,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
-K5,72.09,35.27,B2,ULS4-x (uplift side),29.3,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
-K5,72.09,35.27,B2,ULS4+y,7.3,12.1,0.0,0.9,0.0,13.0,0.13,plate strip at key moment,+y,E,A-pair,0.0
-K5,72.09,35.27,B2,ULS4+y (uplift side),0.1,12.1,0.0,0.9,0.0,13.0,0.13,plate strip at key moment,+y,E,A-pair,0.0
-K5,72.09,35.27,B2,ULS4-y,7.3,12.1,0.0,0.9,0.0,13.0,0.13,plate strip at key moment,+y,E,A-pair,0.0
-K5,72.09,35.27,B2,ULS4-y (uplift side),0.1,12.1,0.0,0.9,0.0,13.0,0.13,plate strip at key moment,+y,E,A-pair,0.0
+K5,72.09,35.27,B2,ULS4+x,7.0,39.6,0.0,0.3,0.0,39.9,0.41,plate strip at key moment,+y,E,A-pair,0.0
+K5,72.09,35.27,B2,ULS4+x (uplift side),-15.3,39.6,0.0,0.3,0.0,39.9,0.41,plate strip at key moment,+y,E,A-pair,3.8
+K5,72.09,35.27,B2,ULS4-x,29.1,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
+K5,72.09,35.27,B2,ULS4-x (uplift side),28.9,0.0,0.0,0.3,0.0,0.3,0.04,bearing,+y,E,A-pair,0.0
+K5,72.09,35.27,B2,ULS4+y,7.3,11.9,0.0,0.9,0.0,12.8,0.13,plate strip at key moment,+y,E,A-pair,0.0
+K5,72.09,35.27,B2,ULS4+y (uplift side),0.2,11.9,0.0,0.9,0.0,12.8,0.13,plate strip at key moment,+y,E,A-pair,0.0
+K5,72.09,35.27,B2,ULS4-y,7.3,11.9,0.0,0.9,0.0,12.8,0.13,plate strip at key moment,+y,E,A-pair,0.0
+K5,72.09,35.27,B2,ULS4-y (uplift side),0.2,11.9,0.0,0.9,0.0,12.8,0.13,plate strip at key moment,+y,E,A-pair,0.0
 K5,72.09,35.27,B2,ULST+x,6.8,25.9,0.0,0.0,0.0,25.9,0.27,plate strip at key moment,+y,E,A-pair,0.0
 K5,72.09,35.27,B2,ULST+x (uplift side),-7.6,25.9,0.0,0.0,0.0,25.9,0.27,plate strip at key moment,+y,E,A-pair,1.9
 K5,72.09,35.27,B2,ULST-x,21.3,0.0,0.0,0.0,0.0,0.0,0.03,bearing,+y,E,A-pair,0.0
@@ -157,14 +157,14 @@ K7,77.79,35.17,B2,SLSWE,-9.2,-18.4,7.8,0.0,0.0,20.0,,,"+x,+y",E,A-pair,
 K7,77.79,35.17,B2,ULS2W,28.0,0.0,11.6,0.0,0.0,11.6,0.13,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
 K7,77.79,35.17,B2,ULS3W,9.3,0.0,11.6,0.0,0.0,11.6,0.13,E key pair outward (c1 >= 255),"+x,+y",E,A-pair,0.0
 K7,77.79,35.17,B2,SLSWW,8.8,0.0,7.8,0.0,0.0,7.8,,,"+x,+y",E,A-pair,
-K7,77.79,35.17,B2,ULS4+x,28.1,0.0,0.0,0.3,0.0,0.3,0.04,bearing,"+x,+y",E,A-pair,0.0
-K7,77.79,35.17,B2,ULS4+x (uplift side),28.0,0.0,0.0,0.3,0.0,0.3,0.04,bearing,"+x,+y",E,A-pair,0.0
-K7,77.79,35.17,B2,ULS4-x,5.6,-40.3,0.0,0.3,0.0,40.6,0.57,E key pair bearing,"+x,+y",E,A-pair,0.0
-K7,77.79,35.17,B2,ULS4-x (uplift side),-17.0,-40.3,0.0,0.3,0.0,40.6,0.57,E key pair bearing,"+x,+y",E,A-pair,4.2
-K7,77.79,35.17,B2,ULS4+y,12.7,0.0,0.0,0.9,0.0,0.9,0.02,bearing,"+x,+y",E,A-pair,0.0
-K7,77.79,35.17,B2,ULS4+y (uplift side),12.2,0.0,0.0,0.9,0.0,0.9,0.02,bearing,"+x,+y",E,A-pair,0.0
-K7,77.79,35.17,B2,ULS4-y,12.7,0.0,0.0,0.9,0.0,0.9,0.02,bearing,"+x,+y",E,A-pair,0.0
-K7,77.79,35.17,B2,ULS4-y (uplift side),12.2,0.0,0.0,0.9,0.0,0.9,0.02,bearing,"+x,+y",E,A-pair,0.0
+K7,77.79,35.17,B2,ULS4+x,27.7,0.0,0.0,0.3,0.0,0.3,0.04,bearing,"+x,+y",E,A-pair,0.0
+K7,77.79,35.17,B2,ULS4+x (uplift side),27.6,0.0,0.0,0.3,0.0,0.3,0.04,bearing,"+x,+y",E,A-pair,0.0
+K7,77.79,35.17,B2,ULS4-x,5.6,-39.6,0.0,0.3,0.0,39.9,0.56,E key pair bearing,"+x,+y",E,A-pair,0.0
+K7,77.79,35.17,B2,ULS4-x (uplift side),-16.6,-39.6,0.0,0.3,0.0,39.9,0.56,E key pair bearing,"+x,+y",E,A-pair,4.2
+K7,77.79,35.17,B2,ULS4+y,12.6,0.0,0.0,0.9,0.0,0.9,0.02,bearing,"+x,+y",E,A-pair,0.0
+K7,77.79,35.17,B2,ULS4+y (uplift side),12.1,0.0,0.0,0.9,0.0,0.9,0.02,bearing,"+x,+y",E,A-pair,0.0
+K7,77.79,35.17,B2,ULS4-y,12.6,0.0,0.0,0.9,0.0,0.9,0.02,bearing,"+x,+y",E,A-pair,0.0
+K7,77.79,35.17,B2,ULS4-y (uplift side),12.1,0.0,0.0,0.9,0.0,0.9,0.02,bearing,"+x,+y",E,A-pair,0.0
 K7,77.79,35.17,B2,ULST+x,19.9,0.0,0.0,0.0,0.0,0.0,0.03,bearing,"+x,+y",E,A-pair,0.0
 K7,77.79,35.17,B2,ULST+x (uplift side),5.5,0.0,0.0,0.0,0.0,0.0,0.01,bearing,"+x,+y",E,A-pair,0.0
 K7,77.79,35.17,B2,ULST-x,5.5,-25.9,0.0,0.0,0.0,25.9,0.36,E key pair bearing,"+x,+y",E,A-pair,0.0
@@ -315,14 +315,14 @@ K14,95.48,29.27,B6,SLSWE,-17.8,-10.4,6.2,0.0,0.0,12.1,,,+x,E,A,
 K14,95.48,29.27,B6,ULS2W,17.2,8.9,10.9,0.0,0.0,14.1,0.24,Key B outward +x (c1 250),+x,E,A,0.0
 K14,95.48,29.27,B6,ULS3W,-8.7,8.9,10.9,0.0,0.0,14.1,0.24,Key B outward +x (c1 250),+x,E,A,2.2
 K14,95.48,29.27,B6,SLSWW,-3.1,6.0,7.2,0.0,0.0,9.4,,,+x,E,A,
-K14,95.48,29.27,B6,ULS4+x,11.5,0.0,12.1,0.0,11.2,23.3,0.38,Key A parallel to edge +x (c1 165),+x,E,A,0.0
-K14,95.48,29.27,B6,ULS4+x (uplift side),-0.7,0.0,12.1,0.0,11.2,23.3,0.38,Key A parallel to edge +x (c1 165),+x,E,A,0.2
-K14,95.48,29.27,B6,ULS4-x,11.5,0.0,12.1,0.0,11.2,23.3,0.38,Key A parallel to edge +x (c1 165),+x,E,A,0.0
-K14,95.48,29.27,B6,ULS4-x (uplift side),-0.7,0.0,12.1,0.0,11.2,23.3,0.38,Key A parallel to edge +x (c1 165),+x,E,A,0.2
-K14,95.48,29.27,B6,ULS4+y,7.4,0.0,40.4,0.0,3.4,43.8,0.72,Key A parallel to edge +x (c1 165),+x,E,A,0.0
-K14,95.48,29.27,B6,ULS4+y (uplift side),-15.5,0.0,40.4,0.0,3.4,43.8,0.72,Key A parallel to edge +x (c1 165),+x,E,A,3.9
-K14,95.48,29.27,B6,ULS4-y,28.5,0.0,0.0,0.0,3.4,3.4,0.06,Key A parallel to edge +x (c1 165),+x,E,A,0.0
-K14,95.48,29.27,B6,ULS4-y (uplift side),26.8,0.0,0.0,0.0,3.4,3.4,0.06,Key A parallel to edge +x (c1 165),+x,E,A,0.0
+K14,95.48,29.27,B6,ULS4+x,11.4,0.0,11.9,0.0,11.0,22.9,0.38,Key A parallel to edge +x (c1 165),+x,E,A,0.0
+K14,95.48,29.27,B6,ULS4+x (uplift side),-0.6,0.0,11.9,0.0,11.0,22.9,0.38,Key A parallel to edge +x (c1 165),+x,E,A,0.1
+K14,95.48,29.27,B6,ULS4-x,11.4,0.0,11.9,0.0,11.0,22.9,0.38,Key A parallel to edge +x (c1 165),+x,E,A,0.0
+K14,95.48,29.27,B6,ULS4-x (uplift side),-0.6,0.0,11.9,0.0,11.0,22.9,0.38,Key A parallel to edge +x (c1 165),+x,E,A,0.1
+K14,95.48,29.27,B6,ULS4+y,7.4,0.0,39.7,0.0,3.3,43.0,0.71,Key A parallel to edge +x (c1 165),+x,E,A,0.0
+K14,95.48,29.27,B6,ULS4+y (uplift side),-15.1,0.0,39.7,0.0,3.3,43.0,0.71,Key A parallel to edge +x (c1 165),+x,E,A,3.8
+K14,95.48,29.27,B6,ULS4-y,28.1,0.0,0.0,0.0,3.3,3.3,0.05,Key A parallel to edge +x (c1 165),+x,E,A,0.0
+K14,95.48,29.27,B6,ULS4-y (uplift side),26.4,0.0,0.0,0.0,3.3,3.3,0.05,Key A parallel to edge +x (c1 165),+x,E,A,0.0
 K15,67.99,26.37,B5,ULS1,6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-x,E,A-pair,0.0
 K15,67.99,26.37,B5,SLS,4.3,0.0,0.0,0.0,0.0,0.0,,,-x,E,A-pair,
 K15,67.99,26.37,B5,ULS2N,7.4,-12.6,-32.8,0.0,0.0,35.1,0.38,E key pair outward (c1 >= 255),-x,E,A-pair,0.0
@@ -337,14 +337,14 @@ K15,67.99,26.37,B5,SLSWE,6.4,-4.2,0.0,0.0,0.0,4.2,,,-x,E,A-pair,
 K15,67.99,26.37,B5,ULS2W,13.8,11.2,0.0,0.0,0.0,11.2,0.11,plate strip at key moment,-x,E,A-pair,0.0
 K15,67.99,26.37,B5,ULS3W,-2.5,11.2,0.0,0.0,0.0,11.2,0.11,plate strip at key moment,-x,E,A-pair,0.6
 K15,67.99,26.37,B5,SLSWW,-0.5,7.4,0.0,0.0,0.0,7.4,,,-x,E,A-pair,
-K15,67.99,26.37,B5,ULS4+x,19.6,0.0,0.0,0.0,9.4,9.4,0.1,plate strip at key moment,-x,E,A-pair,0.0
-K15,67.99,26.37,B5,ULS4+x (uplift side),11.7,0.0,0.0,0.0,9.4,9.4,0.1,plate strip at key moment,-x,E,A-pair,0.0
-K15,67.99,26.37,B5,ULS4-x,19.6,0.0,0.0,0.0,9.4,9.4,0.1,plate strip at key moment,-x,E,A-pair,0.0
-K15,67.99,26.37,B5,ULS4-x (uplift side),11.7,0.0,0.0,0.0,9.4,9.4,0.1,plate strip at key moment,-x,E,A-pair,0.0
-K15,67.99,26.37,B5,ULS4+y,35.2,0.0,0.0,0.0,2.8,2.8,0.05,bearing,-x,E,A-pair,0.0
-K15,67.99,26.37,B5,ULS4+y (uplift side),32.8,0.0,0.0,0.0,2.8,2.8,0.05,bearing,-x,E,A-pair,0.0
-K15,67.99,26.37,B5,ULS4-y,5.0,0.0,-36.1,0.0,2.8,39.0,0.4,plate strip at key moment,-x,E,A-pair,0.0
-K15,67.99,26.37,B5,ULS4-y (uplift side),-27.5,0.0,-36.1,0.0,2.8,39.0,0.4,plate strip at key moment,-x,E,A-pair,6.9
+K15,67.99,26.37,B5,ULS4+x,19.3,0.0,0.0,0.0,9.3,9.3,0.1,plate strip at key moment,-x,E,A-pair,0.0
+K15,67.99,26.37,B5,ULS4+x (uplift side),11.5,0.0,0.0,0.0,9.3,9.3,0.1,plate strip at key moment,-x,E,A-pair,0.0
+K15,67.99,26.37,B5,ULS4-x,19.3,0.0,0.0,0.0,9.3,9.3,0.1,plate strip at key moment,-x,E,A-pair,0.0
+K15,67.99,26.37,B5,ULS4-x (uplift side),11.5,0.0,0.0,0.0,9.3,9.3,0.1,plate strip at key moment,-x,E,A-pair,0.0
+K15,67.99,26.37,B5,ULS4+y,34.6,0.0,0.0,0.0,2.8,2.8,0.05,bearing,-x,E,A-pair,0.0
+K15,67.99,26.37,B5,ULS4+y (uplift side),32.3,0.0,0.0,0.0,2.8,2.8,0.05,bearing,-x,E,A-pair,0.0
+K15,67.99,26.37,B5,ULS4-y,5.0,0.0,-35.5,0.0,2.8,38.3,0.39,plate strip at key moment,-x,E,A-pair,0.0
+K15,67.99,26.37,B5,ULS4-y (uplift side),-27.0,0.0,-35.5,0.0,2.8,38.3,0.39,plate strip at key moment,-x,E,A-pair,6.8
 K16,77.78,24.46,"B3,B7",ULS1,14.0,0.0,0.0,0.0,0.0,0.0,0.02,bearing,-,E,A,0.0
 K16,77.78,24.46,"B3,B7",SLS,9.9,0.0,0.0,0.0,0.0,0.0,,,-,E,A,
 K16,77.78,24.46,"B3,B7",ULS2N,18.2,6.0,-51.3,0.7,0.0,51.7,0.62,Key A SHS bearing,-,E,A,0.0
@@ -359,102 +359,165 @@ K16,77.78,24.46,"B3,B7",SLSWE,21.2,-2.5,-3.7,0.0,0.0,4.5,,,-,E,A,
 K16,77.78,24.46,"B3,B7",ULS2W,29.6,29.3,-7.8,0.0,0.0,30.4,0.38,plate strip at key moment,-,E,A,0.0
 K16,77.78,24.46,"B3,B7",ULS3W,-18.7,29.3,-7.8,0.0,0.0,30.4,0.38,plate strip at key moment,-,E,A,4.7
 K16,77.78,24.46,"B3,B7",SLSWW,-10.0,19.6,-5.2,0.0,0.0,20.2,,,-,E,A,
-K16,77.78,24.46,"B3,B7",ULS4+x,26.7,49.9,0.0,0.6,1.7,50.5,0.6,Key A SHS bearing,-,E,A,0.0
-K16,77.78,24.46,"B3,B7",ULS4+x (uplift side),-22.7,49.9,0.0,0.6,1.7,50.5,0.6,Key A SHS bearing,-,E,A,5.7
-K16,77.78,24.46,"B3,B7",ULS4-x,73.2,0.0,0.0,0.6,1.7,1.8,0.11,bearing,-,E,A,0.0
-K16,77.78,24.46,"B3,B7",ULS4-x (uplift side),70.1,0.0,0.0,0.6,1.7,1.8,0.11,bearing,-,E,A,0.0
-K16,77.78,24.46,"B3,B7",ULS4+y,69.5,15.0,0.0,2.0,0.5,17.0,0.2,Key A SHS bearing,-,E,A,0.0
-K16,77.78,24.46,"B3,B7",ULS4+y (uplift side),53.0,15.0,0.0,2.0,0.5,17.0,0.2,Key A SHS bearing,-,E,A,0.0
-K16,77.78,24.46,"B3,B7",ULS4-y,7.8,15.0,-42.7,2.0,0.5,46.4,0.62,plate strip at key moment,-,E,A,0.0
-K16,77.78,24.46,"B3,B7",ULS4-y (uplift side),-70.5,15.0,-42.7,2.0,0.5,46.4,0.62,plate strip at key moment,-,E,A,17.6
-K17,81.89,24.46,B3,ULS1,22.4,0.0,0.0,0.0,0.0,0.0,0.03,bearing,-,E,A,0.0
-K17,81.89,24.46,B3,SLS,15.9,0.0,0.0,0.0,0.0,0.0,,,-,E,A,
-K17,81.89,24.46,B3,ULS2N,28.3,0.0,-8.6,0.7,0.0,8.6,0.19,Key A towards edge -y (c1 255),-,E,A,0.0
-K17,81.89,24.46,B3,ULS3N,-3.1,0.0,-8.6,0.7,0.0,8.6,0.19,Key A towards edge -y (c1 255),-,E,A,0.8
-K17,81.89,24.46,B3,SLSWN,2.2,0.0,-5.7,0.4,0.0,5.7,,,-,E,A,
-K17,81.89,24.46,B3,ULS2S,28.1,0.0,9.0,0.4,0.0,9.1,0.11,Key A SHS bearing,-,E,A,0.0
-K17,81.89,24.46,B3,ULS3S,-18.8,0.0,9.0,0.4,0.0,9.1,0.14,"E rebar bond in the column head, embed 250 min (N_Rd 136)",-,E,A,4.7
-K17,81.89,24.46,B3,SLSWS,-8.3,0.0,6.0,0.3,0.0,6.0,,,-,E,A,
-K17,81.89,24.46,B3,ULS2E,27.6,-27.2,-12.1,0.0,0.0,29.8,0.4,plate strip at key moment,-,E,A,0.0
-K17,81.89,24.46,B3,ULS3E,-31.2,-27.2,-12.1,0.0,0.0,29.8,0.4,plate strip at key moment,-,E,A,7.8
-K17,81.89,24.46,B3,SLSWE,-16.5,-18.1,-8.0,0.0,0.0,19.8,,,-,E,A,
-K17,81.89,24.46,B3,ULS2W,52.9,0.0,-12.1,0.0,0.0,12.1,0.27,Key A towards edge -y (c1 255),-,E,A,0.0
-K17,81.89,24.46,B3,ULS3W,23.4,0.0,-12.1,0.0,0.0,12.1,0.27,Key A towards edge -y (c1 255),-,E,A,0.0
-K17,81.89,24.46,B3,SLSWW,19.8,0.0,-8.0,0.0,0.0,8.0,,,-,E,A,
-K17,81.89,24.46,B3,ULS4+x,56.6,0.0,0.0,0.6,0.0,0.6,0.09,bearing,-,E,A,0.0
-K17,81.89,24.46,B3,ULS4+x (uplift side),56.0,0.0,0.0,0.6,0.0,0.6,0.08,bearing,-,E,A,0.0
-K17,81.89,24.46,B3,ULS4-x,10.1,-49.9,0.0,0.6,0.0,50.5,0.6,Key A SHS bearing,-,E,A,0.0
-K17,81.89,24.46,B3,ULS4-x (uplift side),-36.8,-49.9,0.0,0.6,0.0,50.5,0.6,Key A SHS bearing,-,E,A,9.2
-K17,81.89,24.46,B3,ULS4+y,25.4,0.0,0.0,2.0,0.0,2.0,0.04,bearing,-,E,A,0.0
-K17,81.89,24.46,B3,ULS4+y (uplift side),23.5,0.0,0.0,2.0,0.0,2.0,0.04,bearing,-,E,A,0.0
-K17,81.89,24.46,B3,ULS4-y,25.4,0.0,0.0,2.0,0.0,2.0,0.04,bearing,-,E,A,0.0
-K17,81.89,24.46,B3,ULS4-y (uplift side),23.5,0.0,0.0,2.0,0.0,2.0,0.04,bearing,-,E,A,0.0
-K18,95.59,24.46,-,ULS1,17.8,0.0,0.0,0.0,0.0,0.0,0.03,bearing,+x,E,A-pair,0.0
-K18,95.59,24.46,-,SLS,12.7,0.0,0.0,0.0,0.0,0.0,,,+x,E,A-pair,
-K18,95.59,24.46,-,ULS2N,21.8,8.3,-4.7,0.0,0.0,9.5,0.13,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS3N,0.5,8.3,-4.7,0.0,0.0,9.5,0.13,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
-K18,95.59,24.46,-,SLSWN,3.8,5.5,-3.2,0.0,0.0,6.4,,,+x,E,A-pair,
-K18,95.59,24.46,-,ULS2S,21.8,7.0,5.0,0.0,0.0,8.5,0.11,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS3S,-14.5,7.0,5.0,0.0,0.0,8.5,0.11,E key pair outward (c1 >= 255),+x,E,A-pair,3.6
-K18,95.59,24.46,-,SLSWS,-6.2,4.6,3.3,0.0,0.0,5.7,,,+x,E,A-pair,
-K18,95.59,24.46,-,ULS2E,21.8,-7.3,-9.3,0.0,0.0,11.8,0.12,plate strip at key moment,+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS3E,-13.2,-7.3,-9.3,0.0,0.0,11.8,0.12,plate strip at key moment,+x,E,A-pair,3.3
-K18,95.59,24.46,-,SLSWE,-5.3,-4.9,-6.2,0.0,0.0,7.9,,,+x,E,A-pair,
-K18,95.59,24.46,-,ULS2W,21.8,4.2,-6.6,0.0,0.0,7.8,0.09,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS3W,-0.2,4.2,-6.6,0.0,0.0,7.8,0.09,E key pair outward (c1 >= 255),+x,E,A-pair,0.1
-K18,95.59,24.46,-,SLSWW,3.3,2.8,-4.4,0.0,0.0,5.2,,,+x,E,A-pair,
-K18,95.59,24.46,-,ULS4+x,8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS4+x (uplift side),8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS4-x,8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS4-x (uplift side),8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS4+y,8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS4+y (uplift side),8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS4-y,8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
-K18,95.59,24.46,-,ULS4-y (uplift side),8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS1,20.0,0.0,0.0,0.0,0.0,0.0,0.03,bearing,-x,E,A-pair,0.0
-K19,67.99,21.76,B5,SLS,14.2,0.0,0.0,0.0,0.0,0.0,,,-x,E,A-pair,
-K19,67.99,21.76,B5,ULS2N,52.1,-8.3,-5.3,0.0,0.0,9.9,0.13,E key pair outward (c1 >= 255),-x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS3N,23.5,-8.3,-5.3,0.0,0.0,9.9,0.13,E key pair outward (c1 >= 255),-x,E,A-pair,0.0
-K19,67.99,21.76,B5,SLSWN,19.4,-5.5,-3.5,0.0,0.0,6.6,,,-x,E,A-pair,
-K19,67.99,21.76,B5,ULS2S,24.8,-7.0,36.1,0.0,0.0,36.8,0.38,plate strip at key moment,-x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS3S,-42.2,-7.0,36.1,0.0,0.0,36.8,0.38,plate strip at key moment,-x,E,A-pair,10.5
-K19,67.99,21.76,B5,SLSWS,-24.3,-4.7,24.1,0.0,0.0,24.5,,,-x,E,A-pair,
-K19,67.99,21.76,B5,ULS2E,24.8,-4.2,2.8,0.0,0.0,5.0,0.07,E key pair outward (c1 >= 255),-x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS3E,-17.7,-4.2,2.8,0.0,0.0,5.0,0.13,"E rebar bond in the column head, embed 250 min (N_Rd 136)",-x,E,A-pair,4.4
-K19,67.99,21.76,B5,SLSWE,-8.0,-2.8,1.9,0.0,0.0,3.4,,,-x,E,A-pair,
-K19,67.99,21.76,B5,ULS2W,24.8,7.3,-2.7,0.0,0.0,7.8,0.08,plate strip at key moment,-x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS3W,-26.3,7.3,-2.7,0.0,0.0,7.8,0.19,"E rebar bond in the column head, embed 250 min (N_Rd 136)",-x,E,A-pair,6.6
-K19,67.99,21.76,B5,SLSWW,-13.8,4.9,-1.8,0.0,0.0,5.2,,,-x,E,A-pair,
-K19,67.99,21.76,B5,ULS4+x,16.4,0.0,10.8,0.0,9.4,20.3,0.21,plate strip at key moment,-x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS4+x (uplift side),-0.6,0.0,10.8,0.0,9.4,20.3,0.21,plate strip at key moment,-x,E,A-pair,0.1
-K19,67.99,21.76,B5,ULS4-x,16.4,0.0,10.8,0.0,9.4,20.3,0.21,plate strip at key moment,-x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS4-x (uplift side),-0.6,0.0,10.8,0.0,9.4,20.3,0.21,plate strip at key moment,-x,E,A-pair,0.1
-K19,67.99,21.76,B5,ULS4+y,10.8,0.0,36.1,0.0,2.8,39.0,0.4,plate strip at key moment,-x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS4+y (uplift side),-21.7,0.0,36.1,0.0,2.8,39.0,0.4,plate strip at key moment,-x,E,A-pair,5.4
-K19,67.99,21.76,B5,ULS4-y,41.0,0.0,0.0,0.0,2.8,2.8,0.06,bearing,-x,E,A-pair,0.0
-K19,67.99,21.76,B5,ULS4-y (uplift side),38.7,0.0,0.0,0.0,2.8,2.8,0.06,bearing,-x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS1,16.7,0.0,0.0,0.0,0.0,0.0,0.03,bearing,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,SLS,11.9,0.0,0.0,0.0,0.0,0.0,,,+x,E,A-pair,
-K20,77.78,21.76,B7,ULS2N,88.9,7.0,-5.3,0.0,0.0,8.8,0.13,bearing,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS3N,66.7,7.0,-5.3,0.0,0.0,8.8,0.11,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
-K20,77.78,21.76,B7,SLSWN,47.7,4.7,-3.5,0.0,0.0,5.9,,,+x,E,A-pair,
-K20,77.78,21.76,B7,ULS2S,20.5,4.2,48.7,0.0,0.0,48.8,0.5,plate strip at key moment,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS3S,-75.4,4.2,48.7,0.0,0.0,48.8,0.56,"E rebar bond in the column head, embed 250 min (N_Rd 136)",+x,E,A-pair,18.9
-K20,77.78,21.76,B7,SLSWS,-47.1,2.8,32.4,0.0,0.0,32.6,,,+x,E,A-pair,
-K20,77.78,21.76,B7,ULS2E,20.5,-4.4,-2.5,0.0,0.0,5.1,0.05,plate strip at key moment,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS3E,-23.8,-4.4,-2.5,0.0,0.0,5.1,0.18,"E rebar bond in the column head, embed 250 min (N_Rd 136)",+x,E,A-pair,5.9
-K20,77.78,21.76,B7,SLSWE,-12.6,-3.0,-1.7,0.0,0.0,3.4,,,+x,E,A-pair,
-K20,77.78,21.76,B7,ULS2W,20.5,2.5,0.9,0.0,0.0,2.7,0.03,bearing,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS3W,-22.2,2.5,0.9,0.0,0.0,2.7,0.16,"E rebar bond in the column head, embed 250 min (N_Rd 136)",+x,E,A-pair,5.5
-K20,77.78,21.76,B7,SLSWW,-11.6,1.7,0.6,0.0,0.0,1.8,,,+x,E,A-pair,
-K20,77.78,21.76,B7,ULS4+x,9.9,0.0,12.8,0.0,1.7,14.5,0.15,plate strip at key moment,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS4+x (uplift side),-11.1,0.0,12.8,0.0,1.7,14.5,0.15,plate strip at key moment,+x,E,A-pair,2.8
-K20,77.78,21.76,B7,ULS4-x,9.9,0.0,12.8,0.0,1.7,14.5,0.15,plate strip at key moment,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS4-x (uplift side),-11.1,0.0,12.8,0.0,1.7,14.5,0.15,plate strip at key moment,+x,E,A-pair,2.8
-K20,77.78,21.76,B7,ULS4+y,8.2,0.0,42.7,0.0,0.5,43.2,0.44,plate strip at key moment,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS4+y (uplift side),-54.3,0.0,42.7,0.0,0.5,43.2,0.44,plate strip at key moment,+x,E,A-pair,13.6
-K20,77.78,21.76,B7,ULS4-y,69.9,0.0,0.0,0.0,0.5,0.5,0.11,bearing,+x,E,A-pair,0.0
-K20,77.78,21.76,B7,ULS4-y (uplift side),69.1,0.0,0.0,0.0,0.5,0.5,0.1,bearing,+x,E,A-pair,0.0
-WP2,86.46,24.64,-,"ULS2 (wind post, shear only, no uplift)",1.3,0.0,14.6,0,0,14.6,0.35,"centred 60 mm key, c1 250 (post 280 mm inboard of the face)",-y,post,B (centred),0
-WP3,91.03,24.64,-,"ULS2 (wind post, shear only, no uplift)",1.3,0.0,14.6,0,0,14.6,0.35,"centred 60 mm key, c1 250 (post 280 mm inboard of the face)",-y,post,B (centred),0
-WP4,72.89,21.94,-,"ULS2 (wind post, shear only, no uplift)",1.4,0.0,16.3,0,0,16.3,0.39,"centred 60 mm key, c1 250 (post 280 mm inboard of the face)",-y,post,B (centred),0
+K16,77.78,24.46,"B3,B7",ULS4+x,26.4,49.0,0.0,0.6,1.7,49.6,0.59,Key A SHS bearing,-,E,A,0.0
+K16,77.78,24.46,"B3,B7",ULS4+x (uplift side),-22.3,49.0,0.0,0.6,1.7,49.6,0.59,Key A SHS bearing,-,E,A,5.6
+K16,77.78,24.46,"B3,B7",ULS4-x,72.0,0.0,0.0,0.6,1.7,1.8,0.11,bearing,-,E,A,0.0
+K16,77.78,24.46,"B3,B7",ULS4-x (uplift side),69.0,0.0,0.0,0.6,1.7,1.8,0.1,bearing,-,E,A,0.0
+K16,77.78,24.46,"B3,B7",ULS4+y,68.4,14.7,0.0,2.0,0.5,16.7,0.2,Key A SHS bearing,-,E,A,0.0
+K16,77.78,24.46,"B3,B7",ULS4+y (uplift side),52.1,14.7,0.0,2.0,0.5,16.7,0.2,Key A SHS bearing,-,E,A,0.0
+K16,77.78,24.46,"B3,B7",ULS4-y,7.7,14.7,-41.9,2.0,0.5,45.6,0.61,plate strip at key moment,-,E,A,0.0
+K16,77.78,24.46,"B3,B7",ULS4-y (uplift side),-69.2,14.7,-41.9,2.0,0.5,45.6,0.61,plate strip at key moment,-,E,A,17.3
+K17,81.89,24.46,B3,ULS1,13.5,0.0,0.0,0.0,0.0,0.0,0.02,bearing,-,E,A,0.0
+K17,81.89,24.46,B3,SLS,9.5,0.0,0.0,0.0,0.0,0.0,,,-,E,A,
+K17,81.89,24.46,B3,ULS2N,17.5,0.0,-11.4,0.7,0.0,11.4,0.25,Key A towards edge -y (c1 255),-,E,A,0.0
+K17,81.89,24.46,B3,ULS3N,-3.8,0.0,-11.4,0.7,0.0,11.4,0.25,Key A towards edge -y (c1 255),-,E,A,1.0
+K17,81.89,24.46,B3,SLSWN,-0.1,0.0,-7.6,0.4,0.0,7.6,,,-,E,A,
+K17,81.89,24.46,B3,ULS2S,17.3,0.0,12.0,0.4,0.0,12.0,0.14,Key A SHS bearing,-,E,A,0.0
+K17,81.89,24.46,B3,ULS3S,-13.7,0.0,12.0,0.4,0.0,12.0,0.14,Key A SHS bearing,-,E,A,3.4
+K17,81.89,24.46,B3,SLSWS,-6.7,0.0,8.0,0.3,0.0,8.0,,,-,E,A,
+K17,81.89,24.46,B3,ULS2E,16.9,-27.2,-16.0,0.0,0.0,31.6,0.45,plate strip at key moment,-,E,A,0.0
+K17,81.89,24.46,B3,ULS3E,-28.3,-27.2,-16.0,0.0,0.0,31.6,0.45,plate strip at key moment,-,E,A,7.1
+K17,81.89,24.46,B3,SLSWE,-16.4,-18.1,-10.7,0.0,0.0,21.0,,,-,E,A,
+K17,81.89,24.46,B3,ULS2W,42.2,0.0,-16.0,0.0,0.0,16.0,0.35,Key A towards edge -y (c1 255),-,E,A,0.0
+K17,81.89,24.46,B3,ULS3W,22.9,0.0,-16.0,0.0,0.0,16.0,0.35,Key A towards edge -y (c1 255),-,E,A,0.0
+K17,81.89,24.46,B3,SLSWW,17.8,0.0,-10.7,0.0,0.0,10.7,,,-,E,A,
+K17,81.89,24.46,B3,ULS4+x,51.5,0.0,0.0,0.6,0.0,0.6,0.08,bearing,-,E,A,0.0
+K17,81.89,24.46,B3,ULS4+x (uplift side),50.9,0.0,0.0,0.6,0.0,0.6,0.08,bearing,-,E,A,0.0
+K17,81.89,24.46,B3,ULS4-x,5.9,-49.0,0.0,0.6,0.0,49.6,0.59,Key A SHS bearing,-,E,A,0.0
+K17,81.89,24.46,B3,ULS4-x (uplift side),-40.3,-49.0,0.0,0.6,0.0,49.6,0.59,Key A SHS bearing,-,E,A,10.1
+K17,81.89,24.46,B3,ULS4+y,20.8,0.0,0.0,2.0,0.0,2.0,0.03,bearing,-,E,A,0.0
+K17,81.89,24.46,B3,ULS4+y (uplift side),19.0,0.0,0.0,2.0,0.0,2.0,0.03,bearing,-,E,A,0.0
+K17,81.89,24.46,B3,ULS4-y,20.8,0.0,0.0,2.0,0.0,2.0,0.03,bearing,-,E,A,0.0
+K17,81.89,24.46,B3,ULS4-y (uplift side),19.0,0.0,0.0,2.0,0.0,2.0,0.03,bearing,-,E,A,0.0
+K18,95.59,24.46,-,ULS1,8.5,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K18,95.59,24.46,-,SLS,6.1,0.0,0.0,0.0,0.0,0.0,,,+x,E,A-pair,
+K18,95.59,24.46,-,ULS2N,10.6,8.6,-7.1,0.0,0.0,11.2,0.15,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS3N,-0.2,8.6,-7.1,0.0,0.0,11.2,0.15,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
+K18,95.59,24.46,-,SLSWN,1.5,5.7,-4.7,0.0,0.0,7.4,,,+x,E,A-pair,
+K18,95.59,24.46,-,ULS2S,10.6,7.2,7.5,0.0,0.0,10.4,0.13,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS3S,-9.0,7.2,7.5,0.0,0.0,10.4,0.13,E key pair outward (c1 >= 255),+x,E,A-pair,2.3
+K18,95.59,24.46,-,SLSWS,-4.4,4.8,5.0,0.0,0.0,6.9,,,+x,E,A-pair,
+K18,95.59,24.46,-,ULS2E,10.6,-7.6,-13.9,0.0,0.0,15.9,0.16,plate strip at key moment,+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS3E,-10.0,-7.6,-13.9,0.0,0.0,15.9,0.16,plate strip at key moment,+x,E,A-pair,2.5
+K18,95.59,24.46,-,SLSWE,-5.0,-5.1,-9.3,0.0,0.0,10.6,,,+x,E,A-pair,
+K18,95.59,24.46,-,ULS2W,10.6,4.3,-10.0,0.0,0.0,10.9,0.12,E key pair outward (c1 >= 255),+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS3W,-0.6,4.3,-10.0,0.0,0.0,10.9,0.12,E key pair outward (c1 >= 255),+x,E,A-pair,0.1
+K18,95.59,24.46,-,SLSWW,1.2,2.9,-6.6,0.0,0.0,7.2,,,+x,E,A-pair,
+K18,95.59,24.46,-,ULS4+x,3.7,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS4+x (uplift side),3.7,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS4-x,3.7,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS4-x (uplift side),3.7,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS4+y,3.7,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS4+y (uplift side),3.7,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS4-y,3.7,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K18,95.59,24.46,-,ULS4-y (uplift side),3.7,0.0,0.0,0.0,0.0,0.0,0.01,bearing,+x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS1,8.1,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-x,E,A-pair,0.0
+K19,67.99,21.76,B5,SLS,5.7,0.0,0.0,0.0,0.0,0.0,,,-x,E,A-pair,
+K19,67.99,21.76,B5,ULS2N,37.3,-8.6,-4.6,0.0,0.0,9.8,0.13,E key pair outward (c1 >= 255),-x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS3N,26.1,-8.6,-4.6,0.0,0.0,9.8,0.13,E key pair outward (c1 >= 255),-x,E,A-pair,0.0
+K19,67.99,21.76,B5,SLSWN,18.9,-5.7,-3.1,0.0,0.0,6.5,,,-x,E,A-pair,
+K19,67.99,21.76,B5,ULS2S,9.9,-7.2,35.4,0.0,0.0,36.1,0.37,plate strip at key moment,-x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS3S,-32.1,-7.2,35.4,0.0,0.0,36.1,0.37,plate strip at key moment,-x,E,A-pair,8.0
+K19,67.99,21.76,B5,SLSWS,-19.8,-4.8,23.6,0.0,0.0,24.1,,,-x,E,A-pair,
+K19,67.99,21.76,B5,ULS2E,9.9,-4.3,3.7,0.0,0.0,5.7,0.08,E key pair outward (c1 >= 255),-x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS3E,-11.0,-4.3,3.7,0.0,0.0,5.7,0.08,"E rebar bond in the column head, embed 250 min (N_Rd 136)",-x,E,A-pair,2.8
+K19,67.99,21.76,B5,SLSWE,-5.8,-2.9,2.5,0.0,0.0,3.8,,,-x,E,A-pair,
+K19,67.99,21.76,B5,ULS2W,9.9,7.6,-1.4,0.0,0.0,7.7,0.08,plate strip at key moment,-x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS3W,-17.0,7.6,-1.4,0.0,0.0,7.7,0.13,"E rebar bond in the column head, embed 250 min (N_Rd 136)",-x,E,A-pair,4.3
+K19,67.99,21.76,B5,SLSWW,-9.8,5.1,-0.9,0.0,0.0,5.1,,,-x,E,A-pair,
+K19,67.99,21.76,B5,ULS4+x,11.3,0.0,10.7,0.0,9.3,19.9,0.21,plate strip at key moment,-x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS4+x (uplift side),-5.4,0.0,10.7,0.0,9.3,19.9,0.21,plate strip at key moment,-x,E,A-pair,1.3
+K19,67.99,21.76,B5,ULS4-x,11.3,0.0,10.7,0.0,9.3,19.9,0.21,plate strip at key moment,-x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS4-x (uplift side),-5.4,0.0,10.7,0.0,9.3,19.9,0.21,plate strip at key moment,-x,E,A-pair,1.3
+K19,67.99,21.76,B5,ULS4+y,5.9,0.0,35.5,0.0,2.8,38.3,0.39,plate strip at key moment,-x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS4+y (uplift side),-26.1,0.0,35.5,0.0,2.8,38.3,0.39,plate strip at key moment,-x,E,A-pair,6.5
+K19,67.99,21.76,B5,ULS4-y,35.5,0.0,0.0,0.0,2.8,2.8,0.05,bearing,-x,E,A-pair,0.0
+K19,67.99,21.76,B5,ULS4-y (uplift side),33.2,0.0,0.0,0.0,2.8,2.8,0.05,bearing,-x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS1,2.5,0.0,0.0,0.0,0.0,0.0,0.0,bearing,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,SLS,1.9,0.0,0.0,0.0,0.0,0.0,,,+x,E,A-pair,
+K20,77.78,21.76,B7,ULS2N,71.2,7.3,-3.1,0.0,0.0,7.9,0.11,bearing,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS3N,70.1,7.3,-3.1,0.0,0.0,7.9,0.11,bearing,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,SLSWN,47.3,4.8,-2.1,0.0,0.0,5.3,,,+x,E,A-pair,
+K20,77.78,21.76,B7,ULS2S,2.8,4.4,46.4,0.0,0.0,46.6,0.48,plate strip at key moment,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS3S,-62.8,4.4,46.4,0.0,0.0,46.6,0.48,plate strip at key moment,+x,E,A-pair,15.7
+K20,77.78,21.76,B7,SLSWS,-41.3,2.9,30.9,0.0,0.0,31.1,,,+x,E,A-pair,
+K20,77.78,21.76,B7,ULS2E,2.8,-4.6,1.8,0.0,0.0,4.9,0.05,plate strip at key moment,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS3E,-14.7,-4.6,1.8,0.0,0.0,4.9,0.11,"E rebar bond in the column head, embed 250 min (N_Rd 136)",+x,E,A-pair,3.7
+K20,77.78,21.76,B7,SLSWE,-9.2,-3.1,1.2,0.0,0.0,3.3,,,+x,E,A-pair,
+K20,77.78,21.76,B7,ULS2W,2.8,2.6,3.9,0.0,0.0,4.7,0.05,plate strip at key moment,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS3W,-11.3,2.6,3.9,0.0,0.0,4.7,0.08,"E rebar bond in the column head, embed 250 min (N_Rd 136)",+x,E,A-pair,2.8
+K20,77.78,21.76,B7,SLSWW,-7.0,1.7,2.6,0.0,0.0,3.1,,,+x,E,A-pair,
+K20,77.78,21.76,B7,ULS4+x,4.1,0.0,12.6,0.0,1.7,14.3,0.15,plate strip at key moment,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS4+x (uplift side),-16.5,0.0,12.6,0.0,1.7,14.3,0.15,plate strip at key moment,+x,E,A-pair,4.1
+K20,77.78,21.76,B7,ULS4-x,4.1,0.0,12.6,0.0,1.7,14.3,0.15,plate strip at key moment,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS4-x (uplift side),-16.5,0.0,12.6,0.0,1.7,14.3,0.15,plate strip at key moment,+x,E,A-pair,4.1
+K20,77.78,21.76,B7,ULS4+y,2.4,0.0,41.9,0.0,0.5,42.4,0.44,plate strip at key moment,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS4+y (uplift side),-59.0,0.0,41.9,0.0,0.5,42.4,0.44,plate strip at key moment,+x,E,A-pair,14.7
+K20,77.78,21.76,B7,ULS4-y,63.0,0.0,0.0,0.0,0.5,0.5,0.1,bearing,+x,E,A-pair,0.0
+K20,77.78,21.76,B7,ULS4-y (uplift side),62.3,0.0,0.0,0.0,0.5,0.5,0.09,bearing,+x,E,A-pair,0.0
+K28,72.09,21.82,-,ULS1,14.3,0.0,0.0,0.0,0.0,0.0,0.02,bearing,-,E,A,0.0
+K28,72.09,21.82,-,SLS,10.1,0.0,0.0,0.0,0.0,0.0,,,-,E,A,
+K28,72.09,21.82,-,ULS2N,18.0,0.0,-7.6,0.0,0.0,7.6,0.09,Key A SHS bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS3N,-4.0,0.0,-7.6,0.0,0.0,7.6,0.09,Key A SHS bearing,-,E,A,1.0
+K28,72.09,21.82,-,SLSWN,-0.1,0.0,-5.1,0.0,0.0,5.1,,,-,E,A,
+K28,72.09,21.82,-,ULS2S,18.0,0.0,8.0,0.0,0.0,8.0,0.1,Key A SHS bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS3S,-13.5,0.0,8.0,0.0,0.0,8.0,0.1,"E rebar bond in the column head, embed 250 min (N_Rd 136)",-,E,A,3.4
+K28,72.09,21.82,-,SLSWS,-6.4,0.0,5.3,0.0,0.0,5.3,,,-,E,A,
+K28,72.09,21.82,-,ULS2E,18.0,0.0,-10.7,0.0,0.0,10.7,0.13,Key A SHS bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS3E,-8.6,0.0,-10.7,0.0,0.0,10.7,0.13,Key A SHS bearing,-,E,A,2.2
+K28,72.09,21.82,-,SLSWE,-3.1,0.0,-7.1,0.0,0.0,7.1,,,-,E,A,
+K28,72.09,21.82,-,ULS2W,18.0,0.0,-10.7,0.0,0.0,10.7,0.13,Key A SHS bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS3W,-13.1,0.0,-10.7,0.0,0.0,10.7,0.13,Key A SHS bearing,-,E,A,3.3
+K28,72.09,21.82,-,SLSWW,-6.1,0.0,-7.1,0.0,0.0,7.1,,,-,E,A,
+K28,72.09,21.82,-,ULS4+x,5.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS4+x (uplift side),5.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS4-x,5.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS4-x (uplift side),5.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS4+y,5.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS4+y (uplift side),5.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS4-y,5.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K28,72.09,21.82,-,ULS4-y (uplift side),5.6,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS1,10.9,0.0,0.0,0.0,0.0,0.0,0.02,bearing,-,E,A,0.0
+K29,75.09,21.82,-,SLS,7.7,0.0,0.0,0.0,0.0,0.0,,,-,E,A,
+K29,75.09,21.82,-,ULS2N,13.6,0.0,-6.1,0.0,0.0,6.1,0.07,Key A SHS bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS3N,-2.7,0.0,-6.1,0.0,0.0,6.1,0.07,Key A SHS bearing,-,E,A,0.7
+K29,75.09,21.82,-,SLSWN,0.2,0.0,-4.1,0.0,0.0,4.1,,,-,E,A,
+K29,75.09,21.82,-,ULS2S,13.6,0.0,6.4,0.0,0.0,6.4,0.08,Key A SHS bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS3S,-9.9,0.0,6.4,0.0,0.0,6.4,0.08,Key A SHS bearing,-,E,A,2.5
+K29,75.09,21.82,-,SLSWS,-4.6,0.0,4.3,0.0,0.0,4.3,,,-,E,A,
+K29,75.09,21.82,-,ULS2E,13.6,0.0,-12.0,0.0,0.0,12.0,0.14,Key A SHS bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS3E,-7.8,0.0,-12.0,0.0,0.0,12.0,0.14,Key A SHS bearing,-,E,A,1.9
+K29,75.09,21.82,-,SLSWE,-3.2,0.0,-8.0,0.0,0.0,8.0,,,-,E,A,
+K29,75.09,21.82,-,ULS2W,13.6,0.0,-8.6,0.0,0.0,8.6,0.1,Key A SHS bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS3W,-7.7,0.0,-8.6,0.0,0.0,8.6,0.1,Key A SHS bearing,-,E,A,1.9
+K29,75.09,21.82,-,SLSWW,-3.1,0.0,-5.7,0.0,0.0,5.7,,,-,E,A,
+K29,75.09,21.82,-,ULS4+x,4.4,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS4+x (uplift side),4.4,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS4-x,4.4,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS4-x (uplift side),4.4,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS4+y,4.4,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS4+y (uplift side),4.4,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS4-y,4.4,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K29,75.09,21.82,-,ULS4-y (uplift side),4.4,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS1,14.6,0.0,0.0,0.0,0.0,0.0,0.02,bearing,-,E,A,0.0
+K30,88.88,24.46,-,SLS,10.3,0.0,0.0,0.0,0.0,0.0,,,-,E,A,
+K30,88.88,24.46,-,ULS2N,18.3,0.0,-14.1,0.0,0.0,14.1,0.17,Key A SHS bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS3N,-1.3,0.0,-14.1,0.0,0.0,14.1,0.17,Key A SHS bearing,-,E,A,0.3
+K30,88.88,24.46,-,SLSWN,1.9,0.0,-9.4,0.0,0.0,9.4,,,-,E,A,
+K30,88.88,24.46,-,ULS2S,18.3,0.0,14.8,0.0,0.0,14.8,0.18,Key A SHS bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS3S,-13.2,0.0,14.8,0.0,0.0,14.8,0.18,Key A SHS bearing,-,E,A,3.3
+K30,88.88,24.46,-,SLSWS,-6.1,0.0,9.9,0.0,0.0,9.9,,,-,E,A,
+K30,88.88,24.46,-,ULS2E,18.3,0.0,-19.7,0.0,0.0,19.7,0.24,Key A SHS bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS3E,-8.7,0.0,-19.7,0.0,0.0,19.7,0.24,Key A SHS bearing,-,E,A,2.2
+K30,88.88,24.46,-,SLSWE,-3.1,0.0,-13.2,0.0,0.0,13.2,,,-,E,A,
+K30,88.88,24.46,-,ULS2W,18.3,0.0,-19.7,0.0,0.0,19.7,0.24,Key A SHS bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS3W,-1.8,0.0,-19.7,0.0,0.0,19.7,0.24,Key A SHS bearing,-,E,A,0.5
+K30,88.88,24.46,-,SLSWW,1.5,0.0,-13.2,0.0,0.0,13.2,,,-,E,A,
+K30,88.88,24.46,-,ULS4+x,6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS4+x (uplift side),6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS4-x,6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS4-x (uplift side),6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS4+y,6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS4+y (uplift side),6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS4-y,6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
+K30,88.88,24.46,-,ULS4-y (uplift side),6.0,0.0,0.0,0.0,0.0,0.0,0.01,bearing,-,E,A,0.0
