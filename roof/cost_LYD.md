@@ -13,10 +13,23 @@ Client rate: **6,950 LYD per tonne** of steel, taken as supplied, fabricated, ga
 | Z200 purlins and girts (571 m) | 4.8 | 33,400 |
 | **Steel total** | **22.2** | **154,300 LYD** |
 
-## Items not in the steel rate (earlier indicative USD estimates, unchanged, to be re-priced locally)
+## Roof panels (client rate)
+| Item | Basis | LYD |
+|---|---|---|
+| PIR 50 mm sandwich roof panels, 439 m2 net roofed area, supplied and fixed | 150 LYD/m2 | 65,900 |
+| Allowance for side/end laps, cutting at the wells, the jog and the verge, ridge and eave flashings (about 5 %) | | 3,300 |
+| **Roof panels total** | | **69,200 LYD** |
+
+## Steel + roof panels
+| | LYD |
+|---|---|
+| Steel 22.2 t at 6,950 | 154,300 |
+| Roof panels 439 m2 at 150 + 5 % | 69,200 |
+| **Total steel and roof cladding** | **223,500 LYD** |
+
+## Items not in either rate (earlier indicative USD estimates, unchanged, to be re-priced locally)
 | Item | Basis | Indicative |
 |---|---|---|
-| PIR 50 mm roof panels, 439 m2 installed | 40 $/m2 | 17,600 $ |
 | BoardX wall panels on girts, ~410 m2 | client's product | to be quoted |
 | Base works: 27 heads scanned, 108 rebar holes drilled and injected, 37 key pockets cored and grouted, 3-6 cores, pull-out tests | | about 12,000 $ (down from 17,000 $: no through-bolts, no ceiling openings) |
 | Gutters 150x100, 4 downpipes, flashings, well upstands and cricket | | about 6,000 $ |
