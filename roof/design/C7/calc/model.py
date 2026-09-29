@@ -28,7 +28,8 @@ def north_edge(x): return 35.37 if x < NORTH_JOG_X else 35.87
 SEC_PRIM = os.environ.get('SEC_PRIM', 'IPE 200'); SEC_RAFT = os.environ.get('SEC_RAFT', 'IPE 180'); SEC_COL = os.environ.get('SEC_COL', 'HEA 140')
 # Rev 8 default: continuous IPE 180 rafters seated on IPE 200 primaries (SCHEME=ontop, ECON=1). Rev 7b: SCHEME=nested SEC_PRIM='IPE 240' SEC_RAFT='IPE 200' ECON=0;
 # Rev 7 heavy: SCHEME=nested SEC_PRIM='IPE 300' SEC_RAFT='IPE 240' PRIM_TOP_OFFSET=0.03 SPAN_SECTION='{"P_K17K18": "IPE 330"}' ECON=0
-SPAN_SECTION = json.loads(os.environ.get('SPAN_SECTION', '{"P_K17K18": "IPE 330", "P_K19K20": "IPE 330"}'))   # the two long eave beams (13.7 m and 9.8 m) stay IPE 330: deflection
+POSTS_AS_COLUMNS = os.environ.get('POSTS_AS_COLUMNS', '0') == '1'   # prepared for Rev 8a (client, 29 Sep): existing columns under the south eaves to be located by the client; until then off (spans 4.6 / 4.9 m, all primaries IPE 200)
+SPAN_SECTION = json.loads(os.environ.get('SPAN_SECTION', '{}' if POSTS_AS_COLUMNS else '{"P_K17K18": "IPE 330", "P_K19K20": "IPE 330"}'))   # long eave beams IPE 330 only without the posts
 _H = {'IPE 160': 0.160, 'IPE 180': 0.180, 'IPE 200': 0.200, 'IPE 220': 0.220, 'IPE 240': 0.240, 'IPE 270': 0.270, 'IPE 300': 0.300, 'IPE 330': 0.330, 'IPE 360': 0.360}
 H_PRIM = _H[SEC_PRIM]; H_RAFT = _H[SEC_RAFT]
 SCHEME = os.environ.get('SCHEME', 'ontop')      # 'nested': rafter between the primary flanges (fin plates); 'ontop': continuous rafter on the primary top flange (Rev 8)
@@ -54,15 +55,15 @@ def roofed(x, y):
 
 RAFTERS = [
  dict(id='R68',  x=67.99, y0=21.66, y1=35.37, sup=[(21.76,'K19'),(26.37,'K15'),(29.37,'K8'),(35.17,'K6')]),
- dict(id='R70',  x=70.04, y0=21.66, y1=35.37, sup=[(21.76,'P_K19K20'),(29.32,'P_K8K9'),(35.22,'P_K6K5')]),
- dict(id='R72',  x=72.09, y0=21.66, y1=35.37, sup=[(21.76,'P_K19K20'),(29.27,'K9'),(35.27,'K5')]),
- dict(id='R75',  x=74.90, y0=21.66, y1=35.37, sup=[(21.76,'P_K19K20'),(29.27,'P_K9K10'),(35.20,'P_K5K7')]),
+ dict(id='R70',  x=70.04, y0=21.66, y1=35.37, sup=[(21.76,'P_K19WP4' if POSTS_AS_COLUMNS else 'P_K19K20'),(29.32,'P_K8K9'),(35.22,'P_K6K5')]),
+ dict(id='R72',  x=72.09, y0=21.66, y1=35.37, sup=[(21.76,'P_K19WP4' if POSTS_AS_COLUMNS else 'P_K19K20'),(29.27,'K9'),(35.27,'K5')]),
+ dict(id='R75',  x=74.90, y0=21.66, y1=35.37, sup=[(21.76,'P_WP4K20' if POSTS_AS_COLUMNS else 'P_K19K20'),(29.27,'P_K9K10'),(35.20,'P_K5K7')]),
  dict(id='R78',  x=77.78, y0=21.66, y1=35.37, sup=[(21.76,'K20'),(24.46,'K16'),(29.27,'K10'),(35.17,'K7')]),
  dict(id='R82',  x=81.85, y0=24.36, y1=35.87, sup=[(24.46,'K17'),(29.27,'K11'),(35.67,'K3')]),
- dict(id='R85',  x=84.50, y0=24.36, y1=35.87, sup=[(24.46,'P_K17K18'),(29.27,'P_K11K12'),(35.67,'P_K3K1')]),
- dict(id='R87',  x=87.19, y0=24.36, y1=35.87, sup=[(24.46,'P_K17K18'),(29.27,'K12'),(35.77,'K1')]),
- dict(id='R90',  x=89.90, y0=24.36, y1=35.87, sup=[(24.46,'P_K17K18'),(29.27,'P_K12K13'),(35.77,'P_K1K2')]),
- dict(id='R92',  x=92.48, y0=24.36, y1=35.87, sup=[(24.46,'P_K17K18'),(29.27,'K13'),(35.77,'K2')]),
+ dict(id='R85',  x=84.50, y0=24.36, y1=35.87, sup=[(24.46,'P_K17WP2' if POSTS_AS_COLUMNS else 'P_K17K18'),(29.27,'P_K11K12'),(35.67,'P_K3K1')]),
+ dict(id='R87',  x=87.19, y0=24.36, y1=35.87, sup=[(24.46,'P_WP2WP3' if POSTS_AS_COLUMNS else 'P_K17K18'),(29.27,'K12'),(35.77,'K1')]),
+ dict(id='R90',  x=89.90, y0=24.36, y1=35.87, sup=[(24.46,'P_WP2WP3' if POSTS_AS_COLUMNS else 'P_K17K18'),(29.27,'P_K12K13'),(35.77,'P_K1K2')]),
+ dict(id='R92',  x=92.48, y0=24.36, y1=35.87, sup=[(24.46,'P_WP3K18' if POSTS_AS_COLUMNS else 'P_K17K18'),(29.27,'K13'),(35.77,'K2')]),
  dict(id='R95',  x=95.55, y0=24.36, y1=35.87, sup=[(24.46,'K18'),(29.27,'K14'),(35.67,'K4')]),
 ]
 PRIMARIES = [
@@ -78,9 +79,14 @@ PRIMARIES = [
  dict(id='P_K12K13', y=29.27, x0=87.19, x1=92.48, sup=[(87.19,'K12'),(92.48,'K13')],kind='prim'),
  dict(id='P_K13K14', y=29.27, x0=92.48, x1=95.55, sup=[(92.48,'K13'),(95.55,'K14')],kind='prim'),
  dict(id='P_K16K17', y=24.46, x0=77.78, x1=81.85, sup=[(77.78,'K16'),(81.85,'K17')],kind='eave'),
- dict(id='P_K17K18', y=24.46, x0=81.85, x1=95.55, sup=[(81.85,'K17'),(95.55,'K18')],kind='eave'),   # 13.7 m, IPE 330
+] + ([dict(id='P_K17WP2', y=24.46, x0=81.85, x1=86.46, sup=[(81.85,'K17'),(86.46,'WP2')],kind='eave'),
+       dict(id='P_WP2WP3', y=24.46, x0=86.46, x1=91.03, sup=[(86.46,'WP2'),(91.03,'WP3')],kind='eave'),
+       dict(id='P_WP3K18', y=24.46, x0=91.03, x1=95.55, sup=[(91.03,'WP3'),(95.55,'K18')],kind='eave'),
+       dict(id='P_K19WP4', y=21.76, x0=67.99, x1=72.89, sup=[(67.99,'K19'),(72.89,'WP4')],kind='eave'),
+       dict(id='P_WP4K20', y=21.76, x0=72.89, x1=77.78, sup=[(72.89,'WP4'),(77.78,'K20')],kind='eave')] if POSTS_AS_COLUMNS else
+      [dict(id='P_K17K18', y=24.46, x0=81.85, x1=95.55, sup=[(81.85,'K17'),(95.55,'K18')],kind='eave'),   # 13.7 m, IPE 330
+       dict(id='P_K19K20', y=21.76, x0=67.99, x1=77.78, sup=[(67.99,'K19'),(77.78,'K20')],kind='eave')]) + [   # 9.8 m south eave of the west block
  dict(id='T3',       y=24.46, x0=74.90, x1=77.78, sup=[(74.90,'R75'),(77.78,'K16')],kind='trim'),   # chord of the RT-SW panel (IPE 240)
- dict(id='P_K19K20', y=21.76, x0=67.99, x1=77.78, sup=[(67.99,'K19'),(77.78,'K20')],kind='eave'),   # 9.8 m south eave of the west block
 ]
 UPSTAND = 0.30
 UPSTAND_ON = {'P_K10K11': (77.89, 81.79)}
