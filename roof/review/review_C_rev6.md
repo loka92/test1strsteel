@@ -9,8 +9,7 @@ Scripts re-run: report, members, reactions and `bases_C.md` (Rev 8) regenerate b
 - **Columns HEA 140**: K25 ULS2W: 0.043 + 0.994 x 11.9/36.8 + 1.007 x 10.3/23.3 = **0.81**; K23 0.79. Acceptable at the Rev 3 wind; the uncredited girt restraint is a reserve. Keep HEA 140.
 - **Cap plate** 200 x 280 x 20: gauge 90 inside the 140 flange, rows 33 mm outside the 133 depth, cantilever 11.2 x 0.033 = 0.37 kNm vs 2.75 -> 0.13 (they 0.11). Fine.
 - **Fin plates**: 64.6 kN per M20 on the 6.2 mm web (e2 40), 54.8 at the two-row splices (e2 30): 4 bolts 219 vs 70.2 -> 0.32; R78 strut 61.7 on 2 M20 -> 0.55. Z1 closed.
-- **Seismic**: W_a 312 (119 + 138 + 60), T_a 0.126 / 0.130 s, S_a 0.64 / 0.65 g, F 133 / 134 kN: reproduced; the 0.66 g resonance bound (Y2) still applies.
-- **Base plates 20 mm**: strip 5.6 / 8.25 = 0.68 with the conservative 85 mm lever, T-stub 0.13: fine.
+- **Seismic**: W_a 312, T_a 0.126 / 0.130 s, S_a 0.64 / 0.65 g, F 133 / 134 kN reproduced; the 0.66 g bound (Y2) still applies. **Base plates 20 mm**: strip 5.6 / 8.25 = 0.68 (85 mm lever), T-stub 0.13: fine.
 
 ## 2. Findings
 
