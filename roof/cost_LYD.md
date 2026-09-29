@@ -1,4 +1,6 @@
-# Cost estimate - design C Rev 7, reduced roofed area (2026-09-29)
+# Cost estimate - design C Rev 8 (economic scheme) and Rev 7, reduced roofed area (2026-09-29)
+
+**Rev 8 at the supplier's quotation prices (offer/cost_sections_invoice_rev8.md): sections 88,068 LYD (10.1 t bought), plates and small items 18,499 LYD, material 106,567 LYD; Rev 7 was 139,901 LYD material. The 6,950 LYD/t all-in rate below is superseded: it is lower than the bare material price of the quotation.**
 
 Client rates: **6,950 LYD per tonne** of steel (supplied, fabricated, galvanised/painted and erected) and **150 LYD/m2** of roof sandwich panel supplied and fixed. Previous estimate (Rev 6a, 439 m2): steel 22.2 t = 154,300 LYD, panels 69,200 LYD, total 223,500 LYD.
 
@@ -45,4 +47,6 @@ Steel 102,165 + assembly 10 % of sections 6,811 + panels 49,770 + gutters 12,000
 | Rev 4 drawings BOM | 25.4 | |
 | Rev 5a (bracing rationalised) | 24.1 | |
 | Rev 6a (lighter sections, P13 IPE 330) | 22.2 (incl. 1.6 t girts) | 154,300 LYD |
-| **Rev 7 (reduced roofed area 316 m2, girts excluded)** | **14.7** | **102,165 LYD** |
+| Rev 7 (reduced roofed area 316 m2, girts excluded) | 14.7 | 102,165 LYD at 6,950/t; material 139,900 LYD at quotation prices |
+| Rev 7b (IPE 200 rafters, IPE 240 primaries) | 13.0 | material 120,800 LYD at quotation prices |
+| **Rev 8 (continuous IPE 180 on IPE 200, L60x6, M20 rods)** | **11.6** | **material 106,567 LYD at quotation prices** |

@@ -24,12 +24,13 @@ def C1_of(s, M, p, q):
     psi = small/big if abs(big) > 1e-6 else 1.0
     return min(2.7, 1.88 - 1.40*psi + 0.52*psi**2), Mmax
 
-def ltb_segments(sp, S, restr, combos):
+def ltb_segments(sp, S, restr, combos, sign=+1):
     """Max utilisation over restraint segments for the given combos (gravity: sagging M>0; uplift: M<0)."""
     u = 0.0; worst = (0, 1.0, 0, 0)
     for c in combos:
         M = sp['Marr'][c]; s = sp['s']
-        Mc = M if c in ('ULS1', 'ULS2') else -M
+        Mc = np.maximum(M if sign > 0 else -M, 0.0)     # only the moments that put the restrained flange's opposite in compression
+        if Mc.max() <= 1e-6: continue
         for p, q in zip(restr[:-1], restr[1:]):
             C1, Mmax = C1_of(s, Mc, p, q)
             if Mmax <= 0: continue
@@ -53,8 +54,9 @@ def beam_checks(res):
             pts = sorted([sp['a'], sp['b']] + [x for x in [r['x'] for r in RAFTERS] if sp['a'] + 0.3 < x < sp['b'] - 0.3 and sp['axis'] == 'x' and sp['kind'] in ('prim', 'eave')])
             rg = ru = [p - sp['a'] for p in pts]
             Lg = max(b - a for a, b in zip(pts[:-1], pts[1:])); Lu = Lg; nseg = 0
-        uG, wG = ltb_segments(sp, S, rg, ('ULS1', 'ULS2'))
-        uU, wU = ltb_segments(sp, S, ru, ('ULS3N', 'ULS3S', 'ULS3E', 'ULS3W'))
+        # sagging (top flange in compression) -> purlin / fin restraints rg; hogging (bottom flange) -> fly-brace / support restraints ru
+        uG, wG = max(ltb_segments(sp, S, rg, ('ULS1', 'ULS2'), +1), ltb_segments(sp, S, ru, ('ULS1', 'ULS2'), -1), key=lambda t: t[0])
+        uU, wU = max(ltb_segments(sp, S, ru, ('ULS3N', 'ULS3S', 'ULS3E', 'ULS3W'), -1), ltb_segments(sp, S, rg, ('ULS3N', 'ULS3S', 'ULS3E', 'ULS3W'), +1), key=lambda t: t[0])
         MbG = wG[3] if wG[3] else Mb_Rd(S, Lg)[0]; MbU = wU[3] if wU[3] else Mb_Rd(S, Lu)[0]
         d = max(sp['d']['SLS'], sp['d'].get('SLSW', 0.0)); dcase = 'G+Q' if sp['d']['SLS'] >= sp['d'].get('SLSW', 0.0) else 'G+W_D'; dlim = L*1000/200
         u = dict(M=Mg/S['Mpl_y'], V=V/S['Vpl'], LTBg=uG, LTBu=uU, defl=d/dlim, Mu=Mu/S['Mpl_y'])

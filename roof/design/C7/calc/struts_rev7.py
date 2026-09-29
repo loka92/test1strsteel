@@ -27,14 +27,15 @@ def line_split(F_y, H_bays):
                RT_N_E=(out['NE_to_x778']*scale['x778'], out['NE_to_x955']*scale['x955']))
     return dict(trib=trib, env=env, scale=scale, actual=act, R82=act['RT_N_E'][0], R78=env['x778'], R68=env['x68'], R95=env['x955'])
 
-def _bear(t, e_end, p_par, e_edge, p_perp):
+def _bear(t, e_end, p_par, e_edge, p_perp, d=20, d0=22):
     """EN 1993-1-8 Table 3.4 bearing for one force direction: e_end / p_par along the force, e_edge / p_perp across."""
-    d, d0, fu = 20, 22, FU
-    ab = min(e_end/(3*d0), (p_par/(3*d0) - 0.25) if p_par else 9.0, BOLT['fub']/fu, 1.0)
+    fu = FU
+    ab = min(e_end/(3*d0), (p_par/(3*d0) - 0.25) if p_par else 9.0, 800.0/fu, 1.0)
     k1 = min(2.8*e_edge/d0 - 1.7, (1.4*p_perp/d0 - 1.7) if p_perp else 9.0, 2.5)
     return k1*ab*fu*d*t/GM2/1e3
 
-def fin_axial(N, V, n, tw, tp=10, e=50, p1=70, e1=40, e2=40, cols=1, p2=60):
+def fin_axial(N, V, n, tw, tp=10, e=50, p1=70, e1=40, e2=40, cols=1, p2=60, d=20, d0=22, FvRd=None):
+    FvRd = FvRd or BOLT['FvRd']
     """Fin plate with n M20 per vertical row and `cols` rows (p2 apart) under axial N (along the rafter) and shear V;
     bolt-line eccentricity e to the first row. Elastic bolt group; bearing on the rafter web (tw) and on the plate for
     the resultant bolt force (lesser of the two force directions); bolt shear; plate net section; weld."""
@@ -45,14 +46,14 @@ def fin_axial(N, V, n, tw, tp=10, e=50, p1=70, e1=40, e2=40, cols=1, p2=60):
     Fb = 0.0
     for x, y in pos:
         Fh = N/nb + M*abs(y)/Ip; Fv = V/nb + M*abs(x)/Ip; Fb = max(Fb, (Fh**2 + Fv**2)**0.5)
-    FbRd_w = min(_bear(tw, e2, p2 if cols > 1 else None, e1, p1 if n > 1 else None), _bear(tw, e1, p1 if n > 1 else None, e2, p2 if cols > 1 else None))
-    FbRd_p = min(_bear(tp, e2, p2 if cols > 1 else None, e1, p1 if n > 1 else None), _bear(tp, e1, p1 if n > 1 else None, e2, p2 if cols > 1 else None))
-    u = dict(bearing_web=Fb/FbRd_w, bearing_plate=Fb/FbRd_p, bolt_shear=Fb/BOLT['FvRd'],
-             plate_net=N/((hp - n*22)*tp*FU/GM2/1e3) + V/((hp - n*22)*tp*FY/3**0.5/GM0/1e3),
+    FbRd_w = min(_bear(tw, e2, p2 if cols > 1 else None, e1, p1 if n > 1 else None, d, d0), _bear(tw, e1, p1 if n > 1 else None, e2, p2 if cols > 1 else None, d, d0))
+    FbRd_p = min(_bear(tp, e2, p2 if cols > 1 else None, e1, p1 if n > 1 else None, d, d0), _bear(tp, e1, p1 if n > 1 else None, e2, p2 if cols > 1 else None, d, d0))
+    u = dict(bearing_web=Fb/FbRd_w, bearing_plate=Fb/FbRd_p, bolt_shear=Fb/FvRd,
+             plate_net=N/((hp - n*d0)*tp*FU/GM2/1e3) + V/((hp - n*22)*tp*FY/3**0.5/GM0/1e3),
              weld=((N*1e3/(2*6*hp))**2 + 3*((V*1e3/(2*6*hp))**2 + (M*1e3/(2*6*hp**2/6))**2))**0.5/(FU/(3**0.5*0.85*GM2)))
     return dict(N=N, V=V, n=n, cols=cols, hp=hp, Fb=Fb, FbRd_web=FbRd_w, u=u, umax=max(u.values()), gov=max(u, key=u.get))
 
-def strut_table(H_bays, trusses, seg_V, split, tw=None):
+def strut_table(H_bays, trusses, seg_V, split, tw=None, d=20, d0=22, FvRd=None, p1=70, e1=40):
     """Members carrying diaphragm axial force through fin plates. N = E_y + 0.3 E_x or E_x + 0.3 E_y envelope of the
     strut (N-S line) and chord (E-W strip) forces; V = gravity end shear (G + Q, the seismic combination has psi_2 = 0)."""
     ch = {t['id']: t['chord'] for t in trusses}
@@ -60,8 +61,8 @@ def strut_table(H_bays, trusses, seg_V, split, tw=None):
     rows = []
     def add(m, where, Nstrut, Nchord, V, n, cols=1, note=''):
         N = max(Nstrut + 0.3*Nchord, Nchord + 0.3*Nstrut)
-        f = fin_axial(N, V, n, tw, cols=cols)
-        rows.append(dict(member=m, where=where, N_strut=Nstrut, N_chord=Nchord, N=N, V=V, n=n, cols=cols, bolts=('%dx%d M20' % (cols, n)) if cols > 1 else ('%d M20' % n), tw=tw, FbRd=f['FbRd_web'],
+        f = fin_axial(N, V, n, tw, cols=cols, d=d, d0=d0, FvRd=FvRd, p1=p1, e1=e1)
+        rows.append(dict(member=m, where=where, N_strut=Nstrut, N_chord=Nchord, N=N, V=V, n=n, cols=cols, bolts=('%dx%d M%d' % (cols, n, d)) if cols > 1 else ('%d M%d' % (n, d)), tw=tw, FbRd=f['FbRd_web'],
                          u_bearing=f['u']['bearing_web'], u_bolt=f['u']['bolt_shear'], u_net=f['u']['plate_net'], u_weld=f['u']['weld'], umax=f['umax'], note=note))
     # Rev 6: IPE 240 web 6.2 mm, clear depth 190 -> no 3-bolt row; the strip-chord splices get 2 x 2 M20 (two rows, p2 60)
     add('R68', 'K6, K8, K15, K19 (x 68 line)', split['R68'], ch['RT-W'], seg_V['R68'], 2, 2, note='strut into B5 + RT-W chord')

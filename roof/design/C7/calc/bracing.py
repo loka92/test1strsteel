@@ -9,9 +9,11 @@ from loads import QP, QP_DIR, G_ROOF, G_WALL_SEIS, LACK_CORR, CPE_WALL, SLOPE_SI
 from sections import E, FY, FU, GM0, GM2
 
 C_GLOBAL = LACK_CORR*(CPE_WALL['D'] - CPE_WALL['E'])   # 0.85 x (0.75 + 0.40) = 0.98 (Rev 3), no friction
-DIAG = dict(name='L 70x7', A=940.0)                      # one angle per diagonal, tension only
-BOLT = dict(d=20, d0=22, As=245.0, Fv=94.0, Ft=141.0)
-ROD = dict(name='M24 rod 8.8', As=353.0, FtRd=0.9*800*353/1.25/1e3, kg=3.55)   # 203 kN
+import os
+ECON = os.environ.get('ECON', '1') == '1'                 # Rev 8: L60x6 diagonals with M16, M20 rods
+DIAG = dict(name='L 60x6', A=691.0, t=6.0, kg=5.42, e1=35.0, p1=90.0, e2=25.0) if ECON else dict(name='L 70x7', A=940.0, t=7.0, kg=7.38, e1=40.0, p1=110.0, e2=30.0)
+BOLT = dict(d=16, d0=18, As=157.0, Fv=0.6*800*157/1.25/1e3, Ft=0.9*800*157/1.25/1e3) if ECON else dict(d=20, d0=22, As=245.0, Fv=94.0, Ft=141.0)
+ROD = dict(name='M20 rod 8.8', As=245.0, FtRd=0.9*800*245/1.25/1e3, kg=2.47) if ECON else dict(name='M24 rod 8.8', As=353.0, FtRd=0.9*800*353/1.25/1e3, kg=3.55)
 
 @lru_cache(None)
 def roof_suction_component():
@@ -124,13 +126,12 @@ def seismic_check(roof_area, steel_kN):
     return dict(W=m, Sd=Sd, Fb=Sd*m)
 
 def check_diagonal(T_Ed):
-    """Single angle L70x7 S275 connected by one leg with 2 M20 (p1 = 5 d0): EN 1993-1-8 3.10.3 beta2 = 0.7.
-    Gusset bolts: 2 M20 single shear; bearing on the 10 mm gusset and the 7 mm angle leg with e1 = 40, p1 = 110,
-    e2 = 30 (standard 40 mm gauge on the 70 leg, review F14)."""
-    A = DIAG['A']; Anet = A - BOLT['d0']*7
+    """Single angle connected by one leg with 2 bolts (p1 = 5 d0): EN 1993-1-8 3.10.3 beta2 = 0.7. Gusset bolts single shear;
+    bearing on the 10 mm gusset and the angle leg with the standard gauge of the leg."""
+    A = DIAG['A']; t = DIAG['t']; d, d0 = BOLT['d'], BOLT['d0']; Anet = A - d0*t
     Npl = A*FY/GM0/1e3; Nu = 0.7*Anet*FU/GM2/1e3; NtRd = min(Npl, Nu)
-    ab = min(40/(3*22), 110/(3*22)-0.25, 800/430, 1.0); k1 = min(2.8*30/22-1.7, 2.5)
-    FbRd_g = k1*ab*FU*20*10/GM2/1e3; FbRd_a = k1*ab*FU*20*7/GM2/1e3
+    ab = min(DIAG['e1']/(3*d0), DIAG['p1']/(3*d0) - 0.25, 800/430, 1.0); k1 = min(2.8*DIAG['e2']/d0 - 1.7, 2.5)
+    FbRd_g = k1*ab*FU*d*10/GM2/1e3; FbRd_a = k1*ab*FU*d*t/GM2/1e3
     FvRd = 2*BOLT['Fv']
     return dict(NtRd=NtRd, Npl=Npl, Nu=Nu, util=T_Ed/NtRd, FvRd=FvRd, FbRd=2*FbRd_a, util_bolt=T_Ed/min(FvRd, 2*FbRd_g, 2*FbRd_a))
 
@@ -251,33 +252,34 @@ def two_mass_check(roof_area, steel_kN, kx_bays, ky_bays):
     return out
 
 # ---------------- struts and chords of the rationalised diaphragm (Rev 5) -------------------------------------------
-def strut_checks(F_ew, F_ns, roof_area, trusses):
+def strut_checks(F_ew, F_ns, roof_area, trusses, Mact=None):
     """Purlin lines as E-W struts (seismic inertia of their 1.5 m strip over half the block width), eave primaries and
     rafter chords: axial + bending interaction, simple. F_ew/F_ns = design roof-level forces (kN)."""
     from sections import sec, Nb_Rd, FY
     from model import SEC_RAFT, SEC_PRIM
     a_roof = F_ew/roof_area                       # kN/m2 of roof plan area, E-W
+    Mact = Mact or dict(purlin=4.35, rafter_chord=31.4, rafter_strut=46.9, primary_chord=46.1, eave=2.0, R78=15.4)   # concurrent gravity moments (Rev 5 defaults)
     out = {}
     # Z200x2.0: A 7.4 cm2, i_min 2.0 cm (assumed, supplier to confirm), single span 3.07 m between rafters, f_y 350
     A, imin, Lp = 740.0, 20.0, 3070.0
     lam = Lp/imin/(3.1416*(210000/350)**0.5); chi_ = 1/( (0.5*(1 + 0.34*(lam - 0.2) + lam**2)) + ((0.5*(1 + 0.34*(lam - 0.2) + lam**2))**2 - lam**2)**0.5 )
     NbRd_Z = min(1.0, chi_)*A*350/1e3
     N_purlin = a_roof*1.5*13.7/2                  # tributary strip 1.5 m x half the east-block width
-    out['purlin'] = dict(N=N_purlin, NbRd=NbRd_Z, u=N_purlin/NbRd_Z + 4.35/12.5)   # + gravity bending 4.35 kNm / 12.5
+    out['purlin'] = dict(N=N_purlin, NbRd=NbRd_Z, u=N_purlin/NbRd_Z + Mact['purlin']/12.5)   # + gravity bending 4.35 kNm / 12.5
     # rafter chords of RT-W (R68/R72, IPE 270): chord force + gravity moment (7.5 m span, M 31 kNm ULS)
     ch = max(t['chord'] for t in trusses if t['id'] in ('RT-W', 'RT-E'))
     S = sec(SEC_RAFT); Nb = Nb_Rd(S, 7.56, 3.0)[0]; MR = S['Mpl_y']
-    out['rafter_chord'] = dict(N=ch, NbRd=Nb, u=ch/Nb + 31.4/MR)
+    out['rafter_chord'] = dict(N=ch, NbRd=Nb, u=ch/Nb + Mact['rafter_chord']/MR)
     # primaries as chords/struts of the north strips and eave struts (IPE 330): chord force + gravity moment (K11-K12, 46 kNm)
     chn = max(t['chord'] for t in trusses if t['id'] in ('RT-N-W', 'RT-N-E', 'RT-JOG'))
     S3 = sec(SEC_PRIM); Nb3 = Nb_Rd(S3, 5.7, 5.7)[0]; MP = S3['Mpl_y']
     eave = max(F_ew/2, 0.0)                       # eave primary strut: half the E-W force reaching one bay line
-    out['primary_chord'] = dict(N=chn, NbRd=Nb3, u=chn/Nb3 + 46.1/MP)
-    out['eave_strut'] = dict(N=eave, NbRd=Nb3, u=eave/Nb3 + 2.0/MP)
+    out['primary_chord'] = dict(N=chn, NbRd=Nb3, u=chn/Nb3 + Mact['primary_chord']/MP)
+    out['eave_strut'] = dict(N=eave, NbRd=Nb3, u=eave/Nb3 + Mact['eave']/MP)
     # rafters as N-S struts (south half inertia to the y 29.3 chord): 9.2 m rafter, IPE 270
-    N_raft = F_ns/roof_area*9.2*2.7
-    out['rafter_strut'] = dict(N=N_raft, NbRd=Nb_Rd(S, 9.2, 3.07)[0], u=N_raft/Nb_Rd(S, 9.2, 3.07)[0] + 46.9/MR)
+    N_raft = F_ns/roof_area*7.56*2.9
+    out['rafter_strut'] = dict(N=N_raft, NbRd=Nb_Rd(S, 9.2, 3.07)[0], u=N_raft/Nb_Rd(S, 7.56, 3.07)[0] + Mact['rafter_strut']/MR)
     # R78 as N-S strut from the jog panel / RT-N-W east end down to B7 (K10 -> K16 -> K20): full B7 line force
     out['R78_strut'] = dict(N=max(t['V'] for t in trusses if t['id'] == 'RT-JOG'), NbRd=Nb_Rd(S, 4.81, 2.4)[0])   # Rev 5a (Z1): the x 77.8 line force, not the sum of the strip end shears
-    out['R78_strut']['u'] = out['R78_strut']['N']/out['R78_strut']['NbRd'] + 15.4/MR
+    out['R78_strut']['u'] = out['R78_strut']['N']/out['R78_strut']['NbRd'] + Mact['R78']/MR
     return out

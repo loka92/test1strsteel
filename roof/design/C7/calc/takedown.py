@@ -4,12 +4,14 @@ G (0.37 + steel), Gmin (0.17 + steel), Q, W_N, W_S, W_E, W_W (net uplift, cpi +0
 import numpy as np, math
 from model import *
 from loads import *
-from statics import simple_span, cantilever
+from statics import simple_span, cantilever, continuous_beam
+from model import SCHEME
 from sections import sec, E as ES
 
 TYPES = ['G', 'Gmin', 'Q', 'W_N', 'W_S', 'W_E', 'W_W', 'W_D']
 COMBOS = {  # factors per load type
  'ULS1': dict(G=1.35, Q=1.5),
+ 'G':    dict(G=1.0),               # concurrent gravity moment for the seismic combination (psi_2 = 0 for roof imposed load)
  'ULS2': dict(G=1.35, W_D=1.5),
  'SLS':  dict(G=1.0, Q=1.0),
  'SLSW': dict(G=1.0, W_D=1.0),   # Rev 6: flat-roof pressure case (0.5 q_p > Q) for the L/200 check
@@ -63,10 +65,36 @@ def build(sec_prim=SEC_PRIM, sec_raft=SEC_RAFT, sec_col=SEC_COL, dx=0.1):
         res['reactions'].setdefault(sid, []).append((src, vals))
 
     def analyse_beam(bid, S, coord0, coord1, sups, wline_fun, extra_pts, kind, axis):
-        """Beam along an axis with supports; simple spans + end cantilevers. wline_fun(t, s) -> kN/m of type t at s."""
+        """Beam along an axis with supports; simple spans + end cantilevers (nested scheme), or one continuous beam over all
+        supports incl. cantilevers (rafters in the 'ontop' scheme). wline_fun(t, s) -> kN/m of type t at s."""
         sw = S['w']
         sup = sorted(sups)
         reacts = {sid: {t: 0.0 for t in TYPES} for _, sid in sup}
+        if SCHEME == 'ontop' and kind == 'raft' and len(sup) >= 2:
+            Lb = coord1 - coord0; pos = [sc - coord0 for sc, _ in sup]; EI = ES*1e3*S['Iy']*1e-8
+            per_type = {}
+            for t in TYPES:
+                f = (lambda s, t=t: wline_fun(t, coord0 + s) + (sw if t in ('G', 'Gmin') else 0))
+                pts = [(p - coord0, v.get(t, 0)) for p, v in extra_pts]
+                per_type[t] = continuous_beam(Lb, pos, f, pts, EI=EI, n=300)
+                for (sc, sid) in sup: reacts[sid][t] += per_type[t]['R'][float(round(sc - coord0, 6))] if float(round(sc - coord0, 6)) in per_type[t]['R'] else per_type[t]['R'][min(per_type[t]['R'], key=lambda p: abs(p - (sc - coord0)))]
+            sg = per_type['G']['s']
+            for (a, sa), (b, sb) in zip(sup[:-1], sup[1:]):
+                L = b - a; m = (sg >= a - coord0 - 1e-9) & (sg <= b - coord0 + 1e-9)
+                span = dict(id=bid, section=S['name'], L=L, a=a, b=b, sa=sa, sb=sb, kind=kind, axis=axis, M={}, V={}, RA={}, RB={}, d={}, continuous=True)
+                for c in COMBOS:
+                    M = sum(COMBOS[c].get(t, 0)*per_type[t]['M'] for t in TYPES); V = sum(COMBOS[c].get(t, 0)*per_type[t]['V'] for t in TYPES)
+                    span['M'][c] = (float(M[m].max()), float(M[m].min())); span['V'][c] = float(np.abs(V[m]).max())
+                    span.setdefault('Marr', {})[c] = M[m]; span['s'] = sg[m] - (a - coord0)
+                    span['RA'][c] = combine({t: reacts[sa][t] for t in TYPES}, c); span['RB'][c] = combine({t: reacts[sb][t] for t in TYPES}, c)
+                    if c in ('SLS', 'SLSW'):
+                        dsum = sum(COMBOS[c][t]*per_type[t]['d'] for t in COMBOS[c]); span['d'][c] = float(np.abs(dsum[m]).max())*1000
+                span['w_G'] = float(np.mean([wline_fun('G', a + x) for x in np.linspace(0, L, 21)]) + sw)
+                span['w_Q'] = float(np.mean([wline_fun('Q', a + x) for x in np.linspace(0, L, 21)]))
+                span['w_Wmin'] = float(min(np.mean([wline_fun(t, a + x) for x in np.linspace(0, L, 21)]) for t in ('W_N','W_S','W_E','W_W')))
+                res['spans'].append(span)
+            for sid, vals in reacts.items(): add_react(sid, vals, bid)
+            return reacts
         # cantilevers
         for end, (sc, sid), L in ((0, sup[0], sup[0][0]-coord0), (1, sup[-1], coord1-sup[-1][0])):
             if L > 0.02:

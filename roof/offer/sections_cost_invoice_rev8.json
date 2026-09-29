@@ -1,0 +1,88 @@
+{
+ "invoice_total": 142379.0,
+ "rows": [
+  {
+   "section": "HEA 140",
+   "net_m": 78.5928,
+   "bars": 8,
+   "bar_m": 96,
+   "kg": 2371.2,
+   "rate_m": 281.25,
+   "rate_t": 11386.63967611336,
+   "cost": 27000.0,
+   "note": "23 pieces, longest 4.23 m"
+  },
+  {
+   "section": "IPE 200",
+   "net_m": 55.120000000000005,
+   "bars": 5,
+   "bar_m": 60,
+   "kg": 1344.0,
+   "rate_m": 165.76,
+   "rate_t": 7400.000000000001,
+   "cost": 9945.599999999999,
+   "note": "12 pieces, longest 5.69 m; not on the quotation, priced by weight at the invoice rate"
+  },
+  {
+   "section": "IPE 180",
+   "net_m": 144.58999999999992,
+   "bars": 13,
+   "bar_m": 156,
+   "kg": 2932.8,
+   "rate_m": 139.12,
+   "rate_t": 7400.0,
+   "cost": 21702.72,
+   "note": "12 rafter lines up to 13.71 m: continuous, 5 spliced at a low-moment point (over 12 m); not on the quotation, priced by weight at the invoice rate"
+  },
+  {
+   "section": "L60x6",
+   "net_m": 72.53940157117074,
+   "bars": 8,
+   "bar_m": 96,
+   "kg": 520.3199999999999,
+   "rate_m": 40.95717884130982,
+   "rate_t": 7556.675062972291,
+   "cost": 3931.8891687657424,
+   "note": "12 pieces, longest 7.22 m; not on the quotation, priced by weight at the invoice rate"
+  },
+  {
+   "section": "IPE 330",
+   "net_m": 23.49000000000001,
+   "bars": 2,
+   "bar_m": 24,
+   "kg": 1178.4,
+   "rate_m": 387.5,
+   "rate_t": 7892.057026476578,
+   "cost": 9300.0,
+   "note": "13.7 m beam: 12 m bar + 1.7 m piece (splice) or one 14 m special length; the 9.8 m beam uses the rest of the second bar"
+  },
+  {
+   "section": "Z200 purlin, 6 m bars",
+   "net_m": 217.0,
+   "bars": 37,
+   "bar_m": 222,
+   "kg": 1309.8000000000002,
+   "rate_m": 47.5,
+   "rate_t": 8050.847457627118,
+   "cost": 10545.0,
+   "note": "gauge 2.0 mm S350GD to confirm with the supplier"
+  },
+  {
+   "section": "M20 threaded rod",
+   "net_m": 167.8,
+   "bars": null,
+   "bar_m": 167.8,
+   "kg": 414.46600000000007,
+   "rate_m": 33.62910798122066,
+   "rate_t": 13615.023474178406,
+   "cost": 5642.964319248827,
+   "note": "priced from the 60 cm M24 bolt (29 LYD) by weight; ask for rod in 3 m lengths"
+  }
+ ],
+ "sections_cost": 88068.17348801458,
+ "sections_kg": 10070.986,
+ "plates_kg": 2466.5395051237188,
+ "plate_rate": 7500.0,
+ "plates_cost": 18499.046288427893,
+ "avg_rate_t": 8744.741923781303
+}

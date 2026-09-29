@@ -4,7 +4,7 @@ from sections import sec, FY, FU, GM0, GM2
 
 BOLT = dict(d=20, d0=22, As=245.0, FvRd=94.0, FtRd=141.0, fub=800.0)
 def bearing(t, e1, p1, e2, d=20, d0=22, fu=FU):
-    ab = min(e1/(3*d0), p1/(3*d0) - 0.25 if p1 else 9, BOLT['fub']/fu, 1.0)
+    ab = min(e1/(3*d0), p1/(3*d0) - 0.25 if p1 else 9, 800.0/fu, 1.0)
     k1 = min(2.8*e2/d0 - 1.7, 2.5)
     return k1*ab*fu*d*t/GM2/1e3
 
@@ -360,9 +360,10 @@ def base_check(N, V, Vcross, edges, R=None, orient='x', keyB=(), btype='B1', zon
                 M_along=M_along, M_across=M_across, psi_ec=psi, Nmax=Nmax, zreq=zreq)
 
 def gusset_bolts(T):
-    """Bracing gusset: single L70x7 with 2 M20 in single shear on a 10 mm gusset, e2 = 30 (review F14)."""
-    Fb_g = bearing(10, 40, 110, 30); Fb_a = bearing(7, 40, 110, 30)
-    return dict(bolt_shear=T/(2*BOLT['FvRd']), bearing_gusset=T/(2*Fb_g), bearing_angle=T/(2*Fb_a))
+    """Bracing gusset: single angle with 2 bolts in single shear on a 10 mm gusset (bolt size and gauge from bracing.DIAG / BOLT)."""
+    from bracing import DIAG as _D, BOLT as _B
+    Fb_g = bearing(10, _D['e1'], _D['p1'], _D['e2'], d=_B['d'], d0=_B['d0']); Fb_a = bearing(_D['t'], _D['e1'], _D['p1'], _D['e2'], d=_B['d'], d0=_B['d0'])
+    return dict(bolt_shear=T/(2*_B['Fv']), bearing_gusset=T/(2*Fb_g), bearing_angle=T/(2*Fb_a))
 
 if __name__ == '__main__':
     R = anchor_resistances(); print({k: (round(v, 1) if isinstance(v, float) else v) for k, v in R.items() if k != 'p_cone'})

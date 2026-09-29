@@ -6,7 +6,7 @@ light well (pyramid skylight) and the shaft opening stay open. 20 steel columns 
 levels are unchanged from Rev 6a: TOS(y) = 3.33 + 0.06 (35.87 - y). Rev 7b section set (shorter spans): IPE 240 primaries,
 IPE 200 rafters nested 10 mm clear inside the primary flanges (primary top TOS + 0.02), the two long eave beams IPE 330, HEA 140
 columns; column length L = TOS + 0.02 - h_primary - 0.065 (90 mm lower under an IPE 330). Units m, kN."""
-import json, os
+import json, os, math
 HERE = os.path.dirname(os.path.abspath(__file__))
 GEO = json.load(open(os.path.join(HERE, '..', '..', '..', 'geometry.json')))
 COLS_ALL = {c['id']: (c['cx'], c['cy']) for c in GEO['columns']}
@@ -25,19 +25,24 @@ SLAB_OPEN = dict(OPEN, ELEV=dict(x0=77.89, x1=81.99, y0=20.17, y1=24.16))   # li
 PITCH = 0.06
 NORTH_JOG_X = 81.79
 def north_edge(x): return 35.37 if x < NORTH_JOG_X else 35.87
-def TOS(y): return 3.33 + PITCH*(35.87 - y)
-SEC_PRIM = os.environ.get('SEC_PRIM', 'IPE 240'); SEC_RAFT = os.environ.get('SEC_RAFT', 'IPE 200'); SEC_COL = os.environ.get('SEC_COL', 'HEA 140')
-# Rev 7b: lighter set on the shorter spans (heavy Rev 7 set: SEC_PRIM='IPE 300' SEC_RAFT='IPE 240' PRIM_TOP_OFFSET=0.03 SPAN_SECTION='{"P_K17K18": "IPE 330"}')
+SEC_PRIM = os.environ.get('SEC_PRIM', 'IPE 200'); SEC_RAFT = os.environ.get('SEC_RAFT', 'IPE 180'); SEC_COL = os.environ.get('SEC_COL', 'HEA 140')
+# Rev 8 default: continuous IPE 180 rafters seated on IPE 200 primaries (SCHEME=ontop, ECON=1). Rev 7b: SCHEME=nested SEC_PRIM='IPE 240' SEC_RAFT='IPE 200' ECON=0;
+# Rev 7 heavy: SCHEME=nested SEC_PRIM='IPE 300' SEC_RAFT='IPE 240' PRIM_TOP_OFFSET=0.03 SPAN_SECTION='{"P_K17K18": "IPE 330"}' ECON=0
 SPAN_SECTION = json.loads(os.environ.get('SPAN_SECTION', '{"P_K17K18": "IPE 330", "P_K19K20": "IPE 330"}'))   # the two long eave beams (13.7 m and 9.8 m) stay IPE 330: deflection
-_H = {'IPE 200': 0.200, 'IPE 220': 0.220, 'IPE 240': 0.240, 'IPE 270': 0.270, 'IPE 300': 0.300, 'IPE 330': 0.330, 'IPE 360': 0.360}
-H_PRIM = _H[SEC_PRIM]
-PRIM_TOP_OFFSET = float(os.environ.get('PRIM_TOP_OFFSET', '0.02'))   # primary top above TOS: the rafter nests between the primary flanges
+_H = {'IPE 160': 0.160, 'IPE 180': 0.180, 'IPE 200': 0.200, 'IPE 220': 0.220, 'IPE 240': 0.240, 'IPE 270': 0.270, 'IPE 300': 0.300, 'IPE 330': 0.330, 'IPE 360': 0.360}
+H_PRIM = _H[SEC_PRIM]; H_RAFT = _H[SEC_RAFT]
+SCHEME = os.environ.get('SCHEME', 'ontop')      # 'nested': rafter between the primary flanges (fin plates); 'ontop': continuous rafter on the primary top flange (Rev 8)
+PRIM_TOP_OFFSET = float(os.environ.get('PRIM_TOP_OFFSET', '0.02')) if SCHEME == 'nested' else -H_RAFT   # primary top relative to TOS
+# roof plane: TOS(y) = TOS0 + 0.06 (35.87 - y); TOS0 gives >= 3.00 m clear under the cap-plate nuts at y 35.77 (Rev 3 rule)
+TOS0 = float(os.environ.get('TOS0', '0')) or (3.33 if SCHEME == 'nested' else math.ceil((3.034 + H_RAFT + H_PRIM)*100)/100)
+def TOS(y): return TOS0 + PITCH*(35.87 - y)
 COL_DROP = {}
 for _p, _s in SPAN_SECTION.items():
     for _c in _p[2:].replace('K', ' K').split():
         COL_DROP[_c] = _H[_s] - H_PRIM          # column top lower under a deeper primary
-def cap_top(y, cid=None): return TOS(y) + PRIM_TOP_OFFSET - H_PRIM - COL_DROP.get(cid, 0.0)
-def L_col(y, cid=None): return TOS(y) + PRIM_TOP_OFFSET - H_PRIM - 0.02 - 0.045 - COL_DROP.get(cid, 0.0)   # cap 20, grout 25 + plate 20
+def prim_top(y): return TOS(y) + PRIM_TOP_OFFSET
+def cap_top(y, cid=None): return prim_top(y) - H_PRIM - COL_DROP.get(cid, 0.0)
+def L_col(y, cid=None): return cap_top(y, cid) - 0.02 - 0.045   # cap 20, grout 25 + plate 20
 def wall_h(y): return TOS(y) + 0.30
 
 def roofed(x, y):
@@ -112,7 +117,7 @@ BAYS = [
 def bay_geom(b):
     (x1,y1),(x2,y2) = COLS[b['c'][0]], COLS[b['c'][1]]
     w = abs(x2-x1) if b['dir']=='x' else abs(y2-y1)
-    ym = 0.5*(y1+y2); h = L_col(ym) + 0.22
+    ym = 0.5*(y1+y2); h = L_col(ym) + 0.065 + H_PRIM/2    # base plate to the primary centre line
     return w, h, (h**2+w**2)**0.5, 0.5*(x1+x2), ym
 
 def edge_distances(cx, cy):

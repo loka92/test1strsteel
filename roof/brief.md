@@ -81,3 +81,7 @@ Agreed with the client in interview on 2026-09-27.
 - **Drainage unchanged**: the roof still falls 6 % north to the north gutters and the four downpipes on the north facade.
 - Redesign without detailing; the offer is updated (Rev A). Wall system still open (the architect shows 20 cm gypsum walls); girts are out of the offer.
 - Two new lifts in a 13.65 m tower east of the building (architect): separate structure, movement joint and flashing against the east roof edge; braced bay B6 moved off the lift lobby (K4-K14).
+
+## Revision 9 (client, 2026-09-29)
+- **No offer for now**; the design is to be **very economic**. Design Rev 8 adopted: continuous IPE 180 rafters seated on IPE 200 primaries (the two long eave beams IPE 330), L60x6 diagonals with M16, M20 roof rods, roof plane raised 90 mm (TOS0 3.42) to keep 3.00 m clear at the north eave. Steel for the offer 11.6 t (Rev 7: 14.7 t).
+- Supplier quotation 11486 (Al-Salama, 29/09/2026) is the price basis for sections: bare material averages about 8,400 LYD/t, above the 6,950 LYD/t all-in rate used before; fabrication, coating and erection to be priced separately.

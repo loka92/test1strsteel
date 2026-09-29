@@ -5,7 +5,8 @@ import numpy as np
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from model import *
-from model import NORTH_JOG_X, WIND_POSTS, UNUSED, COLS_ALL, SLAB_ENV, SLAB_NOTCH, SLAB_OPEN
+from model import NORTH_JOG_X, WIND_POSTS, UNUSED, COLS_ALL, SLAB_ENV, SLAB_NOTCH, SLAB_OPEN, SCHEME, TOS0
+from bracing import ECON
 from connections import KEYPAIR
 from loads import *
 from sections import sec, Nb_Rd, Mb_Rd
@@ -32,7 +33,11 @@ for b in BAYS:
                       NtRd=chk['NtRd'], sway=sway, sway_lim=bf['h']*1000/150, H4=Hs, wind=max(bays[d][i]['H'] for d in 'NSEW'))
 H_uls_max = {i: bay_env[i]['H'] for i in bay_env}
 trusses = bracing.roof_truss_forces(H_uls_max)
-struts = bracing.strut_checks(seis['Fb_x'], seis['Fb_y'], res['roof_area'], trusses)
+def _maxM(pred): return max([max(abs(sp['M']['G'][0]), abs(sp['M']['G'][1])) for sp in res['spans'] if pred(dict(id=sp['id'], kind=sp['kind'], section=sp['section']))] + [0.0])   # G-only moment (1.0 G + E)
+Mact = dict(rafter_chord=_maxM(lambda r: r['id'] in ('R68', 'R72', 'R90', 'R95')), rafter_strut=_maxM(lambda r: r['kind'] == 'raft'),
+            primary_chord=_maxM(lambda r: r['id'] in ('P_K8K9', 'P_K9K10', 'P_K10K11', 'P_K11K12', 'P_K12K13', 'P_K13K14')),
+            eave=_maxM(lambda r: r['kind'] == 'eave' and r['section'] == SP['name']), R78=_maxM(lambda r: r['id'] == 'R78'), purlin=pur['worst']['gravity'][0])
+struts = bracing.strut_checks(seis['Fb_x'], seis['Fb_y'], res['roof_area'], trusses, Mact)   # concurrent gravity moments from this run
 # eave strut P_K17K18 (13.7 m, IPE 330): RT-E south reaction carried to B3 in-plane; buckling in the vertical plane over 13.7 m
 S33 = sec('IPE 330'); N_eave = max(t['V'] for t in trusses if t['id'] == 'RT-E'); Nb_eave = Nb_Rd(S33, 13.7, 2.9)[0]
 M_eave = max(r['M_Ed'] for r in beams if r['id'] == 'P_K17K18')
@@ -43,14 +48,18 @@ split = struts_rev7.line_split(seis['Fb_y'], {i: H4['y'][i] for i in H4['y']})
 seg_V = {}
 for rr in beams:
     if rr['kind'] == 'raft': seg_V[rr['id']] = max(seg_V.get(rr['id'], 0.0), float(rr['RA']['SLS']), float(rr['RB']['SLS']))
-fins = struts_rev7.strut_table({i: H4['y'][i] for i in H4['y']}, trusses, seg_V, split, tw=SR['tw'])
+if SCHEME == 'ontop':   # rafter on the primary: the strut / chord force passes through M16 bolts in the rafter bottom flange (tf) into the primary top flange
+    fins = struts_rev7.strut_table({i: H4['y'][i] for i in H4['y']}, trusses, seg_V, split, tw=SR['tf'], d=16, d0=18, FvRd=0.6*800*157/1.25/1e3, p1=60, e1=30)
+    for v in fins: v['V'] = 0.0   # the vertical reaction is carried in bearing, not by the bolts
+else:
+    fins = struts_rev7.strut_table({i: H4['y'][i] for i in H4['y']}, trusses, seg_V, split, tw=SR['tw'])
 drift_eq = struts_rev7.drift_check(trusses, bay_env)
 wind_roof = {d: Fr[d][0] for d in 'NSEW'}
 drift = {t['id']: t['delta']/1.5 + max(bay_env[i]['sway'] for i in bay_env) for t in trusses if t['id'] in ('RT-E', 'RT-W')}
 
 # ---------------- connections
 Vfin = max(max(r['RA']['ULS1'], r['RB']['ULS1'], -min(r['RA'][c] for c in r['RA']), -min(r['RB'][c] for c in r['RB'])) for r in beams if r['kind'] == 'raft')
-fin2 = connections.fin_plate(Vfin, 2, SR['tw'])
+fin2 = connections.fin_plate(Vfin, 2, SR['tw']) if SCHEME == 'nested' else dict(umax=Vfin/((SP['b'] + 2*SR['tf'] + 2*12)*SR['tw']*275/1e3), gov='rafter web crippling over the primary flange (EN 1993-1-5 6.2, l_y = b_f,prim + 2 t_f + 2 r)')
 Nt_cap_roof = max(-(res['colloads'][c]['Gmin'] + 1.5*min(res['colloads'][c]['W_'+d] for d in 'NSEW')) for c in COLS)
 Vh_cap = max(max(t['chord'] for t in trusses), max(bay_env[i]['H'] for i in bay_env))
 cap = connections.cap_plate(Nt_cap_roof, Vh_cap, tf_beam=SP['tf'], tw_beam=SP['tw'], col_h=SC['h'], col_b=SC['b'])
@@ -142,7 +151,7 @@ for f in FACES:
     L_girt += (pos[0] - f['a'] + f['b'] - pos[-1])*math.ceil(hw/1.5)
 L_girt = round(L_girt)
 W = dict(rafters=L_raft*SR['g'], primaries=sum(L*sec(sc)['g'] for sc, L in L_by_sec.items()), columns=(L_col_tot + L_wp)*SC['g'],
-         wall_bracing=L_wall_brace*7.38, roof_bracing=L_roof_brace*ROD['kg'])
+         wall_bracing=L_wall_brace*DIAG['kg'], roof_bracing=L_roof_brace*ROD['kg'])
 W['plates_bolts_keys'] = 3270.0*(L_raft + L_p300 + L_p330 + L_col_tot + L_wp)/400.1   # scaled from the Rev 6a BOM (3.27 t on 400 m of hot-rolled members)
 W['hot_rolled_total'] = W['rafters'] + W['primaries'] + W['columns'] + W['plates_bolts_keys']
 W['purlins_Z200'] = L_purlin*5.9; W['girts_Z200'] = L_girt*5.9
@@ -156,7 +165,7 @@ PT = PRIM_TOP_OFFSET
 clear = dict(cap_nuts=TOS(35.77) + PT - SP['h']/1000 - 0.04, south_west_edge=TOS(21.66), south_east_edge=TOS(24.36), north_eave=TOS(35.87), L_K19=L_col(21.76, 'K19'), L_K17=L_col(24.46, 'K17'), L_K6=L_col(35.17, 'K6'), L_K1=L_col(35.77, 'K1'))
 thermal = o['thermal']
 beam_top = [dict(id=x['id'], span=x['span'], section=x['section'], L=x['L'], umax=x['umax'], gov=x['gov'], d=x['d'], dlim=x['dlim'], u=x['util'], M=x['M_Ed'], Mpl=x['Mpl']) for x in sorted(beams, key=lambda x: -x['umax'])[:14]]
-summary = dict(rev='7b', sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], brace=DIAG['name'], rod=ROD['name'], spans=SPAN_SECTION), beam_top=beam_top,
+summary = dict(rev=('8' if SCHEME == 'ontop' else '7b'), scheme=SCHEME, econ=ECON, TOS0=TOS0, Mact=Mact, sections=dict(prim=SP['name'], raft=SR['name'], col=SC['name'], brace=DIAG['name'], rod=ROD['name'], spans=SPAN_SECTION), beam_top=beam_top,
                roof_area=res['roof_area'], wind_roof=wind_roof, seismic=seis, H4=H4, bays=bay_env, trusses=trusses, drift=drift,
                fin2=fin2, Vfin=Vfin, cap=cap, Nt_cap=Nt_cap_roof, Vh_cap=Vh_cap,
                base_env={c: dict(Nc=e['Nc'], Nt=e['Nt'], Vt=e['Vt'], umax=e['umax'], keyB=e['keyB'], Nmax=e['Nmax'], uten=e['uten'], ukey=e['ukey'], uplate=e['uplate'], pair=(c in KEYPAIR)) for c, e in base_env.items()},
@@ -222,7 +231,7 @@ for t in bracing.ROOF_TRUSSES:
         ax.plot([x0, x1], [y0, y1], 'g--', lw=0.7, alpha=0.7); ax.plot([x0, x1], [y1, y0], 'g--', lw=0.7, alpha=0.7)
 sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm); sm.set_array([]); cb = plt.colorbar(sm, ax=ax, fraction=0.03, pad=0.01); cb.set_label('utilisation (governing check)')
 ax.set_aspect('equal'); ax.set_xlim(66.5, 99.0); ax.set_ylim(14, 37.5); ax.set_xlabel('x (m)'); ax.set_ylabel('y (m)'); ax.grid(alpha=0.25); ax.legend(loc='lower right', fontsize=7)
-ax.set_title('Design C Rev 7b - reduced roofed area (%.0f m2), light section set - framing plan coloured by utilisation\n%s primaries (%s: IPE 330), %s rafters, %s columns K1-K20 + wind posts WP2-WP4; red = wall X-bracing B1, B2, B3, B5, B6, B7 (L70x7); green dashed = roof M24 rods, %d panels\ncolumn label = member / base utilisation; roof plane TOS = 3.33 + 0.06 (35.87 - y), falling north to the gutter' % (res['roof_area'], SP['name'], ', '.join(SPAN_SECTION), SR['name'], SC['name'], n_panels), fontsize=8.6)
+ax.set_title('Design C Rev %s - reduced roofed area (%.0f m2), %s - framing plan coloured by utilisation\n%s primaries (%s: IPE 330), %s rafters, %s columns K1-K20 + wind posts WP2-WP4; red = wall X-bracing B1, B2, B3, B5, B6, B7 (%s); green dashed = roof %s, %d panels\ncolumn label = member / base utilisation; roof plane TOS = %.2f + 0.06 (35.87 - y), falling north to the gutter' % ('8' if SCHEME == 'ontop' else '7b', res['roof_area'], 'continuous rafters on the primaries' if SCHEME == 'ontop' else 'light section set', SP['name'], ', '.join(SPAN_SECTION), SR['name'], SC['name'], DIAG['name'], ROD['name'], n_panels, TOS0), fontsize=8.6)
 fig.tight_layout(); fig.savefig(os.path.join(OUT, 'framing_C7.png'), dpi=150); plt.close(fig)
 
 # ---------------- 3D view (wireframe, for the offer)
@@ -236,9 +245,9 @@ for c in UNUSED: ax.plot([COLS_ALL[c][0]], [COLS_ALL[c][1]], [0], 's', color='0.
 for c, (x, y) in COLS.items(): seg((x, y, 0), (x, y, L_col(y, c)), color='#1f3a5f', lw=2.2)
 for pid, v in wp.items(): seg((POSTS[pid][0], POSTS[pid][1], 0), (POSTS[pid][0], POSTS[pid][1], v['L']), color='#1f3a5f', lw=1.4, ls='--')
 for p in PRIMARIES:
-    z = TOS(p['y']) + PT - (0.165 if SPAN_SECTION.get(p['id']) == 'IPE 330' else (SR['h']/2000 if p['kind'] == 'trim' else SP['h']/2000))
+    z = TOS(p['y']) + PT - (0.165 if SPAN_SECTION.get(p['id']) == 'IPE 330' else (SR['h']/2000 if p['kind'] == 'trim' else SP['h']/2000)) - (SR['h']/1000 if (SCHEME == 'ontop' and p['kind'] == 'trim') else 0)
     seg((p['x0'], p['y'], z), (p['x1'], p['y'], z), color='#c0392b', lw=2.6 if p['kind'] != 'trim' else 1.6)
-for r in RAFTERS: seg((r['x'], r['y0'], TOS(r['y0']) - 0.12), (r['x'], r['y1'], TOS(r['y1']) - 0.12), color='#1e8449', lw=1.8)
+for r in RAFTERS: seg((r['x'], r['y0'], TOS(r['y0']) - SR['h']/2000), (r['x'], r['y1'], TOS(r['y1']) - SR['h']/2000), color='#1e8449', lw=1.8)
 seg((67.99, 26.37, TOS(26.37) - 0.12), (72.09, 26.37, TOS(26.37) - 0.12), color='#1e8449', lw=1.6)
 for yy in np.arange(35.87 - 0.3, 21.66, -1.5):
     xs = [x for x in np.arange(ENV['x0'], ENV['x1'] + 0.01, 0.25) if roofed(min(x, ENV['x1'] - 0.01), yy)]
@@ -259,8 +268,8 @@ ax.set_xlim(67.5, 96); ax.set_ylim(15.5, 36); ax.set_zlim(0, 6); ax.set_axis_off
 from matplotlib.lines import Line2D
 ax.legend(handles=[Line2D([0], [0], color='#1f3a5f', lw=2.2, label='%s columns K1-K20 (dashed: wind posts WP2-WP4)' % SC['name']), Line2D([0], [0], color='#c0392b', lw=2.6, label='%s primaries / eave beams (%s IPE 330)' % (SP['name'], ', '.join(SPAN_SECTION))),
                    Line2D([0], [0], color='#1e8449', lw=1.8, label='%s rafters, T3, ST2 (6 %% slope, falling north)' % SR['name']), Line2D([0], [0], color='0.6', lw=0.5, label='Z200 purlins @ 1.5 m'),
-                   Line2D([0], [0], color='#8e44ad', lw=1.3, label='L70x7 wall X-bracing, 6 bays'), Line2D([0], [0], color='#d68910', lw=1.0, label='M24 roof rods, 12 panels'), Line2D([0], [0], color='0.55', lw=1.0, label='existing slab edge, wells, unused columns')],
+                   Line2D([0], [0], color='#8e44ad', lw=1.3, label='%s wall X-bracing, 6 bays' % DIAG['name']), Line2D([0], [0], color='#d68910', lw=1.0, label='%s roof rods, 12 panels' % ROD['name']), Line2D([0], [0], color='0.55', lw=1.0, label='existing slab edge, wells, unused columns')],
           loc='lower left', fontsize=8, frameon=False)
-ax.set_title('Steel roof, design Rev 7b - reduced roofed area (%.0f m2), light sections: view from the south-west, roof panels hidden' % res['roof_area'], fontsize=11)
+ax.set_title('Steel roof, design Rev %s - reduced roofed area (%.0f m2): view from the south-west, roof panels hidden' % ('8' if SCHEME == 'ontop' else '7b', res['roof_area']), fontsize=11)
 fig.tight_layout(); fig.savefig(os.path.join(OUT, 'view3d_C7.png'), dpi=150); plt.close(fig)
 print('written members_C7.csv, reactions_C7.csv, framing_C7.png, view3d_C7.png, summary_C7.json')
