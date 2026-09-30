@@ -2,7 +2,7 @@
 import sys, os, importlib, collections, json
 import matplotlib; matplotlib.use('Agg')
 from common import *
-OUT = '/home/user/test1strsteel/roof/detailing'
+OUT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))   # .../roof/detailing, wherever the repo is checked out
 MODS = ['s00', 's01', 's01a', 's02', 's03', 's04', 's04a', 's05', 's06']
 def ent_x(e):
     d = e.dxf; t = e.dxftype()

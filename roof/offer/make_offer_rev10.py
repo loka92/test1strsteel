@@ -8,13 +8,14 @@ from reportlab.lib.enums import TA_JUSTIFY
 from pypdf import PdfWriter, PdfReader
 import json, os, datetime
 
-OUT = '/home/user/test1strsteel/roof/offer'
-DET = '/home/user/test1strsteel/roof/detailing'
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))   # .../roof, wherever the repo is checked out
+OUT = ROOT + '/offer'
+DET = ROOT + '/detailing'
 os.makedirs(OUT, exist_ok=True)
 
 # ---------------- pricing (cost basis, LYD) ----------------
 RATE_STEEL, RATE_PANEL = 6950.0, 150.0
-S7 = json.load(open('/home/user/test1strsteel/roof/design/C7/calc/summary_C7.json'))
+S7 = json.load(open(ROOT + '/design/C7/calc/summary_C7.json'))
 t_sections = round(S7['weight']['sections_hot_rolled']/1000, 1)   # IPE 300/330, IPE 240, HEA 140 (hot-rolled members)
 t_total = round(S7['weight']['total_offer']/1000, 1)              # design Rev 7 take-off, girts excluded
 area_roof = round(S7['roof_area'])
@@ -168,8 +169,8 @@ def image_page(path, img, title, pagesize):
     ir = ImageReader(img); iw, ih = ir.getSize(); box_w, box_h = W - 30*mm, H - 30*mm
     s = min(box_w / iw, box_h / ih); w, h = iw * s, ih * s
     c.drawImage(ir, (W - w) / 2, (H - 18*mm - h) if h < box_h else 12*mm, w, h); c.showPage(); c.save()
-image_page(OUT + '/att_A_RevD.pdf', '/home/user/test1strsteel/roof/design/C7/framing_C7.png', 'Attachment A - Roof framing plan, design Rev 8a (utilisation shown per member; bracing bays in red)', landscape(A3))
-image_page(OUT + '/att_B_RevD.pdf', '/home/user/test1strsteel/roof/design/C7/view3d_C7.png', 'Attachment B - 3D view of the steel structure, design Rev 8a (roof panels hidden)', landscape(A4))
+image_page(OUT + '/att_A_RevD.pdf', ROOT + '/design/C7/framing_C7.png', 'Attachment A - Roof framing plan, design Rev 8a (utilisation shown per member; bracing bays in red)', landscape(A3))
+image_page(OUT + '/att_B_RevD.pdf', ROOT + '/design/C7/view3d_C7.png', 'Attachment B - 3D view of the steel structure, design Rev 8a (roof panels hidden)', landscape(A4))
 w = PdfWriter()
 for p in [OUT + '/offer_body.pdf', OUT + '/att_A_RevD.pdf', OUT + '/att_B_RevD.pdf']: w.append(PdfReader(p))
 with open(OUT + '/Offer_RTV-2026-01_RevD_steel_roof.pdf', 'wb') as f: w.write(f)

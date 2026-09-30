@@ -1,11 +1,11 @@
 """Rainwater drainage calc + drawings for the north-eave gutter (EN 12056-3)."""
-import json, math
+import json, math, os
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Polygon, Circle, FancyArrowPatch
 
-OUT = "/home/user/test1strsteel/roof/drainage"
+OUT = os.path.dirname(os.path.abspath(__file__))   # .../roof/drainage, wherever the repo is checked out
 
 # ---------------- geometry (m) ----------------
 X0, X1 = 67.89, 95.69
@@ -217,7 +217,7 @@ fall(hpE-0.3, 85.3+0.4, Y_NE); fall(hpE+0.3, 92.0-0.4, Y_NE)
 ax.text(hpW, Y_NW-0.25, "fall 1:350 to outlets, EJ at high point", ha="center", va="top", fontsize=7, color=C["gutter"])
 ax.text(hpE, Y_NE-0.25, "fall 1:350 to outlets, EJ at high point", ha="center", va="top", fontsize=7, color=C["gutter"])
 # columns (existing) for reference
-cols = json.load(open("/home/user/test1strsteel/roof/geometry.json"))["columns"]
+cols = json.load(open(os.path.join(OUT, "..", "geometry.json")))["columns"]
 for c in cols:
     ax.add_patch(Rectangle((c["cx"]-c["bx"]/2, c["cy"]-c["by"]/2), c["bx"], c["by"], fc="#555", ec="none", zorder=3))
     ax.text(c["cx"]+0.25, c["cy"]+0.15, c["id"], fontsize=6, color="#555", zorder=3)

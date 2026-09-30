@@ -7,6 +7,7 @@ cap-plate top = TOS - 0.27, column top (cap underside, 20 mm cap) = TOS - 0.29, 
 import json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 GEO = json.load(open(os.path.join(HERE, '..', '..', '..', 'geometry.json')))
+GEO['columns'] = [c for c in GEO['columns'] if int(c['id'][1:]) <= 27]   # Rev 6a stands on K1-K27 (K28-K30 were added to geometry.json for Rev 8a)
 COLS = {c['id']: (c['cx'], c['cy']) for c in GEO['columns']}
 COL_LONG = {c['id']: ('x' if c['bx'] > c['by'] else 'y') for c in GEO['columns']}   # concrete column long-axis direction
 SADDLE = {'K21'}   # 200 mm pier between the notch edge and the shaft opening: saddle base (bases_C.md)

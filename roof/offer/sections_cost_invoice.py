@@ -1,10 +1,10 @@
 """Steel section cost from the supplier quotation (Al-Salama Industrial Steel Trading, pro-forma 11486, 29/09/2026):
 unit prices per stock bar -> LYD/m and LYD/t; Rev 7 section bill priced with a 12 m bar-cutting plan (first-fit decreasing)."""
-import sys, json, math, csv
-sys.path.insert(0, '/home/user/test1strsteel/roof/design/C7/calc')
+import sys, os, json, math, csv
+OUT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))   # .../roof, wherever the repo is checked out
+sys.path.insert(0, OUT + '/design/C7/calc')
 import model as M
 from sections import sec
-OUT = '/home/user/test1strsteel/roof'
 # ---- invoice items: (item no, description, bar length m, qty, unit price LYD)
 INV = [(1596, 'HEA 140 x 133, 12 m, imported', 12, 8, 3375.0), (85, 'IPE 300, 12 m, imported', 12, 7, 3750.0), (83, 'IPE 330, 12 m, imported', 12, 1, 4650.0),
        (81, 'IPE 240, 12 m, imported', 12, 17, 2725.0), (2707, 'Galvanised purlin 200, 6 m', 6, 95, 285.0), (341, 'Angle 75 x 75 x 7, 12 m', 12, 13, 720.0),
@@ -59,7 +59,7 @@ n_pur = math.ceil(L_purlin/6); cost = n_pur*285.0; kg = n_pur*6*KG['Z200']; tota
 rows.append(dict(section='Z200 purlin, 6 m bars', net_m=L_purlin, bars=n_pur, bar_m=n_pur*6, kg=kg, rate_m=RATE['Z200'], rate_t=RATE['Z200']*1000/KG['Z200'], cost=cost, note='gauge 2.0 mm S350GD to confirm with the supplier'))
 cost = L_rod*RATE[RODN]; kg = L_rod*KG[RODN]; total += cost; tot_kg += kg
 rows.append(dict(section='%s threaded rod' % RODN, net_m=L_rod, bars=None, bar_m=L_rod, kg=kg, rate_m=RATE[RODN], rate_t=RATE[RODN]*1000/KG[RODN], cost=cost, note='priced from the 60 cm M24 bolt (29 LYD) by weight; ask for rod in 3 m lengths'))
-S7 = json.load(open('/home/user/test1strsteel/roof/design/C7/calc/summary_C7%s.json' % M.os.environ.get('SUMMARY_TAG', '')))
+S7 = json.load(open(OUT + '/design/C7/calc/summary_C7%s.json' % os.environ.get('SUMMARY_TAG', '')))
 REV = S7.get('rev', '7')
 _net = S7['weight']['sections_hot_rolled'] + S7['weight']['wall_bracing']*KG[ANG]/(5.42 if ANG == 'L60x6' else 7.38) + S7['weight']['roof_bracing'] + S7['weight']['purlins_Z200']
 plates_kg = S7['weight']['plates_bolts_keys']; plate_rate = 7500.0; plates_cost = plates_kg/1000*plate_rate
@@ -87,5 +87,5 @@ md += ['| **Sections total** | | | | **%s** | | **%s** | average %s LYD/t on bou
        '- HEA 140 columns: %d columns of about 3.0-3.8 m cut from %d x 12 m bars (three pieces per bar); the 6 m bar is not needed.' % (len(pieces[SEC_C]), rows[0]['bars']),
        '- The M24 item is a 60 cm bolt; the roof rods need about 168 m of threaded rod with turnbuckles, to be quoted as rod.',
        '- Prices are dated 29/09/2026 and imported stock; keep the 15-day offer validity.']
-open(OUT + '/cost_sections_invoice%s.md' % ('_rev' + REV if REV != '7' else ''), 'w').write('\n'.join(md) + '\n')
+open(OUT + '/cost_sections_invoice%s.md' % ('_rev' + REV if REV != '7' else ''), 'w', encoding='utf-8').write('\n'.join(md) + '\n')   # utf-8: the supplier's name is in Arabic
 print('\n'.join(md))

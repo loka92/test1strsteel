@@ -10,14 +10,18 @@ from reportlab.pdfbase.ttfonts import TTFont
 import arabic_reshaper
 from bidi.algorithm import get_display
 
-OUT = '/home/user/test1strsteel/roof/offer'
+OUT = os.path.dirname(os.path.abspath(__file__))   # .../roof/offer, wherever the repo is checked out
+def dejavu(name):   # DejaVu TTF: the system font on Linux, otherwise the copy shipped with matplotlib
+    p = '/usr/share/fonts/truetype/dejavu/' + name
+    if os.path.exists(p): return p
+    import matplotlib; return os.path.join(matplotlib.get_data_path(), 'fonts', 'ttf', name)
 FD = OUT + '/fonts'
 AR_REG = FD + '/NotoNaskhArabic-Regular.ttf'; AR_BOLD = FD + '/NotoNaskhArabic-Bold.ttf'
 if not (os.path.exists(AR_REG) and os.path.getsize(AR_REG) > 10000):
-    AR_REG = AR_BOLD = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+    AR_REG = AR_BOLD = dejavu('DejaVuSans.ttf')
 pdfmetrics.registerFont(TTFont('AR', AR_REG)); pdfmetrics.registerFont(TTFont('AR-B', AR_BOLD))
-pdfmetrics.registerFont(TTFont('DV', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'))
-pdfmetrics.registerFont(TTFont('DV-B', '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'))
+pdfmetrics.registerFont(TTFont('DV', dejavu('DejaVuSans.ttf')))
+pdfmetrics.registerFont(TTFont('DV-B', dejavu('DejaVuSans-Bold.ttf')))
 
 def ar(t): return '<br/>'.join(get_display(arabic_reshaper.reshape(x)) for x in t.split('|'))
 

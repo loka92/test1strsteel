@@ -1,8 +1,8 @@
 """Design C Rev 6 geometry (calc/model.py Rev 6, calc/bracing.py Rev 5a, bases_C.md Rev 8), units m."""
-import json, csv, math, re
-ROOT = '/home/user/test1strsteel/roof'
+import json, csv, math, re, os
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))   # .../roof, wherever the repo is checked out
 GEO = json.load(open(ROOT + '/geometry.json'))
-COLS = {c['id']: c for c in GEO['columns']}
+COLS = {c['id']: c for c in GEO['columns'] if int(c['id'][1:]) <= 27}   # Rev 6a stands on K1-K27 (K28-K30 were added to geometry.json for Rev 8a)
 KXY = {k: (c['cx'], c['cy']) for k, c in COLS.items()}
 ENV = dict(x0=67.89, x1=95.69, y0=15.57, y1=35.87)
 NOTCH = dict(x0=77.89, x1=95.69, y0=15.57, y1=19.97)

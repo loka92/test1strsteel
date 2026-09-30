@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+# intermediates of the offer generators (merged into Offer_*.pdf)
+roof/offer/offer_body.pdf
+roof/offer/att_*.pdf

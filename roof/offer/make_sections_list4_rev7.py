@@ -8,9 +8,14 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import arabic_reshaper
 from bidi.algorithm import get_display
-OUT = '/home/user/test1strsteel/roof/offer'
-pdfmetrics.registerFont(TTFont('DV', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'))
-pdfmetrics.registerFont(TTFont('DV-B', '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'))
+import os
+OUT = os.path.dirname(os.path.abspath(__file__))   # .../roof/offer, wherever the repo is checked out
+def dejavu(name):   # DejaVu TTF: the system font on Linux, otherwise the copy shipped with matplotlib
+    p = '/usr/share/fonts/truetype/dejavu/' + name
+    if os.path.exists(p): return p
+    import matplotlib; return os.path.join(matplotlib.get_data_path(), 'fonts', 'ttf', name)
+pdfmetrics.registerFont(TTFont('DV', dejavu('DejaVuSans.ttf')))
+pdfmetrics.registerFont(TTFont('DV-B', dejavu('DejaVuSans-Bold.ttf')))
 def ar(t): return '<br/>'.join(get_display(arabic_reshaper.reshape(x)) for x in t.split('|'))
 NAVY = colors.HexColor('#1f3a5f')
 en = ParagraphStyle('en', fontName='DV', fontSize=10.5, leading=13.5)

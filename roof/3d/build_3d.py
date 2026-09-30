@@ -3,7 +3,7 @@ Geometry is imported from design/C/calc/model.py (+ bracing.py for the roof rod 
 (purlin rows, ST1/ST2 posts, WP1 Rev 4b position, base types, girt rows), from detailing/gen/geom.py, which is
 cross-checked against model.py here. No members are invented. Units m.  Run: python3 build_3d.py"""
 import sys, os, math, json
-ROOT = '/home/user/test1strsteel/roof'
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))   # .../roof, wherever the repo is checked out
 OUT = ROOT + '/3d'
 sys.path.insert(0, ROOT + '/design/C/calc'); sys.path.insert(0, ROOT + '/detailing/gen')
 import model as M                       # Rev 3 geometry (nodes, rafters, primaries, columns, bays, TOS)
